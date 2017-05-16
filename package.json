@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SSGL-SEP/speech_explorer/issues"
   },
-  "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme"
+  "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme",
+  "devDependencies": {
+    "three": "^0.85.2"
+  }
 }

@@ -9,7 +9,7 @@ var Visualizer = module.exports = function (x) {
 
     this.init = function () {
         this.createEnvironment();
-        window.setInterval(this.tst, 100);
+        this.render();
     };
 
     this.createEnvironment = function () {
@@ -24,7 +24,7 @@ var Visualizer = module.exports = function (x) {
 
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.scene.add(this.camera);
 
         // this.camera = new THREE.OrthographicCamera(
@@ -44,18 +44,31 @@ var Visualizer = module.exports = function (x) {
 
         var geometry = new THREE.BoxGeometry(1, 1, 1);
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        var cube = new THREE.Mesh(geometry, material);
-        this.scene.add(cube);
+        this.cube = new THREE.Mesh(geometry, material);
+        this.scene.add(this.cube);
 
-        this.renderer.render(this.scene, this.camera)
+        // this.renderer.render(this.scene, this.camera)
 
 
         // this.render = function () {
-        //     requestAnimationFrame(this.render);
+        //     requestAnimationFrame(function(){ 
+        //         scope.render();
+        //     });
         //     this.renderer.render(this.scene, this.camera);
         // };
-
+        // this.render();
     };
+
+    this.render = function () {
+        requestAnimationFrame(function () {
+            scope.render();
+        });
+
+        this.cube.rotation.x += 0.1;
+        this.cube.rotation.y += 0.1;
+
+        this.renderer.render(this.scene, this.camera);
+    }
 };
 Visualizer.prototype = new BoilerPlate();
 Visualizer.prototype.constructor = Visualizer;

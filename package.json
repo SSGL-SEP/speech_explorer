@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme",
   "devDependencies": {
-    "three": "^0.85.2"
+    "three": "^0.85.2",
+    "webpack": "^2.5.1"
+  },
+  "scripts": {
+    "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js"
   }
 }

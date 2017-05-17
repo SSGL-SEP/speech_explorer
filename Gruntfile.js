@@ -38,6 +38,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jshint', 'exec']);
   //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);
-  //grunt.registerTask('firefox', ['env:firefox', 'jshint', 'exec']);
+  //grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
 
 };

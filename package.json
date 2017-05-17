@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme",
   "devDependencies": {
-    "cucumber": "^0.10.2",
+    "cucumber": "^1.2.5",
     "selenium-webdriver": "^3.4.0",
     "chai": "^3.5.0",
     "grunt": "^1.0.1",

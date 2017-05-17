@@ -2,14 +2,6 @@
 
 var fs = require('fs');
 var webdriver = require('selenium-webdriver');
-var platform = process.env.PLATFORM || "CHROME";
-
-
-var buildChromeDriver = function() {
-  return new webdriver.Builder().
-    withCapabilities(webdriver.Capabilities.chrome()).
-    build();
-};
 
 var buildFirefoxDriver = function() {
   return new webdriver.Builder().
@@ -17,13 +9,9 @@ var buildFirefoxDriver = function() {
     build();
 };
 
-switch(platform) {
-  case 'FIREFOX':
-    var driver = buildFirefoxDriver();
-    break;
-  default:
-    var driver = buildChromeDriver();
-}
+
+var driver = buildFirefoxDriver();
+
 
 var getDriver = function() {
   return driver;

@@ -14,7 +14,7 @@ import random
 def main(argv):
     if len(argv) != 3:
         print("Generates json like this:")
-        print("\"1\": [100, 200, 300, \"url\", [\"tag1 tag2\"]\"]")
+        print('"1": [100, 200, 300, "url", ["tag1", "tag2]"]')
         sys.exit("Usage: ./generate.py Elements OutputFile")
     data = generate(argv[1])
     write_file(data, argv[2])
@@ -29,7 +29,7 @@ def generate(elements):
         z = random.randint(50, 800)
         age_tag = random.randint(1,111)
         gender_tag = genders[random.randint(0,len(genders)-1)] 
-        item = {str(i): [x, y, z, "url", [gender_tag + " " + str(age_tag)]]}
+        item = {str(i): [x, y, z, "url", [gender_tag, str(age_tag)]]}
         data.append(item)
 
     return data

@@ -36,8 +36,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-env');
 
-  grunt.registerTask('default', ['jshint', 'exec']);
+  //grunt.registerTask('default', ['jshint', 'exec']);
   //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);
-  //grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
+  grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
 
 };

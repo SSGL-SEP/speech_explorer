@@ -1,6 +1,6 @@
 var THREE = require("three");
 var BoilerPlate = require("./Boilerplate");
-var jsonData = require("../mockdata.json");
+var PointMap= require("./PointMap");
 
 
 var Visualizer = module.exports = function (x) {
@@ -10,13 +10,9 @@ var Visualizer = module.exports = function (x) {
     this.renderer = null;
 
     this.init = function () {
-        var stringified = JSON.stringify(jsonData);
-        var jsonParsed = JSON.parse(stringified);
-
-
-        console.log(new THREE.Vector3(jsonParsed["1"][0], jsonParsed["1"][1], jsonParsed["1"][2]));
-        // this.createEnvironment();
-        // this.animate();
+        this.createEnvironment();
+        this.createMap();
+        this.animate();
     };
 
     this.createEnvironment = function () {
@@ -31,24 +27,24 @@ var Visualizer = module.exports = function (x) {
 
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.z = 20;
-        this.scene.add(this.camera);
-
-        // this.camera = new THREE.OrthographicCamera(
-        //     window.innerWidth / - 2,
-        //     window.innerWidth / 2,
-        //     window.innerHeight / 2,
-        //     window.innerHeight / - 2,
-        //     -2000, 2000);
-
-        // this.camera.position.x = 0;
-        // this.camera.position.y = 0;
+        // this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         // this.camera.position.z = 20;
         // this.scene.add(this.camera);
 
-        // this.base = new THREE.Object3D();
-        // this.scene.add(this.base);
+        this.camera = new THREE.OrthographicCamera(
+            window.innerWidth / - 2,
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            window.innerHeight / - 2,
+            -2000, 2000);
+
+        this.camera.position.x = 0;
+        this.camera.position.y = 0;
+        this.camera.position.z = 20;
+        this.scene.add(this.camera);
+
+        this.base = new THREE.Object3D();
+        this.scene.add(this.base);
 
         // var geometry = new THREE.BoxGeometry(1, 1, 1);
         // var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -61,13 +57,18 @@ var Visualizer = module.exports = function (x) {
 
     };
 
+    this.createMap = function(){
+      this.pointMap = new PointMap();
+      this.scene.add(this.pointMap);
+    };
+
     this.animate = function () {
         requestAnimationFrame(function () {
             scope.animate();
         });
 
-        this.cube.rotation.x += 0.1;
-        this.cube.rotation.y += 0.1;
+        // this.cube.rotation.x += 0.1;
+        // this.cube.rotation.y += 0.1;
 
         this.renderer.render(this.scene, this.camera);
     }

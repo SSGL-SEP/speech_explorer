@@ -32,10 +32,10 @@ var PointCloud = module.exports = function(obj) {
 		vertexB = new THREE.Vector3( pos2D.x, 0, pos2D.y );
 		vertexB.toArray( positions2D, i * 3 );
 
-		color = Data.getColor(i);
-		color.toArray( colors, i * 3 );
+		// color = Data.getColor(i);
+		// color.toArray( colors, i * 3 );
 
-		sizes[i] = Data.pointSize;
+		sizes[i] = 2;
 
 	}
 
@@ -60,7 +60,7 @@ var PointCloud = module.exports = function(obj) {
 	geometry = new THREE.BufferGeometry();
 	geometry.addAttribute( 'position2D', new THREE.BufferAttribute( positions2D, 3 ) );
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-	geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+	// geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 	geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
 	material = new THREE.ShaderMaterial( {
 		uniforms: {
@@ -84,7 +84,7 @@ var PointCloud = module.exports = function(obj) {
 	// 	var currentCloud = this.getCloudData();
 	// 	var total = Data.getTotalPoints();
 	// 	var state;
-		
+
 	// 	var size = Data.pointSize;
 	// 	for (i = 0; i < total; i++) {
 	// 		attributes.position.array[i*3 + 0] = currentCloud.array[ i*3 + 0 ];
@@ -102,11 +102,11 @@ var PointCloud = module.exports = function(obj) {
 
 	// this.removeCloud = function(){
 	// 	if(this.cloud) {
-	// 		this.remove(this.cloud); 
+	// 		this.remove(this.cloud);
 	// 		this.cloud = null;
 	// 	}
 	// };
-	
+
 	// this.getCloudData = function(){
 	// 	return this.getAttributes().position2D;
 	// };

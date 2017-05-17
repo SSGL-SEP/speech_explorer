@@ -31,20 +31,27 @@ var Visualizer = module.exports = function (x) {
         // this.camera.position.z = 20;
         // this.scene.add(this.camera);
 
+       // this.camera = new THREE.OrthographicCamera(
+       //     window.innerWidth / - 2,
+       //     window.innerWidth / 2,
+       //     window.innerHeight / 2,
+       //     window.innerHeight / - 2,
+       //     -2000, 2000);
         this.camera = new THREE.OrthographicCamera(
-            window.innerWidth / - 2,
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            window.innerHeight / - 2,
-            -2000, 2000);
+           0,
+           window.innerWidth,
+           0,
+           window.innerHeight,
+           1,
+           2000);
 
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 20;
         this.scene.add(this.camera);
 
-        this.base = new THREE.Object3D();
-        this.scene.add(this.base);
+       // this.base = new THREE.Object3D();
+       // this.scene.add(this.base);
 
         // var geometry = new THREE.BoxGeometry(1, 1, 1);
         // var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -58,8 +65,8 @@ var Visualizer = module.exports = function (x) {
     };
 
     this.createMap = function(){
-      this.pointMap = new PointMap();
-      this.scene.add(this.pointMap);
+        this.pointMap = new PointMap();
+        this.scene.add(this.pointMap);
     };
 
     this.animate = function () {
@@ -69,7 +76,6 @@ var Visualizer = module.exports = function (x) {
 
         // this.cube.rotation.x += 0.1;
         // this.cube.rotation.y += 0.1;
-
         this.renderer.render(this.scene, this.camera);
     }
 };

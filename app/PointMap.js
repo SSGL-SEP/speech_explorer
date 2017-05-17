@@ -25,20 +25,21 @@ var PointCloud = module.exports = function(obj) {
 		normal = i/total;
 
 		// default
-		vertexA = new THREE.Vector3( 0, 0, 0 );
-		vertexA.toArray( positions, i * 3 );
+//		vertexA = new THREE.Vector3( 0, 0, 0 );
+//		vertexA.toArray( positions, i * 3 );
 
 		pos2D = Data.getPosition(i);
-		vertexB = new THREE.Vector3( pos2D.x, 0, pos2D.y );
+		vertexB = new THREE.Vector3( pos2D.x, pos2D.y, 0);
 		vertexB.toArray( positions2D, i * 3 );
 
+        //color = new THREE.Color();
+        //color.setHSL(55, 55, (pos2D.z%100));
 		// color = Data.getColor(i);
-		// color.toArray( colors, i * 3 );
+		//color.toArray( colors, i * 3 );
 
-		sizes[i] = 2;
+		sizes[i] = 7;
 
 	}
-
 	var vs = 	"attribute float size;\n" +
 				"attribute vec3 customColor;\n" +
 				"varying vec3 vColor;\n" +
@@ -58,16 +59,16 @@ var PointCloud = module.exports = function(obj) {
 
 	var geometry, material;
 	geometry = new THREE.BufferGeometry();
-	geometry.addAttribute( 'position2D', new THREE.BufferAttribute( positions2D, 3 ) );
-	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-	// geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions2D, 3 ) );
+//	geometry.addAttribute( 'position2D', new THREE.BufferAttribute( positions, 3 ) );
+//	geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 	geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
 	material = new THREE.ShaderMaterial( {
 		uniforms: {
-			color:   { type: "c", value: new THREE.Color( 0xffffff ) }
+            color:   {type: "c", value: new THREE.Color( 0xffffff ) }
 		},
 		vertexShader: vs,
-		fragmentShader: fs,
+//		fragmentShader: fs,
 		alphaTest: 0.1,
 	} );
 

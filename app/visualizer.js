@@ -9,7 +9,7 @@ var Visualizer = module.exports = function (x) {
 
     this.init = function () {
         this.createEnvironment();
-        this.render();
+        this.animate();
     };
 
     this.createEnvironment = function () {
@@ -46,22 +46,11 @@ var Visualizer = module.exports = function (x) {
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         this.cube = new THREE.Mesh(geometry, material);
         this.scene.add(this.cube);
-
-        // this.renderer.render(this.scene, this.camera)
-
-
-        // this.render = function () {
-        //     requestAnimationFrame(function(){ 
-        //         scope.render();
-        //     });
-        //     this.renderer.render(this.scene, this.camera);
-        // };
-        // this.render();
     };
 
-    this.render = function () {
+    this.animate = function () {
         requestAnimationFrame(function () {
-            scope.render();
+            scope.animate();
         });
 
         this.cube.rotation.x += 0.1;

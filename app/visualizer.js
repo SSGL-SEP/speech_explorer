@@ -46,17 +46,6 @@ var Visualizer = module.exports = function (x) {
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         this.cube = new THREE.Mesh(geometry, material);
         this.scene.add(this.cube);
-
-        // this.renderer.animate(this.scene, this.camera)
-
-
-        // this.animate = function () {
-        //     requestAnimationFrame(function(){ 
-        //         scope.animate();
-        //     });
-        //     this.renderer.animate(this.scene, this.camera);
-        // };
-        // this.animate();
     };
 
     this.animate = function () {

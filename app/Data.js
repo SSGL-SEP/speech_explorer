@@ -1,15 +1,23 @@
 var THREE = require("three");
-var RTree = require("rtree");
 var jsonData = require("../mockdata.json");
 
-var Data = module.exports = function () {
+var stringified = JSON.stringify(jsonData);
+var jsonParsed = JSON.parse(stringified);
+var parsedData = [], total = jsonParsed.length;
+
+for (var i = 0; i < total; i++) {
+    parsedData.push(new THREE.Vector3(jsonParsed[i][1], jsonParsed[i][2], jsonParsed[i][3]));
+}
+
+var Data = module.exports = {
+
+  getTotalPoints: function(){
+    return total;
+  },
 
 
-
-    var stringified = JSON.stringify(jsonData);
-    var jsonParsed = JSON.parse(stringified);
-
-
-    console.log(new THREE.Vector3(jsonParsed["1"][0], jsonParsed["1"][1], jsonParsed["1"][2]));
+    getPosition: function(index){
+      return parsedData[index];
+    }
 
 }

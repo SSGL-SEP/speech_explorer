@@ -1,5 +1,7 @@
 var THREE = require("three");
 var BoilerPlate = require("./Boilerplate");
+var jsonData = require("../mockdata.json");
+
 
 var Visualizer = module.exports = function (x) {
     var scope = this;
@@ -8,8 +10,13 @@ var Visualizer = module.exports = function (x) {
     this.renderer = null;
 
     this.init = function () {
-        this.createEnvironment();
-        this.animate();
+        var stringified = JSON.stringify(jsonData);
+        var jsonParsed = JSON.parse(stringified);
+
+
+        console.log(new THREE.Vector3(jsonParsed["1"][0], jsonParsed["1"][1], jsonParsed["1"][2]));
+        // this.createEnvironment();
+        // this.animate();
     };
 
     this.createEnvironment = function () {
@@ -25,6 +32,7 @@ var Visualizer = module.exports = function (x) {
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera.position.z = 20;
         this.scene.add(this.camera);
 
         // this.camera = new THREE.OrthographicCamera(
@@ -36,16 +44,21 @@ var Visualizer = module.exports = function (x) {
 
         // this.camera.position.x = 0;
         // this.camera.position.y = 0;
-        this.camera.position.z = 20;
+        // this.camera.position.z = 20;
         // this.scene.add(this.camera);
 
         // this.base = new THREE.Object3D();
         // this.scene.add(this.base);
 
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        this.cube = new THREE.Mesh(geometry, material);
-        this.scene.add(this.cube);
+        // var geometry = new THREE.BoxGeometry(1, 1, 1);
+        // var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        // this.cube = new THREE.Mesh(geometry, material);
+        // this.scene.add(this.cube);
+
+        // var geometry, material;
+        // geometry = new THREE.BufferGeometry();
+
+
     };
 
     this.animate = function () {

@@ -20,10 +20,10 @@
   },
   "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme",
   "devDependencies": {
-    "three": "^0.85.2",
-    "webpack": "^2.5.1"
+    "three": "^0.85.2"
   },
   "dependencies": {
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "webpack": "^2.5.1"
   }
 }

@@ -26,6 +26,7 @@ var Visualizer = module.exports = function (x) {
             antialias: true
         });
         this.renderer.setClearColor(0x0F0F0F);
+        //this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
         this.context = document.getElementById('visualizer');
@@ -48,7 +49,7 @@ var Visualizer = module.exports = function (x) {
            window.innerWidth,
            0,
            window.innerHeight,
-           1,
+           0,
            2000);
 
         this.camera.position.x = 0;
@@ -67,7 +68,6 @@ var Visualizer = module.exports = function (x) {
         // var geometry, material;
         // geometry = new THREE.BufferGeometry();
 
-
     };
 
     this.createMap = function(){
@@ -78,23 +78,48 @@ var Visualizer = module.exports = function (x) {
     this.addEventListeners = function() {
         this.raycaster = new THREE.Raycaster();
 		mouse = new THREE.Vector2();
+		window.addEventListener( 'resize', this.onWindowResize, false );
+
 		document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     };
 
     this.onDocumentMouseMove = function(event) {
 		event.preventDefault();
-		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+		mouse.x = ( event.offsetX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.offsetY / window.innerHeight ) * 2 + 1;
 	};
 	
+
+	// Doesn't work?
+	this.onWindowResize = function() {
+		this.camera.aspect = window.innerWidth / window.innerHeight;
+		this.camera.updateProjectionMatrix();
+		this.renderer.setSize( window.innerWidth, window.innerHeight );
+	};
+
+
+
 	this.render = function() {
 		var geometry = this.pointMap.cloud.geometry;
 		var attributes = geometry.attributes;
-
-		//this.raycaster.setFromCamera(this.mouse, this.camera);
+		var size = attributes.size.array[0];
+		this.raycaster.setFromCamera(mouse, this.camera);
+		this.raycaster.params.Points.threshold = 3;
+		this.intersects = this.raycaster.intersectObject(this.pointMap, true);
 		
-		//this.intersects = this.raycaster.intersectObject(this.pointMap);	
-
+		if (this.intersects.length > 0) {
+			if (this.INTERSECTED !== this.intersects[0].index) {
+				attributes.size.array[this.INTERSECTED] = size;
+				this.INTERSECTED = this.intersects[0].index;
+				attributes.size.array[this.INTERSECTED] = size * 5;
+				attributes.size.needsUpdate = true;
+			}
+		} else if (this.INTERSECTED !== null){
+			attributes.size.array[this.INTERSECTED] = size;
+			attributes.size.needsUpdate = true;
+			this.INTERSECTED = null;
+		}
 
 		this.renderer.render(this.scene, this.camera);
 	};

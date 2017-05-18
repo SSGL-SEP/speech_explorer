@@ -37,7 +37,7 @@ var PointCloud = module.exports = function(obj) {
 		// color = Data.getColor(i);
 		//color.toArray( colors, i * 3 );
 
-		sizes[i] = 7;
+		sizes[i] = 1;
 
 	}
 	var vs = 	"attribute float size;\n" +

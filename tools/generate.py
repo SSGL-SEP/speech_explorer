@@ -24,9 +24,9 @@ def generate(elements):
     data = []
     genders = ['male', 'female']
     for i in range(1, int(elements) + 1):
-        x = random.randint(50, 800)
-        y = random.randint(50, 800)
-        z = random.randint(50, 800)
+        x = random.randint(0, 1000)
+        y = random.randint(0, 800)
+        z = random.randint(0, 800)
         age_tag = random.randint(1,111)
         gender_tag = genders[random.randint(0,len(genders)-1)]
         item = [i, x, y, z, "url", [gender_tag, str(age_tag)]]

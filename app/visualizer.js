@@ -72,7 +72,6 @@ var Visualizer = module.exports = function (x) {
 
     this.createMap = function(){
         this.pointMap = new PointMap();
-		
         this.scene.add(this.pointMap);
     };
     
@@ -86,20 +85,13 @@ var Visualizer = module.exports = function (x) {
 
     this.onDocumentMouseMove = function(event) {
 		event.preventDefault();
-		//mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-		//mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
 		mouse.x = ( event.offsetX / window.innerWidth ) * 2 - 1;
 		mouse.y = - ( event.offsetY / window.innerHeight ) * 2 + 1;
-		console.log(mouse);
-	//	var canvas = document.getElementById("visualizer");
-	//	var canvasPosition = canvas.getBoundingClientRect();
-	//	
-	//	mouse.x = event.clientX - canvasPosition.left;
-	//	mouse.y = event.clientY - canvasPosition.top;
-	//	console.log(mouse);
 	};
 	
+
+	// Doesn't work?
 	this.onWindowResize = function() {
 		this.camera.aspect = window.innerWidth / window.innerHeight;
 		this.camera.updateProjectionMatrix();
@@ -111,17 +103,20 @@ var Visualizer = module.exports = function (x) {
 	this.render = function() {
 		var geometry = this.pointMap.cloud.geometry;
 		var attributes = geometry.attributes;
-
+		var size = attributes.size.array[0];
 		this.raycaster.setFromCamera(mouse, this.camera);
 		this.raycaster.params.Points.threshold = 3;
 		this.intersects = this.raycaster.intersectObject(this.pointMap, true);
+		
 		if (this.intersects.length > 0) {
-			console.log("täällä");
-			this.INTERSECTED = this.intersects[0].index;
-			attributes.size.array[this.INTERSECTED] = 10;
-			attributes.size.needsUpdate = true;
+			if (this.INTERSECTED !== this.intersects[0].index) {
+				attributes.size.array[this.INTERSECTED] = size;
+				this.INTERSECTED = this.intersects[0].index;
+				attributes.size.array[this.INTERSECTED] = size * 5;
+				attributes.size.needsUpdate = true;
+			}
 		} else if (this.INTERSECTED !== null){
-			attributes.size.array[this.INTERSECTED] = 3;
+			attributes.size.array[this.INTERSECTED] = size;
 			attributes.size.needsUpdate = true;
 			this.INTERSECTED = null;
 		}

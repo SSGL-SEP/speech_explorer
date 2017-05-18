@@ -91,11 +91,10 @@ var Visualizer = module.exports = function (x) {
 		var geometry = this.pointMap.cloud.geometry;
 		var attributes = geometry.attributes;
 
-		//this.raycaster.setFromCamera(this.mouse, this.camera);
-		
-		//this.intersects = this.raycaster.intersectObject(this.pointMap);	
-
-
+		this.raycaster.setFromCamera(mouse, this.camera);
+		this.raycaster.params.Points.threshold = 3;
+		this.intersects = this.raycaster.intersectObject(this.pointMap, true);	
+		console.log(this.intersects);
 		this.renderer.render(this.scene, this.camera);
 	};
 

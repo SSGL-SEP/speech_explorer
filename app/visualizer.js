@@ -27,7 +27,7 @@ var Visualizer = module.exports = function (x) {
         });
         this.renderer.setClearColor(0x0F0F0F);
         //this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setSize(600, 500);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
         this.context = document.getElementById('visualizer');
         this.context.appendChild(this.renderer.domElement);
@@ -46,11 +46,11 @@ var Visualizer = module.exports = function (x) {
        //     -2000, 2000);
         this.camera = new THREE.OrthographicCamera(
            0,
-           600,
+           window.innerWidth,
            0,
-           500,
+           window.innerHeight,
            0,
-           200);
+           2000);
 
         this.camera.position.x = 0;
         this.camera.position.y = 0;
@@ -89,8 +89,8 @@ var Visualizer = module.exports = function (x) {
 		//mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 		//mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-		mouse.x = ( event.offsetX / 600 ) * 2 - 1;
-		mouse.y = - ( event.offsetY / 500 ) * 2 + 1;
+		mouse.x = ( event.offsetX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.offsetY / window.innerHeight ) * 2 + 1;
 		console.log(mouse);
 	//	var canvas = document.getElementById("visualizer");
 	//	var canvasPosition = canvas.getBoundingClientRect();

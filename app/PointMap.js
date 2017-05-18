@@ -36,7 +36,7 @@ var PointMap = module.exports = function(obj) {
 		// color = Data.getColor(i);
 		//color.toArray( colors, i * 3 );
 
-		sizes[i] = 1;
+		sizes[i] = 3;
 
 	}
 	var vs = 	"attribute float size;\n" +
@@ -70,7 +70,7 @@ var PointMap = module.exports = function(obj) {
 //		fragmentShader: fs,
 		alphaTest: 0.1,
 	} );
-    geometry.computeBoundingBox();
+    geometry.computeBoundingSphere();
 	this.cloud = new THREE.Points( geometry, material );
 	this.add( this.cloud );
 

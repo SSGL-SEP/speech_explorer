@@ -25,9 +25,16 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      run_cucumber_tests: {
-        command: 'node app.js & node ' + path.join('node_modules', 'cucumber',  'bin', 'cucumber.js -f pretty -t ~@ignore')
+      run_istanbul_mocha_tests:{
+        command: 'istanbul cover ./node_modules/.bin/_mocha'
+      },
+      run_istanbul_cucumber_tests:{
+        command: 'node app.js & istanbul cover ./node_modules/.bin/cucumberjs'
+      },
+      kill_all:{
+        command:'killall node'
       }
+      
     }
 
   });

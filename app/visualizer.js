@@ -1,6 +1,6 @@
 var THREE = require("three");
 var BoilerPlate = require("./Boilerplate");
-var PointMap= require("./PointMap");
+var PointMap = require("./PointMap");
 
 
 var Visualizer = module.exports = function (x) {
@@ -8,10 +8,16 @@ var Visualizer = module.exports = function (x) {
     BoilerPlate.call(this);
     this.name = "Visualizer";
     this.renderer = null;
+	this.raycaster;
+	var mouse;
+	this.INTERSECTED;
+	this.intersects;
+	this.pointMap;
 
     this.init = function () {
         this.createEnvironment();
         this.createMap();
+        this.addEventListeners();
         this.animate();
     };
 
@@ -68,15 +74,39 @@ var Visualizer = module.exports = function (x) {
         this.pointMap = new PointMap();
         this.scene.add(this.pointMap);
     };
+    
+    this.addEventListeners = function() {
+        this.raycaster = new THREE.Raycaster();
+		mouse = new THREE.Vector2();
+		document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    };
 
-    this.animate = function () {
-        requestAnimationFrame(function () {
+    this.onDocumentMouseMove = function(event) {
+		event.preventDefault();
+		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	};
+	
+	this.render = function() {
+		var geometry = this.pointMap.cloud.geometry;
+		var attributes = geometry.attributes;
+
+		//this.raycaster.setFromCamera(this.mouse, this.camera);
+		
+		//this.intersects = this.raycaster.intersectObject(this.pointMap);	
+
+
+		this.renderer.render(this.scene, this.camera);
+	};
+
+    this.animate = function() {
+        requestAnimationFrame(function() {
             scope.animate();
         });
 
         // this.cube.rotation.x += 0.1;
         // this.cube.rotation.y += 0.1;
-        this.renderer.render(this.scene, this.camera);
+		this.render();
     }
 };
 Visualizer.prototype = new BoilerPlate();

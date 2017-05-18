@@ -1,14 +1,13 @@
 var THREE = require("three");
 var Data = require("./Data");
 
-var PointCloud = module.exports = function(obj) {
+var PointMap = module.exports = function(obj) {
 	var scope = this;
 	THREE.Object3D.call(this);
 
 	obj = obj || {};
 
 	this.cloud = null;
-
 	var total = Data.getTotalPoints();
 	var positions2D = new Float32Array( total * 3 );
 	var positions = new Float32Array( total * 3 );
@@ -37,7 +36,7 @@ var PointCloud = module.exports = function(obj) {
 		// color = Data.getColor(i);
 		//color.toArray( colors, i * 3 );
 
-		sizes[i] = 1;
+		sizes[i] = 2;
 
 	}
 	var vs = 	"attribute float size;\n" +
@@ -118,5 +117,5 @@ var PointCloud = module.exports = function(obj) {
 
 };
 
-PointCloud.prototype = new THREE.Object3D();
-PointCloud.prototype.constructor = PointCloud;
+PointMap.prototype = new THREE.Object3D();
+PointMap.prototype.constructor = PointMap;

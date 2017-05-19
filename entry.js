@@ -1,3 +1,3 @@
-var Visualizer = require("./app/visualizer");
+var Visualizer = require("./app/Visualizer");
 var visualizer = new Visualizer();
 visualizer.init();

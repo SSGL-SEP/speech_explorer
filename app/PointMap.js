@@ -59,7 +59,7 @@ var PointMap = module.exports = function(obj) {
 	var geometry, material;
 	geometry = new THREE.BufferGeometry();
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions2D, 3 ) );
-//	geometry.addAttribute( 'position2D', new THREE.BufferAttribute( positions, 3 ) );
+	geometry.addAttribute( 'position2D', new THREE.BufferAttribute( positions, 3 ) );
 //	geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 	geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
 	material = new THREE.ShaderMaterial( {

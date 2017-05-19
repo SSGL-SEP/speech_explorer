@@ -11,6 +11,9 @@ for (var i = 0; i < total; i++) {
 }
 
 var Data = module.exports = {
+  pointSize: 1,
+  cloudSize2D: 1.5,
+  
 
   getTotalPoints: function(){
     return total;

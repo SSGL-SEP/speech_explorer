@@ -24,7 +24,7 @@ var PointCloud = require("./PointCloud");
 
 var THREE = require("three");
 // var ZoomControls = require("./ZoomControls");
-var TWEEN = require("tween.js");
+// var TWEEN = require("tween.js");
 // var Stats = require("stats.js");
 
 var Visualizer = module.exports = function(x) {
@@ -71,7 +71,7 @@ var Visualizer = module.exports = function(x) {
 		// 	document.body.appendChild( this.stats.domElement );
 		// }
 		this.animate();
-		requestAnimationFrame(tweenAnimate);
+		// requestAnimationFrame(tweenAnimate);
 	};
 	
 	this.createEnvironment = function() {
@@ -667,9 +667,9 @@ var Visualizer = module.exports = function(x) {
 		this.draw();
 		// console.log("animate");
 
-		if(this.stats && Config.isStatsEnabled) {
-			this.stats.update();
-		}
+		// if(this.stats && Config.isStatsEnabled) {
+		// 	this.stats.update();
+		// }
 
 		requestAnimationFrame(function() {
 			scope.animate();
@@ -782,10 +782,10 @@ var Visualizer = module.exports = function(x) {
 
 	};
 	
-	function tweenAnimate(time) {
-		requestAnimationFrame(tweenAnimate);
-		TWEEN.update(time);
-	}
+	// function tweenAnimate(time) {
+	// 	requestAnimationFrame(tweenAnimate);
+	// 	TWEEN.update(time);
+	// }
 };
 
 Visualizer.prototype = new BoilerPlate();

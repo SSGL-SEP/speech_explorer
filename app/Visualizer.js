@@ -47,6 +47,13 @@ var Visualizer = module.exports = function(x) {
 	this.filter = null;
 	this.resizeTimer = null;
 	this.isScrollDisabled = false;
+	// ---------------------
+	var activePoint = null;
+	var raycaster;
+	var mouse;
+	var soundBuffer;
+    var audioLoader;
+
 
 	this.init = function() {
 		this.createEnvironment();
@@ -92,6 +99,14 @@ var Visualizer = module.exports = function(x) {
 		this.camera.position.x = 0;
 		this.camera.position.y = 0;
 		this.camera.position.z = 100;
+
+		var audioListener = new THREE.AudioListener();
+
+    	this.camera.add( audioListener );
+		soundBuffer = new THREE.Audio( audioListener );
+		audioLoader = new THREE.AudioLoader();
+		this.scene.add( soundBuffer );
+
 		this.scene.add(this.camera);
 
 		this.base = new THREE.Object3D();
@@ -100,7 +115,11 @@ var Visualizer = module.exports = function(x) {
 
 		document.body.addEventListener("mousewheel", onWheel.bind(scope), false);
 		document.body.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
-
+		
+		document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+		
+		raycaster = new THREE.Raycaster();
+		mouse = new THREE.Vector2();
 	};
 
 	this.createCloud = function() {
@@ -590,9 +609,58 @@ var Visualizer = module.exports = function(x) {
 	this.draw = function() {
 		this.pointCloud.draw();
 		this.camera.lookAt( this.scene.position );
+//----V
+        var geometry = this.pointCloud.cloud.geometry;
+        var attributes = geometry.attributes;
+        var size = attributes.size.array[0];
+        raycaster.setFromCamera(mouse, this.camera);
+        raycaster.params.Points.threshold = 3;
+        var intersects = raycaster.intersectObject(this.pointCloud, true);
+        if (intersects.length > 0) {
+            if (activePoint !== intersects[0].index) {
+                attributes.size.array[activePoint] = size;
+                activePoint = intersects[0].index;
+                attributes.size.array[activePoint] = size * 5;
+                attributes.size.needsUpdate = true;
+                // console.log(Data.getUrl(activePoint));
+                playSound(Data.getUrl(activePoint));
+            }
+        } else if (activePoint !== null){
+            attributes.size.array[activePoint] = size;
+            attributes.size.needsUpdate = true;
+            activePoint = null;
+        }
+//----^
+
+
 		this.renderer.render( this.scene, this.camera );
 		// console.log("drawing");
 	};
+
+
+	var playSound = function(path) {
+            audioLoader.load(
+                // resource URL
+                path,
+                // Function when resource is loaded
+                function ( buffer ) {
+                    // set the audio object buffer to the loaded object
+                    soundBuffer.setBuffer( buffer );
+
+                    // play the audio
+                    soundBuffer.play();
+                },
+                // Function called when download progresses
+                function ( xhr ) {
+                    console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+                },
+                // Function called when download errors
+                function ( xhr ) {
+                    console.log( 'An error happened' );
+                }
+            );
+        };
+
 
 	this.animate = function() {
 		this.update();
@@ -627,6 +695,14 @@ var Visualizer = module.exports = function(x) {
 	// ------------------------------------------------------------
 	// EVENTS
 	// ------------------------------------------------------------
+    this.onDocumentMouseMove = function(event) {
+        event.preventDefault();
+        mouse.x = ( event.offsetX / window.innerWidth ) * 2 - 1;
+        mouse.y = - ( event.offsetY / window.innerHeight ) * 2 + 1;
+        // console.log(mouse.x,mouse.y);
+    };
+
+
 
 	this.onBgDown = function (event) {
 		var x = (event.clientX-window.innerWidth*0.5) / scope.zoomer.scale.x;

@@ -1,7 +1,7 @@
 var assert = require('assert');
 var THREE = require("three");
 var BoilerPlate = require("../app/Boilerplate");
-var Visualizer = require('../app/visualizer');
+var Visualizer = require('../app/Visualizer');
 var vis = new Visualizer();
 
 describe('hooks', function() {

@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/grunt-cli/bin/grunt",
-    "test": "mocha --reporter list",
     "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js",
     "heroku-postbuild": "webpack -p --config webpack.config.js --progress",
     "start": "node app.js"
@@ -23,8 +22,8 @@
   "devDependencies": {
     "cucumber": "^1.2.5",
     "selenium-webdriver": "^3.4.0",
-    "mocha":"^3.0.0",
-    "istanbul":"^0.4.5",
+    "mocha": "^3.0.0",
+    "istanbul": "^0.4.5",
     "chai": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",

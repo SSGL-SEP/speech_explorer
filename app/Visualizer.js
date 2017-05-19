@@ -17,7 +17,7 @@ limitations under the License.
 var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
 // var Config = require("../Config");
-var Dragger = require("./Dragger");
+// var Dragger = require("./Dragger");
 // var Label = require("./Label");
 // var Overlay = require("./Overlay");
 var PointCloud = require("./PointCloud");
@@ -137,84 +137,84 @@ var Visualizer = module.exports = function(x) {
 	};
 
 	this.createDraggers = function() {
-		this.draggers = [];
-		var dragger;
-		var i;
-		var soundIndex;
-		var total = Data.totalTracks;
-		var ray = new THREE.Raycaster();
+		// this.draggers = [];
+		// var dragger;
+		// var i;
+		// var soundIndex;
+		// var total = Data.totalTracks;
+		// var ray = new THREE.Raycaster();
 
 		// on dragging across
 		// scope of this is dragger!
-		var onDragging = function(event){
-			console.log("onDragging triggered (dragger??)");
-			var selectedDragger = this;
-			var dragging = new THREE.Vector2(100000,100000);
-			var label;
-			dragging.x = ( (event.detail.x+scope.base.position.x) / (window.innerWidth) ) * 2;
-			dragging.y = ( (event.detail.y+scope.base.position.y) / window.innerHeight ) * 2;
+		// var onDragging = function(event){
+		// 	console.log("onDragging triggered (dragger??)");
+		// 	var selectedDragger = this;
+		// 	var dragging = new THREE.Vector2(100000,100000);
+		// 	var label;
+		// 	dragging.x = ( (event.detail.x+scope.base.position.x) / (window.innerWidth) ) * 2;
+		// 	dragging.y = ( (event.detail.y+scope.base.position.y) / window.innerHeight ) * 2;
 
-			dragging.y *= -1;
+		// 	dragging.y *= -1;
 
-			dragging.x /= scope.zoomer.scale.x*600/window.innerWidth;
-			dragging.y /= scope.zoomer.scale.y*600/window.innerHeight;
+		// 	dragging.x /= scope.zoomer.scale.x*600/window.innerWidth;
+		// 	dragging.y /= scope.zoomer.scale.y*600/window.innerHeight;
 
-			dragging.x -= scope.panner.position.x/300;
-			dragging.y -= scope.panner.position.y/-300;
+		// 	dragging.x -= scope.panner.position.x/300;
+		// 	dragging.y -= scope.panner.position.y/-300;
 
-			// var result = Data.searchRTree({
-			// 	offset:dragging,
-			// 	bounds:0.2/scope.zoomer.scale.x*2
-			// });
+		// 	// var result = Data.searchRTree({
+		// 	// 	offset:dragging,
+		// 	// 	bounds:0.2/scope.zoomer.scale.x*2
+		// 	// });
 
-			// if(!result || result.length===0) {
-			// 	return;
-			// }
+		// 	// if(!result || result.length===0) {
+		// 	// 	return;
+		// 	// }
 
-			// var diameterSquared = 100000;
-			// var dx,dy,dsq;
-			// for(  i=0; i<result.length; i++){
-			// 	dx = dragging.x - result[i].x;
-			// 	dy = dragging.y - result[i].y;
-			// 	dsq = dx*dx + dy*dy;
-			// 	if(dsq<diameterSquared){
-			// 		diameterSquared = dsq;
-			// 		smallestId = i;
-			// 	}
-			// }
+		// 	// var diameterSquared = 100000;
+		// 	// var dx,dy,dsq;
+		// 	// for(  i=0; i<result.length; i++){
+		// 	// 	dx = dragging.x - result[i].x;
+		// 	// 	dy = dragging.y - result[i].y;
+		// 	// 	dsq = dx*dx + dy*dy;
+		// 	// 	if(dsq<diameterSquared){
+		// 	// 		diameterSquared = dsq;
+		// 	// 		smallestId = i;
+		// 	// 	}
+		// 	// }
 			
-			// if(result[smallestId].index != scope.storedSoundIndex) {
+		// 	// if(result[smallestId].index != scope.storedSoundIndex) {
 
-			// 	scope.storedSoundIndex = result[smallestId].index;
-			// 	Data.setTrack(selectedDragger.draggerIndex,scope.storedSoundIndex);
-			// 	selectedDragger.setFocusPosition(scope.storedSoundIndex, scope.panner,scope.zoomer);
-			// 	label = scope.labels[selectedDragger.draggerIndex];
-			// 	label.updateData(scope.storedSoundIndex);
-			// 	label.updatePosition(scope.storedSoundIndex, scope.panner,scope.zoomer);
-			// 	scope.dispatchEvent("ON_DRAG_SELECT",[selectedDragger.draggerIndex,scope.storedSoundIndex]);
-			// }
+		// 	// 	scope.storedSoundIndex = result[smallestId].index;
+		// 	// 	Data.setTrack(selectedDragger.draggerIndex,scope.storedSoundIndex);
+		// 	// 	selectedDragger.setFocusPosition(scope.storedSoundIndex, scope.panner,scope.zoomer);
+		// 	// 	label = scope.labels[selectedDragger.draggerIndex];
+		// 	// 	label.updateData(scope.storedSoundIndex);
+		// 	// 	label.updatePosition(scope.storedSoundIndex, scope.panner,scope.zoomer);
+		// 	// 	scope.dispatchEvent("ON_DRAG_SELECT",[selectedDragger.draggerIndex,scope.storedSoundIndex]);
+		// 	// }
 
-		};
-		var onDragStopped = function(event) {
-			console.log("onDragStopped triggered (dragger??)");
-			// scope.storedSoundIndex = -1;
-			// scope.dispatchEvent("ON_DRAG_STOPPED",null);
-			// var soundIndex = Data.getSoundIndex(this.draggerIndex);
-			// this.animatePosition(soundIndex,scope.panner, scope.zoomer);
-			// this.animateDotToCenter();
+		// };
+		// var onDragStopped = function(event) {
+		// 	console.log("onDragStopped triggered (createDraggers)");
+		// 	// scope.storedSoundIndex = -1;
+		// 	// scope.dispatchEvent("ON_DRAG_STOPPED",null);
+		// 	// var soundIndex = Data.getSoundIndex(this.draggerIndex);
+		// 	// this.animatePosition(soundIndex,scope.panner, scope.zoomer);
+		// 	// this.animateDotToCenter();
 
-			// var i;
-			// total = Data.totalTracks;
-			// for( i=0; i<total; i++){
-			// 	soundIndex = Data.getSoundIndex(i);
-			// 	label = scope.labels[i];
-			// 	label.updatePosition(soundIndex,scope.panner, scope.zoomer);
-			// 	label.show();
-			// }
+		// 	// var i;
+		// 	// total = Data.totalTracks;
+		// 	// for( i=0; i<total; i++){
+		// 	// 	soundIndex = Data.getSoundIndex(i);
+		// 	// 	label = scope.labels[i];
+		// 	// 	label.updatePosition(soundIndex,scope.panner, scope.zoomer);
+		// 	// 	label.show();
+		// 	// }
 
-		};
+		// };
 		var onDragStarted = function(event) {
-			console.log("onDragStarted triggered");
+			console.log("onDragStarted triggered (createDraggers)");
 			// mouse.x = ( event.clientX / (window.innerWidth) ) * 2 - 1;
 			// mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
 			// ray.setFromCamera( mouse, scope.camera );
@@ -244,19 +244,19 @@ var Visualizer = module.exports = function(x) {
 			scope.pointCloud.draw();
 		};
 
-		var onDragAnimationComplete = function(event){
-			// var soundIndex = Data.getSoundIndex(event.detail.draggerIndex);
+		// var onDragAnimationComplete = function(event){
+		// 	// var soundIndex = Data.getSoundIndex(event.detail.draggerIndex);
 
-			// var label = scope.labels[event.detail.draggerIndex];
-			// label.updateData(soundIndex);
-			// label.updatePosition(soundIndex,scope.panner, scope.zoomer);
+		// 	// var label = scope.labels[event.detail.draggerIndex];
+		// 	// label.updateData(soundIndex);
+		// 	// label.updatePosition(soundIndex,scope.panner, scope.zoomer);
 
-			// label.updatePosition(soundIndex,scope.panner, scope.zoomer);
+		// 	// label.updatePosition(soundIndex,scope.panner, scope.zoomer);
 
-			// if(!scope.filter.isVisible){
-			// 	label.show();
-			// }
-		};
+		// 	// if(!scope.filter.isVisible){
+		// 	// 	label.show();
+		// 	// }
+		// };
 
 		var onPinchStarted = function(event) {
 			var startScale = scope.zoomer.scale.x;
@@ -340,29 +340,29 @@ var Visualizer = module.exports = function(x) {
 
 		scope.context.addEventListener('touchstart', onTouchStarted, false);
 
-		var onHover = function(event) {
-			// mouse.x = ( event.clientX / (window.innerWidth) ) * 2 - 1;
-			// mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-			// ray.setFromCamera( mouse, scope.camera );
-			// var intersectors = ray.intersectObjects( scope.draggers, true );
-			// var isMouseIntersectingDragger = intersectors.length > 0;
-			// if ( isMouseIntersectingDragger ) {
-			// 	document.body.style.cursor = 'pointer';
-			// } else {
-			// 	document.body.style.cursor = 'auto';
-			// }
-		};
-		this.context.addEventListener('mousemove', onHover, false);
+		// var onHover = function(event) {
+		// 	// mouse.x = ( event.clientX / (window.innerWidth) ) * 2 - 1;
+		// 	// mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+		// 	// ray.setFromCamera( mouse, scope.camera );
+		// 	// var intersectors = ray.intersectObjects( scope.draggers, true );
+		// 	// var isMouseIntersectingDragger = intersectors.length > 0;
+		// 	// if ( isMouseIntersectingDragger ) {
+		// 	// 	document.body.style.cursor = 'pointer';
+		// 	// } else {
+		// 	// 	document.body.style.cursor = 'auto';
+		// 	// }
+		// };
+		// this.context.addEventListener('mousemove', onHover, false);
 
 	};
 
-	this.showDraggers = function () {
+	// this.showDraggers = function () {
 		// var i;
 		// var total = Data.totalTracks;
 		// for( i=0; i<total; i++){
 		// 	this.draggers[i].visible = true;
 		// }
-	};
+	// };
 
 	// this.hideLabels = function () {
 	// 	var i;
@@ -386,15 +386,15 @@ var Visualizer = module.exports = function(x) {
 	// 	}
 	// };
 
-	this.enableScroll = function() {
-		scope.isScrollDisabled = false;
-	};
+	// this.enableScroll = function() {
+	// 	scope.isScrollDisabled = false;
+	// };
 
-	this.disableScroll = function() {
-		scope.isScrollDisabled = true;
-	};
+	// this.disableScroll = function() {
+	// 	scope.isScrollDisabled = true;
+	// };
 
-	this.updateDraggers = function() {
+	// this.updateDraggers = function() {
 		// var dragger, label;
 		// var i;
 		// var soundIndex, soundPosition;
@@ -414,7 +414,7 @@ var Visualizer = module.exports = function(x) {
 		// 	label.updateData(soundIndex);
 		// 	label.updatePosition(soundIndex,scope.panner, scope.zoomer);
 		// }
-	};
+	// };
 
 	// this.createZoomElements = function() {
 	// 	var tween;
@@ -535,47 +535,49 @@ var Visualizer = module.exports = function(x) {
 	// 	scope.overlay.hide();
 	// };
 
-	this.animateDraggers = function() {
-		// var i;
-		// total = Data.totalTracks;
-		// for( i=0; i<total; i++){
-		// 	this.animateDragger(i);
-		// }
-		// scope.hideLabels();
-	};
+	// this.animateDraggers = function() {
+	// 	// var i;
+	// 	// total = Data.totalTracks;
+	// 	// for( i=0; i<total; i++){
+	// 	// 	this.animateDragger(i);
+	// 	// }
+	// 	// scope.hideLabels();
+	// };
 
-	this.animateDragger = function(i) {
-		// var dragger;
-		// dragger = this.draggers[i];
-		// dragger.animatePosition(Data.getSoundIndex(i),scope.panner, scope.zoomer);
-		// dragger.animateDotToCenter();
-		// dragger.animateColor(Data.getSoundIndex(i));
-	};
+	// this.animateDragger = function(i) {
+	// 	// var dragger;
+	// 	// dragger = this.draggers[i];
+	// 	// dragger.animatePosition(Data.getSoundIndex(i),scope.panner, scope.zoomer);
+	// 	// dragger.animateDotToCenter();
+	// 	// dragger.animateColor(Data.getSoundIndex(i));
+	// };
 
-	this.dragSelecting = function (draggerIndex, soundIndex) {
-		// this.draggers[draggerIndex].setColor(soundIndex);
-		// this.draggers[draggerIndex].dragTrigger();
-	};
+	// this.dragSelecting = function (draggerIndex, soundIndex) {
+	// 	// this.draggers[draggerIndex].setColor(soundIndex);
+	// 	// this.draggers[draggerIndex].dragTrigger();
+	// };
 
-	this.trigger = function(index, time){
-		// var i;
-		// var total = Data.totalTracks;
-		// for(i=0; i<total; i++){
-		// 	var beat = Data.tracks[i].beats[index];
-		// 	if (beat > 0){
-		// 		this.draggers[i].trigger();
-		// 	}
-		// }
-	};
+	// this.trigger = function(index, time){
+	// 	// var i;
+	// 	// var total = Data.totalTracks;
+	// 	// for(i=0; i<total; i++){
+	// 	// 	var beat = Data.tracks[i].beats[index];
+	// 	// 	if (beat > 0){
+	// 	// 		this.draggers[i].trigger();
+	// 	// 	}
+	// 	// }
+	// };
 
-	this.triggerTrack = function(index, time){
-		// this.draggers[index].trigger();
-	};
+	// this.triggerTrack = function(index, time){
+	// 	// this.draggers[index].trigger();
+	// };
 
 	this.createListeners = function() {
 		window.addEventListener("resize", function (event) {
 			scope.resize(event);
 		});
+
+		
 	};
 
 	this.update = function(bypass) {

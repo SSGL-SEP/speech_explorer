@@ -4,7 +4,7 @@
   "description": "speeh explorer",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter list",
+    "test": "node_modules/grunt-cli/bin/grunt",
     "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js",
     "heroku-postbuild": "webpack -p --config webpack.config.js --progress",
     "start": "node app.js"

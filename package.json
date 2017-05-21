@@ -7,7 +7,8 @@
     "test": "node_modules/grunt-cli/bin/grunt",
     "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js",
     "heroku-postbuild": "webpack -p --config webpack.config.js --progress",
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "./node_modules/.bin/grunt serve-and-watch"
   },
   "repository": {
     "type": "git",
@@ -20,18 +21,22 @@
   },
   "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme",
   "devDependencies": {
-    "cucumber": "^1.2.5",
-    "selenium-webdriver": "^3.4.0",
-    "mocha": "^3.0.0",
-    "istanbul": "^0.4.5",
+    "appium": "^1.5.2",
     "chai": "^3.5.0",
+    "cucumber": "^1.2.5",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
+    "grunt-concurrent": "^2.3.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-exec": "^0.4.7",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "^0.4.4",
+    "grunt-exec": "^0.4.7",
+    "grunt-nodemon": "^0.4.2",
+    "grunt-webpack": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.0.0",
     "sanitize-filename": "^1.6.0",
-    "appium": "^1.5.2"
+    "selenium-webdriver": "^3.4.0"
   },
   "dependencies": {
     "express": "^4.15.2",

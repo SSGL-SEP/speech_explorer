@@ -1,5 +1,5 @@
 var THREE = require("three");
-var jsonData = require("../mockdata.json");
+var jsonData = require("../realdata.json");
 
 var stringified = JSON.stringify(jsonData);
 var jsonParsed = JSON.parse(stringified);
@@ -13,7 +13,7 @@ for (var i = 0; i < total; i++) {
 }
 
 var Data = module.exports = {
-    pointSize: 2,
+    pointSize: 1,
     cloudSize2D: 1.5,
 
 

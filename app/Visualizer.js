@@ -617,6 +617,11 @@ var Visualizer = module.exports = function(x) {
         raycaster.params.Points.threshold = 3;
         var intersects = raycaster.intersectObject(this.pointCloud, true);
         if (intersects.length > 0) {
+            //Sort intersected objects by 'distance to ray' because default is 'distance'
+            //which is distance from the camera.
+            intersects.sort(function(a, b) {
+                return parseFloat(a.distanceToRay) - parseFloat(b.distanceToRay);
+            });
             if (activePoint !== intersects[0].index) {
                 attributes.size.array[activePoint] = size;
                 activePoint = intersects[0].index;
@@ -676,17 +681,17 @@ var Visualizer = module.exports = function(x) {
 		});
 	};
 
-	this.updateCloud = function() {
-		var i;
-		var pos2D;
-		var total = Data.getTotalPoints();
-		var currentCloud = this.pointCloud.getCloudData();
-		for (i = 0; i < total; i++) {
-			pos2D = Data.getPosition(i);
-			currentCloud.array[ i*3 + 0 ] = pos2D.x;
-			currentCloud.array[ i*3 + 2 ] = pos2D.y;
-		}
-	};
+//	this.updateCloud = function() {
+//		var i;
+//		var pos2D;
+//		var total = Data.getTotalPoints();
+//		var currentCloud = this.pointCloud.getCloudData();
+//		for (i = 0; i < total; i++) {
+//			pos2D = Data.getPosition(i);
+//			currentCloud.array[ i*3 + 0 ] = pos2D.x;
+//			currentCloud.array[ i*3 + 2 ] = pos2D.y;
+//		}
+//	};
 
 	this.setFilter = function(obj) {
 		scope.filter = obj;

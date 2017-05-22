@@ -52,7 +52,7 @@ var PointCloud = module.exports = function(obj) {
 		color.setRGB( 0.8, 0.8, 0.8);
 		color.setHSL(0.8 , 0.8, 0.8);
 		color.toArray( colors, i * 3 );
-		sizes[i] = Data.pointSize;
+		sizes[i] = Data.pointSize + 1;
 		// console.log("created", pos2D.x, pos2D.y);
 	}
 
@@ -105,7 +105,7 @@ var PointCloud = module.exports = function(obj) {
 		var size = Data.pointSize;
 		for (i = 0; i < total; i++) {
 			attributes.position.array[i*3 + 0] = currentCloud.array[ i*3 + 0 ];
-			attributes.position.array[i*3 + 1] = -currentCloud.array[ i*3 + 2 ];
+			attributes.position.array[i*3 + 1] = currentCloud.array[ i*3 + 2 ];
 			attributes.position.array[i*3 + 2] = currentCloud.array[ i*3 + 1 ];
 			// state = Data.getFilterState(i);
 			// attributes.size.array[i] = size * state;

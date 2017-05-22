@@ -681,17 +681,17 @@ var Visualizer = module.exports = function(x) {
 		});
 	};
 
-	this.updateCloud = function() {
-		var i;
-		var pos2D;
-		var total = Data.getTotalPoints();
-		var currentCloud = this.pointCloud.getCloudData();
-		for (i = 0; i < total; i++) {
-			pos2D = Data.getPosition(i);
-			currentCloud.array[ i*3 + 0 ] = pos2D.x;
-			currentCloud.array[ i*3 + 2 ] = pos2D.y;
-		}
-	};
+//	this.updateCloud = function() {
+//		var i;
+//		var pos2D;
+//		var total = Data.getTotalPoints();
+//		var currentCloud = this.pointCloud.getCloudData();
+//		for (i = 0; i < total; i++) {
+//			pos2D = Data.getPosition(i);
+//			currentCloud.array[ i*3 + 0 ] = pos2D.x;
+//			currentCloud.array[ i*3 + 2 ] = pos2D.y;
+//		}
+//	};
 
 	this.setFilter = function(obj) {
 		scope.filter = obj;

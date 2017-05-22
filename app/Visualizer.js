@@ -617,6 +617,11 @@ var Visualizer = module.exports = function(x) {
         raycaster.params.Points.threshold = 3;
         var intersects = raycaster.intersectObject(this.pointCloud, true);
         if (intersects.length > 0) {
+            //Sort intersected objects by 'distance to ray' because default is 'distance'
+            //which is always the same due to the size of the ray
+            intersects.sort(function(a, b) {
+                return parseFloat(a.distanceToRay) - parseFloat(b.distanceToRay);
+            });
             if (activePoint !== intersects[0].index) {
                 attributes.size.array[activePoint] = size;
                 activePoint = intersects[0].index;

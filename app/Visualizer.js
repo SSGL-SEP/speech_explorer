@@ -618,7 +618,7 @@ var Visualizer = module.exports = function(x) {
         var intersects = raycaster.intersectObject(this.pointCloud, true);
         if (intersects.length > 0) {
             //Sort intersected objects by 'distance to ray' because default is 'distance'
-            //which is always the same due to the size of the ray
+            //which is distance from the camera.
             intersects.sort(function(a, b) {
                 return parseFloat(a.distanceToRay) - parseFloat(b.distanceToRay);
             });

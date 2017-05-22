@@ -52,7 +52,7 @@ var PointCloud = module.exports = function(obj) {
 		color.setRGB( 0.8, 0.8, 0.8);
 		color.setHSL(0.8 , 0.8, 0.8);
 		color.toArray( colors, i * 3 );
-		sizes[i] = Data.pointSize;
+		sizes[i] = Data.pointSize + 1;
 		// console.log("created", pos2D.x, pos2D.y);
 	}
 

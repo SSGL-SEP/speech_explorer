@@ -1,14 +1,15 @@
+var appDir = require('app-root-path');
 var assert = require('assert');
 var THREE = require("three");
-var BoilerPlate = require("../app/Boilerplate");
-var Visualizer = require('../app/Visualizer');
+var BoilerPlate = require(appDir + "/app/Boilerplate");
+var Visualizer = require(appDir + '/app/Visualizer');
 var vis = new Visualizer();
 
 describe('hooks', function() {
 
   before(function() {
     // runs before all tests in this block
-    
+
   });
 
   after(function() {
@@ -29,5 +30,5 @@ describe('hooks', function() {
       assert(vis.name === "Visualizer");
     });
   })
-  
+
 });

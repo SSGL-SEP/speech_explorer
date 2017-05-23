@@ -2,25 +2,44 @@ var THREE = require("three");
 
 var parsedData = [],
     parsedUrls = [],
+    parsedColors = [],
     parsedTags = [],
+    max = 0,
+    maxZ = 0,
     total = 0
-
 
 var Data = module.exports = {
     pointSize: 2,
     cloudSize2D: 1.5,
 
     loadData: function (data) {
-        total = data.length;
         parsedData = [];
         parsedUrls = [];
         parsedTags = [];
-        for (var i = 0; i < data.length; i++) {
+        hues = [];
+        total = data.length;
+
+        var i;
+        for (i = 0; i < data.length; i++) {
             parsedData.push(new THREE.Vector3(data[i][1], data[i][2], data[i][3]));
             parsedUrls.push(data[i][4]);
             this.parseTags(data[i][5]);
+            var x = Math.pow(parsedData[i].x, 2);
+            var y = Math.pow(parsedData[i].y, 2);
+            var z = Math.pow(parsedData[i].z, 2);
+            maxZ = Math.max(maxZ, z);
+            var hue = Math.sqrt(x + y + z);
+            hues.push(hue);
+            max = Math.max(max, hue);
         }
-        console.log(parsedTags);
+        for (i = 0; i < data.length; i++) {
+            var color = new THREE.Color();
+            var lightness = parsedData[i].z / (2 * maxZ);
+            color.setHSL(hues[i] / max, 1, lightness + 0.5);
+            parsedColors.push(color);
+
+        }
+        console.log(parsedColors);
     },
 
     // Parses tag JSON into tag objects
@@ -41,7 +60,6 @@ var Data = module.exports = {
         }
     },
 
-    // Gets index of tag object if exists
     getTagIndex: function (key) {
         for (var i = 0; i < parsedTags.length; i++) {
             if (parsedTags[i].key === key) {
@@ -62,7 +80,12 @@ var Data = module.exports = {
     getPosition: function (index) {
         return parsedData[index];
     },
-    getTags: function(){
+
+    getColor: function (index) {
+        return parsedColors[index];
+    },
+
+    getTags: function () {
         return parsedTags;
     }
 

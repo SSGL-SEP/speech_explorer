@@ -20,7 +20,6 @@ var Data = module.exports = {
             parsedUrls.push(data[i][4]);
             this.parseTags(data[i][5]);
         }
-        console.log(parsedTags);
     },
 
     // Parses tag JSON into tag objects
@@ -61,6 +60,10 @@ var Data = module.exports = {
 
     getPosition: function (index) {
         return parsedData[index];
+    },
+
+    getTags: function () {
+        return parsedTags;
     }
 
 }

@@ -139,7 +139,10 @@ var Visualizer = module.exports = function(x) {
 			resetScale *= 1.65;
 			Data.cloudSize2D = resetScale;
 			scope.zoomer.scale.set(resetScale,resetScale,resetScale);
-			scope.panner.position.y = 200;
+
+            // Set panner position to match data between coordinates 0 - 800
+            scope.panner.position.x = -300;
+			scope.panner.position.y = -200;
 
 		}
 
@@ -614,7 +617,7 @@ var Visualizer = module.exports = function(x) {
         var attributes = geometry.attributes;
         var size = attributes.size.array[0];
         raycaster.setFromCamera(mouse, this.camera);
-        raycaster.params.Points.threshold = 3;
+        raycaster.params.Points.threshold = 8;
         var intersects = raycaster.intersectObject(this.pointCloud, true);
         if (intersects.length > 0) {
             //Sort intersected objects by 'distance to ray' because default is 'distance'

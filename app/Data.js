@@ -4,7 +4,7 @@ var parsedData = [], total = 0;
 var parsedUrls = []
 
 var Data = module.exports = {
-    pointSize: 1,
+    pointSize: 2,
     cloudSize2D: 1.5,
 
     loadData: function(data) {

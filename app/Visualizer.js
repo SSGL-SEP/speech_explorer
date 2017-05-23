@@ -16,16 +16,9 @@ limitations under the License.
 
 var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
-// var Config = require("../Config");
-// var Dragger = require("./Dragger");
-// var Label = require("./Label");
-// var Overlay = require("./Overlay");
 var PointCloud = require("./PointCloud");
 
 var THREE = require("three");
-// var ZoomControls = require("./ZoomControls");
-// var TWEEN = require("tween.js");
-// var Stats = require("stats.js");
 
 var Visualizer = module.exports = function(x) {
 	var scope = this;
@@ -47,12 +40,13 @@ var Visualizer = module.exports = function(x) {
 	this.filter = null;
 	this.resizeTimer = null;
 	this.isScrollDisabled = false;
-	// --------------------
+	// ---------------------
 	var activePoint = null;
 	var raycaster;
 	var mouse;
 	var soundBuffer;
 	var audioLoader;
+	var allPointsNeedRefresh = true;
 
 
 	this.init = function() {
@@ -62,16 +56,7 @@ var Visualizer = module.exports = function(x) {
 		this.createListeners();
 		// this.createZoomElements();
 		// this.createInfo();
-		// if(Config.isStatsEnabled) {
-		// 	this.stats = new Stats();
-		// 	this.stats.domElement.style.position = 'absolute';
-		// 	this.stats.domElement.style.left = "auto";
-		// 	this.stats.domElement.style.right = "0px";
-		// 	this.stats.domElement.style.top = "0px";
-		// 	document.body.appendChild( this.stats.domElement );
-		// }
 		this.animate();
-		// requestAnimationFrame(tweenAnimate);
 	};
 
 	this.createEnvironment = function() {
@@ -129,10 +114,6 @@ var Visualizer = module.exports = function(x) {
 				this.panner = new THREE.Object3D();
 				this.zoomer.add( this.panner );
 
-				// var controller = document.getElementById("controller");
-				// controller.classList.add("show");
-				// var controllerHeight = controller.clientHeight;
-				// controller.classList.remove("show");
 				var scalarWidth = window.innerWidth/1000;
 				var scalarHeight = window.innerHeight/1000;
 				var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
@@ -159,126 +140,13 @@ var Visualizer = module.exports = function(x) {
 		};
 
 		this.createDraggers = function() {
-			// this.draggers = [];
-			// var dragger;
-			// var i;
-			// var soundIndex;
-			// var total = Data.totalTracks;
-			// var ray = new THREE.Raycaster();
-			//
-			// on dragging across
-			// scope of this is dragger!
-			// var onDragging = function(event){
-			// 	console.log("onDragging triggered (dragger??)");
-			// 	var selectedDragger = this;
-			// 	var dragging = new THREE.Vector2(100000,100000);
-			// 	var label;
-			// 	dragging.x = ( (event.detail.x+scope.base.position.x) / (window.innerWidth) ) * 2;
-			// 	dragging.y = ( (event.detail.y+scope.base.position.y) / window.innerHeight ) * 2;
-			//
-			// 	dragging.y *= -1;
-			//
-			// 	dragging.x /= scope.zoomer.scale.x*600/window.innerWidth;
-			// 	dragging.y /= scope.zoomer.scale.y*600/window.innerHeight;
-			//
-			// 	dragging.x -= scope.panner.position.x/300;
-			// 	dragging.y -= scope.panner.position.y/-300;
-			//
-			// 	// var result = Data.searchRTree({
-			// 	// 	offset:dragging,
-			// 	// 	bounds:0.2/scope.zoomer.scale.x*2
-			// 	// });
-			//
-			// 	// if(!result || result.length===0) {
-			// 	// 	return;
-			// 	// }
-			//
-			// 	// var diameterSquared = 100000;
-			// 	// var dx,dy,dsq;
-			// 	// for(  i=0; i<result.length; i++){
-			// 	// 	dx = dragging.x - result[i].x;
-			// 	// 	dy = dragging.y - result[i].y;
-			// 	// 	dsq = dx*dx + dy*dy;
-			// 	// 	if(dsq<diameterSquared){
-			// 	// 		diameterSquared = dsq;
-			// 	// 		smallestId = i;
-			// 	// 	}
-			// 	// }
-			//
-			// 	// if(result[smallestId].index != scope.storedSoundIndex) {
-			//
-			// 	// 	scope.storedSoundIndex = result[smallestId].index;
-			// 	// 	Data.setTrack(selectedDragger.draggerIndex,scope.storedSoundIndex);
-			// 	// 	selectedDragger.setFocusPosition(scope.storedSoundIndex, scope.panner,scope.zoomer);
-			// 	// 	label = scope.labels[selectedDragger.draggerIndex];
-			// 	// 	label.updateData(scope.storedSoundIndex);
-			// 	// 	label.updatePosition(scope.storedSoundIndex, scope.panner,scope.zoomer);
-			// 	// 	scope.dispatchEvent("ON_DRAG_SELECT",[selectedDragger.draggerIndex,scope.storedSoundIndex]);
-			// 	// }
-			//
-			// };
-			// var onDragStopped = function(event) {
-			// 	console.log("onDragStopped triggered (createDraggers)");
-			// 	// scope.storedSoundIndex = -1;
-			// 	// scope.dispatchEvent("ON_DRAG_STOPPED",null);
-			// 	// var soundIndex = Data.getSoundIndex(this.draggerIndex);
-			// 	// this.animatePosition(soundIndex,scope.panner, scope.zoomer);
-			// 	// this.animateDotToCenter();
-			//
-			// 	// var i;
-			// 	// total = Data.totalTracks;
-			// 	// for( i=0; i<total; i++){
-			// 	// 	soundIndex = Data.getSoundIndex(i);
-			// 	// 	label = scope.labels[i];
-			// 	// 	label.updatePosition(soundIndex,scope.panner, scope.zoomer);
-			// 	// 	label.show();
-			// 	// }
-			//
-			// };
 			var onDragStarted = function(event) {
-				console.log("onDragStarted triggered (createDraggers)");
-				// mouse.x = ( event.clientX / (window.innerWidth) ) * 2 - 1;
-				// mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-				// ray.setFromCamera( mouse, scope.camera );
-				// var intersectors = ray.intersectObjects( scope.draggers, true );
-				// var isMouseIntersectingDragger = intersectors.length > 0;
-				// var label;
-				// if ( isMouseIntersectingDragger ) {
-				// 	var dragger = intersectors[0].object.parent;
-				// 	var soundIndex = Data.getSoundIndex(dragger.draggerIndex);
-				// 	dragger.onMouseDown(event);
-				// 	scope.overlay.setSoundIndex(soundIndex);
-				//
-				// 	scope.hideLabels();
-				//
-				// 	label = scope.labels[dragger.draggerIndex];
-				// 	label.updateData(soundIndex);
-				// 	label.updatePosition(soundIndex, scope.panner,scope.zoomer);
-				// 	label.bringToFront();
-				// 	label.show();
-				//
-				// 	scope.dispatchEvent("ON_DRAG_START",[dragger.draggerIndex]);
-				// } else {
+				// console.log("onDragStarted triggered (createDraggers)");
 				scope.onBgDown(event);
-				// }
 
 				scope.pointCloud.update();
 				scope.pointCloud.draw();
 			};
-
-			// var onDragAnimationComplete = function(event){
-			// 	// var soundIndex = Data.getSoundIndex(event.detail.draggerIndex);
-			//
-			// 	// var label = scope.labels[event.detail.draggerIndex];
-			// 	// label.updateData(soundIndex);
-			// 	// label.updatePosition(soundIndex,scope.panner, scope.zoomer);
-			//
-			// 	// label.updatePosition(soundIndex,scope.panner, scope.zoomer);
-			//
-			// 	// if(!scope.filter.isVisible){
-			// 	// 	label.show();
-			// 	// }
-			// };
 
 			var onPinchStarted = function(event) {
 				var startScale = scope.zoomer.scale.x;
@@ -317,24 +185,6 @@ var Visualizer = module.exports = function(x) {
 				scope.context.addEventListener('touchend', onPinchEnded, false);
 
 			};
-
-			// create dragger
-			// for( i=0; i<total; i++){
-			// 	dragger = new Dragger({
-			// 		draggerIndex:i,
-			// 		context:this.context, // used for mouse events
-			// 	});
-			// 	soundIndex = Data.getPosition(Data.getSoundIndex(i));
-			// 	dragger.setPosition(soundIndex,scope.panner, scope.zoomer);
-			// 	dragger.setColor(Data.getSoundIndex(i));
-			// 	dragger.visible = false;
-			// 	dragger.addEventListener('ON_MOUSE_DRAGGING', onDragging, false);
-			// 	dragger.addEventListener('ON_DRAG_STOPPED', onDragStopped, false);
-			// 	dragger.addEventListener('ON_DRAGGER_ANIMATION_COMPLETE', onDragAnimationComplete, false);
-			// 	this.base.add( dragger );
-			// 	this.draggers.push(dragger);
-			// }
-			// add dragger interaction using raycast
 			var mouse = new THREE.Vector2(100000,100000);
 
 			this.context.addEventListener('mousedown', onDragStarted, false);
@@ -361,126 +211,7 @@ var Visualizer = module.exports = function(x) {
 			};
 
 			scope.context.addEventListener('touchstart', onTouchStarted, false);
-
-			// var onHover = function(event) {
-			// 	// mouse.x = ( event.clientX / (window.innerWidth) ) * 2 - 1;
-			// 	// mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
-			// 	// ray.setFromCamera( mouse, scope.camera );
-			// 	// var intersectors = ray.intersectObjects( scope.draggers, true );
-			// 	// var isMouseIntersectingDragger = intersectors.length > 0;
-			// 	// if ( isMouseIntersectingDragger ) {
-			// 	// 	document.body.style.cursor = 'pointer';
-			// 	// } else {
-			// 	// 	document.body.style.cursor = 'auto';
-			// 	// }
-			// };
-			// this.context.addEventListener('mousemove', onHover, false);
-
 		};
-
-		// this.showDraggers = function () {
-		// var i;
-		// var total = Data.totalTracks;
-		// for( i=0; i<total; i++){
-		// 	this.draggers[i].visible = true;
-		// }
-		// };
-		//
-		// this.hideLabels = function () {
-		// 	var i;
-		// 	var total = Data.totalTracks;
-		//
-		// 	for( i=0; i<total; i++){
-		// 		this.labels[i].hide();
-		// 	}
-		// };
-		//
-		// this.showLabels = function () {
-		// 	var i;
-		// 	var label;
-		// 	var soundIndex;
-		// 	var total = Data.totalTracks;
-		// 	for( i=0; i<total; i++){
-		// 		soundIndex = Data.getSoundIndex(i);
-		// 		label = this.labels[i];
-		// 		label.show();
-		// 		label.updatePosition(soundIndex,scope.panner, scope.zoomer);
-		// 	}
-		// };
-		//
-		// this.enableScroll = function() {
-		// 	scope.isScrollDisabled = false;
-		// };
-		//
-		// this.disableScroll = function() {
-		// 	scope.isScrollDisabled = true;
-		// };
-		//
-		// this.updateDraggers = function() {
-		// var dragger, label;
-		// var i;
-		// var soundIndex, soundPosition;
-		// total = Data.totalTracks;
-		// var scalar = scope.zoomer.scale.x;
-		// Data.pointSize = Math.log(scalar);
-		// Data.pointSize = (Data.pointSize<1.0) ? 1.0 : Data.pointSize;
-		//
-		// for( i=0; i<total; i++){
-		// 	soundIndex = Data.getSoundIndex(i);
-		// 	soundPosition = Data.getPosition(soundIndex);
-		// 	dragger = this.draggers[i];
-		// 	dragger.setPosition(soundPosition,scope.panner, scope.zoomer);
-		// 	dragger.setColor(soundIndex);
-		//
-		// 	label = this.labels[i];
-		// 	label.updateData(soundIndex);
-		// 	label.updatePosition(soundIndex,scope.panner, scope.zoomer);
-		// }
-		// };
-		//
-		// this.createZoomElements = function() {
-		// 	var tween;
-		// 	var isComplete = true;
-		// 	var scalar;
-		//
-		// 	var zoomTween = function(size){
-		// 		var controller = document.getElementById("controller");
-		// 		var scalarWidth = window.innerWidth/1000;
-		// 		var scalarHeight = (window.innerHeight-controller.clientHeight)/1000;
-		// 		var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
-		//
-		// 		size = (size>6) ? 6 : size;
-		// 		size = (size<resetScale) ? resetScale : size;
-		//
-		// 		if(!isComplete) return;
-		//
-		// 		var state = { value: Data.cloudSize2D };
-		// 		tween = new TWEEN.Tween(state)
-		// 			.to({ value: size }, 250)
-		// 			.easing(TWEEN.Easing.Quadratic.InOut)
-		// 			.onStart(function(){
-		// 				isComplete = false;
-		// 			})
-		// 			.onUpdate(function() {
-		// 				Data.cloudSize2D = state.value;
-		// 				scalar = Data.cloudSize2D;
-		// 				scope.zoomer.scale.set(scalar,scalar,scalar);
-		// 				scope.updateDraggers();
-		// 				scope.update(true);
-		// 			})
-		// 			.onComplete(function(){
-		// 				isComplete = true;
-		// 			})
-		// 			.start();
-		// 	};
-		//
-		// 	this.zoomControls = new ZoomControls();
-		// 	this.zoomControls.addEventListener("ON_ZOOM_IN_CLICKED",function(){
-		// 		zoomTween(Data.cloudSize2D*2.0);
-		// 	}.bind(scope), false);
-		// 	this.zoomControls.addEventListener("ON_ZOOM_OUT_CLICKED",function(){
-		// 		zoomTween(Data.cloudSize2D/2.0);
-		// 	}.bind(scope), false);
 
 		var onWheel = function (event) {
 			var delta = (!event.deltaY) ? event.detail : event.deltaY;
@@ -508,91 +239,8 @@ var Visualizer = module.exports = function(x) {
 			}
 
 			scope.update(true);
+			allPointsNeedRefresh = true;
 		};
-
-
-
-		// this.createInfo = function() {
-		// 	var i, total;
-		//
-		// 	// label
-		// 	total = Data.totalTracks;
-		// 	this.labels = [];
-		//
-		// 	var onInfo = function(x){
-		// 		setTimeout(function(){
-		// 			scope.overlay.enableClick();
-		// 			var soundIndex = Data.getSoundIndex(x);
-		// 			scope.hideLabels();
-		// 			scope.disableScroll();
-		// 			scope.overlay.setSoundIndex(soundIndex);
-		// 			scope.overlay.show();
-		// 			scope.dispatchEvent("ON_OVERLAY_OPEN",null);
-		// 		}, 1);
-		// 	};
-		//
-		// 	for( i=0; i<total; i++){
-		// 		label = new Label(i);
-		// 		label.addEventListener("ON_INFO",onInfo, false);
-		// 		label.init();
-		// 		label.hide();
-		// 		this.labels.push(label);
-		// 	}
-		//
-		// 	// overlay
-		// 	this.overlay = new Overlay();
-		// 	this.overlay.addEventListener("ON_CLOSE",function(){
-		// 		scope.showLabels();
-		// 		scope.enableScroll();
-		// 		scope.overlay.hide();
-		// 		scope.dispatchEvent("ON_OVERLAY_CLOSED",null);
-		// 	});
-		// 	this.overlay.addEventListener("ON_TAG",function(tag){
-		// 		scope.dispatchEvent("ON_TAG_CLICKED",[tag]);
-		// 	});
-		// 	this.overlay.init();
-		// };
-		//
-		// this.hideOverlays = function() {
-		// 	scope.overlay.hide();
-		// };
-		//
-		// this.animateDraggers = function() {
-		// 	// var i;
-		// 	// total = Data.totalTracks;
-		// 	// for( i=0; i<total; i++){
-		// 	// 	this.animateDragger(i);
-		// 	// }
-		// 	// scope.hideLabels();
-		// };
-		//
-		// this.animateDragger = function(i) {
-		// 	// var dragger;
-		// 	// dragger = this.draggers[i];
-		// 	// dragger.animatePosition(Data.getSoundIndex(i),scope.panner, scope.zoomer);
-		// 	// dragger.animateDotToCenter();
-		// 	// dragger.animateColor(Data.getSoundIndex(i));
-		// };
-		//
-		// this.dragSelecting = function (draggerIndex, soundIndex) {
-		// 	// this.draggers[draggerIndex].setColor(soundIndex);
-		// 	// this.draggers[draggerIndex].dragTrigger();
-		// };
-		//
-		// this.trigger = function(index, time){
-		// 	// var i;
-		// 	// var total = Data.totalTracks;
-		// 	// for(i=0; i<total; i++){
-		// 	// 	var beat = Data.tracks[i].beats[index];
-		// 	// 	if (beat > 0){
-		// 	// 		this.draggers[i].trigger();
-		// 	// 	}
-		// 	// }
-		// };
-		//
-		// this.triggerTrack = function(index, time){
-		// 	// this.draggers[index].trigger();
-		// };
 
 		this.createListeners = function() {
 			window.addEventListener("resize", function (event) {
@@ -616,6 +264,14 @@ var Visualizer = module.exports = function(x) {
 			var geometry = this.pointCloud.cloud.geometry;
 			var attributes = geometry.attributes;
 			var size = attributes.size.array[0];
+
+			if(allPointsNeedRefresh) {
+				attributes.size.array.forEach(function(point, index) {
+					attributes.size.array[index] = 1.5 * Data.cloudSize2D;
+				});
+				allPointsNeedRefresh = false;
+			}
+
 			raycaster.setFromCamera(mouse, this.camera);
 			raycaster.params.Points.threshold = 8;
 			var intersects = raycaster.intersectObject(this.pointCloud, true);
@@ -664,7 +320,7 @@ var Visualizer = module.exports = function(x) {
 				},
 				// Function called when download errors
 				function ( xhr ) {
-					console.log( 'An error happened' );
+					console.log( 'Download failed' );
 				}
 			);
 		};
@@ -675,26 +331,10 @@ var Visualizer = module.exports = function(x) {
 			this.draw();
 			// console.log("animate");
 
-			// if(this.stats && Config.isStatsEnabled) {
-			// 	this.stats.update();
-			// }
-
 			requestAnimationFrame(function() {
 				scope.animate();
 			});
 		};
-
-		//	this.updateCloud = function() {
-		//		var i;
-		//		var pos2D;
-		//		var total = Data.getTotalPoints();
-		//		var currentCloud = this.pointCloud.getCloudData();
-		//		for (i = 0; i < total; i++) {
-		//			pos2D = Data.getPosition(i);
-		//			currentCloud.array[ i*3 + 0 ] = pos2D.x;
-		//			currentCloud.array[ i*3 + 2 ] = pos2D.y;
-		//		}
-		//	};
 
 		this.setFilter = function(obj) {
 			scope.filter = obj;
@@ -715,7 +355,7 @@ var Visualizer = module.exports = function(x) {
 		this.onBgDown = function (event) {
 			var x = (event.clientX-window.innerWidth*0.5) / scope.zoomer.scale.x;
 			var y = (-event.clientY+window.innerHeight*0.5) / scope.zoomer.scale.y;
-			console.log("onBgDown triggered");
+			// console.log("onBgDown triggered");
 			var anchorOffset = new THREE.Vector2( x, y );
 			var draggerStart = new THREE.Vector2(scope.panner.position.x,scope.panner.position.y);
 
@@ -726,7 +366,7 @@ var Visualizer = module.exports = function(x) {
 			};
 
 			var onMove = function(event) {
-				console.log("onMove triggered");
+				// console.log("onMove triggered");
 				if(	scope.touchState === scope.IS_ZOOMING) {
 					return;
 				}
@@ -750,7 +390,7 @@ var Visualizer = module.exports = function(x) {
 			};
 
 			var onUp = function(event) {
-				console.log("onUp triggered");
+				// console.log("onUp triggered");
 				scope.context.removeEventListener('mousemove', onMove, false);
 				scope.context.removeEventListener('mouseup', onUp, false);
 				scope.context.removeEventListener('mouseupoutside', onUp, false);
@@ -765,15 +405,12 @@ var Visualizer = module.exports = function(x) {
 			this.context.addEventListener('mouseup', onUp, false);
 			this.context.addEventListener('mouseupoutside', onUp, false);
 
-			// scope.context.addEventListener('touchmove', onTouchMove, false);
-			// scope.context.addEventListener('touchend', onTouchUp, false);
-			// scope.context.addEventListener('touchcancel', onTouchUp, false);
-
-			// scope.updateDraggers();
+			scope.context.addEventListener('touchmove', onTouchMove, false);
+			scope.context.addEventListener('touchend', onTouchUp, false);
+			scope.context.addEventListener('touchcancel', onTouchUp, false);
 		};
 
 		this.resize = function(event) {
-			// if(!Config.isResizeDisabled) {
 
 			clearTimeout(scope.resizeTimer);
 			scope.resizeTimer = setTimeout(function() {
@@ -786,14 +423,8 @@ var Visualizer = module.exports = function(x) {
 				// scope.updateDraggers();
 			}, 250);
 
-			// }
 
 		};
-
-		// function tweenAnimate(time) {
-		// 	requestAnimationFrame(tweenAnimate);
-		// 	TWEEN.update(time);
-		// }
 	};
 
 	Visualizer.prototype = new BoilerPlate();

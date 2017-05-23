@@ -7,7 +7,6 @@ var webpackConfig = require('./webpack.config.js');
 module.exports = function(grunt) {
 
     grunt.initConfig({
-
         env: {
             chrome: {
                 PLATFORM: 'CHROME'
@@ -18,7 +17,7 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            all: ['Gruntfile.js', 'features/step_definitions/*.js', 'features/support/*.js'],
+            all: ['Gruntfile.js', 'test/features/**/*.js'],
             options: {
                 node: true,
                 strict: true,
@@ -28,15 +27,14 @@ module.exports = function(grunt) {
 
         exec: {
             run_istanbul_mocha_tests:{
-                command: 'istanbul cover ./node_modules/.bin/_mocha'
+                command: 'istanbul cover ./node_modules/.bin/_mocha test/unit/**/*.js'
             },
             run_istanbul_cucumber_tests:{
-                command: 'node app.js & istanbul cover ./node_modules/.bin/cucumberjs'
+                command: 'node app/server.js & istanbul cover ./node_modules/.bin/cucumberjs -r test/features'
             },
             kill_all:{
                 command:'killall node'
             }
-
         },
 
         webpack: {
@@ -52,7 +50,7 @@ module.exports = function(grunt) {
 
         nodemon: {
             dev: {
-                script: 'app.js'
+                script: 'app/server.js'
             },
             options: {
                 ignore: ['node_modules/**', 'Gruntfile.js'],

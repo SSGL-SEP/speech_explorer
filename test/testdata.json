@@ -1,0 +1,132 @@
+[
+    [
+        0,
+        95.6850419438296,
+        244.51765847203887,
+        469.97548434392615,
+        "audio/mv_0763_019_a_1_1.wav",
+        {
+            "phonem":"a",
+            "file name":"audio/mv_0763_019_a_1_1.wav",
+            "voice":"voiced",
+            "stress":"stressed"
+        }
+    ],
+    [
+        1,
+        220.60607936911424,
+        75.24716705194241,
+        582.1865875677623,
+        "audio/mv_0768_041_C230_1_0.wav",
+        {
+            "phonem":"C230",
+            "file name":"audio/mv_0768_041_C230_1_0.wav",
+            "voice":"voiced",
+            "stress":"unstressed"
+        }
+    ],
+    [
+        2,
+        460.5425661637316,
+        693.4856915968659,
+        593.617072049943,
+        "audio/mv_0750_118_t_0_0.wav",
+        {
+            "phonem":"t",
+            "file name":"audio/mv_0750_118_t_0_0.wav",
+            "voice":"unvoiced",
+            "stress":"unstressed"
+        }
+    ],
+    [
+        3,
+        490.7803651243897,
+        680.6211200205724,
+        675.3308776521527,
+        "audio/mv_0772_049_t_0_1.wav",
+        {
+            "phonem":"t",
+            "file name":"audio/mv_0772_049_t_0_1.wav",
+            "voice":"unvoiced",
+            "stress":"stressed"
+        }
+    ],
+    [
+        4,
+        445.9662881652945,
+        470.0868233633455,
+        268.9491191148269,
+        "audio/mv_0735_060_i_1_1.wav",
+        {
+            "phonem":"i",
+            "file name":"audio/mv_0735_060_i_1_1.wav",
+            "voice":"voiced",
+            "stress":"stressed"
+        }
+    ],
+    [
+        5,
+        480.60704341928385,
+        161.63748163092606,
+        381.24375347029724,
+        "audio/mv_0769_055_i_1_0.wav",
+        {
+            "phonem":"i",
+            "file name":"audio/mv_0769_055_i_1_0.wav",
+            "voice":"voiced",
+            "stress":"unstressed"
+        }
+    ],
+    [
+        6,
+        620.6842291249947,
+        636.2215868539427,
+        713.6432521690431,
+        "audio/mv_0721_009_t_0_1.wav",
+        {
+            "phonem":"t",
+            "file name":"audio/mv_0721_009_t_0_1.wav",
+            "voice":"unvoiced",
+            "stress":"stressed"
+        }
+    ],
+    [
+        7,
+        466.11620274044816,
+        657.3791029227554,
+        618.2618608377379,
+        "audio/mv_0721_027_t_0_0.wav",
+        {
+            "phonem":"t",
+            "file name":"audio/mv_0721_027_t_0_0.wav",
+            "voice":"unvoiced",
+            "stress":"unstressed"
+        }
+    ],
+    [
+        8,
+        281.58022283755747,
+        328.1965780144795,
+        450.59991016272676,
+        "audio/mv_0726_011_C230_1_0.wav",
+        {
+            "phonem":"C230",
+            "file name":"audio/mv_0726_011_C230_1_0.wav",
+            "voice":"voiced",
+            "stress":"unstressed"
+        }
+    ],
+    [
+        9,
+        559.3608320248287,
+        700.3198848940287,
+        494.8553920092756,
+        "audio/mv_0747_015_s_0_0.wav",
+        {
+            "phonem":"s",
+            "file name":"audio/mv_0747_015_s_0_0.wav",
+            "voice":"unvoiced",
+            "stress":"unstressed"
+        }
+    ]
+]

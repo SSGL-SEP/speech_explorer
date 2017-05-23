@@ -1,5 +1,5 @@
 var Data = require('./Data');
-var json = require('../data/realdata.json');
+var json = require('../data/less_sne.json');
 Data.loadData(json);
 
 var Visualizer = require("./Visualizer");

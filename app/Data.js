@@ -4,7 +4,7 @@ var parsedData = [], total = 0;
 var parsedUrls = [];
 var parsedColors = [];
 var max = 0;
-
+var maxZ = 0;
 var Data = module.exports = {
     pointSize: 2,
     cloudSize2D: 1.5,
@@ -20,13 +20,15 @@ var Data = module.exports = {
             var x = Math.pow(parsedData[i].x, 2);
             var y = Math.pow(parsedData[i].y, 2);
             var z = Math.pow(parsedData[i].z, 2);
+            maxZ = Math.max(maxZ, z);
             var hue = Math.sqrt(x+y+z);
             hues.push(hue);
             max = Math.max(max, hue);
         }
         for (var i = 0; i < data.length; i++) {
             var color = new THREE.Color();
-            color.setHSL(hues[i] / max, 1, 0.5);
+            var lightness = parsedData[i].z / (2 * maxZ);
+            color.setHSL(hues[i] / max, 1, lightness + 0.5);
             parsedColors.push(color);
 
         }

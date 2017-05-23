@@ -266,7 +266,7 @@ var Visualizer = module.exports = function(x) {
 			var size = Math.max(1.5, Data.cloudSize2D);
 
 			if(allPointsNeedRefresh) {
-				attributes.size.array.forEach((point, index) => {
+				attributes.size.array.forEach(function(point, index) {
 					attributes.size.array[index] = size
 				});
 				allPointsNeedRefresh = false;

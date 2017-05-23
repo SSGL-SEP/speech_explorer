@@ -21,7 +21,6 @@ var Data = require("./Data");
 // var Label = require("./Label");
 // var Overlay = require("./Overlay");
 var PointCloud = require("./PointCloud");
-
 var THREE = require("three");
 // var ZoomControls = require("./ZoomControls");
 // var TWEEN = require("tween.js");
@@ -53,7 +52,6 @@ var Visualizer = module.exports = function(x) {
 	var mouse;
 	var soundBuffer;
     var audioLoader;
-
 
 	this.init = function() {
 		this.createEnvironment();

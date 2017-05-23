@@ -1,14 +1,11 @@
 var THREE = require("three");
 
-var parsedData = [],
-    parsedUrls = [],
-    parsedTags = [],
-    total = 0
-    var parsedColors = [];
+var parsedData = [], total = 0;
+var parsedUrls = [];
+var parsedColors = [];
 var max = 0;
 var maxZ = 0;
-
-
+parsedTags = [];
 var Data = module.exports = {
     pointSize: 2,
     cloudSize2D: 1.5,

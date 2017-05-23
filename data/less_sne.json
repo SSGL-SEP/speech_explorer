@@ -15,6 +15,10 @@
                 "key":"phonem"
             },
             {
+                "val":"h",
+                "key":"phonem"
+            },
+            {
                 "val":"voiced",
                 "key":"voice"
             },

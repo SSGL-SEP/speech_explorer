@@ -5,7 +5,7 @@ var BoilerPlate = require(appDir + "/app/Boilerplate");
 var Visualizer = require(appDir + '/app/Visualizer');
 var vis = new Visualizer();
 
-describe('hooks', function() {
+describe('Visualizer', function() {
 
 	before(function() {
 		// runs before all tests in this block

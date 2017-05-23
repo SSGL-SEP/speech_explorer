@@ -263,11 +263,11 @@ var Visualizer = module.exports = function(x) {
 			//----V
 			var geometry = this.pointCloud.cloud.geometry;
 			var attributes = geometry.attributes;
-			var size = attributes.size.array[0];
+			var size = Math.max(1.5, Data.cloudSize2D);
 
 			if(allPointsNeedRefresh) {
-				attributes.size.array.forEach(function(point, index) {
-					attributes.size.array[index] = 1.5 * Data.cloudSize2D;
+				attributes.size.array.forEach((point, index) => {
+					attributes.size.array[index] = size
 				});
 				allPointsNeedRefresh = false;
 			}
@@ -284,7 +284,7 @@ var Visualizer = module.exports = function(x) {
 				if (activePoint !== intersects[0].index) {
 					attributes.size.array[activePoint] = size;
 					activePoint = intersects[0].index;
-					attributes.size.array[activePoint] = size * 5;
+					attributes.size.array[activePoint] = size + 10;
 					attributes.size.needsUpdate = true;
 					// console.log(Data.getUrl(activePoint));
 					playSound(Data.getUrl(activePoint));

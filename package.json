@@ -25,6 +25,7 @@
     "appium": "^1.5.2",
     "chai": "^3.5.0",
     "cucumber": "^1.2.5",
+    "geckodriver": "^1.6.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.1",
@@ -37,11 +38,11 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.0.0",
     "sanitize-filename": "^1.6.0",
-    "selenium-webdriver": "^3.4.0"
+    "selenium-webdriver": "^3.4.0",
+    "webpack": "^2.5.1"
   },
   "dependencies": {
     "express": "^4.15.2",
-    "three": "^0.85.2",
-    "webpack": "^2.5.1"
+    "three": "^0.85.2"
   }
 }

@@ -48,11 +48,12 @@ var PointCloud = module.exports = function(obj) {
 		vertexB = new THREE.Vector3( pos2D.x, 0, pos2D.y );
 		vertexB.toArray( positions2D, i * 3 );
 
-		// color = Data.getColor(i);
-		color.setRGB( 0.8, 0.8, 0.8);
-		color.setHSL(0.8 , 0.8, 0.8);
+		color = Data.getColor(i);
+ //       console.log(color);
+//		color.setRGB( 0.8, 0.8, 0.8);
+//		color.setHSL(0.8 , 0.8, 0.8);
 		color.toArray( colors, i * 3 );
-		sizes[i] = Data.pointSize + 1;
+		sizes[i] = Data.pointSize;
 		// console.log("created", pos2D.x, pos2D.y);
 	}
 

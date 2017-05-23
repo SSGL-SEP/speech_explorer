@@ -5,6 +5,7 @@ var parsedUrls = [];
 var parsedColors = [];
 var max = 0;
 var maxZ = 0;
+
 parsedTags = [];
 var Data = module.exports = {
     pointSize: 2,
@@ -35,6 +36,12 @@ var Data = module.exports = {
             parsedColors.push(color);
 
         }
+        console.log(parsedColors);
+    },
+
+
+    getColor: function(index) {
+        return parsedColors[index];
     },
 
     getColor: function(index) {

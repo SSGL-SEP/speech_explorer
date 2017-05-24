@@ -1,7 +1,6 @@
 var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
-
 var THREE = require("three");
 
 var Visualizer = module.exports = function(x) {
@@ -28,7 +27,6 @@ var Visualizer = module.exports = function(x) {
 	var soundBuffer;
 	var audioLoader;
 	var allPointsNeedRefresh = true;
-
 
 	this.init = function() {
 		this.createEnvironment();

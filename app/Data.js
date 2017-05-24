@@ -5,10 +5,10 @@ var parsedData = [],
     parsedColors = [],
     parsedTags = [],
     maxEuc = 0,
-	minEuc = Number.MAX_VALUE,
+    minEuc = Number.MAX_VALUE,
     maxZ = 0,
-	hueOffset = 20,
-    total = 0
+    hueOffset = 20,
+    total = 0;
 
 var Data = module.exports = {
     pointSize: 2,
@@ -18,13 +18,13 @@ var Data = module.exports = {
         parsedData = [];
         parsedUrls = [];
         parsedTags = [];
-        hues = [];
+        var hues = [];
         total = data.length;
 
         var i;
         for (i = 0; i < data.length; i++) {
             parsedData.push(new THREE.Vector3(data[i][1], data[i][2], data[i][3]));
-            parsedUrls.push(data[i][4]);
+            parsedUrls.push("audio/" + data[i][4]);
             this.parseTags(data[i][5]);
             var x = Math.pow(parsedData[i].x, 2);
             var y = Math.pow(parsedData[i].y, 2);
@@ -33,14 +33,14 @@ var Data = module.exports = {
             var hue = Math.sqrt(x + y + z);
             hues.push(hue);
             maxEuc = Math.max(maxEuc, hue);
-			minEuc = Math.min(minEuc, hue);
+            minEuc = Math.min(minEuc, hue);
         }
         for (i = 0; i < data.length; i++) {
             var color = new THREE.Color();
             var lightness = parsedData[i].z / (2 * maxZ);
-			//pitäiskö jakaa (maxEuc-minEuc+hueOffset):lla? Näytti tulevan huonomman näköinen..
-            color.setHSL((hues[i]-minEuc+hueOffset) / (maxEuc-minEuc), 1, lightness + 0.5);
-			parsedColors.push(color);
+            //pitäiskö jakaa (maxEuc-minEuc+hueOffset):lla? Näytti tulevan huonomman näköinen..
+            color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
+            parsedColors.push(color);
 
         }
         //console.log(parsedColors);
@@ -52,7 +52,7 @@ var Data = module.exports = {
             this.tag = tags[i];
 
             if (this.getTagIndex(this.tag.key) === -1) {
-                parsedTags.push({ key: this.tag.key, values: [] });
+                parsedTags.push({key: this.tag.key, values: []});
             }
 
             this.tagIndex = this.getTagIndex(this.tag.key);
@@ -93,4 +93,4 @@ var Data = module.exports = {
         return parsedTags;
     }
 
-}
+};

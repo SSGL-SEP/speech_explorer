@@ -78,4 +78,13 @@ describe('hooks', function () {
 			}
 		});
 	})
+
+	describe('Color data is created', function() {
+		it('color array data is not undefined', function(){
+			for (var i = 0; i < Data.getTotalPoints(); i++) {
+				assert(Data.getColor(i).isColor);
+			}
+		});
+	})
+
 });

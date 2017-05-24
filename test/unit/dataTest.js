@@ -77,7 +77,7 @@ describe('hooks', function () {
 				assert(testTag.values[i].value === testValues[i]);
 			}
 		});
-	})
+	});
 
 	describe('Data#parsedTags[3].values[0])', function () {
 		it('should be value === unstressed, values === [0,2,3,4,5,8,9]', function () {
@@ -88,7 +88,7 @@ describe('hooks', function () {
 				assert(testTag.points[i] === testValues[i]);
 			}
 		});
-	})
+	});
 
 	describe('Data#parsedTags[3].values[1])', function () {
 		it('should be value === unstressed, values === [1,6,7]', function () {
@@ -99,7 +99,7 @@ describe('hooks', function () {
 				assert(testTag.points[i] === testValues[i]);
 			}
 		});
-	})
+	});
 
 	describe('Color data is created', function() {
 		it('color array data is not undefined', function(){

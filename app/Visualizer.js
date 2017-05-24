@@ -77,8 +77,8 @@ var Visualizer = module.exports = function(x) {
 			this.scene.add(this.base);
 
 
-			document.body.addEventListener("mousewheel", onWheel.bind(scope), false);
-			document.body.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+            this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
+            this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
 
 			document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 

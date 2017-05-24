@@ -28,13 +28,13 @@ describe('hooks', function () {
 		it('should be 10', function () {
 			assert(Data.getTotalPoints() === 10);
 		});
-	})
+	});
 
 	describe('Data#parsedUrls(0)', function () {
 		it('should be mv_0693_021_i_1_0.wav', function () {
 			assert(Data.getUrl(0) === "audio/mv_0693_021_i_1_0.wav");
 		});
-	})
+	});
 
 	describe('Data#getPosition(0)', function () {
 			it('should be x === 87.3121953178908, y === 591.7073990926303, z === 540.4269706500198', function () {
@@ -44,7 +44,7 @@ describe('hooks', function () {
 				assert(test.y === 591.7073990926303);
 				assert(test.z === 540.4269706500198);
 			});
-	})
+	});
 
 	describe('Data#parsedTags[1])', function () {
 		it('should be key === phonem, values === [\'i\',\'h\',\'e\',\'n\',\'l\',\'a\']', function () {
@@ -55,7 +55,7 @@ describe('hooks', function () {
 				assert(testTag.values[i] === testValues[i]);
 			}
 		});
-	})
+	});
 
 	describe('Data#parsedTags[2])', function () {
 		it('should be key === voice, values === [\'voiced\', \'unvoiced\']', function () {
@@ -66,7 +66,7 @@ describe('hooks', function () {
 				assert(testTag.values[i] === testValues[i]);
 			}
 		});
-	})
+	});
 
 	describe('Data#parsedTags[3])', function () {
 		it('should be key === stress, values === [\'unstressed\', \'stressed\']', function () {

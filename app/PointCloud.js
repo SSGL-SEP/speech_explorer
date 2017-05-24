@@ -70,7 +70,7 @@ var PointCloud = module.exports = function(obj) {
 		},
 		vertexShader: vs,
 		fragmentShader: fs,
-		alphaTest: 0.1,
+		alphaTest: 0.1
 	} );
 	this.cloud = new THREE.Points( geometry, material );
 

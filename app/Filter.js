@@ -1,6 +1,9 @@
 
 var Data = require("./Data");
+<<<<<<< HEAD
 var Visualizer = require("./Visualizer");
+=======
+>>>>>>> d49e7bbf1822a4f23a8fb43a5fa614baf554ac9c
 var _ = require("underscore");
 
 var activePoints = [];
@@ -31,7 +34,10 @@ var Filter = module.exports = {
             });
         });
         activePoints = _.intersection.apply(_, activeLists);
+<<<<<<< HEAD
         Visualizer.needsRefresh = true;
+=======
+>>>>>>> d49e7bbf1822a4f23a8fb43a5fa614baf554ac9c
     }
     
 

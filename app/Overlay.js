@@ -1,26 +1,85 @@
 var dat = require("dat.gui/build/dat.gui.min.js");
-var boolTags = [];
+var fil = require("./Filter");
 
 var Overlay = module.exports = function (tags) {
-    var gui = new dat.GUI({ autoPlace: false });
+    var scope = this;
+    this.boolTags = [];
+    this.tags = tags;
+    this.gui = new dat.GUI({ autoPlace: false });
 
-    var obj = { Filter: function () { console.log("clicked") } };
+    this.Init = function () {
+        this.createBoolArray(this.tags);
+        this.createGUI();
 
-    //1 koska filenamet nollassa
-    for (var i = 1; i < tags.length; i++) {
-        var tag = tags[i];
-        var phonem = gui.addFolder(tag.key);
-        var o = {};
-        for (var j = 0; j < tag.values.length; j++) {
-            o[tag.values[j].value] = true;
-            phonem.add(o, tag.values[j].value);
+    }
+
+    this.createBoolArray = function () {
+        //1 because filenames are at zero
+        for (var i = 1; i < this.tags.length; i++) {
+            var boolObj = {
+                key: this.tags[i].key,
+                values: {}
+            };
+
+            for (var j = 0; j < this.tags[i].values.length; j++) {
+                boolObj.values[this.tags[i].values[j].value] = true;
+            }
+            this.boolTags.push(boolObj);
+
         }
     }
 
-    gui.add(obj, 'Filter');
-    var doc = document.getElementById('overlay');
-    doc.appendChild(gui.domElement);
-};
+    this.createGUI = function () {
+        
+
+        for (var i = 0; i < this.boolTags.length; i++) {
+            var tag = this.boolTags[i];
+            var folder = this.gui.addFolder(tag.key);
+            for (var property in tag.values) {
+                folder.add(tag.values, property);
+            }
+        }
+
+        var filter = this.filterButton;
+        this.gui.add(filter, 'Filter');
+        var doc = document.getElementById('overlay');
+        doc.appendChild(this.gui.domElement);
+    }
+
+    this.filterButton = { 
+        Filter: function () { 
+            fil.setFilter(scope.createFilterData()); 
+        } };
+    
+    this.selectAllButton = {
+        SelectAll: function(){
+            
+        }
+    }
+    
+    this.createFilterData = function(){
+        var data = [];
+        for(var i = 0; i<this.boolTags.length; i++){
+            var isUsed = false;
+            var tag = this.boolTags[i];
+            var obj = {
+                key: this.boolTags[i].key,
+                values: []
+            };
+            for(var property in tag.values){
+                if(tag.values[property]){
+                    obj.values.push(property);
+                    isUsed = true;
+                }
+            }
+            if(isUsed){
+                data.push(obj);
+            }
+        }
+        return data;
+    }
+
+}
 
 
 

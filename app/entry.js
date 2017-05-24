@@ -3,6 +3,7 @@ var json = require('../data/less_sne.json');
 Data.loadData(json);
 var Overlay = require("./Overlay");
 var overlay = new Overlay(Data.getTags());
+overlay.Init();
 var Visualizer = require("./Visualizer");
 var visualizer = new Visualizer();
 visualizer.init();

@@ -1,5 +1,6 @@
 var THREE = require("three");
 var Data = require("./Data");
+var Filter = require("./Filter");
 
 var PointCloud = module.exports = function(obj) {
 	var scope = this;
@@ -86,12 +87,17 @@ var PointCloud = module.exports = function(obj) {
 		var currentCloud = this.getCloudData();
 		var total = Data.getTotalPoints();
 		var state;
-		
+		var activePoints = Filter.getActivePoints();
 		var size = Data.pointSize;
 		for (i = 0; i < total; i++) {
 			attributes.position.array[i*3 + 0] = currentCloud.array[ i*3 + 0 ];
 			attributes.position.array[i*3 + 1] = currentCloud.array[ i*3 + 2 ];
 			attributes.position.array[i*3 + 2] = currentCloud.array[ i*3 + 1 ];
+
+			if (activePoints.includes(i)) {
+				attributes.size.array[i] = size + 10; //magic number \o/				
+			}
+
 			// state = Data.getFilterState(i);
 			// attributes.size.array[i] = size * state;
 		}
@@ -104,11 +110,11 @@ var PointCloud = module.exports = function(obj) {
 
 	this.removeCloud = function(){
 		if(this.cloud) {
-			this.remove(this.cloud); 
+			this.remove(this.cloud);
 			this.cloud = null;
 		}
 	};
-	
+
 	this.getCloudData = function(){
 		return this.getAttributes().position2D;
 	};

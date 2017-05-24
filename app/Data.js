@@ -4,8 +4,10 @@ var parsedData = [],
     parsedUrls = [],
     parsedColors = [],
     parsedTags = [],
-    max = 0,
+    maxEuc = 0,
+	minEuc = Number.MAX_VALUE,
     maxZ = 0,
+	hueOffset = 20,
     total = 0
 
 var Data = module.exports = {
@@ -30,16 +32,18 @@ var Data = module.exports = {
             maxZ = Math.max(maxZ, z);
             var hue = Math.sqrt(x + y + z);
             hues.push(hue);
-            max = Math.max(max, hue);
+            maxEuc = Math.max(maxEuc, hue);
+			minEuc = Math.min(minEuc, hue);
         }
         for (i = 0; i < data.length; i++) {
             var color = new THREE.Color();
             var lightness = parsedData[i].z / (2 * maxZ);
-            color.setHSL(hues[i] / max, 1, lightness + 0.5);
-            parsedColors.push(color);
+			//pitäiskö jakaa (maxEuc-minEuc+hueOffset):lla? Näytti tulevan huonomman näköinen..
+            color.setHSL((hues[i]-minEuc+hueOffset) / (maxEuc-minEuc), 1, lightness + 0.5);
+			parsedColors.push(color);
 
         }
-        console.log(parsedColors);
+        //console.log(parsedColors);
     },
 
     // Parses tag JSON into tag objects

@@ -20,10 +20,10 @@ var Filter = module.exports = {
         activeTags.forEach(function(activeTag) {
             var tag = Data.getTag(activeTag.key);
             var values = tag.values;
-            values.forEach(function(value) {
+            values.forEach(function(parsedTag) {
                 activeTag.values.forEach(function(activeTag) {
-                    if(activeTag === value.value) {
-                        activeLists.push(value.points);
+                    if(activeTag === parsedTag.value) {
+                        activeLists.push(parsedTag.points);
                     }
                 });
             });

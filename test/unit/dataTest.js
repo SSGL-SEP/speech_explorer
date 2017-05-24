@@ -30,20 +30,20 @@ describe('hooks', function () {
 		});
 	});
 
-	describe('Data#parsedUrls(0)', function () {
+	describe('Data#getUrl(0)', function () {
 		it('should be mv_0693_021_i_1_0.wav', function () {
 			assert(Data.getUrl(0) === "audio/mv_0693_021_i_1_0.wav");
 		});
 	});
 
 	describe('Data#getPosition(0)', function () {
-			it('should be x === 87.3121953178908, y === 591.7073990926303, z === 540.4269706500198', function () {
-				var test = Data.getPosition(0);
-				assert(test.isVector3);
-				assert(test.x === 87.3121953178908);
-				assert(test.y === 591.7073990926303);
-				assert(test.z === 540.4269706500198);
-			});
+		it('should be x === 87.3121953178908, y === 591.7073990926303, z === 540.4269706500198', function () {
+			var test = Data.getPosition(0);
+			assert(test.isVector3);
+			assert(test.x === 87.3121953178908);
+			assert(test.y === 591.7073990926303);
+			assert(test.z === 540.4269706500198);
+		});
 	});
 
 	describe('Data#parsedTags[1])', function () {
@@ -82,7 +82,7 @@ describe('hooks', function () {
 	describe('Data#parsedTags[3].values[0])', function () {
 		it('should be value === unstressed, values === [0,2,3,4,5,8,9]', function () {
 			var testTag = Data.getTags()[3].values[0],
-				testValues = [0,2,3,4,5,8,9];
+				testValues = [0, 2, 3, 4, 5, 8, 9];
 			assert(testTag.value === 'unstressed');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.points[i] === testValues[i]);
@@ -93,7 +93,7 @@ describe('hooks', function () {
 	describe('Data#parsedTags[3].values[1])', function () {
 		it('should be value === unstressed, values === [1,6,7]', function () {
 			var testTag = Data.getTags()[3].values[1],
-				testValues = [1,6,7];
+				testValues = [1, 6, 7];
 			assert(testTag.value === 'stressed');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.points[i] === testValues[i]);
@@ -101,8 +101,8 @@ describe('hooks', function () {
 		});
 	});
 
-	describe('getTag() returns correct object with valid key', function() {
-		it('getTag(\'stress\') returns object with key === \'stress\', values[0].value === \'stressed\', values[1].value === \'unstressed\' ', function(){
+	describe('getTag() returns correct object with valid key', function () {
+		it('getTag(\'stress\') returns object with key === \'stress\', values[0].value === \'stressed\', values[1].value === \'unstressed\' ', function () {
 			var testTag = Data.getTag('stress');
 
 			assert(testTag.key === 'stress');
@@ -111,18 +111,51 @@ describe('hooks', function () {
 		});
 	})
 
-	describe('getTag() works with invalid argument', function() {
-		it('getTag() returns undefined when called with invalid arguments', function(){
+	describe('getTag() works with invalid argument', function () {
+		it('getTag() returns undefined when called with invalid arguments', function () {
 			var invalidTag = Data.getTag('not a key');
 			assert(invalidTag === undefined);
 		});
 	})
 
-	describe('Color data is created', function() {
-		it('color array data is not undefined', function(){
+	describe('Color data is created', function () {
+		it('color data is not undefined', function () {
 			for (var i = 0; i < Data.getTotalPoints(); i++) {
 				assert(Data.getColor(i).isColor);
 			}
+		});
+	})
+
+	describe('Point object', function () {
+		it('should have valid color information', function () {
+			assert(Data.getPosition(0).color.isColor);
+		});
+		it('should have valid url', function () {
+			assert(Data.getPosition(0).url === 'audio/mv_0693_021_i_1_0.wav');
+		});
+		it('should have valid position information', function () {
+			assert(Data.getPosition(0).x === 87.3121953178908);
+			assert(Data.getPosition(0).y === 591.7073990926303);
+			assert(Data.getPosition(0).z === 540.4269706500198);
+		});
+	})
+
+
+	describe('Meta information of point object', function () {
+		it('should have \'phonem\' property with a value ', function () {
+			var point = Data.getPosition(0);
+			assert(point.meta[1].key === 'phonem');
+			assert(point.meta[1].values[0] === 'i');
+		});
+		it('should have \'voice\' property with a value ', function () {
+			var point = Data.getPosition(0);
+			assert(point.meta[2].key === 'voice');
+			assert(point.meta[2].values[0] === 'voiced');
+		});
+		it('should have \'stress\' property with a value ', function () {
+			var point = Data.getPosition(0);
+			assert(point.meta[3].key === 'stress');
+			assert(point.meta[3].values[0] === 'unstressed');
 		});
 	})
 

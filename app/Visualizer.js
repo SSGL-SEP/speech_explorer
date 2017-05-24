@@ -124,7 +124,7 @@ var Visualizer = module.exports = function(x) {
 				scope.onBgDown(event);
 
 				scope.pointCloud.update();
-				scope.pointCloud.draw();
+				//scope.pointCloud.draw();
 			};
 
 			var onPinchStarted = function(event) {
@@ -232,13 +232,13 @@ var Visualizer = module.exports = function(x) {
 		this.update = function(bypass) {
 			// if(bypass || !Data.areAllChunksLoaded) {
 			this.pointCloud.update();
-			this.pointCloud.draw();
+			//this.pointCloud.draw();
 			// }
 		};
 
 		this.draw = function() {
-			this.pointCloud.draw();
-			this.camera.lookAt( this.scene.position );
+			//this.pointCloud.draw();
+			//this.camera.lookAt( this.scene.position );
 			//----V
 			var geometry = this.pointCloud.cloud.geometry;
 			var attributes = geometry.attributes;

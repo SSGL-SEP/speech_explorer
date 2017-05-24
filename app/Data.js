@@ -121,6 +121,8 @@ var Data = module.exports = {
         return parsedData[index].url;
     },
 
+    // TODO: Rename this function as it returns more than
+    // position information
     getPosition: function (index) {
         return parsedData[index];
     },

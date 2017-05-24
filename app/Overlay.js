@@ -10,14 +10,14 @@ var Overlay = module.exports = function (tags) {
 
     var obj = { Filter: function () { console.log("clicked") } };
 
-
-    for (var i = 0; i < tags.length; i++) {
+    //1 koska filenamet nollassa
+    for (var i = 1; i < tags.length; i++) {
         var tag = tags[i];
         var phonem = gui.addFolder(tag.key);
         var o = {}
         for (var j = 0; j < tag.values.length; j++) {
-            o[tag.values[j]] = true;
-            phonem.add(o, tag.values[j]);
+            o[tag.values[j].value] = true;
+            phonem.add(o, tag.values[j].value);
         }
     }
 

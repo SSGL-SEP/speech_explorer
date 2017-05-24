@@ -65,4 +65,8 @@ bundle.js
 
 # Selenium's failed test screenshots
 screenshots/
+
+# Local audio data
 public/audio/
+
+.idea/

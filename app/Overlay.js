@@ -1,7 +1,7 @@
 var dat = require("dat.gui/build/dat.gui.min.js");
 
 
-
+var boolTags = [];
 
 
 

@@ -52,7 +52,7 @@ describe('hooks', function () {
 				testValues = ['i', 'h', 'e', 'n', 'l', 'a'];
 			assert(testTag.key === 'phonem');
 			for (var i = 0; i < testValues.length; i++) {
-				assert(testTag.values[i] === testValues[i]);
+				assert(testTag.values[i].value === testValues[i]);
 			}
 		});
 	})
@@ -63,7 +63,7 @@ describe('hooks', function () {
 				testValues = ['voiced', 'unvoiced'];
 			assert(testTag.key === 'voice');
 			for (var i = 0; i < testValues.length; i++) {
-				assert(testTag.values[i] === testValues[i]);
+				assert(testTag.values[i].value === testValues[i]);
 			}
 		});
 	})
@@ -74,7 +74,7 @@ describe('hooks', function () {
 				testValues = ['unstressed', 'stressed'];
 			assert(testTag.key === 'stress');
 			for (var i = 0; i < testValues.length; i++) {
-				assert(testTag.values[i] === testValues[i]);
+				assert(testTag.values[i].value === testValues[i]);
 			}
 		});
 	})

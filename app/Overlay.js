@@ -63,13 +63,7 @@ var Overlay = module.exports = function (tags) {
                     tag.values[property] = false;
                 }
             }
-
-            for (var i = 0; i < Object.keys(scope.gui.__folders).length; i++) {
-                var key = Object.keys(scope.gui.__folders)[i];
-                for (var j = 0; j < scope.gui.__folders[key].__controllers.length; j++) {
-                    scope.gui.__folders[key].__controllers[j].updateDisplay();
-                }
-            }
+            scope.update();
         }
     }
 
@@ -112,6 +106,15 @@ var Overlay = module.exports = function (tags) {
             data.push(obj);
         }
         return data;
+    }
+
+    this.update = function () {
+        for (var i = 0; i < Object.keys(scope.gui.__folders).length; i++) {
+            var key = Object.keys(scope.gui.__folders)[i];
+            for (var j = 0; j < scope.gui.__folders[key].__controllers.length; j++) {
+                scope.gui.__folders[key].__controllers[j].updateDisplay();
+            }
+        }
     }
 
 

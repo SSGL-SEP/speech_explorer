@@ -1,6 +1,7 @@
 var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
+var Filter = require("./Filter");
 var THREE = require("three");
 
 var Visualizer = module.exports = function(x) {
@@ -17,7 +18,6 @@ var Visualizer = module.exports = function(x) {
 	this.IS_DRAGGING = 1;
 	this.IS_ZOOMING = 2;
 	this.touchState = this.IS_DRAGGING;
-	this.filter = null;
 	this.resizeTimer = null;
 	this.isScrollDisabled = false;
 	// ---------------------
@@ -26,7 +26,7 @@ var Visualizer = module.exports = function(x) {
 	var mouse;
 	var soundBuffer;
 	var audioLoader;
-	var allPointsNeedRefresh = true;
+	var needsRefresh = true;
 
 	this.init = function() {
 		this.createEnvironment();
@@ -77,8 +77,8 @@ var Visualizer = module.exports = function(x) {
 			this.scene.add(this.base);
 
 
-            this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
-            this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+			this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
+			this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
 
 			document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 
@@ -218,7 +218,7 @@ var Visualizer = module.exports = function(x) {
 			}
 
 			scope.update(true);
-			allPointsNeedRefresh = true;
+			needsRefresh = true;
 		};
 
 		this.createListeners = function() {
@@ -230,10 +230,13 @@ var Visualizer = module.exports = function(x) {
 		};
 
 		this.update = function(bypass) {
+			needsRefresh = needsRefresh || Filter.isChanged;
+			Filter.isChanged = false
 			// if(bypass || !Data.areAllChunksLoaded) {
-			this.pointCloud.update();
-			//this.pointCloud.draw();
-			// }
+			this.pointCloud.draw();
+			if(needsRefresh){
+				scope.pointCloud.update();
+			}
 		};
 
 		this.draw = function() {
@@ -244,25 +247,33 @@ var Visualizer = module.exports = function(x) {
 			var attributes = geometry.attributes;
 			var size = Math.max(1.5, Data.cloudSize2D);
 
-			if(allPointsNeedRefresh) {
-				attributes.size.array.forEach(function(point, index) {
-					attributes.size.array[index] = size
-				});
-				allPointsNeedRefresh = false;
+			if(needsRefresh) {
+				// attributes.size.array.forEach(function(point, index) {
+				// 	attributes.size.array[index] = size
+				// });
+				attributes.size.needsUpdate = true;
+				needsRefresh = false;
 			}
 
 			raycaster.setFromCamera(mouse, this.camera);
 			raycaster.params.Points.threshold = 8;
 			var intersects = raycaster.intersectObject(this.pointCloud, true);
-			if (intersects.length > 0) {
+			var enabledPoints = [];
+			for(var i = 0; i < intersects.length; i++) {
+				if(attributes.enabled.array[intersects[i].index]) {
+					enabledPoints.push(intersects[i]);
+				}
+			}
+
+			if (enabledPoints.length > 0) {
 				//Sort intersected objects by 'distance to ray' because default is 'distance'
 				//which is distance from the camera.
-				intersects.sort(function(a, b) {
+				enabledPoints.sort(function(a, b) {
 					return parseFloat(a.distanceToRay) - parseFloat(b.distanceToRay);
 				});
-				if (activePoint !== intersects[0].index) {
+				if (activePoint !== enabledPoints[0].index) {
 					attributes.size.array[activePoint] = size;
-					activePoint = intersects[0].index;
+					activePoint = enabledPoints[0].index;
 					attributes.size.array[activePoint] = size + 10;
 					attributes.size.needsUpdate = true;
 					// console.log(Data.getUrl(activePoint));
@@ -313,10 +324,6 @@ var Visualizer = module.exports = function(x) {
 			requestAnimationFrame(function() {
 				scope.animate();
 			});
-		};
-
-		this.setFilter = function(obj) {
-			scope.filter = obj;
 		};
 
 		// ------------------------------------------------------------

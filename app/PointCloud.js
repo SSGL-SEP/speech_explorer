@@ -14,7 +14,8 @@ var PointCloud = module.exports = function(obj) {
 	var positions2D = new Float32Array( total * 3 );
 	var positions = new Float32Array( total * 3 );
 	var colors = new Float32Array( total * 3 );
-	var sizes = new Float32Array( total ); // default
+	var sizes = new Float32Array( total );
+	var enabled = new Float32Array( total );
 
 	var i;
 	var normal;
@@ -34,30 +35,31 @@ var PointCloud = module.exports = function(obj) {
 		vertexB.toArray( positions2D, i * 3 );
 
 		color = Data.getColor(i);
- //       console.log(color);
-//		color.setRGB( 0.8, 0.8, 0.8);
-//		color.setHSL(0.8 , 0.8, 0.8);
+		//       console.log(color);
+		//		color.setRGB( 0.8, 0.8, 0.8);
+		//		color.setHSL(0.8 , 0.8, 0.8);
 		color.toArray( colors, i * 3 );
 		sizes[i] = Data.pointSize;
 		// console.log("created", pos2D.x, pos2D.y);
+		enabled[i] = true;
 	}
 
 	var vs = 	"attribute float size;\n" +
-				"attribute vec3 customColor;\n" +
-				"varying vec3 vColor;\n" +
-				"void main() {\n" +
-				"	vColor = customColor;\n" +
-				"	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
-				"	gl_PointSize = size ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
-				"	gl_Position = projectionMatrix * mvPosition;\n" +
-				"}\n";
+	"attribute vec3 customColor;\n" +
+	"varying vec3 vColor;\n" +
+	"void main() {\n" +
+	"	vColor = customColor;\n" +
+	"	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
+	"	gl_PointSize = size ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
+	"	gl_Position = projectionMatrix * mvPosition;\n" +
+	"}\n";
 
 	var fs = 	"uniform vec3 color;\n" +
-				"varying vec3 vColor;\n" +
-				"void main() {\n" +
-				"	gl_FragColor = vec4( color * vColor, 1.0 );\n" +
-				"	if ( gl_FragColor.a < ALPHATEST ) discard;\n" +
-				"}\n";
+	"varying vec3 vColor;\n" +
+	"void main() {\n" +
+	"	gl_FragColor = vec4( color * vColor, 1.0 );\n" +
+	"	if ( gl_FragColor.a < ALPHATEST ) discard;\n" +
+	"}\n";
 
 	var geometry, material;
 	geometry = new THREE.BufferGeometry();
@@ -65,6 +67,7 @@ var PointCloud = module.exports = function(obj) {
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
 	geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 	geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+	geometry.addAttribute( 'enabled', new THREE.BufferAttribute( enabled, 1 ) );
 	material = new THREE.ShaderMaterial( {
 		uniforms: {
 			color:   { type: "c", value: new THREE.Color( 0xffffff ) }
@@ -82,6 +85,7 @@ var PointCloud = module.exports = function(obj) {
 	// ------------------------------------------------------------
 
 	this.update = function(){
+		console.log("hep")
 		var i;
 		var attributes = this.getAttributes();
 		var currentCloud = this.getCloudData();
@@ -95,7 +99,14 @@ var PointCloud = module.exports = function(obj) {
 			attributes.position.array[i*3 + 2] = currentCloud.array[ i*3 + 1 ];
 
 			if (activePoints.includes(i)) {
-				attributes.size.array[i] = size + 10; //magic number \o/				
+				attributes.size.array[i] = size + 2; //magic number \o/
+				attributes.enabled.array[i] = true;
+			} else if (activePoints.length === 0){
+				attributes.size.array[i] = size;
+				attributes.enabled.array[i] = true;
+			} else {
+				attributes.size.array[i] = size - 1; //magic number \o/
+				attributes.enabled.array[i] = false;
 			}
 
 			// state = Data.getFilterState(i);
@@ -106,6 +117,7 @@ var PointCloud = module.exports = function(obj) {
 	this.draw = function(){
 		this.cloud.geometry.attributes.position.needsUpdate = true;
 		this.cloud.geometry.attributes.size.needsUpdate = true;
+		this.cloud.geometry.attributes.enabled.needsUpdate = true;
 	};
 
 	this.removeCloud = function(){

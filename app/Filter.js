@@ -7,8 +7,11 @@ var activePoints = [];
 
 var Filter = module.exports = {
 
+    isChanged: false,
+
     resetFilter: function() {
         activePoints = [];
+        this.isChanged = true;
     },
 
     getActivePoints: function() {
@@ -16,6 +19,10 @@ var Filter = module.exports = {
     },
 
     setFilter: function(activeTags) {
+        if(activeTags.length === 0) {
+            this.resetFilter();
+        }
+
         var activeLists = [];
         activeTags.forEach(function(activeTag) {
             var tag = Data.getTag(activeTag.key);
@@ -29,6 +36,6 @@ var Filter = module.exports = {
             });
         });
         activePoints = _.intersection.apply(_, activeLists);
+        this.isChanged = true;
     }
-
 };

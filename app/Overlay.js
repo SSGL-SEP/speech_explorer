@@ -52,8 +52,12 @@ var Overlay = module.exports = function (tags) {
     this.filterButton = {
         Filter: function () {
             fil.setFilter(scope.createFilterData());
+        } };
+
+    this.selectAllButton = {
+        SelectAll: function(){
         }
-    };
+    }
 
     this.clearAllButton = {
         ClearAll: function () {
@@ -120,11 +124,3 @@ var Overlay = module.exports = function (tags) {
 
 
 }
-
-
-
-
-
-
-
-

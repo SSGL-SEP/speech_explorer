@@ -257,15 +257,22 @@ var Visualizer = module.exports = function(x) {
 			raycaster.setFromCamera(mouse, this.camera);
 			raycaster.params.Points.threshold = 8;
 			var intersects = raycaster.intersectObject(this.pointCloud, true);
-			if (intersects.length > 0) {
+			var enabledPoints = [];
+			for(var i = 0; i < intersects.length; i++) {
+				if(attributes.enabled.array[intersects[i].index]) {
+					enabledPoints.push(intersects[i]);
+				}
+			}
+
+			if (enabledPoints.length > 0) {
 				//Sort intersected objects by 'distance to ray' because default is 'distance'
 				//which is distance from the camera.
-				intersects.sort(function(a, b) {
+				enabledPoints.sort(function(a, b) {
 					return parseFloat(a.distanceToRay) - parseFloat(b.distanceToRay);
 				});
-				if (activePoint !== intersects[0].index) {
+				if (activePoint !== enabledPoints[0].index) {
 					attributes.size.array[activePoint] = size;
-					activePoint = intersects[0].index;
+					activePoint = enabledPoints[0].index;
 					attributes.size.array[activePoint] = size + 10;
 					attributes.size.needsUpdate = true;
 					// console.log(Data.getUrl(activePoint));

@@ -22,7 +22,7 @@ var Overlay = module.exports = function (tags) {
             };
 
             for (var j = 0; j < this.tags[i].values.length; j++) {
-                boolObj.values[this.tags[i].values[j].value] = true;
+                boolObj.values[this.tags[i].values[j].value] = false;
             }
             this.boolTags.push(boolObj);
 

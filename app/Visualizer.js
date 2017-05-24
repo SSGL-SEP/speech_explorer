@@ -26,7 +26,7 @@ var Visualizer = module.exports = function(x) {
 	var mouse;
 	var soundBuffer;
 	var audioLoader;
-	var allPointsNeedRefresh = true;
+	this.needsRefresh = true;
 
 	this.init = function() {
 		this.createEnvironment();
@@ -218,7 +218,7 @@ var Visualizer = module.exports = function(x) {
 			}
 
 			scope.update(true);
-			allPointsNeedRefresh = true;
+			this.needsRefresh = true;
 		};
 
 		this.createListeners = function() {
@@ -244,11 +244,11 @@ var Visualizer = module.exports = function(x) {
 			var attributes = geometry.attributes;
 			var size = Math.max(1.5, Data.cloudSize2D);
 
-			if(allPointsNeedRefresh) {
+			if(this.needsRefresh) {
 				attributes.size.array.forEach(function(point, index) {
 					attributes.size.array[index] = size
 				});
-				allPointsNeedRefresh = false;
+				this.needsRefresh = false;
 			}
 
 			raycaster.setFromCamera(mouse, this.camera);

@@ -95,7 +95,7 @@ var PointCloud = module.exports = function(obj) {
 			attributes.position.array[i*3 + 2] = currentCloud.array[ i*3 + 1 ];
 
 			if (activePoints.includes(i)) {
-				attributes.size.array[i] = size + 10; //magic number \o/				
+				attributes.size.array[i] = size + 10; //magic number \o/
 			}
 
 			// state = Data.getFilterState(i);

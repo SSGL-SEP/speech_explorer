@@ -1,9 +1,5 @@
 
 var Data = require("./Data");
-<<<<<<< HEAD
-var Visualizer = require("./Visualizer");
-=======
->>>>>>> d49e7bbf1822a4f23a8fb43a5fa614baf554ac9c
 var _ = require("underscore");
 
 var activePoints = [];
@@ -11,9 +7,11 @@ var activePoints = [];
 
 var Filter = module.exports = {
 
+    isChanged: false,
+
     resetFilter: function() {
         activePoints = [];
-        Visualizer.needsRefresh = true;
+        this.isChanged = true;
     },
 
     getActivePoints: function() {
@@ -21,6 +19,10 @@ var Filter = module.exports = {
     },
 
     setFilter: function(activeTags) {
+        if(activeTags.length === 0) {
+            this.resetFilter();
+        }
+
         var activeLists = [];
         activeTags.forEach(function(activeTag) {
             var tag = Data.getTag(activeTag.key);
@@ -34,11 +36,6 @@ var Filter = module.exports = {
             });
         });
         activePoints = _.intersection.apply(_, activeLists);
-<<<<<<< HEAD
-        Visualizer.needsRefresh = true;
-=======
->>>>>>> d49e7bbf1822a4f23a8fb43a5fa614baf554ac9c
+        this.isChanged = true;
     }
-    
-
 };

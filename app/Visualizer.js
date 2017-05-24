@@ -1,6 +1,7 @@
 var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
+var Filter = require("./Filter");
 var THREE = require("three");
 
 var Visualizer = module.exports = function(x) {
@@ -17,7 +18,6 @@ var Visualizer = module.exports = function(x) {
 	this.IS_DRAGGING = 1;
 	this.IS_ZOOMING = 2;
 	this.touchState = this.IS_DRAGGING;
-	this.filter = null;
 	this.resizeTimer = null;
 	this.isScrollDisabled = false;
 	// ---------------------
@@ -26,7 +26,7 @@ var Visualizer = module.exports = function(x) {
 	var mouse;
 	var soundBuffer;
 	var audioLoader;
-	this.needsRefresh = true;
+	var needsRefresh = true;
 
 	this.init = function() {
 		this.createEnvironment();
@@ -77,8 +77,8 @@ var Visualizer = module.exports = function(x) {
 			this.scene.add(this.base);
 
 
-            this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
-            this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+			this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
+			this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
 
 			document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 
@@ -218,7 +218,7 @@ var Visualizer = module.exports = function(x) {
 			}
 
 			scope.update(true);
-			this.needsRefresh = true;
+			needsRefresh = true;
 		};
 
 		this.createListeners = function() {
@@ -230,9 +230,11 @@ var Visualizer = module.exports = function(x) {
 		};
 
 		this.update = function(bypass) {
+			needsRefresh = needsRefresh || Filter.isChanged;
+			Filter.isChanged = false
 			// if(bypass || !Data.areAllChunksLoaded) {
 			this.pointCloud.update();
-			//this.pointCloud.draw();
+			this.pointCloud.draw();
 			// }
 		};
 
@@ -244,11 +246,12 @@ var Visualizer = module.exports = function(x) {
 			var attributes = geometry.attributes;
 			var size = Math.max(1.5, Data.cloudSize2D);
 
-			if(this.needsRefresh) {
+			if(needsRefresh) {
 				attributes.size.array.forEach(function(point, index) {
 					attributes.size.array[index] = size
 				});
-				this.needsRefresh = false;
+				attributes.size.needsUpdate = true;
+				needsRefresh = false;
 			}
 
 			raycaster.setFromCamera(mouse, this.camera);
@@ -313,10 +316,6 @@ var Visualizer = module.exports = function(x) {
 			requestAnimationFrame(function() {
 				scope.animate();
 			});
-		};
-
-		this.setFilter = function(obj) {
-			scope.filter = obj;
 		};
 
 		// ------------------------------------------------------------

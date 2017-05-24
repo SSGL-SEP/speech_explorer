@@ -30,7 +30,7 @@ var Overlay = module.exports = function (tags) {
     }
 
     this.createGUI = function () {
-        
+
 
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
@@ -46,17 +46,17 @@ var Overlay = module.exports = function (tags) {
         doc.appendChild(this.gui.domElement);
     }
 
-    this.filterButton = { 
-        Filter: function () { 
-            fil.setFilter(scope.createFilterData()); 
+    this.filterButton = {
+        Filter: function () {
+            fil.setFilter(scope.createFilterData());
         } };
-    
+
     this.selectAllButton = {
         SelectAll: function(){
-            
+
         }
     }
-    
+
     this.createFilterData = function(){
         var data = [];
         for(var i = 0; i<this.boolTags.length; i++){
@@ -80,11 +80,3 @@ var Overlay = module.exports = function (tags) {
     }
 
 }
-
-
-
-
-
-
-
-

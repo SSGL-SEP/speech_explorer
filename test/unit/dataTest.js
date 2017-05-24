@@ -32,14 +32,11 @@ describe('hooks', function () {
 
 	describe('Data#parsedUrls(0)', function () {
 		it('should be mv_0693_021_i_1_0.wav', function () {
-			assert(Data.getUrl(0) === "mv_0693_021_i_1_0.wav");
+			assert(Data.getUrl(0) === "audio/mv_0693_021_i_1_0.wav");
 		});
 	})
 
 	describe('Data#getPosition(0)', function () {
-		87.3121953178908,
-			591.7073990926303,
-			540.4269706500198,
 			it('should be x === 87.3121953178908, y === 591.7073990926303, z === 540.4269706500198', function () {
 				var test = Data.getPosition(0);
 				assert(test.isVector3);

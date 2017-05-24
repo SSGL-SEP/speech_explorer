@@ -79,6 +79,28 @@ describe('hooks', function () {
 		});
 	})
 
+	describe('Data#parsedTags[3].values[0])', function () {
+		it('should be value === unstressed, values === [0,2,3,4,5,8,9]', function () {
+			var testTag = Data.getTags()[3].values[0],
+				testValues = [0,2,3,4,5,8,9];
+			assert(testTag.value === 'unstressed');
+			for (var i = 0; i < testValues.length; i++) {
+				assert(testTag.points[i] === testValues[i]);
+			}
+		});
+	})
+
+	describe('Data#parsedTags[3].values[1])', function () {
+		it('should be value === unstressed, values === [1,6,7]', function () {
+			var testTag = Data.getTags()[3].values[1],
+				testValues = [1,6,7];
+			assert(testTag.value === 'stressed');
+			for (var i = 0; i < testValues.length; i++) {
+				assert(testTag.points[i] === testValues[i]);
+			}
+		});
+	})
+
 	describe('Color data is created', function() {
 		it('color array data is not undefined', function(){
 			for (var i = 0; i < Data.getTotalPoints(); i++) {

@@ -1,6 +1,5 @@
 
 var Data = require("./Data");
-var PointCloud = require("./PointCloud");
 var _ = require("underscore");
 
 var activePoints = [];
@@ -29,7 +28,7 @@ var Filter = module.exports = {
                 });
             });
         });
-        activePoints = _.intersection(activeLists);
+        activePoints = _.intersection.apply(_, activeLists);
     }
 
 };

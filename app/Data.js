@@ -44,7 +44,8 @@ var Data = module.exports = {
 
         }
         //console.log(parsedColors);
-        console.log(parsedTags);
+        console.log(this.getTag('stress'));
+        console.log(this.getTag('phonem'));
     },
 
     // Parses tag JSON into tag objects
@@ -83,6 +84,14 @@ var Data = module.exports = {
             }
         }
         return -1;
+    },
+
+    getTag: function (key){
+        var index = this.getTagIndex(key)
+        if(index === -1){
+            return undefined;
+        }
+        return parsedTags[index];
     },
 
     getTotalPoints: function () {

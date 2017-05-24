@@ -233,9 +233,10 @@ var Visualizer = module.exports = function(x) {
 			needsRefresh = needsRefresh || Filter.isChanged;
 			Filter.isChanged = false
 			// if(bypass || !Data.areAllChunksLoaded) {
-			this.pointCloud.update();
 			this.pointCloud.draw();
-			// }
+			if(needsRefresh){
+				scope.pointCloud.update();
+			}
 		};
 
 		this.draw = function() {
@@ -247,9 +248,9 @@ var Visualizer = module.exports = function(x) {
 			var size = Math.max(1.5, Data.cloudSize2D);
 
 			if(needsRefresh) {
-				attributes.size.array.forEach(function(point, index) {
-					attributes.size.array[index] = size
-				});
+				// attributes.size.array.forEach(function(point, index) {
+				// 	attributes.size.array[index] = size
+				// });
 				attributes.size.needsUpdate = true;
 				needsRefresh = false;
 			}

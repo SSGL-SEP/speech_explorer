@@ -85,6 +85,7 @@ var PointCloud = module.exports = function(obj) {
 	// ------------------------------------------------------------
 
 	this.update = function(){
+		console.log("hep")
 		var i;
 		var attributes = this.getAttributes();
 		var currentCloud = this.getCloudData();
@@ -116,6 +117,7 @@ var PointCloud = module.exports = function(obj) {
 	this.draw = function(){
 		this.cloud.geometry.attributes.position.needsUpdate = true;
 		this.cloud.geometry.attributes.size.needsUpdate = true;
+		this.cloud.geometry.attributes.enabled.needsUpdate = true;
 	};
 
 	this.removeCloud = function(){

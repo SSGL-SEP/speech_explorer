@@ -25,7 +25,7 @@ var Data = module.exports = {
         for (i = 0; i < data.length; i++) {
             parsedData.push(new THREE.Vector3(data[i][1], data[i][2], data[i][3]));
             parsedUrls.push("audio/" + data[i][4]);
-            this.parseTags(data[i][5]);
+            this.parseTags(data[i][5], i);
             var x = Math.pow(parsedData[i].x, 2);
             var y = Math.pow(parsedData[i].y, 2);
             var z = Math.pow(parsedData[i].z, 2);
@@ -44,29 +44,41 @@ var Data = module.exports = {
 
         }
         //console.log(parsedColors);
+        console.log(parsedTags);
     },
 
     // Parses tag JSON into tag objects
-    parseTags: function (tags) {
+    parseTags: function (tags, pointIndex) {
         for (var i = 0; i < tags.length; i++) {
             this.tag = tags[i];
 
             if (this.getTagIndex(this.tag.key) === -1) {
-                parsedTags.push({key: this.tag.key, values: []});
+                parsedTags.push({ key: this.tag.key, values: [] });
             }
 
             this.tagIndex = this.getTagIndex(this.tag.key);
             this.values = parsedTags[this.tagIndex].values;
-            if (!this.values.includes(this.tag.val)) {
-                this.values.push(this.tag.val);
+            if (this.getValueIndex(this.values, this.tag.val) === -1) {
+                this.values.push({ value: this.tag.val, points: [] });
             }
 
+            this.valueIndex = this.getValueIndex(this.values, this.tag.val);
+            this.values[this.valueIndex].points.push(pointIndex);
         }
     },
 
     getTagIndex: function (key) {
         for (var i = 0; i < parsedTags.length; i++) {
             if (parsedTags[i].key === key) {
+                return i;
+            }
+        }
+        return -1;
+    },
+
+    getValueIndex: function (values, value) {
+        for (var i = 0; i < values.length; i++) {
+            if (values[i].value === value) {
                 return i;
             }
         }

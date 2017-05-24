@@ -41,14 +41,11 @@ var Data = module.exports = {
         for (i = 0; i < data.length; i++) {
             var color = new THREE.Color();
             var lightness = parsedData[i].z / (2 * maxZ);
-            //pitäiskö jakaa (maxEuc-minEuc+hueOffset):lla? Näytti tulevan huonomman näköinen..
+            // should we continue (maxEuc-minEuc+hueOffset):lla? Seemes to make it worse..
             color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
             parsedData[i].color = color;
 
         }
-        // for (i = 0; i < 10; i++) {
-        //     console.log(parsedData[0]);
-        // }
     },
 
     // Parses tag JSON into tag objects

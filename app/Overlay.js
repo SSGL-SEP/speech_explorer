@@ -30,7 +30,7 @@ var Overlay = module.exports = function (tags) {
     }
 
     this.createGUI = function () {
-        var obj = this.pushFilterData;
+        
 
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
@@ -40,15 +40,20 @@ var Overlay = module.exports = function (tags) {
             }
         }
 
-        this.gui.add(obj, 'Filter');
+        var filter = this.filterButton;
+        this.gui.add(filter, 'Filter');
         var doc = document.getElementById('overlay');
         doc.appendChild(this.gui.domElement);
     }
 
-    this.pushFilterData = { 
+    this.filterButton = { 
         Filter: function () { 
             console.log(scope.createFilterData()); 
         } };
+    
+    this.selectAllButton = {
+        
+    }
     
     this.createFilterData = function(){
         var data = [];

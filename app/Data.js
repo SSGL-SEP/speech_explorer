@@ -48,24 +48,30 @@ var Data = module.exports = {
 
     /**
      * Parses tag JSON into tag objects. 
-     * @param {Array} tags
-     * @param {Number} pointIndex
-     * @return {Array} meta
+     * @param {array} tags
+     * @param {number} pointIndex
+     * @returns {array} meta
      */
     parseTags: function (tags, pointIndex) {
-        var meta = [];
+        var meta = [],
+            tagKey,
+            tagVal,
+            tagIndex,
+            values,
+            valueIndex;
+
         for (var i = 0; i < tags.length; i++) {
-            var tagKey = tags[i].key;
-            var tagVal = tags[i].val;
+            tagKey = tags[i].key;
+            tagVal = tags[i].val;
 
             // Parse tag for a point object 
-            var tagIndex = this.addTagObject(meta, tagKey);
+            tagIndex = this.addTwoPropertyObject(meta, 'key', tagKey, 'values', new Array());
             meta[tagIndex].values.push(tagVal);
 
             // Parse tag for parsedTag array
-            tagIndex = this.addTagObject(parsedTags, tagKey);
-            var values = parsedTags[tagIndex].values;
-            var valueIndex = this.addValueObject(values, tagVal);
+            tagIndex = this.addTwoPropertyObject(parsedTags, 'key', tagKey, 'values', new Array());
+            values = parsedTags[tagIndex].values;
+            valueIndex = this.addTwoPropertyObject(values, 'value', tagVal, 'points', new Array());
             values[valueIndex].points.push(pointIndex);
         }
         // Returns array of tag objects for use as a property of a point object
@@ -74,38 +80,15 @@ var Data = module.exports = {
 
 
     /**
-     * Adds a tag object to an array if it doesn't exist.
-     * Returns index of a tag object in a array.
+     * Adds an object with two properties to an array if it doesnt exist and returns index of that object.
+     * @param {array} array - array to wich object will be added
+     * @param {string} firstKey - name of the first property 
+     * @param {any} firstValue - value of the first property
+     * @param {string} secondKey - name of the second property 
+     * @param {any} secondValue - value of the second property
+     * @returns {number} Index of the object
      */
-    // addTagObject: function (array, tagKey) {
-    //     var tagIndex = this.getObjectIndex(array, 'key', tagKey);
-    //     if (tagIndex === -1) {
-    //         array.push({ key: tagKey, values: [] });
-    //         return array.length - 1;
-    //     }
-    //     return tagIndex;
-    // },
-    addTagObject: function (array, tagKey) {
-        return this.addTwoValueObject(array, 'key', tagKey, 'values', new Array());
-    },
-
-    /**
-     * Adds a value object to an array if it doesn't exist.
-     * Returns index of a value object in a array.
-     */
-    addValueObject: function (array, tagVal) {
-        return this.addTwoValueObject(array, 'value', tagVal, 'points', new Array());
-    },
-    // addValueObject: function (array, tagVal) {
-    //     var valueIndex = this.getObjectIndex(array, 'value', tagVal);
-    //     if (valueIndex === -1) {
-    //         array.push({ value: tagVal, points: [] });
-    //         return array.length - 1;
-    //     }
-    //     return valueIndex;
-    // },
-
-    addTwoValueObject: function (array, firstKey, firstValue, secondKey, secondValue) {
+    addTwoPropertyObject: function (array, firstKey, firstValue, secondKey, secondValue) {
         var valueIndex = this.getObjectIndex(array, firstKey, firstValue);
         if (valueIndex === -1) {
             array.push({ [firstKey]: firstValue, [secondKey]: secondValue });
@@ -114,6 +97,13 @@ var Data = module.exports = {
         return valueIndex;
     },
 
+    /**
+     * Returns index of an object with desired value of a property
+     * @param {array} array - array that will be searched
+     * @param {string} propertyName - name of the attribute that will be compared
+     * @param {any} value - wanted value of the attribute
+     * @returns {number} Index of an object
+     */
     getObjectIndex: function (array, propertyName, value) {
         for (var i = 0; i < array.length; i++) {
             var object = array[i];

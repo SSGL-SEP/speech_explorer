@@ -22,7 +22,7 @@ var Data = module.exports = {
         for (i = 0; i < data.length; i++) {
             var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
             dataPoint.url = "audio/" + data[i][4];
-            dataPoint.meta = this.parseTags(data[i][5], i);;
+            dataPoint.meta = this.parseTags(data[i][5], i);
             parsedPoints.push(dataPoint);
 
             var x = Math.pow(parsedPoints[i].x, 2);
@@ -77,13 +77,16 @@ var Data = module.exports = {
      * Adds a tag object to an array if it doesn't exist.
      * Returns index of a tag object in a array.
      */
+    // addTagObject: function (array, tagKey) {
+    //     var tagIndex = this.getObjectIndex(array, 'key', tagKey);
+    //     if (tagIndex === -1) {
+    //         array.push({ key: tagKey, values: [] });
+    //         return array.length - 1;
+    //     }
+    //     return tagIndex;
+    // },
     addTagObject: function (array, tagKey) {
-        var tagIndex = this.getTagIndex(array, tagKey);
-        if (tagIndex === -1) {
-            array.push({ key: tagKey, values: [] });
-            return array.length - 1;
-        }
-        return tagIndex;
+        return this.addTwoValueObject(array, 'key', tagKey, 'values', new Array());
     },
 
     /**
@@ -91,26 +94,30 @@ var Data = module.exports = {
      * Returns index of a value object in a array.
      */
     addValueObject: function (array, tagVal) {
-        var valueIndex = this.getValueIndex(array, tagVal);
+        return this.addTwoValueObject(array, 'value', tagVal, 'points', new Array());
+    },
+    // addValueObject: function (array, tagVal) {
+    //     var valueIndex = this.getObjectIndex(array, 'value', tagVal);
+    //     if (valueIndex === -1) {
+    //         array.push({ value: tagVal, points: [] });
+    //         return array.length - 1;
+    //     }
+    //     return valueIndex;
+    // },
+
+    addTwoValueObject: function (array, firstKey, firstValue, secondKey, secondValue) {
+        var valueIndex = this.getObjectIndex(array, firstKey, firstValue);
         if (valueIndex === -1) {
-            array.push({ value: tagVal, points: [] });
+            array.push({ [firstKey]: firstValue, [secondKey]: secondValue });
             return array.length - 1;
         }
         return valueIndex;
     },
 
-    getTagIndex: function (array, key) {
+    getObjectIndex: function (array, propertyName, value) {
         for (var i = 0; i < array.length; i++) {
-            if (array[i].key === key) {
-                return i;
-            }
-        }
-        return -1;
-    },
-
-    getValueIndex: function (array, value) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].value === value) {
+            var object = array[i];
+            if (array[i][propertyName] === value) {
                 return i;
             }
         }
@@ -118,7 +125,7 @@ var Data = module.exports = {
     },
 
     getTag: function (key) {
-        var index = this.getTagIndex(parsedTags, key)
+        var index = this.getObjectIndex(parsedTags, 'key', key)
         if (index === -1) {
             return undefined;
         }

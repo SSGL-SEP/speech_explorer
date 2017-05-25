@@ -1,7 +1,7 @@
 var dat = require("dat.gui/build/dat.gui.min.js");
-var fil = require("./Filter");
+var Visualizer = require("./Visualizer");
 
-var Overlay = module.exports = function (tags) {
+var Overlay = module.exports = function (tags, filterFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = tags;
@@ -51,7 +51,7 @@ var Overlay = module.exports = function (tags) {
 
     this.filterButton = {
         Filter: function () {
-            fil.setFilter(scope.createFilterData());
+            filterFunction(scope.createFilterData());
         } };
 
     this.selectAllButton = {
@@ -121,6 +121,5 @@ var Overlay = module.exports = function (tags) {
         }
     }
 
-
-
+    this.Init();
 }

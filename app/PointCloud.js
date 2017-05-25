@@ -1,46 +1,30 @@
 var THREE = require("three");
 var Data = require("./Data");
-var Filter = require("./Filter");
 
-var PointCloud = module.exports = function(obj) {
-	var scope = this;
+var PointCloud = module.exports = function() {
 	THREE.Object3D.call(this);
 
-	obj = obj || {};
-
 	this.cloud = null;
+	this.filteredPoints = [];
 
 	var total = Data.getTotalPoints();
-	var positions2D = new Float32Array( total * 3 );
 	var positions = new Float32Array( total * 3 );
 	var colors = new Float32Array( total * 3 );
 	var sizes = new Float32Array( total );
 	var enabled = new Float32Array( total );
 
-	var i;
-	var normal;
-	var vertexA, vertexB;
+	var vertex;
 	var color = new THREE.Color();
-	var pos2D;
+	var position;
 
-	for (i = 0; i < total; i++) {
-		normal = i/total;
-
-		// default
-		// vertexA = new THREE.Vector3( 0, 0, 0 );
-		// vertexA.toArray( positions, i * 3 );
-
-		pos2D = Data.getPosition(i);
-		vertexB = new THREE.Vector3( pos2D.x, pos2D.y, 0 );
-		vertexB.toArray( positions2D, i * 3 );
+	for (var i = 0; i < total; i++) {
+		position = Data.getPosition(i);
+		vertex = new THREE.Vector3( position.x, position.y, 0 );
+		vertex.toArray( positions, i * 3 );
 
 		color = Data.getColor(i);
-		//       console.log(color);
-		//		color.setRGB( 0.8, 0.8, 0.8);
-		//		color.setHSL(0.8 , 0.8, 0.8);
 		color.toArray( colors, i * 3 );
 		sizes[i] = Data.pointSize;
-		// console.log("created", pos2D.x, pos2D.y);
 		enabled[i] = true;
 	}
 
@@ -63,7 +47,6 @@ var PointCloud = module.exports = function(obj) {
 
 	var geometry, material;
 	geometry = new THREE.BufferGeometry();
-	geometry.addAttribute( 'position2D', new THREE.BufferAttribute( positions2D, 3 ) );
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
 	geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 	geometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
@@ -85,33 +68,26 @@ var PointCloud = module.exports = function(obj) {
 	// ------------------------------------------------------------
 
 	this.update = function(){
-		console.log("hep")
-		var i;
 		var attributes = this.getAttributes();
-		var currentCloud = this.getCloudData();
 		var total = Data.getTotalPoints();
-		var state;
-		var activePoints = Filter.getActivePoints();
-		var size = Data.pointSize;
-		for (i = 0; i < total; i++) {
-			attributes.position.array[i*3 + 0] = currentCloud.array[ i*3 + 0 ];
-			attributes.position.array[i*3 + 1] = currentCloud.array[ i*3 + 2 ];
-			attributes.position.array[i*3 + 2] = currentCloud.array[ i*3 + 1 ];
+        var size = Data.pointSize * Data.pointSizeMultiplier;
 
-			if (activePoints.includes(i)) {
-				attributes.size.array[i] = size + 2; //magic number \o/
-				attributes.enabled.array[i] = true;
-			} else if (activePoints.length === 0){
-				attributes.size.array[i] = size;
-				attributes.enabled.array[i] = true;
-			} else {
-				attributes.size.array[i] = size - 1; //magic number \o/
-				attributes.enabled.array[i] = false;
-			}
-
-			// state = Data.getFilterState(i);
-			// attributes.size.array[i] = size * state;
-		}
+		if(this.filteredPoints.length > 0) {
+		    // filter on
+            for (var i = 0; i < total; i++) {
+                if (this.filteredPoints.includes(i)) {
+                    attributes.size.array[i] = size;
+                    attributes.enabled.array[i] = true;
+                } else {
+                    attributes.size.array[i] = 0; //magic number \o/
+                    attributes.enabled.array[i] = false;
+                }
+            }
+        } else {
+            for (var i = 0; i < total; i++) {
+                attributes.size.array[i] = size;
+            }
+        }
 	};
 
 	this.draw = function(){
@@ -125,10 +101,6 @@ var PointCloud = module.exports = function(obj) {
 			this.remove(this.cloud);
 			this.cloud = null;
 		}
-	};
-
-	this.getCloudData = function(){
-		return this.getAttributes().position2D;
 	};
 
 	this.getAttributes = function(){

@@ -101,18 +101,15 @@ describe('hooks', function () {
 		});
 	});
 
-	describe('getTag() returns correct object with valid key', function () {
-		it('getTag(\'stress\') returns object with key === \'stress\', values[0].value === \'stressed\', values[1].value === \'unstressed\' ', function () {
+	describe('Data#getTag() ', function () {
+		it('should return correct object with valid key ', function () {
 			var testTag = Data.getTag('stress');
-
 			assert(testTag.key === 'stress');
 			assert(testTag.values[0].value === 'unstressed');
 			assert(testTag.values[1].value === 'stressed');
 		});
-	})
 
-	describe('getTag() works with invalid argument', function () {
-		it('getTag() returns undefined when called with invalid arguments', function () {
+		it('should return undefined with invalid argument', function () {
 			var invalidTag = Data.getTag('not a key');
 			assert(invalidTag === undefined);
 		});

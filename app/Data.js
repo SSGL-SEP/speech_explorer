@@ -43,10 +43,6 @@ var Data = module.exports = {
             parsedPoints[i].color = color;
 
         }
-        console.log(parsedTags);
-        for (var index = 0; index < 10; index++) {
-            console.log(parsedPoints[index]);;
-        }
     },
 
 
@@ -83,9 +79,7 @@ var Data = module.exports = {
      */
     addTagObject: function (array, tagKey) {
         var tagIndex = this.getTagIndex(array, tagKey);
-        // Checks if tag key already exists
         if (tagIndex === -1) {
-            // if no, creates new tag object and initializes value array
             array.push({ key: tagKey, values: [] });
             return array.length - 1;
         }

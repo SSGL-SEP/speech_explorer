@@ -1,6 +1,6 @@
 var THREE = require("three");
 
-var parsedData = [],
+var parsedPoints = [],
     parsedTags = [],
     maxEuc = 0,
     minEuc = Number.MAX_VALUE,
@@ -13,89 +13,101 @@ var Data = module.exports = {
     cloudSize2D: 1.5,
 
     loadData: function (data) {
-        parsedData = [];
-        parsedUrls = [];
+        parsedPoints = [];
         parsedTags = [];
-        var hues = [];
-        var metaData = {};
         total = data.length;
+        var hues = [];
 
         var i;
         for (i = 0; i < data.length; i++) {
             var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
             dataPoint.url = "audio/" + data[i][4];
-            dataPoint.meta = this.parseMetadata(data[i][5]);
-            parsedData.push(dataPoint);
+            dataPoint.meta = this.parseTags(data[i][5], i);
+            parsedPoints.push(dataPoint);
 
-            this.parseTags(data[i][5], i);
-
-            var x = Math.pow(parsedData[i].x, 2);
-            var y = Math.pow(parsedData[i].y, 2);
-            var z = Math.pow(parsedData[i].z, 2);
-            maxZ = Math.max(maxZ, z);
+            var x = Math.pow(parsedPoints[i].x, 2);
+            var y = Math.pow(parsedPoints[i].y, 2);
+            var z = Math.pow(parsedPoints[i].z, 2);
             var hue = Math.sqrt(x + y + z);
             hues.push(hue);
+
+            maxZ = Math.max(maxZ, z);
             maxEuc = Math.max(maxEuc, hue);
             minEuc = Math.min(minEuc, hue);
         }
         for (i = 0; i < data.length; i++) {
             var color = new THREE.Color();
-            var lightness = parsedData[i].z / (2 * maxZ);
+            var lightness = parsedPoints[i].z / (2 * maxZ);
             // should we continue (maxEuc-minEuc+hueOffset):lla? Seemes to make it worse..
             color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
-            parsedData[i].color = color;
+            parsedPoints[i].color = color;
 
         }
     },
 
-    // Parses tag JSON into tag objects
+
+    /**
+     * Parses tag JSON into tag objects. 
+     * @param {array} tags
+     * @param {number} pointIndex
+     * @returns {array} meta
+     */
     parseTags: function (tags, pointIndex) {
-        for (var i = 0; i < tags.length; i++) {
-            this.tag = tags[i];
-
-            if (this.getTagIndex(parsedTags, this.tag.key) === -1) {
-                parsedTags.push({ key: this.tag.key, values: [] });
-            }
-
-            this.tagIndex = this.getTagIndex(parsedTags, this.tag.key);
-            this.values = parsedTags[this.tagIndex].values;
-            if (this.getValueIndex(this.values, this.tag.val) === -1) {
-                this.values.push({ value: this.tag.val, points: [] });
-            }
-
-            this.valueIndex = this.getValueIndex(this.values, this.tag.val);
-            this.values[this.valueIndex].points.push(pointIndex);
-        }
-    },
-
-    parseMetadata: function (tags) {
-        var meta = [];
+        var meta = [],
+            tagKey,
+            tagVal,
+            tagIndex,
+            values,
+            valueIndex;
 
         for (var i = 0; i < tags.length; i++) {
-            this.tag = tags[i];
+            tagKey = tags[i].key;
+            tagVal = tags[i].val;
 
-            if (this.getTagIndex(meta, this.tag.key) === -1) {
-                meta.push({ key: this.tag.key, values: [] });
-            }
+            // Parse tag for a point object 
+            tagIndex = this.addTwoPropertyObject(meta, 'key', tagKey, 'values', new Array());
+            meta[tagIndex].values.push(tagVal);
 
-            this.tagIndex = this.getTagIndex(meta, this.tag.key);
-            this.values = meta[this.tagIndex].values.push(this.tag.val);
+            // Parse tag for parsedTag array
+            tagIndex = this.addTwoPropertyObject(parsedTags, 'key', tagKey, 'values', new Array());
+            values = parsedTags[tagIndex].values;
+            valueIndex = this.addTwoPropertyObject(values, 'value', tagVal, 'points', new Array());
+            values[valueIndex].points.push(pointIndex);
         }
+        // Returns array of tag objects for use as a property of a point object
         return meta;
     },
 
-    getTagIndex: function (array, key) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].key === key) {
-                return i;
-            }
+
+    /**
+     * Adds an object with two properties to an array if it doesnt exist and returns index of that object.
+     * @param {array} array - array to wich object will be added
+     * @param {string} firstKey - name of the first property 
+     * @param {any} firstValue - value of the first property
+     * @param {string} secondKey - name of the second property 
+     * @param {any} secondValue - value of the second property
+     * @returns {number} Index of the object
+     */
+    addTwoPropertyObject: function (array, firstKey, firstValue, secondKey, secondValue) {
+        var valueIndex = this.getObjectIndex(array, firstKey, firstValue);
+        if (valueIndex === -1) {
+            array.push({ [firstKey]: firstValue, [secondKey]: secondValue });
+            return array.length - 1;
         }
-        return -1;
+        return valueIndex;
     },
 
-    getValueIndex: function (values, value) {
-        for (var i = 0; i < values.length; i++) {
-            if (values[i].value === value) {
+    /**
+     * Returns index of an object with desired value of a property
+     * @param {array} array - array that will be searched
+     * @param {string} propertyName - name of the attribute that will be compared
+     * @param {any} value - wanted value of the attribute
+     * @returns {number} Index of an object
+     */
+    getObjectIndex: function (array, propertyName, value) {
+        for (var i = 0; i < array.length; i++) {
+            var object = array[i];
+            if (array[i][propertyName] === value) {
                 return i;
             }
         }
@@ -103,7 +115,7 @@ var Data = module.exports = {
     },
 
     getTag: function (key) {
-        var index = this.getTagIndex(parsedTags, key)
+        var index = this.getObjectIndex(parsedTags, 'key', key)
         if (index === -1) {
             return undefined;
         }
@@ -115,17 +127,15 @@ var Data = module.exports = {
     },
 
     getUrl: function (index) {
-        return parsedData[index].url;
+        return parsedPoints[index].url;
     },
 
-    // TODO: Rename this function as it returns more than
-    // position information
     getPosition: function (index) {
-        return parsedData[index];
+        return parsedPoints[index];
     },
 
     getColor: function (index) {
-        return parsedData[index].color;
+        return parsedPoints[index].color;
     },
 
     getTags: function () {

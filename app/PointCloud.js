@@ -27,11 +27,11 @@ var PointCloud = module.exports = function(obj) {
 		normal = i/total;
 
 		// default
-		vertexA = new THREE.Vector3( 0, 0, 0 );
-		vertexA.toArray( positions, i * 3 );
+		// vertexA = new THREE.Vector3( 0, 0, 0 );
+		// vertexA.toArray( positions, i * 3 );
 
 		pos2D = Data.getPosition(i);
-		vertexB = new THREE.Vector3( pos2D.x, 0, pos2D.y );
+		vertexB = new THREE.Vector3( pos2D.x, pos2D.y, 0 );
 		vertexB.toArray( positions2D, i * 3 );
 
 		color = Data.getColor(i);

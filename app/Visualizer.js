@@ -1,12 +1,12 @@
-var BoilerPlate = require("./Boilerplate");
+// var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
 var THREE = require("three");
 
-var Visualizer = module.exports = function(x) {
+var Visualizer = module.exports = function() {
 	var scope = this;
-	BoilerPlate.call(this);
+	// BoilerPlate.call(this);
 	this.name = "Visualizer";
 
 	this.base = null;
@@ -101,8 +101,11 @@ var Visualizer = module.exports = function(x) {
 				scope.zoomer.scale.set(resetScale,resetScale,resetScale);
 
 				// Set panner position to match data between coordinates 0 - 800
-				scope.panner.position.x = -300;
-				scope.panner.position.y = -200;
+				scope.panner.position.x = -200;
+				scope.panner.position.y = -300;
+
+				// Rotate panner so that camera is facing the right side
+				scope.panner.rotateOnAxis(new THREE.Vector3(-1,0,0), THREE.Math.degToRad(90));
 
 			}
 
@@ -241,7 +244,9 @@ var Visualizer = module.exports = function(x) {
 
 		this.draw = function() {
 			//this.pointCloud.draw();
-			//this.camera.lookAt( this.scene.position );
+            // this.camera.up = new THREE.Vector3(0, 1, 0);
+			// this.camera.lookAt( this.scene.position );
+			// this.camera.lookAt( new THREE.Vector3(0,10,0) );
 			//----V
 			var geometry = this.pointCloud.cloud.geometry;
 			var attributes = geometry.attributes;
@@ -413,5 +418,5 @@ var Visualizer = module.exports = function(x) {
 		};
 	};
 
-	Visualizer.prototype = new BoilerPlate();
-	Visualizer.prototype.constructor = Visualizer;
+	// Visualizer.prototype = new BoilerPlate();
+	// Visualizer.prototype.constructor = Visualizer;

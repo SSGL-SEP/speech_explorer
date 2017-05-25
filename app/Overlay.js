@@ -5,7 +5,7 @@ var Overlay = module.exports = function (tags) {
     var scope = this;
     this.boolTags = [];
     this.tags = tags;
-    this.gui = new dat.GUI({ autoPlace: false });
+    this.gui = new dat.GUI();
     this.listeners = [];
 
     this.Init = function () {

@@ -27,7 +27,7 @@ var Visualizer = module.exports = function(x) {
 	var soundBuffer;
 	var audioLoader;
 	var needsRefresh = true;
-	var infotext = document.getElementById('info');
+	var infotext;
 	var hide; // hiding the div that displays phoneme
 
 	this.init = function() {
@@ -35,6 +35,7 @@ var Visualizer = module.exports = function(x) {
 		this.createCloud();
 		this.createDraggers();
 		this.createListeners();
+		this.infotext = document.getElementById('info');
 		// this.createZoomElements();
 		// this.createInfo();
 		this.animate();

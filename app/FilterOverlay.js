@@ -90,7 +90,8 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
             }
         }
         if (data.length === 0) {
-            return this.returnAll();
+            return null; //this.returnAll();
+
         }
         return data;
     }

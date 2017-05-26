@@ -28,6 +28,8 @@ describe('Overlay', function () {
 		// runs after each test in this block
 	});
 
+	
+
 	// test cases
 	describe('FilterOverlay#boolTags', function () {
 		it('all should be set to false after creation', function () {
@@ -48,16 +50,17 @@ describe('Overlay', function () {
 		});
 	});
 
-	descripe('FilterOverlay#gui', function() {
+	describe('FilterOverlay#gui', function() {
 		it('should be created after init', function(){
 			assert(FilterOverlay.gui);
 		});
 	});
 
-	descripe('FilterOverlay#createFilterData()', function(){
+	describe('FilterOverlay#createFilterData()', function(){
 		it('should return all if no filter are selected',function(){
-			assert(FilterOverlay.createFilterData().length == FilterOverlay.tags.length);
+			assert(FilterOverlay.createFilterData().length === FilterOverlay.tags.length-1);
 		});
 	});
+	
 
 });

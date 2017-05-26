@@ -278,7 +278,7 @@ var Visualizer = module.exports = function() {
                 attributes.position.array[activePoint * 3 + 2] = 1;
                 attributes.position.needsUpdate = true;
                 attributes.size.needsUpdate = true;
-				showPhoneme(activePoint);
+				showInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null){
@@ -311,30 +311,22 @@ var Visualizer = module.exports = function() {
         return intersects;
     };
 
-    var showPhoneme = function (activePoint) {
+    var showInfo = function (activePoint) {
 
-			var pointObj = Data.getPosition(activePoint);
+			var point = Data.getPosition(activePoint);
          	infotext = document.getElementById('info');
-			//infotext.style.color = Data.getColor(activePoint).getHexString();
-			infotext.innerHTML = 'Phoneme: ' + pointObj.meta[1].values[0];
+            infotext.innerHTML = point.meta[0].values + '<br />';
+			for (var i = 1; i < point.meta.length; i++) {
+                infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+			}
 			infotext.style.visibility = 'visible';
 			window.clearTimeout(hide);
-
-			// var ypos = -(mouse.y - 1)*50 - 2; 
-			// var xpos = (mouse.x + 1)*50 - 0.3;
-
-			// infotext.style.top = ypos.toString() + "%";
-			// infotext.style.left = xpos.toString() + "%";
-
-			// infotext.style.top = pointObj.z + "px"; 
-			// infotext.style.left = (pointObj.x) + "px";
-			// console.log(pointObj.z + ' ' + pointObj.x + ' ' + pointObj.y);
 
 			var hidePhoneme = function () {
 				infotext.style.visibility = 'hidden';
 			}
 
-			hide = window.setTimeout(hidePhoneme, 1500);
+			hide = window.setTimeout(hidePhoneme, 3000);
 	}
 
     var playSound = function(path) {

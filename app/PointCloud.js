@@ -79,7 +79,7 @@ var PointCloud = module.exports = function() {
                     attributes.size.array[i] = size;
                     attributes.enabled.array[i] = true;
                 } else {
-                    attributes.size.array[i] = 0; //magic number \o/
+                    attributes.size.array[i] = size * 0.4; //magic number \o/
                     attributes.enabled.array[i] = false;
                 }
             }

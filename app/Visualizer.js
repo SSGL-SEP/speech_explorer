@@ -28,6 +28,13 @@ var Visualizer = module.exports = function() {
     var needsRefresh = true;
    	var infotext;
 	var hide; // hiding the div that displays phoneme
+	var hideInfoDivAfter = 3000; //msec
+	var hideInfoDiv = function (currPoint) {
+		if (currPoint !== activePoint) {
+			infotext.style.visibility = 'hidden';
+		}
+	}
+
 
     this.init = function() {
         this.createEnvironment();
@@ -285,6 +292,7 @@ var Visualizer = module.exports = function() {
             attributes.position.array[activePoint * 3 + 2] = 1;
             attributes.size.needsUpdate = true;
             activePoint = null;
+            hideInfoDiv(0); //hides infodiv with sound information
         }
 
         this.renderer.render( this.scene, this.camera );
@@ -311,6 +319,7 @@ var Visualizer = module.exports = function() {
     };
 
     var showInfo = function (activePoint) {
+    	var currPoint = activePoint;
         var point = Data.getPoint(activePoint);
         infotext = document.getElementById('info');
         infotext.innerHTML = point.meta[0].values + '<br />';
@@ -319,11 +328,7 @@ var Visualizer = module.exports = function() {
 		}
 		infotext.style.visibility = 'visible';
 		window.clearTimeout(hide);
-
-		var hidePhoneme = function () {
-		    infotext.style.visibility = 'hidden';
-        }
-		hide = window.setTimeout(hidePhoneme, 3000);
+		hide = window.setTimeout(hideInfoDiv(currPoint), hideInfoDivAfter);
 	}
 
     var playSound = function(path) {

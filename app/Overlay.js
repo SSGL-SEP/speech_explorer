@@ -36,7 +36,10 @@ var Overlay = module.exports = function (tags, filterFunction) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
             for (var property in tag.values) {
-                folder.add(tag.values, property).listen();
+                if (tag.values.hasOwnProperty(property)) {
+                    folder.add(tag.values, property).listen();
+                }
+
             }
         }
 
@@ -51,8 +54,8 @@ var Overlay = module.exports = function (tags, filterFunction) {
     this.filterButton = {
         Filter: function () {
             filterFunction(scope.createFilterData());
-        } };
-
+        }
+    };
 
 
     this.clearAllButton = {
@@ -60,11 +63,13 @@ var Overlay = module.exports = function (tags, filterFunction) {
             for (var i = 0; i < scope.boolTags.length; i++) {
                 var tag = scope.boolTags[i];
                 for (var property in tag.values) {
-                    tag.values[property] = false;
+                    if (tag.values.hasOwnProperty(property)) {
+                        tag.values[property] = false;
+                    }
                 }
             }
             scope.update();
-            fil.setFilter(scope.createFilterData());
+            filterFunction(scope.createFilterData());
         }
     }
 
@@ -78,10 +83,11 @@ var Overlay = module.exports = function (tags, filterFunction) {
                 values: []
             };
             for (var property in tag.values) {
-                if (tag.values[property]) {
+                if (tag.values.hasOwnProperty(property) && tag.values[property]) {
                     obj.values.push(property);
                     isUsed = true;
                 }
+
             }
             if (isUsed) {
                 data.push(obj);

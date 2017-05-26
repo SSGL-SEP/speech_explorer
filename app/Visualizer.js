@@ -1,4 +1,5 @@
 var Data = require("./Data");
+var Events = require("./Events");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
 var THREE = require("three");
@@ -25,7 +26,7 @@ var Visualizer = module.exports = function() {
     var mouse;
     var soundBuffer;
     var audioLoader;
-    var needsRefresh = true;
+    this.needsRefresh = true;
    	var infotext;
 	var hide; // hiding the div that displays phoneme
 	var hideInfoDivAfter = 3000; //msec
@@ -41,11 +42,11 @@ var Visualizer = module.exports = function() {
         this.createCloud();
         this.createDraggers();
         this.createListeners();
+        Events.init(this);
         //this.infotext = document.getElementById('info');        
         // this.createZoomElements();
         // this.createInfo();
         this.animate();
-
 
     };
 
@@ -88,8 +89,8 @@ var Visualizer = module.exports = function() {
         this.scene.add(this.base);
 
 
-        this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
-        this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+        this.context.addEventListener("mousewheel", Events.onWheel.bind(scope), false);
+        this.context.addEventListener("DOMMouseScroll", Events.onWheel.bind(scope), false);
 
         document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 
@@ -136,7 +137,7 @@ var Visualizer = module.exports = function() {
     this.createDraggers = function() {
         var onDragStarted = function(event) {
             // console.log("onDragStarted triggered (createDraggers)");
-            scope.onBgDown(event);
+            Event.onBgDown(event);
 
             scope.pointCloud.update();
             //scope.pointCloud.draw();
@@ -207,34 +208,7 @@ var Visualizer = module.exports = function() {
         scope.context.addEventListener('touchstart', onTouchStarted, false);
     };
 
-    var onWheel = function (event) {
-        var delta = (!event.deltaY) ? event.detail : event.deltaY;
-        // var controller = document.getElementById("controller");
-        var scalarWidth = window.innerWidth/1000;
-        var scalarHeight = window.innerHeight/1000;
-        var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
 
-        if(scope.isScrollDisabled) {
-            return true;
-        }
-
-        if(delta>0) {
-            Data.cloudSize2D/=1.05;
-            Data.cloudSize2D = (Data.cloudSize2D<resetScale) ? resetScale : Data.cloudSize2D;
-            scalar = Data.cloudSize2D;
-            scope.zoomer.scale.set(scalar,scalar,scalar);
-            // scope.updateDraggers();
-        } else {
-            Data.cloudSize2D*=1.05;
-            Data.cloudSize2D = (Data.cloudSize2D>20) ? 20 : Data.cloudSize2D;
-            scalar = Data.cloudSize2D;
-            scope.zoomer.scale.set(scalar,scalar,scalar);
-            // scope.updateDraggers();
-        }
-        Data.pointSize = Math.max(2, Data.cloudSize2D);
-        scope.update(true);
-        needsRefresh = true;
-    };
 
     this.createListeners = function() {
         window.addEventListener("resize", function (event) {
@@ -252,16 +226,16 @@ var Visualizer = module.exports = function() {
         } else {
             Data.pointSizeMultiplier = 1;
         }
-        needsRefresh = true;
+        this.needsRefresh = true;
         scope.update();
     };
 
     this.update = function() {
-        if(needsRefresh) {
+        if(this.needsRefresh) {
             this.pointCloud.getAttributes().size.needsUpdate = true;
             this.pointCloud.draw();
             this.pointCloud.update();
-            needsRefresh = false;
+            this.needsRefresh = false;
         }
         this.draw();
     };
@@ -375,63 +349,7 @@ var Visualizer = module.exports = function() {
 
 
 
-    this.onBgDown = function (event) {
-        var x = (event.clientX-window.innerWidth*0.5) / scope.zoomer.scale.x;
-        var y = (-event.clientY+window.innerHeight*0.5) / scope.zoomer.scale.y;
-        // console.log("onBgDown triggered");
-        var anchorOffset = new THREE.Vector2( x, y );
-        var draggerStart = new THREE.Vector2(scope.panner.position.x,scope.panner.position.y);
 
-        var onTouchMove = function(event) {
-            event.clientX = event.changedTouches[0].clientX;
-            event.clientY = event.changedTouches[0].clientY;
-            onMove(event);
-        };
-
-        var onMove = function(event) {
-            // console.log("onMove triggered");
-            if(	scope.touchState === scope.IS_ZOOMING) {
-                return;
-            }
-
-            scope.panner.position.x = event.clientX-window.innerWidth*0.5;
-            scope.panner.position.y = -event.clientY+window.innerHeight*0.5;
-            scope.panner.position.x/=scope.zoomer.scale.x;
-            scope.panner.position.y/=scope.zoomer.scale.y;
-            scope.panner.position.x -= anchorOffset.x;
-            scope.panner.position.y -= anchorOffset.y;
-            scope.panner.position.x += draggerStart.x;
-            scope.panner.position.y += draggerStart.y;
-            // scope.updateDraggers();
-            event.preventDefault();
-        };
-
-        var onTouchUp = function(event) {
-            event.clientX = event.changedTouches[0].clientX;
-            event.clientY = event.changedTouches[0].clientY;
-            onUp(event);
-        };
-
-        var onUp = function(event) {
-            // console.log("onUp triggered");
-            scope.context.removeEventListener('mousemove', onMove, false);
-            scope.context.removeEventListener('mouseup', onUp, false);
-            scope.context.removeEventListener('mouseupoutside', onUp, false);
-
-            scope.context.removeEventListener('touchmove', onTouchMove, false);
-            scope.context.removeEventListener('touchend', onTouchUp, false);
-            scope.context.removeEventListener('touchcancel', onTouchUp, false);
-            event.preventDefault();
-        };
-
-        this.context.addEventListener('mousemove', onMove, false);
-        this.context.addEventListener('mouseup', onUp, false);
-        this.context.addEventListener('mouseupoutside', onUp, false);
-
-        scope.context.addEventListener('touchmove', onTouchMove, false);
-        scope.context.addEventListener('touchend', onTouchUp, false);
-        scope.context.addEventListener('touchcancel', onTouchUp, false);
-    };
 
     this.resize = function(event) {
 

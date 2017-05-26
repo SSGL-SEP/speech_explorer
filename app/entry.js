@@ -1,10 +1,10 @@
 var Data = require('./Data');
 var json = require('../data/less_sne.json');
 var Visualizer = require("./Visualizer");
-var Overlay = require("./Overlay");
+var FilterOverlay = require("./FilterOverlay");
 
 Data.loadData(json);
 var visualizer = new Visualizer();
 visualizer.init();
 
-Overlay(Data.getTags(), visualizer.setFilter);
+FilterOverlay(Data.getTags(), visualizer.setFilter);

@@ -1,11 +1,10 @@
 var dat = require("dat.gui/build/dat.gui.min.js");
 
-var Overlay = module.exports = function (tags, filterFunction) {
+var FilterOverlay = module.exports = function (tags, filterFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = tags;
     this.gui = new dat.GUI();
-    this.listeners = [];
 
     this.Init = function () {
         this.createBoolArray(this.tags);
@@ -30,8 +29,6 @@ var Overlay = module.exports = function (tags, filterFunction) {
     }
 
     this.createGUI = function () {
-
-
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
@@ -42,7 +39,6 @@ var Overlay = module.exports = function (tags, filterFunction) {
 
             }
         }
-
         var filter = this.filterButton;
         var clear = this.clearAllButton;
         this.gui.add(clear, 'ClearAll');

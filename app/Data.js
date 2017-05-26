@@ -48,9 +48,9 @@ var Data = module.exports = {
 
     /**
      * Parses tag JSON into tag objects. 
-     * @param {array} tags
-     * @param {number} pointIndex
-     * @returns {array} meta
+     * @param {array} tags - array of {key: foo, value: bar} objects
+     * @param {number} pointIndex - index of current dataPoint
+     * @returns {array} Array that includes tag information for a point {key: foor, values: []}
      */
     parseTags: function (tags, pointIndex) {
         var meta = [],

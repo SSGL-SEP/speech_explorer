@@ -313,16 +313,16 @@ var Visualizer = module.exports = function() {
 
 			var pointObj = Data.getPosition(activePoint);
          	infotext = document.getElementById('info');
-			infotext.style.color = Data.getColor(activePoint).getHexString();
-			infotext.innerHTML = pointObj.meta[1].values[0];
+			//infotext.style.color = Data.getColor(activePoint).getHexString();
+			infotext.innerHTML = 'Phoneme: ' + pointObj.meta[1].values[0];
 			infotext.style.visibility = 'visible';
 			window.clearTimeout(hide);
 
-			var ypos = -(mouse.y - 1)*50 - 2; 
-			var xpos = (mouse.x + 1)*50 - 0.3;
+			// var ypos = -(mouse.y - 1)*50 - 2; 
+			// var xpos = (mouse.x + 1)*50 - 0.3;
 
-			infotext.style.top = ypos.toString() + "%";
-			infotext.style.left = xpos.toString() + "%";
+			// infotext.style.top = ypos.toString() + "%";
+			// infotext.style.left = xpos.toString() + "%";
 
 			// infotext.style.top = pointObj.z + "px"; 
 			// infotext.style.left = (pointObj.x) + "px";

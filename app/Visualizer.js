@@ -269,14 +269,19 @@ var Visualizer = module.exports = function() {
 
             if (activePoint !== intersectingPoints[0].index) {
                 attributes.size.array[activePoint] = size;
+ //               var pos = this.pointCloud.getAttributes().position.array[activePoint * 3 + 2];
+                attributes.position.array[activePoint * 3 + 2] = 0;
                 activePoint = intersectingPoints[0].index;
                 attributes.size.array[activePoint] = size + 10;
+                attributes.position.array[activePoint * 3 + 2] = 1;
+
                 attributes.size.needsUpdate = true;
 				showPhoneme(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null){
             attributes.size.array[activePoint] = size;
+            attributes.position.array[activePoint * 3 + 2] = 1;
             attributes.size.needsUpdate = true;
             activePoint = null;
         }

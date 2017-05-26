@@ -311,7 +311,7 @@ var Visualizer = module.exports = function() {
     };
 
     var showInfo = function (activePoint) {
-        var point = Data.getPosition(activePoint);
+        var point = Data.getPoint(activePoint);
         infotext = document.getElementById('info');
         infotext.innerHTML = point.meta[0].values + '<br />';
 		for (var i = 1; i < point.meta.length; i++) {

@@ -7,15 +7,12 @@ var activePoints = [];
 
 var Filter = module.exports = {
 
-    isChanged: false,
-
-    resetFilter: function() {
-        activePoints = [];
-        this.isChanged = true;
-    },
-
     getActivePoints: function() {
         return activePoints;
+    },
+
+    isActive: function () {
+        return activePoints.length > 0;
     },
 
     setFilter: function(activeTags) {

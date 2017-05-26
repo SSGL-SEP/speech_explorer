@@ -3,7 +3,7 @@ var assert = require('assert');
 var THREE = require("three");
 var Data;
 
-describe('hooks', function () {
+describe('Data', function () {
 
 	before(function () {
 		Data = require(appDir + "/app/Data");
@@ -36,12 +36,21 @@ describe('hooks', function () {
 		});
 	});
 
-	describe('Data#getPosition(0)', function () {
-		it('should be x === 87.3121953178908, y === 591.7073990926303, z === 540.4269706500198', function () {
-			var test = Data.getPosition(0);
-			assert(test.isVector3);
-			assert(test.x === 87.3121953178908);
-			assert(test.y === 591.7073990926303);
+	describe('Data#getPoint(0)', function () {
+        it('should be vector3', function () {
+            var test = Data.getPoint(0);
+            assert(test.isVector3);
+        });
+		it('should be x === 87.3121953178908', function () {
+            var test = Data.getPoint(0);
+            assert(test.x === 87.3121953178908);
+        });
+        it('should be y === 591.7073990926303', function () {
+            var test = Data.getPoint(0);
+            assert(test.y === 591.7073990926303);
+        });
+        it('should be z === 540.4269706500198', function () {
+            var test = Data.getPoint(0);
 			assert(test.z === 540.4269706500198);
 		});
 	});
@@ -125,32 +134,32 @@ describe('hooks', function () {
 
 	describe('Point object', function () {
 		it('should have valid color information', function () {
-			assert(Data.getPosition(0).color.isColor);
+			assert(Data.getPoint(0).color.isColor);
 		});
 		it('should have valid url', function () {
-			assert(Data.getPosition(0).url === 'audio/mv_0693_021_i_1_0.wav');
+			assert(Data.getPoint(0).url === 'audio/mv_0693_021_i_1_0.wav');
 		});
 		it('should have valid position information', function () {
-			assert(Data.getPosition(0).x === 87.3121953178908);
-			assert(Data.getPosition(0).y === 591.7073990926303);
-			assert(Data.getPosition(0).z === 540.4269706500198);
+			assert(Data.getPoint(0).x === 87.3121953178908);
+			assert(Data.getPoint(0).y === 591.7073990926303);
+			assert(Data.getPoint(0).z === 540.4269706500198);
 		});
 	})
 
 
 	describe('Meta information of point object', function () {
 		it('should have \'phonem\' property with a value ', function () {
-			var point = Data.getPosition(0);
+			var point = Data.getPoint(0);
 			assert(point.meta[1].key === 'phonem');
 			assert(point.meta[1].values[0] === 'i');
 		});
 		it('should have \'voice\' property with a value ', function () {
-			var point = Data.getPosition(0);
+			var point = Data.getPoint(0);
 			assert(point.meta[2].key === 'voice');
 			assert(point.meta[2].values[0] === 'voiced');
 		});
 		it('should have \'stress\' property with a value ', function () {
-			var point = Data.getPosition(0);
+			var point = Data.getPoint(0);
 			assert(point.meta[3].key === 'stress');
 			assert(point.meta[3].values[0] === 'unstressed');
 		});

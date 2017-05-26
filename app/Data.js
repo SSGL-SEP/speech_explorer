@@ -131,7 +131,7 @@ var Data = module.exports = {
         return parsedPoints[index].url;
     },
 
-    getPosition: function (index) {
+    getPoint: function (index) {
         return parsedPoints[index];
     },
 

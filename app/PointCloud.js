@@ -18,7 +18,7 @@ var PointCloud = module.exports = function() {
 	var position;
 
 	for (var i = 0; i < total; i++) {
-		position = Data.getPosition(i);
+		position = Data.getPoint(i);
 		vertex = new THREE.Vector3( position.x, position.y, 0 );
 		vertex.toArray( positions, i * 3 );
 

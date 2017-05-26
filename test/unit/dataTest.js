@@ -3,7 +3,7 @@ var assert = require('assert');
 var THREE = require("three");
 var Data;
 
-describe('hooks', function () {
+describe('Data', function () {
 
 	before(function () {
 		Data = require(appDir + "/app/Data");
@@ -37,11 +37,20 @@ describe('hooks', function () {
 	});
 
 	describe('Data#getPosition(0)', function () {
-		it('should be x === 87.3121953178908, y === 591.7073990926303, z === 540.4269706500198', function () {
-			var test = Data.getPosition(0);
-			assert(test.isVector3);
-			assert(test.x === 87.3121953178908);
-			assert(test.y === 591.7073990926303);
+        it('should be vector3', function () {
+            var test = Data.getPosition(0);
+            assert(test.isVector3);
+        });
+		it('should be x === 87.3121953178908', function () {
+            var test = Data.getPosition(0);
+            assert(test.x === 87.3121953178908);
+        });
+        it('should be y === 591.7073990926303', function () {
+            var test = Data.getPosition(0);
+            assert(test.y === 591.7073990926303);
+        });
+        it('should be z === 540.4269706500198', function () {
+            var test = Data.getPosition(0);
 			assert(test.z === 540.4269706500198);
 		});
 	});

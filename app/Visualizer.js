@@ -312,21 +312,19 @@ var Visualizer = module.exports = function() {
     };
 
     var showInfo = function (activePoint) {
+        var point = Data.getPosition(activePoint);
+        infotext = document.getElementById('info');
+        infotext.innerHTML = point.meta[0].values + '<br />';
+		for (var i = 1; i < point.meta.length; i++) {
+            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+		}
+		infotext.style.visibility = 'visible';
+		window.clearTimeout(hide);
 
-			var point = Data.getPosition(activePoint);
-         	infotext = document.getElementById('info');
-            infotext.innerHTML = point.meta[0].values + '<br />';
-			for (var i = 1; i < point.meta.length; i++) {
-                infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
-			}
-			infotext.style.visibility = 'visible';
-			window.clearTimeout(hide);
-
-			var hidePhoneme = function () {
-				infotext.style.visibility = 'hidden';
-			}
-
-			hide = window.setTimeout(hidePhoneme, 3000);
+		var hidePhoneme = function () {
+		    infotext.style.visibility = 'hidden';
+        }
+		hide = window.setTimeout(hidePhoneme, 3000);
 	}
 
     var playSound = function(path) {

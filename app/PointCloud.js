@@ -74,7 +74,8 @@ var PointCloud = module.exports = function() {
 
 		if(this.filteredPoints.length > 0) {
 		    // filter on
-            for (var i = 0; i < total; i++) {
+			var i;
+            for (i = 0; i < total; i++) {
                 if (this.filteredPoints.includes(i)) {
                     attributes.size.array[i] = size;
                     attributes.enabled.array[i] = true;
@@ -84,7 +85,7 @@ var PointCloud = module.exports = function() {
                 }
             }
         } else {
-            for (var i = 0; i < total; i++) {
+            for (i = 0; i < total; i++) {
                 attributes.size.array[i] = size;
 				attributes.enabled.array[i] = true;
             }

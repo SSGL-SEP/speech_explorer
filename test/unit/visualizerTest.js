@@ -1,7 +1,6 @@
 var appDir = require('app-root-path');
 var assert = require('assert');
 var THREE = require("three");
-var BoilerPlate = require(appDir + "/app/Boilerplate");
 var Visualizer = require(appDir + '/app/Visualizer');
 var vis = new Visualizer();
 

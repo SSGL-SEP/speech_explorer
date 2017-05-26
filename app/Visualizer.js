@@ -268,14 +268,21 @@ var Visualizer = module.exports = function() {
 
             if (activePoint !== intersectingPoints[0].index) {
                 attributes.size.array[activePoint] = size;
+                // Reset z-position back to 0
+                attributes.position.array[activePoint * 3 + 2] = 0;
                 activePoint = intersectingPoints[0].index;
                 attributes.size.array[activePoint] = size + 10;
+                // Move activepoint towards a camera so that overlapping
+                // points don't clip through.
+                attributes.position.array[activePoint * 3 + 2] = 1;
+                attributes.position.needsUpdate = true;
                 attributes.size.needsUpdate = true;
-				showPhoneme(activePoint);
+				showInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null){
             attributes.size.array[activePoint] = size;
+            attributes.position.array[activePoint * 3 + 2] = 1;
             attributes.size.needsUpdate = true;
             activePoint = null;
         }
@@ -303,30 +310,20 @@ var Visualizer = module.exports = function() {
         return intersects;
     };
 
-    var showPhoneme = function (activePoint) {
+    var showInfo = function (activePoint) {
+        var point = Data.getPosition(activePoint);
+        infotext = document.getElementById('info');
+        infotext.innerHTML = point.meta[0].values + '<br />';
+		for (var i = 1; i < point.meta.length; i++) {
+            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+		}
+		infotext.style.visibility = 'visible';
+		window.clearTimeout(hide);
 
-			var pointObj = Data.getPosition(activePoint);
-         	infotext = document.getElementById('info');
-			infotext.style.color = Data.getColor(activePoint).getHexString();
-			infotext.innerHTML = pointObj.meta[1].values[0];
-			infotext.style.visibility = 'visible';
-			window.clearTimeout(hide);
-
-			var ypos = -(mouse.y - 1)*50 - 2; 
-			var xpos = (mouse.x + 1)*50 - 0.3;
-
-			infotext.style.top = ypos.toString() + "%";
-			infotext.style.left = xpos.toString() + "%";
-
-			// infotext.style.top = pointObj.z + "px"; 
-			// infotext.style.left = (pointObj.x) + "px";
-			// console.log(pointObj.z + ' ' + pointObj.x + ' ' + pointObj.y);
-
-			var hidePhoneme = function () {
-				infotext.style.visibility = 'hidden';
-			}
-
-			hide = window.setTimeout(hidePhoneme, 1500);
+		var hidePhoneme = function () {
+		    infotext.style.visibility = 'hidden';
+        }
+		hide = window.setTimeout(hidePhoneme, 3000);
 	}
 
     var playSound = function(path) {

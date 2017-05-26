@@ -1,5 +1,4 @@
 var dat = require("dat.gui/build/dat.gui.min.js");
-var Visualizer = require("./Visualizer");
 
 var Overlay = module.exports = function (tags, filterFunction) {
     var scope = this;
@@ -57,7 +56,6 @@ var Overlay = module.exports = function (tags, filterFunction) {
             filterFunction(scope.createFilterData());
         }
     };
-
 
 
     this.clearAllButton = {

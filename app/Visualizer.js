@@ -1,4 +1,3 @@
-// var BoilerPlate = require("./Boilerplate");
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
@@ -445,10 +444,6 @@ var Visualizer = module.exports = function() {
             // scope.updateDraggers();
         }, 250);
 
-
     };
 };
-
-// Visualizer.prototype = new BoilerPlate();
-// Visualizer.prototype.constructor = Visualizer;
 

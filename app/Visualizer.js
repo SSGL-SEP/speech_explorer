@@ -27,6 +27,8 @@ var Visualizer = module.exports = function(x) {
 	var soundBuffer;
 	var audioLoader;
 	var needsRefresh = true;
+	var infotext = document.getElementById('info');
+	var hide; // hiding the div that displays phoneme
 
 	this.init = function() {
 		this.createEnvironment();
@@ -277,6 +279,7 @@ var Visualizer = module.exports = function(x) {
 					attributes.size.array[activePoint] = size + 10;
 					attributes.size.needsUpdate = true;
 					// console.log(Data.getUrl(activePoint));
+					showPhoneme(activePoint);
 					playSound(Data.getUrl(activePoint));
 				}
 			} else if (activePoint !== null){
@@ -290,6 +293,36 @@ var Visualizer = module.exports = function(x) {
 			this.renderer.render( this.scene, this.camera );
 			// console.log("drawing");
 		};
+
+		var showPhoneme = function (activePoint) {
+
+			var pointObj = Data.getPosition(activePoint);
+
+			infotext.style.color = Data.getColor(activePoint).getHexString();
+			infotext.innerHTML = pointObj.meta[1].values[0];
+			infotext.style.visibility = 'visible';
+			window.clearTimeout(hide);
+
+			var ypos = -(mouse.y - 1)*50 - 2; 
+			var xpos = (mouse.x + 1)*50 - 0.3;
+
+			infotext.style.top = ypos.toString() + "%";
+			infotext.style.left = xpos.toString() + "%";
+
+			// infotext.style.top = pointObj.z + "px"; 
+			// infotext.style.left = (pointObj.x) + "px";
+			// console.log(pointObj.z + ' ' + pointObj.x + ' ' + pointObj.y);
+
+
+
+
+			var hidePhoneme = function () {
+				infotext.style.visibility = 'hidden';
+			}
+
+			hide = window.setTimeout(hidePhoneme, 1500);
+		}
+
 
 
 		var playSound = function(path) {

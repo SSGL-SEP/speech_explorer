@@ -65,7 +65,7 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
                 }
             }
             scope.update();
-            filterFunction(scope.createFilterData());
+            filterFunction(null);
         }
     }
 

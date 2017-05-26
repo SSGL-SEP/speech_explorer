@@ -5,7 +5,6 @@ var PointCloud = module.exports = function() {
 	THREE.Object3D.call(this);
 
 	this.cloud = null;
-	this.filteredPoints = [];
 
 	var total = Data.getTotalPoints();
 	var positions = new Float32Array( total * 3 );
@@ -16,6 +15,8 @@ var PointCloud = module.exports = function() {
 	var vertex;
 	var color = new THREE.Color();
 	var position;
+	var filterIsActive = false;
+    var filteredPoints = [];
 
 	for (var i = 0; i < total; i++) {
 		position = Data.getPoint(i);
@@ -72,11 +73,10 @@ var PointCloud = module.exports = function() {
 		var total = Data.getTotalPoints();
         var size = Data.pointSize * Data.pointSizeMultiplier;
 
-		if(this.filteredPoints.length > 0) {
-		    // filter on
+		if(filterIsActive) {
 			var i;
             for (i = 0; i < total; i++) {
-                if (this.filteredPoints.includes(i)) {
+                if (filteredPoints.includes(i)) {
                     attributes.size.array[i] = size;
                     attributes.enabled.array[i] = true;
                 } else {
@@ -90,6 +90,15 @@ var PointCloud = module.exports = function() {
 				attributes.enabled.array[i] = true;
             }
         }
+	};
+
+	this.filter = function(isActive, points) {
+		if(isActive) {
+			filteredPoints = points;
+			filterIsActive = true;
+		} else {
+			filterIsActive = false;
+		}
 	};
 
 	this.draw = function(){

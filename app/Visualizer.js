@@ -244,16 +244,15 @@ var Visualizer = module.exports = function() {
 
     this.setFilter = function(activeTags) {
         Filter.setFilter(activeTags);
-        var activePoints = Filter.getActivePoints();
-        scope.pointCloud.filteredPoints = activePoints;
 
         if(Filter.isActive()) {
             Data.pointSizeMultiplier = 1.5;
+            scope.pointCloud.filter(true, Filter.getActivePoints());
         } else {
             Data.pointSizeMultiplier = 1;
+            scope.pointCloud.filter(false);
         }
         needsRefresh = true;
-        scope.update();
     };
 
     this.update = function() {

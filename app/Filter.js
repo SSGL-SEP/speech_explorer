@@ -3,6 +3,7 @@ var Data = require("./Data");
 var _ = require("underscore");
 
 var activePoints = [];
+var isActive = false;
 
 
 var Filter = module.exports = {
@@ -12,13 +13,17 @@ var Filter = module.exports = {
     },
 
     isActive: function () {
-        return activePoints.length > 0;
+        return isActive;
     },
 
     setFilter: function(activeTags) {
-        if(activeTags.length === 0) {
-            this.resetFilter();
+        isActive = activeTags instanceof Array;
+
+        if(!isActive) {
+            activePoints = [];
+            return;
         }
+
 
         var activeLists = [];
         activeTags.forEach(function(activeTag) {
@@ -33,6 +38,5 @@ var Filter = module.exports = {
             });
         });
         activePoints = _.intersection.apply(_, activeLists);
-        this.isChanged = true;
     }
 };

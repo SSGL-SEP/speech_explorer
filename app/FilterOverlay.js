@@ -90,12 +90,12 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
             }
         }
         if (data.length === 0) {
-            return this.noFilters();
+            return this.returnAll();
         }
         return data;
     }
 
-    this.noFilters = function () {
+    this.returnAll = function () {
         var data = [];
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];

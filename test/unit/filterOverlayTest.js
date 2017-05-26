@@ -42,9 +42,21 @@ describe('Overlay', function () {
 		});
 	});
 
-	describe('FilterOveraly#tags', function() {
+	describe('FilterOverlay#tags', function() {
 		it('should be set after creation', function(){
-			assert(FilterOverlay.tags)
+			assert(FilterOverlay.tags);
+		});
+	});
+
+	descripe('FilterOverlay#gui', function() {
+		it('should be created after init', function(){
+			assert(FilterOverlay.gui);
+		});
+	});
+
+	descripe('FilterOverlay#createFilterData()', function(){
+		it('should return all if no filter are selected',function(){
+			assert(FilterOverlay.createFilterData().length == FilterOverlay.tags.length);
 		});
 	});
 

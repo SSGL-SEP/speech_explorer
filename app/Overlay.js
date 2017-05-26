@@ -108,7 +108,9 @@ var Overlay = module.exports = function (tags, filterFunction) {
                 values: []
             };
             for (var property in tag.values) {
-                obj.values.push(property);
+                if(tag.values.hasOwnProperty(property)){
+                    obj.values.push(property);
+                } 
             }
             data.push(obj);
         }

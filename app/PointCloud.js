@@ -86,6 +86,7 @@ var PointCloud = module.exports = function() {
         } else {
             for (var i = 0; i < total; i++) {
                 attributes.size.array[i] = size;
+				attributes.enabled.array[i] = true;
             }
         }
 	};

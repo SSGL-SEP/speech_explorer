@@ -92,14 +92,14 @@ var PointCloud = module.exports = function() {
         }
 	};
 
-	this.filter = function(isActive, points) {
-		if(isActive) {
-			filteredPoints = points;
-			filterIsActive = true;
-		} else {
-			filterIsActive = false;
-		}
-	};
+    this.activateFilter = function(points) {
+        filteredPoints = points;
+        filterIsActive = true;
+    };
+
+    this.disableFilter = function() {
+        filterIsActive = false;
+    };
 
 	this.draw = function(){
 		this.cloud.geometry.attributes.position.needsUpdate = true;

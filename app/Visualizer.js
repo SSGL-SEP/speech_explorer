@@ -239,10 +239,10 @@ var Visualizer = module.exports = function() {
 
         if(Filter.isActive()) {
             Data.pointSizeMultiplier = 1.5;
-            scope.pointCloud.filter(true, Filter.getActivePoints());
+            scope.pointCloud.activateFilter(Filter.getActivePoints());
         } else {
             Data.pointSizeMultiplier = 1;
-            scope.pointCloud.filter(false);
+            scope.pointCloud.disableFilter();
         }
         needsRefresh = true;
         showActive();

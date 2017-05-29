@@ -92,7 +92,10 @@ var Data = module.exports = {
     addTwoPropertyObject: function (array, firstKey, firstValue, secondKey, secondValue) {
         var valueIndex = this.getObjectIndex(array, firstKey, firstValue);
         if (valueIndex === -1) {
-            array.push({ [firstKey]: firstValue, [secondKey]: secondValue });
+            var metaTag = {};
+            metaTag[firstKey] = firstValue;
+            metaTag[secondKey] = secondValue;
+            array.push(metaTag);
             return array.length - 1;
         }
         return valueIndex;

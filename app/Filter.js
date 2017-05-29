@@ -1,3 +1,4 @@
+'use strict';
 
 var Data = require("./Data");
 var _ = require("underscore");
@@ -16,14 +17,19 @@ var Filter = module.exports = {
         return isActive;
     },
 
+    /**
+     * Creates a list of points that should be active based on the tags supplied.
+     *
+     * @param {array} activeTags list of tags that are selected. If null, the filter is deactivated.
+     */
     setFilter: function(activeTags) {
+        // if param is not an array, turn the filter off
         isActive = activeTags instanceof Array;
 
         if(!isActive) {
             activePoints = [];
             return;
         }
-
 
         var activeLists = [];
         activeTags.forEach(function(activeTag) {

@@ -37,7 +37,7 @@ var Visualizer = module.exports = function() {
         // this.createZoomElements();
         // this.createInfo();
         this.animate();
-
+        showActive();
 
     };
 
@@ -245,6 +245,7 @@ var Visualizer = module.exports = function() {
             scope.pointCloud.filter(false);
         }
         needsRefresh = true;
+        showActive();
     };
 
     this.update = function() {
@@ -318,7 +319,19 @@ var Visualizer = module.exports = function() {
             infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
 		}
 		infotext.style.visibility = 'visible';
-	}
+	};
+
+    var showActive = function () {
+        active = document.getElementById('active');
+        var activeAmount = "";
+        if (Filter.isActive() === false) {
+            activeAmount = Data.getTotalPoints();
+        } else {
+            activeAmount = Filter.getActivePoints().length;
+        }
+        active.innerHTML =  activeAmount + '/' + Data.getTotalPoints() + ' active';
+        active.style.visibility = 'visible';
+    };
 
     var playSound = function(path) {
         audioLoader.load(

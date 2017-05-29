@@ -63,6 +63,12 @@ typings/
 # webpack output
 bundle.js
 
+# vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
 # Selenium's failed test screenshots
 screenshots/
 

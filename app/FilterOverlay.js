@@ -5,6 +5,7 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
     this.boolTags = [];
     this.tags = tags;
     this.gui = new dat.GUI();
+    this.filterFunction = filterFunction;
 
     this.Init = function () {
         this.createBoolArray(this.tags);
@@ -32,12 +33,9 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
-            for (var property in tag.values) {
-                if (tag.values.hasOwnProperty(property)) {
-                    folder.add(tag.values, property).listen();
-                }
-
-            }
+            Object.keys(tag.values).forEach(function (key, index) {
+                folder.add(tag.values, key).listen();
+            });
         }
         var filter = this.filterButton;
         var clear = this.clearAllButton;
@@ -49,7 +47,7 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
 
     this.filterButton = {
         Filter: function () {
-            filterFunction(scope.createFilterData());
+            scope.filterFunction(scope.createFilterData());
         }
     };
 
@@ -58,14 +56,12 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
         ClearAll: function () {
             for (var i = 0; i < scope.boolTags.length; i++) {
                 var tag = scope.boolTags[i];
-                for (var property in tag.values) {
-                    if (tag.values.hasOwnProperty(property)) {
-                        tag.values[property] = false;
-                    }
-                }
+                Object.keys(tag.values).forEach(function (key, index) {
+                    tag.values[key] = false;
+                });
             }
             scope.update();
-            filterFunction(null);
+            scope.filterFunction(null);
         }
     }
 
@@ -78,13 +74,12 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
                 key: this.boolTags[i].key,
                 values: []
             };
-            for (var property in tag.values) {
-                if (tag.values.hasOwnProperty(property) && tag.values[property]) {
-                    obj.values.push(property);
+            Object.keys(tag.values).forEach(function (key, index) {
+                if (tag.values[key]) {
+                    obj.values.push(key);
                     isUsed = true;
                 }
-
-            }
+            });
             if (isUsed) {
                 data.push(obj);
             }
@@ -92,24 +87,6 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
         if (data.length === 0) {
             // nothing selected -> filter off
             return null;
-        }
-        return data;
-    }
-
-    this.returnAll = function () {
-        var data = [];
-        for (var i = 0; i < this.boolTags.length; i++) {
-            var tag = this.boolTags[i];
-            var obj = {
-                key: this.boolTags[i].key,
-                values: []
-            };
-            for (var property in tag.values) {
-                if(tag.values.hasOwnProperty(property)){
-                    obj.values.push(property);
-                } 
-            }
-            data.push(obj);
         }
         return data;
     }

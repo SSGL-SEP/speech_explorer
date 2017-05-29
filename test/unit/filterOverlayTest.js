@@ -1,3 +1,5 @@
+'use strict';
+
 var appDir = require('app-root-path');
 var assert = require('assert');
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
@@ -37,7 +39,7 @@ describe('Overlay', function () {
 				var tag = FilterOverlay.boolTags[i];
 				for (var property in tag.values) {
 					if (tag.values.hasOwnProperty(property)) {
-						assert(tag.values[property] == false);
+						assert(tag.values[property] === false);
 					}
 				}
 			}

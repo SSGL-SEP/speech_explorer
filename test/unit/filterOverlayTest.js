@@ -57,8 +57,8 @@ describe('Overlay', function () {
 	});
 
 	describe('FilterOverlay#createFilterData()', function(){
-		it('should return all if no filter are selected',function(){
-			assert(FilterOverlay.createFilterData().length === FilterOverlay.tags.length-1);
+		it('should return null if no filter is selected',function(){
+			assert(FilterOverlay.createFilterData() === null);
 		});
 	});
 	

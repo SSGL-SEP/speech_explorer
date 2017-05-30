@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var appDir = require('app-root-path');
@@ -13,6 +14,7 @@ describe('FilterOverlay', function () {
 		// runs before all tests in this block
 		this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
 		Data.loadData(json);
+		console.log(Data);
 		FilterOverlay = new FilterOverlay(Data, function(x){console.log("mock setFilter")});
 
 	});
@@ -92,3 +94,4 @@ describe('FilterOverlay', function () {
 
 
 });
+*/

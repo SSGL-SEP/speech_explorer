@@ -2,41 +2,28 @@
 
 require('geckodriver');
 var fs = require('fs');
-var webdriver = require('selenium-webdriver');
+var seleniumWebdriver = require('selenium-webdriver');
+var {defineSupportCode} = require('cucumber');
 
-var buildFirefoxDriver = function() {
-  return new webdriver.Builder().
-    withCapabilities(webdriver.Capabilities.firefox()).
-    build();
-};
+function CustomWorld() {
+    this.driver = new seleniumWebdriver.Builder()
+        .forBrowser('firefox')
+        .build();
 
+    var defaultTimeout = 10000;
+    this.waitFor = function(cssLocator, timeout) {
+        var waitTimeout = timeout || defaultTimeout;
+        return driver.wait(function() {
+            return driver.isElementPresent({ css: cssLocator });
+        }, waitTimeout);
+    };
 
-var driver = buildFirefoxDriver();
+    var screenshotPath = "test/screenshots";
+    if(!fs.existsSync(screenshotPath)) {
+        fs.mkdirSync(screenshotPath);
+    }
+}
 
-
-var getDriver = function() {
-  return driver;
-};
-
-var World = function World() {
-
-  var defaultTimeout = 20000;
-  var screenshotPath = "screenshots";
-
-  this.webdriver = webdriver;
-  this.driver = driver;
-
-  if(!fs.existsSync(screenshotPath)) {
-    fs.mkdirSync(screenshotPath);
-  }
-
-  this.waitFor = function(cssLocator, timeout) {
-    var waitTimeout = timeout || defaultTimeout;
-    return driver.wait(function() {
-      return driver.isElementPresent({ css: cssLocator });
-    }, waitTimeout);
-  };
-};
-
-module.exports.World = World;
-module.exports.getDriver = getDriver;
+defineSupportCode(function({setWorldConstructor}) {
+    setWorldConstructor(CustomWorld)
+});

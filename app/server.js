@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var pathToPublic = path.resolve(__dirname, '../public');
@@ -10,6 +12,10 @@ app.get('/', function(request, response) {
 
 app.use(express.static('public'));
 
-app.listen(port, function() {
+var server = app.listen(port, function() {
     console.log("Server listening in port " + port);
 });
+
+exports.close = function() {
+    server.close();
+};

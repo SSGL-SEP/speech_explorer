@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/grunt-cli/bin/grunt",
-    "unittest": "node_modules/grunt-cli/bin/grunt unit",
+    "unittest": "node_modules/.bin/_mocha test/unit/**/*.js",
+    "cucumber": "node_modules/.bin/cucumberjs test/features",
     "build": "./node_modules/webpack/bin/webpack.js -p --config webpack.config.js",
     "heroku-postbuild": "webpack --config webpack.config.js --progress",
     "start": "node app/server.js",
@@ -25,7 +26,7 @@
     "app-root-path": "^2.0.1",
     "appium": "^1.5.2",
     "chai": "^3.5.0",
-    "cucumber": "^1.2.5",
+    "cucumber": "^2.0.0",
     "geckodriver": "^1.6.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",

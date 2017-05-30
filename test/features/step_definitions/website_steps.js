@@ -1,19 +1,27 @@
 'use strict';
 
-var expect = require('chai').expect;
+var {expect} = require('chai');
+var {By, until} = require('selenium-webdriver');
+var {defineSupportCode} = require('cucumber');
 
-module.exports = function () {
-    this.World = require('../support/world.js').World;
-
-    this.Given(/^I navigate to "([^"]*)"$/, function (url) {
-        this.driver.get(url);
+defineSupportCode(function({Given, When, Then}) {
+    Given('I navigate to {stringInDoubleQuotes}', function (url) {
+        return this.driver.get(url);
     });
 
+    Given('I navigate to the homepage', function () {
+        return this.driver.get('http://localhost:' + process.env.PORT);
+    });
 
-    this.Then(/^I should see "([^"]*)" in title$/, function (str) {
-        this.driver.getTitle().then(function (title) {
-            expect(title).to.equal(str);
+    // When('I click on {stringInDoubleQuotes}', function (text) {
+    //     return this.driver.findElement({linkText: text}).then(function(element) {
+    //         return element.click();
+    //     });
+    // });
+
+    Then('I should see {stringInDoubleQuotes} in title', function (str) {
+        return this.driver.getTitle().then(function (title) {
+            return expect(title).to.equal(str);
         });
     });
-
-};
+});

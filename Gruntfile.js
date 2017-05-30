@@ -17,11 +17,19 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            all: ['Gruntfile.js', 'test/features/**/*.js'],
             options: {
                 node: true,
                 strict: true,
                 globalstrict: true
+            },
+            uses_defaults: ['app/**/*.js'],
+            with_overrides: {
+                options: {
+                    esversion: 6
+                },
+                files: {
+                    src: ['test/**/*.js']
+                }
             }
         },
 
@@ -34,6 +42,9 @@ module.exports = function(grunt) {
             },
             kill_all:{
                 command:'killall node'
+            },
+            run_cucumber_tests: {
+                command: 'node_modules/.bin/cucumberjs test/features'
             }
         },
 
@@ -67,6 +78,12 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
+        },
+
+        cucumber_coverage: {
+            example: {
+                src: 'test/features'
+            }
         }
 
     });
@@ -79,12 +96,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-webpack');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-cucumber-coverage');
 
     //grunt.registerTask('default', ['jshint', 'exec']);
     //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);
-    grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
-
-    grunt.registerTask('unit', ['env:firefox', 'exec:run_istanbul_mocha_tests']);
+    // grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
+    // grunt.registerTask('default', ['env:firefox', 'jshint', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
+    grunt.registerTask('default', ['env:firefox', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
 
     grunt.registerTask('serve-and-watch', ['webpack:build', 'concurrent:watchers']);
 

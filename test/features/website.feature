@@ -3,5 +3,6 @@ Feature: Simple website test
   I want to be able to load SSGL-SEP website
   
   Scenario: Site is up
-    Given I navigate to "http://localhost:3000"
+    Given I navigate to the homepage
     Then I should see "SSGL-SEP" in title
+

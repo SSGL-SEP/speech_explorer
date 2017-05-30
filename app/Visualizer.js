@@ -1,3 +1,5 @@
+'use strict';
+
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
@@ -205,6 +207,7 @@ var Visualizer = module.exports = function() {
         var scalarWidth = window.innerWidth/1000;
         var scalarHeight = window.innerHeight/1000;
         var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
+        var scalar;
 
         if(scope.isScrollDisabled) {
             return true;
@@ -322,7 +325,7 @@ var Visualizer = module.exports = function() {
 	};
 
     var showActive = function () {
-        active = document.getElementById('active');
+        var active = document.getElementById('active');
         var activeAmount = "";
         if (Filter.isActive() === false) {
             activeAmount = Data.getTotalPoints();

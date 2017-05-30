@@ -1,3 +1,5 @@
+'use strict';
+
 var Data = require('./Data');
 var json = require('../data/less_sne.json');
 var Visualizer = require("./Visualizer");

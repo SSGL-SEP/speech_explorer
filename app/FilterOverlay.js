@@ -1,3 +1,5 @@
+'use strict';
+
 var dat = require("dat.gui/build/dat.gui.min.js");
 
 var FilterOverlay = module.exports = function (tags, filterFunction) {

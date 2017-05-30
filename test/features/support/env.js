@@ -1,7 +1,5 @@
 'use strict';
 
-var configure = function () {
-    this.setDefaultTimeout(60 * 1000);
+module.exports = function () {
+    this.setDefaultTimeout(10 * 1000);
 };
-
-module.exports = configure;

@@ -1,10 +1,11 @@
 var appDir = require('app-root-path');
 var dat = require('../lib/dat/build/dat.gui.min.js');
 
-var FilterOverlay = module.exports = function (tags, filterFunction) {
+var FilterOverlay = module.exports = function (data, filterFunction) {
     var scope = this;
     this.boolTags = [];
-    this.tags = tags;
+    this.tags = data.getTags();
+    this.data = data;
     this.gui = new dat.GUI();
     this.filterFunction = filterFunction;
 
@@ -35,7 +36,7 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
             Object.keys(tag.values).forEach(function (key, index) {
-                var controller = folder.add(tag.values, key).borderColor("red").listen();
+                folder.add(tag.values, key).borderColor("blue").listen();
                 this.gui.remember(tag.values);
             });
         }

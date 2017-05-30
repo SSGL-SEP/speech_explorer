@@ -5,7 +5,6 @@ var assert = require('assert');
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
 var Data = require(appDir + "/app/Data");
 var json = require(appDir + "/test/testdata.json");
-var THREE = require('three');
 
 
 describe('FilterOverlay', function () {
@@ -14,8 +13,7 @@ describe('FilterOverlay', function () {
 		// runs before all tests in this block
 		this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
 		Data.loadData(json);
-
-		FilterOverlay = new FilterOverlay(Data.getTags(), function(x){console.log("mock setFilter")});
+		FilterOverlay = new FilterOverlay(Data, function(x){console.log("mock setFilter")});
 
 	});
 

@@ -10,6 +10,7 @@ defineSupportCode(function({Given, When, Then}) {
     });
 
     Given('I navigate to the homepage', function () {
+        console.log(process.env.PORT);
         return this.driver.get('http://localhost:' + process.env.PORT);
     });
 

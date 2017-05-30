@@ -96,7 +96,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-webpack');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-concurrent');
-    grunt.loadNpmTasks('grunt-cucumber-coverage');
 
     //grunt.registerTask('default', ['jshint', 'exec']);
     //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);

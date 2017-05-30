@@ -4,7 +4,7 @@ var _ = require("underscore");
 
 var Data, Filter;
 
-describe('hooks', function () {
+describe('Filter', function () {
 
     before(function () {
         Data = require(appDir + "/app/Data");
@@ -26,8 +26,8 @@ describe('hooks', function () {
     });
 
 
-    describe('Filtered samples with phonem e', function () {
-        it('should be 3', function () {
+    describe('Filter returns correct data', function () {
+        it('Filtered samples with phonem e should be 3', function () {
 
             var filterParam = [{
                 key: "phonem",
@@ -38,11 +38,7 @@ describe('hooks', function () {
 
             assert(Filter.getActivePoints().length === 3);
         });
-    });
-
-
-    describe('Filtered samples with phonem v', function () {
-        it('should be 0', function () {
+        it('Filtered samples with phonem v should be 0', function () {
 
             var filterParam = [{
                 key: "phonem",
@@ -54,12 +50,7 @@ describe('hooks', function () {
 
             assert(Filter.getActivePoints().length === 0);
         });
-    });
-
-
-    describe('Filtered samples with phonem h', function () {
-        it('should have indexes 0 and 3', function () {
-
+        it('Filtered samples with phonem h should have indexes 0 and 3', function () {
             var filterParam = [{
                 key: "phonem",
                 values: ['h']
@@ -70,6 +61,11 @@ describe('hooks', function () {
             assert(Filter.getActivePoints().length === 2);
             assert(_.contains(Filter.getActivePoints(), 3));
             assert(_.contains(Filter.getActivePoints(), 0));
+        });
+        it('When parameter is invalid, activePoints is empty and isActive is false', function () {
+            Filter.setFilter(1)
+            assert(Filter.getActivePoints.length === 0);
+            assert(Filter.isActive() === false);
         });
     });
 });

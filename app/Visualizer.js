@@ -35,9 +35,9 @@ var Visualizer = module.exports = function() {
         this.createDraggers();
         this.createListeners();      
         // this.createZoomElements();
-        infoOverlay.init(document.getElementById('info'), Data.getTags());
+        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), Data.getTags());
         this.animate();
-
+        showActive();
 
     };
 
@@ -239,12 +239,13 @@ var Visualizer = module.exports = function() {
 
         if(Filter.isActive()) {
             Data.pointSizeMultiplier = 1.5;
-            scope.pointCloud.filter(true, Filter.getActivePoints());
+            scope.pointCloud.activateFilter(Filter.getActivePoints());
         } else {
             Data.pointSizeMultiplier = 1;
-            scope.pointCloud.filter(false);
+            scope.pointCloud.disableFilter();
         }
         needsRefresh = true;
+        showActive();
     };
 
     this.update = function() {
@@ -307,6 +308,28 @@ var Visualizer = module.exports = function() {
         });
 
         return intersects;
+    };
+
+ //    var showInfo = function (activePoint) {
+ //    	var currPoint = activePoint;
+ //        var point = Data.getPoint(activePoint);
+ //        infotext = document.getElementById('info');
+ //        infotext.innerHTML = point.meta[0].values + '<br />';
+	// 	for (var i = 1; i < point.meta.length; i++) {
+ //            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+	// 	}
+	// 	infotext.style.visibility = 'visible';
+	// };
+
+    var showActive = function () {
+        var activeAmount = "";
+        if (Filter.isActive() === false) {
+            activeAmount = Data.getTotalPoints();
+        } else {
+            activeAmount = Filter.getActivePoints().length;
+        }
+        infoOverlay.updateActive(Data.getTotalPoints(), activeAmount);
+
     };
 
     var playSound = function(path) {

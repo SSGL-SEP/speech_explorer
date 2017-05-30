@@ -4,8 +4,10 @@ var Data = require("./Data");
 var InfoOverlay = module.exports = {
     tags: null,
     dmElement: null,
+    active: null,
 
-    init : function (newDmElement, newTags) {
+    init : function (newActiveElement, newDmElement, newTags) {
+        active = newActiveElement;
         dmElement = newDmElement;
         tags = newTags;
         var outerDiv, innerDiv;
@@ -41,6 +43,11 @@ var InfoOverlay = module.exports = {
 
     hideInfo : function () {
         document.getElementById('info').style.visibility = 'hidden';
+    },
+
+    updateActive : function (totalPoints, activePoints) {
+        active.innerHTML =  activePoints + '/' + totalPoints + ' active';
+        active.style.visibility = 'visible';
     }
 
 }

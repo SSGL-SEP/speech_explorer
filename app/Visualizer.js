@@ -339,6 +339,9 @@ var Visualizer = module.exports = function() {
             // Function when resource is loaded
             function ( buffer ) {
                 // set the audio object buffer to the loaded object
+                if (soundBuffer.isPlaying) {
+                    soundBuffer.stop();
+                }
                 soundBuffer.setBuffer( buffer );
 
                 // play the audio

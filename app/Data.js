@@ -2,10 +2,6 @@ var THREE = require("three");
 
 var parsedPoints = [],
     parsedTags = [],
-    maxEuc = 0,
-    minEuc = Number.MAX_VALUE,
-    maxZ = 0,
-    hueOffset = 20,
     total = 0;
 
 var Data = module.exports = {
@@ -17,33 +13,20 @@ var Data = module.exports = {
         parsedPoints = [];
         parsedTags = [];
         total = data.length;
-        var hues = [];
+        var hasJsonColors = true;
 
         var i;
         for (i = 0; i < data.length; i++) {
             var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
             dataPoint.url = "audio/" + data[i][4];
             dataPoint.meta = this.parseTags(data[i][5], i);
+            dataPoint.color = new THREE.Color(data[i][6]);
             parsedPoints.push(dataPoint);
 
-            var x = Math.pow(parsedPoints[i].x, 2);
-            var y = Math.pow(parsedPoints[i].y, 2);
-            var z = Math.pow(parsedPoints[i].z, 2);
-            var hue = Math.sqrt(x + y + z);
-            hues.push(hue);
-
-            maxZ = Math.max(maxZ, z);
-            maxEuc = Math.max(maxEuc, hue);
-            minEuc = Math.min(minEuc, hue);
         }
-        for (i = 0; i < data.length; i++) {
-            var color = new THREE.Color();
-            var lightness = parsedPoints[i].z / (2 * maxZ);
-            // should we continue (maxEuc-minEuc+hueOffset):lla? Seemes to make it worse..
-            color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
-            parsedPoints[i].color = color;
-
-        }
+        // if (!hasJsonColors) {
+        //     this.computeColorInformation(data);
+        // }
     },
 
 
@@ -77,6 +60,38 @@ var Data = module.exports = {
         }
         // Returns array of tag objects for use as a property of a point object
         return meta;
+    },
+
+    /**
+     * Computes color for every datapoint and sets the color of each point.
+     * Used when no color information is provided in data JSON
+     * @param {JSON} data 
+     */
+    computeColorInformation: function (data) {
+        var maxEuc = 0,
+            minEuc = Number.MAX_VALUE,
+            maxZ = 0,
+            hueOffset = 20,
+            hues = [];
+
+        for (i = 0; i < data.length; i++) {
+            var x = Math.pow(parsedPoints[i].x, 2);
+            var y = Math.pow(parsedPoints[i].y, 2);
+            var z = Math.pow(parsedPoints[i].z, 2);
+            var hue = Math.sqrt(x + y + z);
+            hues.push(hue);
+
+            maxZ = Math.max(maxZ, z);
+            maxEuc = Math.max(maxEuc, hue);
+            minEuc = Math.min(minEuc, hue);
+        }
+        for (i = 0; i < data.length; i++) {
+            var color = new THREE.Color();
+            var lightness = parsedPoints[i].z / (2 * maxZ);
+            color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
+            parsedPoints[i].color = color;
+
+        }
     },
 
 

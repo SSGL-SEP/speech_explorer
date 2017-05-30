@@ -22,9 +22,6 @@ var Data = module.exports = {
             dataPoint.color = new THREE.Color(data[i][6]);
             parsedPoints.push(dataPoint);
         }
-        for (var index = 0; index < 10; index++) {
-            console.log(parsedPoints[index]);
-        }
     },
 
 

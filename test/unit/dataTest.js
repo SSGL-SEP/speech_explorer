@@ -37,20 +37,20 @@ describe('Data', function () {
 	});
 
 	describe('Data#getPoint(0)', function () {
-        it('should be vector3', function () {
-            var test = Data.getPoint(0);
-            assert(test.isVector3);
-        });
+		it('should be vector3', function () {
+			var test = Data.getPoint(0);
+			assert(test.isVector3);
+		});
 		it('should be x === 172.6496880346923', function () {
-            var test = Data.getPoint(0);
-            assert(test.x === 172.6496880346923);
-        });
-        it('should be y === 452.2038254799528', function () {
-            var test = Data.getPoint(0);
-            assert(test.y === 452.2038254799528);
-        });
-        it('should be z === 0', function () {
-            var test = Data.getPoint(0);
+			var test = Data.getPoint(0);
+			assert(test.x === 172.6496880346923);
+		});
+		it('should be y === 452.2038254799528', function () {
+			var test = Data.getPoint(0);
+			assert(test.y === 452.2038254799528);
+		});
+		it('should be z === 0', function () {
+			var test = Data.getPoint(0);
 			assert(test.z === 0);
 		});
 	});

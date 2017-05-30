@@ -1,5 +1,5 @@
 var appDir = require('app-root-path');
-var dat = require(appDir+'/')
+var dat = require('../lib/dat/build/dat.gui.min.js');
 
 var FilterOverlay = module.exports = function (tags, filterFunction) {
     var scope = this;

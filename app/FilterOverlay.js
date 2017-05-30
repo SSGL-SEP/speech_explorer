@@ -35,7 +35,8 @@ var FilterOverlay = module.exports = function (tags, filterFunction) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
             Object.keys(tag.values).forEach(function (key, index) {
-                folder.add(tag.values, key).listen();
+                var controller = folder.add(tag.values, key).borderColor("red");
+                console.log(controller);
                 this.gui.remember(tag.values);
             });
         }

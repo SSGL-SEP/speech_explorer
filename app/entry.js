@@ -1,5 +1,9 @@
+if (process.env.NODE_ENV === 'production') {
+    //webpack was build with -p, set base url to amazon s3 for heroku to DL files
+}
+
 var Data = require('./Data');
-var json = require('../data/less_sne.json');
+var json = require('../data/2D_newformat_full.json');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
 

@@ -1,256 +1,262 @@
 [
     [
         0,
-        87.3121953178908,
-        591.7073990926303,
-        540.4269706500198,
+        172.6496880346923,
+        452.2038254799528,
+        0,
         "mv_0693_021_i_1_0.wav",
         [
             {
-                "val":"mv_0693_021_i_1_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0693_021_i_1_0.wav"
             },
             {
-                "val":"i",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "i"
             },
             {
-                "val":"h",
-                "key":"phonem"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"voiced",
-                "key":"voice"
-            },
-            {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#6bff00"
     ],
     [
         1,
-        331.76720292745557,
-        369.80866342507625,
-        535.5127611881767,
+        358.8229032944258,
+        369.8784069298573,
+        0,
         "mv_0699_025_e_1_1.wav",
         [
             {
-                "val":"mv_0699_025_e_1_1.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0699_025_e_1_1.wav"
             },
             {
-                "val":"e",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "e"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"stressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "stressed"
             }
-        ]
+        ],
+        "#fff100"
     ],
     [
         2,
-        566.5201136732801,
-        281.2691388788805,
-        440.9317555020463,
+        425.7325188468255,
+        255.50800215319518,
+        0,
         "mv_0698_016_i_1_0.wav",
         [
             {
-                "val":"mv_0698_016_i_1_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0698_016_i_1_0.wav"
             },
             {
-                "val":"i",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "i"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#6bff00"
     ],
     [
         3,
-        644.3565416263559,
-        169.45115178273994,
-        84.30784978288114,
+        348.84850220014806,
+        58.960650902656454,
+        0,
         "mv_0693_003_h_0_0.wav",
         [
             {
-                "val":"mv_0693_003_h_0_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0693_003_h_0_0.wav"
             },
             {
-                "val":"h",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "h"
             },
             {
-                "val":"unvoiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "unvoiced"
             },
             {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#bbff00"
     ],
     [
         4,
-        411.7671138901539,
-        308.13591041805955,
-        557.1233300649303,
+        402.674663946475,
+        340.44239606352653,
+        0,
         "mv_0693_012_e_1_0.wav",
         [
             {
-                "val":"mv_0693_012_e_1_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0693_012_e_1_0.wav"
             },
             {
-                "val":"e",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "e"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#fff100"
     ],
     [
         5,
-        412.36941535426257,
-        370.82037247173184,
-        722.1976986771269,
+        488.5360821496044,
+        405.0628521897717,
+        0,
         "mv_0693_018_n_1_0.wav",
         [
             {
-                "val":"mv_0693_018_n_1_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0693_018_n_1_0.wav"
             },
             {
-                "val":"n",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "n"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#00d6ff"
     ],
     [
         6,
-        304.60518379091536,
-        401.9899535625472,
-        413.8094334985837,
+        300.9935332950398,
+        365.3983084616234,
+        0,
         "mv_0694_010_e_1_1.wav",
         [
             {
-                "val":"mv_0694_010_e_1_1.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0694_010_e_1_1.wav"
             },
             {
-                "val":"e",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "e"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"stressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "stressed"
             }
-        ]
+        ],
+        "#fff100"
     ],
     [
         7,
-        156.6091381218182,
-        666.6642545740809,
-        616.5156377894297,
+        212.07664754443527,
+        482.8491009859658,
+        0,
         "mv_0699_013_l_1_1.wav",
         [
             {
-                "val":"mv_0699_013_l_1_1.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0699_013_l_1_1.wav"
             },
             {
-                "val":"l",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "l"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"stressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "stressed"
             }
-        ]
+        ],
+        "#00ff86"
     ],
     [
         8,
-        668.8718429415472,
-        184.67920598572755,
-        211.11677629903298,
+        335.93325122286313,
+        119.87240336811513,
+        0,
         "mv_0695_020_n_1_0.wav",
         [
             {
-                "val":"mv_0695_020_n_1_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0695_020_n_1_0.wav"
             },
             {
-                "val":"n",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "n"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#00d6ff"
     ],
     [
         9,
-        51.06144303263386,
-        702.4944745053734,
-        476.8958056737516,
+        154.12442701684483,
+        528.6156015404539,
+        0,
         "mv_0696_017_a_1_0.wav",
         [
             {
-                "val":"mv_0696_017_a_1_0.wav",
-                "key":"file name"
+                "key": "file name",
+                "val": "mv_0696_017_a_1_0.wav"
             },
             {
-                "val":"a",
-                "key":"phonem"
+                "key": "phonem",
+                "val": "a"
             },
             {
-                "val":"voiced",
-                "key":"voice"
+                "key": "voice",
+                "val": "voiced"
             },
             {
-                "val":"unstressed",
-                "key":"stress"
+                "key": "stress",
+                "val": "unstressed"
             }
-        ]
+        ],
+        "#ffa100"
     ]
 ]

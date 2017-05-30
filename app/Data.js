@@ -2,6 +2,7 @@ var THREE = require("three");
 
 var parsedPoints = [],
     parsedTags = [],
+    tagColors = new Map(),
     total = 0;
 
 var Data = module.exports = {
@@ -9,7 +10,7 @@ var Data = module.exports = {
     pointSizeMultiplier: 1,
     cloudSize2D: 1.5,
 
-    loadData: function (data) {
+    loadData: function(data) {
         parsedPoints = [];
         parsedTags = [];
         total = data.length;
@@ -20,8 +21,10 @@ var Data = module.exports = {
             dataPoint.url = "audio/" + data[i][4];
             dataPoint.meta = this.parseTags(data[i][5], i);
             dataPoint.color = new THREE.Color(data[i][6]);
+            this.parseTagColors(dataPoint);
             parsedPoints.push(dataPoint);
         }
+        console.log(tagColors);
     },
 
 
@@ -31,7 +34,7 @@ var Data = module.exports = {
      * @param {number} pointIndex - index of current dataPoint
      * @returns {array} Array that includes tag information for a point {key: foor, values: []}
      */
-    parseTags: function (tags, pointIndex) {
+    parseTags: function(tags, pointIndex) {
         var meta = [],
             tagKey,
             tagVal,
@@ -57,12 +60,21 @@ var Data = module.exports = {
         return meta;
     },
 
+    parseTagColors: function(dataPoint) {
+        console.log(dataPoint.meta)
+        var tag = dataPoint.meta[1];
+        var value = tag.values[0];
+        if (!tagColors.has(value)) {
+            tagColors.set(value, dataPoint.color);
+        }
+    },
+
     /**
      * Computes color for every datapoint and sets the color of each point.
      * Used when no color information is provided in data JSON
      * @param {JSON} data 
      */
-    computeColorInformation: function (data) {
+    computeColorInformation: function(data) {
         var maxEuc = 0,
             minEuc = Number.MAX_VALUE,
             maxZ = 0,
@@ -99,7 +111,7 @@ var Data = module.exports = {
      * @param {any} secondValue - value of the second property
      * @returns {number} Index of the object
      */
-    addTwoPropertyObject: function (array, firstKey, firstValue, secondKey, secondValue) {
+    addTwoPropertyObject: function(array, firstKey, firstValue, secondKey, secondValue) {
         var valueIndex = this.getObjectIndex(array, firstKey, firstValue);
         if (valueIndex === -1) {
             var metaTag = {};
@@ -118,7 +130,7 @@ var Data = module.exports = {
      * @param {any} value - wanted value of the attribute
      * @returns {number} Index of an object
      */
-    getObjectIndex: function (array, propertyName, value) {
+    getObjectIndex: function(array, propertyName, value) {
         for (var i = 0; i < array.length; i++) {
             var object = array[i];
             if (array[i][propertyName] === value) {
@@ -128,7 +140,7 @@ var Data = module.exports = {
         return -1;
     },
 
-    getTag: function (key) {
+    getTag: function(key) {
         var index = this.getObjectIndex(parsedTags, 'key', key)
         if (index === -1) {
             return undefined;
@@ -136,24 +148,28 @@ var Data = module.exports = {
         return parsedTags[index];
     },
 
-    getTotalPoints: function () {
+    getTotalPoints: function() {
         return total;
     },
 
-    getUrl: function (index) {
+    getUrl: function(index) {
         return parsedPoints[index].url;
     },
 
-    getPoint: function (index) {
+    getPoint: function(index) {
         return parsedPoints[index];
     },
 
-    getColor: function (index) {
+    getColor: function(index) {
         return parsedPoints[index].color;
     },
 
-    getTags: function () {
+    getTags: function() {
         return parsedTags;
+    },
+
+    getTagColor: function(tag) {
+        return tagColors.get(key);
     }
 
 };

@@ -16,7 +16,7 @@ body {
     position: fixed;
 }
 
-#info {
+#info, #active {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
@@ -35,7 +35,7 @@ body {
 .infoInstance {
         display: inline;
 
-#active {
+/*#active {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
@@ -50,4 +50,4 @@ body {
     opacity: 0.8;
     background-color: #0F0F0F;
 
-}
+}*/

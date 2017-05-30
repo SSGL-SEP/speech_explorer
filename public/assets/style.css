@@ -20,7 +20,7 @@ body {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
-    top: 14px;
+    top: 0;
     right: 0;
     width: 175px;
     cursor: pointer;

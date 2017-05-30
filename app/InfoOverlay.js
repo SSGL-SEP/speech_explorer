@@ -3,29 +3,30 @@ var Data = require("./Data");
 
 var InfoOverlay = module.exports = {
     tags: null,
-    dmElement: null,
+    info: null,
     active: null,
 
-    init : function (newActiveElement, newDmElement, newTags) {
+    init : function (newActiveElement, newinfo, newTags) {
         active = newActiveElement;
-        dmElement = newDmElement;
+        info = newinfo;
         tags = newTags;
         var outerDiv, innerDiv;
         outerDiv = document.createElement( 'div' );
         outerDiv.innerHTML = '</br>';
         outerDiv.id = 'filename';
-        dmElement.appendChild(outerDiv);
+        info.appendChild(outerDiv);
 
         for (var i = 1; i < tags.length; i++) {
             outerDiv = document.createElement( 'div' );
-            dmElement.appendChild(outerDiv);
+            info.appendChild(outerDiv);
             outerDiv.innerHTML = tags[i].key + ': ';
             innerDiv = document.createElement( 'div' );
             outerDiv.appendChild(innerDiv);
             innerDiv.id = tags[i].key;
             innerDiv.className = 'infoInstance';
         }
-        dmElement.style.visibility = 'hidden';
+        info.style.visibility = 'hidden';
+        active.style.visibility = 'visible';
 
     },
 
@@ -38,16 +39,15 @@ var InfoOverlay = module.exports = {
             currdiv = document.getElementById(point.meta[i].key);
             currdiv.innerHTML = point.meta[i].values;
         }
-        document.getElementById('info').style.visibility = 'visible';
+        info.style.visibility = 'visible';
     },
 
     hideInfo : function () {
-        document.getElementById('info').style.visibility = 'hidden';
+        info.style.visibility = 'hidden';
     },
 
     updateActive : function (totalPoints, activePoints) {
         active.innerHTML =  activePoints + '/' + totalPoints + ' active';
-        active.style.visibility = 'visible';
     }
 
 }

@@ -135,6 +135,7 @@ describe('Data', function () {
 	describe('Point object', function () {
 		it('should have valid color information', function () {
 			assert(Data.getPoint(0).color.isColor);
+			assert(Data.getPoint(0).color.getHexString() === '6bff00');
 		});
 		it('should have valid url', function () {
 			assert(Data.getPoint(0).url === 'audio/mv_0693_021_i_1_0.wav');

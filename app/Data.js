@@ -13,7 +13,6 @@ var Data = module.exports = {
         parsedPoints = [];
         parsedTags = [];
         total = data.length;
-        var hasJsonColors = true;
 
         var i;
         for (i = 0; i < data.length; i++) {
@@ -22,11 +21,10 @@ var Data = module.exports = {
             dataPoint.meta = this.parseTags(data[i][5], i);
             dataPoint.color = new THREE.Color(data[i][6]);
             parsedPoints.push(dataPoint);
-
         }
-        // if (!hasJsonColors) {
-        //     this.computeColorInformation(data);
-        // }
+        for (var index = 0; index < 10; index++) {
+            console.log(parsedPoints[index]);
+        }
     },
 
 
@@ -98,9 +96,9 @@ var Data = module.exports = {
     /**
      * Adds an object with two properties to an array if it doesnt exist and returns index of that object.
      * @param {array} array - array to wich object will be added
-     * @param {string} firstKey - name of the first property 
+     * @param {string} firstKey - name (key) of the first property 
      * @param {any} firstValue - value of the first property
-     * @param {string} secondKey - name of the second property 
+     * @param {string} secondKey - name (key) of the second property 
      * @param {any} secondValue - value of the second property
      * @returns {number} Index of the object
      */

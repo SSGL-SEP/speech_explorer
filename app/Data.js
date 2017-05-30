@@ -60,7 +60,6 @@ var Data = module.exports = {
     },
 
     parseTagColors: function(dataPoint) {
-        console.log(dataPoint.meta)
         var tag = dataPoint.meta[1];
         var value = tag.values[0];
         if (!tagColors.has(value)) {
@@ -168,7 +167,7 @@ var Data = module.exports = {
     },
 
     getTagColor: function(tag) {
-        return tagColors.get(key);
+        return tagColors.get(tag);
     }
 
 };

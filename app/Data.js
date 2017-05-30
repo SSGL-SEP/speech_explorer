@@ -24,7 +24,6 @@ var Data = module.exports = {
             this.parseTagColors(dataPoint);
             parsedPoints.push(dataPoint);
         }
-        console.log(tagColors);
     },
 
 

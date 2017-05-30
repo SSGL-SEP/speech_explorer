@@ -1,8 +1,6 @@
-'use strict';
-
-var {expect} = require('chai');
-var {By, until} = require('selenium-webdriver');
-var {defineSupportCode} = require('cucumber');
+const {expect} = require('chai');
+const {By, until} = require('selenium-webdriver');
+const {defineSupportCode} = require('cucumber');
 
 defineSupportCode(function({Given, When, Then}) {
     Given('I navigate to {stringInDoubleQuotes}', function (url) {
@@ -10,7 +8,6 @@ defineSupportCode(function({Given, When, Then}) {
     });
 
     Given('I navigate to the homepage', function () {
-        console.log(process.env.PORT);
         return this.driver.get('http://localhost:' + process.env.PORT);
     });
 

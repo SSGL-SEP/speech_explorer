@@ -1,16 +1,14 @@
-'use strict';
-
 // var driver = require('./world.js').getDriver();
-var fs = require('fs');
-var path = require('path');
-var sanitize = require("sanitize-filename");
-var appDir = require('app-root-path');
+const fs = require('fs');
+const path = require('path');
+const sanitize = require("sanitize-filename");
+const appDir = require('app-root-path');
 
 // start server
 process.env.PORT = 1234;
-var server = require(appDir + "/app/server");
+const server = require(appDir + "/app/server");
 
-var {defineSupportCode} = require('cucumber');
+const {defineSupportCode} = require('cucumber');
 
 
 

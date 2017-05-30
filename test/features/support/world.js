@@ -1,5 +1,3 @@
-'use strict';
-
 require('geckodriver');
 var fs = require('fs');
 var seleniumWebdriver = require('selenium-webdriver');

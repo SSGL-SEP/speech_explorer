@@ -422,6 +422,9 @@ var Visualizer = module.exports = function() {
             scope.context.removeEventListener('touchmove', onTouchMove, false);
             scope.context.removeEventListener('touchend', onTouchUp, false);
             scope.context.removeEventListener('touchcancel', onTouchUp, false);
+            if (activePoint !== null) {
+                infoOverlay.onClickOnPoint(activePoint);
+            }
             event.preventDefault();
         };
 

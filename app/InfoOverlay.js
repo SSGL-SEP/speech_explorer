@@ -48,6 +48,14 @@ var InfoOverlay = module.exports = {
 
     updateActive : function (totalPoints, activePoints) {
         active.innerHTML =  activePoints + '/' + totalPoints + ' active';
+    },
+
+    onClickOnPoint : function (activePoint) {
+        var point = Data.getPoint(activePoint);
+        console.log("filename: " + point.meta[0].values.toString());
+        for (var i = 1; i < point.meta.length; i++) {
+            console.log(point.meta[i].key + ": " + point.meta[i].values);
+        }
     }
 
 }

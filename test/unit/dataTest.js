@@ -41,24 +41,24 @@ describe('Data', function () {
             var test = Data.getPoint(0);
             assert(test.isVector3);
         });
-		it('should be x === 87.3121953178908', function () {
+		it('should be x === 172.6496880346923', function () {
             var test = Data.getPoint(0);
-            assert(test.x === 87.3121953178908);
+            assert(test.x === 172.6496880346923);
         });
-        it('should be y === 591.7073990926303', function () {
+        it('should be y === 452.2038254799528', function () {
             var test = Data.getPoint(0);
-            assert(test.y === 591.7073990926303);
+            assert(test.y === 452.2038254799528);
         });
-        it('should be z === 540.4269706500198', function () {
+        it('should be z === 0', function () {
             var test = Data.getPoint(0);
-			assert(test.z === 540.4269706500198);
+			assert(test.z === 0);
 		});
 	});
 
 	describe('Data#parsedTags[1])', function () {
-		it('should be key === phonem, values === [\'i\',\'h\',\'e\',\'n\',\'l\',\'a\']', function () {
+		it('should be key === phonem, values === [\'i\',\'e\',\'h\',\'n\',\'l\',\'a\']', function () {
 			var testTag = Data.getTags()[1],
-				testValues = ['i', 'h', 'e', 'n', 'l', 'a'];
+				testValues = ['i', 'e', 'h', 'n', 'l', 'a'];
 			assert(testTag.key === 'phonem');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.values[i].value === testValues[i]);
@@ -140,9 +140,9 @@ describe('Data', function () {
 			assert(Data.getPoint(0).url === 'audio/mv_0693_021_i_1_0.wav');
 		});
 		it('should have valid position information', function () {
-			assert(Data.getPoint(0).x === 87.3121953178908);
-			assert(Data.getPoint(0).y === 591.7073990926303);
-			assert(Data.getPoint(0).z === 540.4269706500198);
+			assert(Data.getPoint(0).x === 172.6496880346923);
+			assert(Data.getPoint(0).y === 452.2038254799528);
+			assert(Data.getPoint(0).z === 0);
 		});
 	})
 

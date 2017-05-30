@@ -2,6 +2,7 @@ var Data = require("./Data");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
 var THREE = require("three");
+var infoOverlay = require("./InfoOverlay");
 
 var Visualizer = module.exports = function() {
     var scope = this;
@@ -32,10 +33,9 @@ var Visualizer = module.exports = function() {
         this.createEnvironment();
         this.createCloud();
         this.createDraggers();
-        this.createListeners();
-        //this.infotext = document.getElementById('info');        
+        this.createListeners();      
         // this.createZoomElements();
-        // this.createInfo();
+        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), Data.getTags());
         this.animate();
         showActive();
 
@@ -276,7 +276,7 @@ var Visualizer = module.exports = function() {
                 attributes.position.array[activePoint * 3 + 2] = 1;
                 attributes.position.needsUpdate = true;
                 attributes.size.needsUpdate = true;
-				showInfo(activePoint);
+				infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null){
@@ -284,7 +284,7 @@ var Visualizer = module.exports = function() {
             attributes.position.array[activePoint * 3 + 2] = 1;
             attributes.size.needsUpdate = true;
             activePoint = null;
-            infotext.style.visibility = 'hidden';//hides infodiv with sound information
+            infoOverlay.hideInfo();//hides infodiv with sound information
         }
 
         this.renderer.render( this.scene, this.camera );
@@ -310,27 +310,26 @@ var Visualizer = module.exports = function() {
         return intersects;
     };
 
-    var showInfo = function (activePoint) {
-    	var currPoint = activePoint;
-        var point = Data.getPoint(activePoint);
-        infotext = document.getElementById('info');
-        infotext.innerHTML = point.meta[0].values + '<br />';
-		for (var i = 1; i < point.meta.length; i++) {
-            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
-		}
-		infotext.style.visibility = 'visible';
-	};
+ //    var showInfo = function (activePoint) {
+ //    	var currPoint = activePoint;
+ //        var point = Data.getPoint(activePoint);
+ //        infotext = document.getElementById('info');
+ //        infotext.innerHTML = point.meta[0].values + '<br />';
+	// 	for (var i = 1; i < point.meta.length; i++) {
+ //            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+	// 	}
+	// 	infotext.style.visibility = 'visible';
+	// };
 
     var showActive = function () {
-        active = document.getElementById('active');
         var activeAmount = "";
         if (Filter.isActive() === false) {
             activeAmount = Data.getTotalPoints();
         } else {
             activeAmount = Filter.getActivePoints().length;
         }
-        active.innerHTML =  activeAmount + '/' + Data.getTotalPoints() + ' active';
-        active.style.visibility = 'visible';
+        infoOverlay.updateActive(Data.getTotalPoints(), activeAmount);
+
     };
 
     var playSound = function(path) {

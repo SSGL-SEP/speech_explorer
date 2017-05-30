@@ -16,11 +16,11 @@ body {
     position: fixed;
 }
 
-#info {
+#info, #active {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
-    top: 14px;
+    top: 0;
     right: 0;
     width: 175px;
     cursor: pointer;
@@ -32,7 +32,10 @@ body {
     background-color: #0F0F0F;
 }
 
-#active {
+.infoInstance {
+        display: inline;
+
+/*#active {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
@@ -46,4 +49,5 @@ body {
     visibility: visible;
     opacity: 0.8;
     background-color: #0F0F0F;
-}
+
+}*/

@@ -50,16 +50,16 @@ describe('Filter', function () {
 
             assert(Filter.getActivePoints().length === 0);
         });
-        it('Filtered samples with phonem h should have indexes 0 and 3', function () {
+        it('Filtered samples with phonem i should have indexes 0 and 2', function () {
             var filterParam = [{
                 key: "phonem",
-                values: ['h']
+                values: ['i']
             }];
 
             Filter.setFilter(filterParam);
 
             assert(Filter.getActivePoints().length === 2);
-            assert(_.contains(Filter.getActivePoints(), 3));
+            assert(_.contains(Filter.getActivePoints(), 2));
             assert(_.contains(Filter.getActivePoints(), 0));
         });
         it('When parameter is invalid, activePoints is empty and isActive is false', function () {

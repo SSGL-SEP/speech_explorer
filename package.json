@@ -8,7 +8,7 @@
     "unittest": "node_modules/.bin/_mocha test/unit/**/*.js",
     "cucumber": "node_modules/.bin/cucumberjs test/features",
     "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js",
-    "heroku-postbuild": "git submodule update --init --recursive & webpack -p --config webpack.config.js --progress",
+    "heroku-postbuild": "cd ~/speech_explorer & git submodule update --init --recursive & webpack -p --config webpack.config.js --progress",
     "start": "node app/server.js",
     "dev": "./node_modules/.bin/grunt serve-and-watch",
     "submodule": "git submodule update --init --recursive"

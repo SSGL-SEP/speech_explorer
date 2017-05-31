@@ -122,7 +122,7 @@ describe('Data', function() {
 			var invalidTag = Data.getTag('not a key');
 			assert(invalidTag === undefined);
 		});
-	})
+	});
 
 	describe('Color data is created', function() {
 		it('color data is not undefined', function() {
@@ -130,7 +130,7 @@ describe('Data', function() {
 				assert(Data.getColor(i).isColor);
 			}
 		});
-	})
+	});
 
 	describe('Point object', function() {
 		it('should have valid color information', function() {
@@ -145,7 +145,7 @@ describe('Data', function() {
 			assert(Data.getPoint(0).y === 452.2038254799528);
 			assert(Data.getPoint(0).z === 0);
 		});
-	})
+	});
 
 
 	describe('Meta information of point object', function() {
@@ -164,13 +164,13 @@ describe('Data', function() {
 			assert(point.meta[3].key === 'stress');
 			assert(point.meta[3].values[0] === 'unstressed');
 		});
-	})
+	});
 
 	describe('Data#getTagColor(\'i\')', function() {
 		it('should return color object with value 6bff00', function() {
 			var color = Data.getTagColor('i');
 			assert(color.getHexString() === '6bff00');
 		});
-	})
+	});
 
 });

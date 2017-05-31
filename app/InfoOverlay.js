@@ -1,3 +1,5 @@
+'use strict';
+
 var Data = require("./Data");
 
 
@@ -7,26 +9,26 @@ var InfoOverlay = module.exports = {
     active: null,
 
     init : function (newActiveElement, newinfo, newTags) {
-        active = newActiveElement;
-        info = newinfo;
-        tags = newTags;
+        this.active = newActiveElement;
+        this.info = newinfo;
+        this.tags = newTags;
         var outerDiv, innerDiv;
         outerDiv = document.createElement( 'div' );
         outerDiv.innerHTML = '</br>';
         outerDiv.id = 'filename';
-        info.appendChild(outerDiv);
+        this.info.appendChild(outerDiv);
 
-        for (var i = 1; i < tags.length; i++) {
+        for (var i = 1; i < this.tags.length; i++) {
             outerDiv = document.createElement( 'div' );
-            info.appendChild(outerDiv);
-            outerDiv.innerHTML = tags[i].key + ': ';
+            this.info.appendChild(outerDiv);
+            outerDiv.innerHTML = this.tags[i].key + ': ';
             innerDiv = document.createElement( 'div' );
             outerDiv.appendChild(innerDiv);
-            innerDiv.id = tags[i].key;
+            innerDiv.id = this.tags[i].key;
             innerDiv.className = 'infoInstance';
         }
-        info.style.visibility = 'hidden';
-        active.style.visibility = 'visible';
+        this.info.style.visibility = 'hidden';
+        this.active.style.visibility = 'visible';
 
     },
 
@@ -39,15 +41,15 @@ var InfoOverlay = module.exports = {
             currdiv = document.getElementById(point.meta[i].key);
             currdiv.innerHTML = point.meta[i].values;
         }
-        info.style.visibility = 'visible';
+        this.info.style.visibility = 'visible';
     },
 
     hideInfo : function () {
-        info.style.visibility = 'hidden';
+        this.info.style.visibility = 'hidden';
     },
 
     updateActive : function (totalPoints, activePoints) {
-        active.innerHTML =  activePoints + '/' + totalPoints + ' active';
+        this.active.innerHTML =  activePoints + '/' + totalPoints + ' active';
     }
 
-}
+};

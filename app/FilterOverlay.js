@@ -45,10 +45,8 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 if(data.getTagColor(key)){
                     controller.borderColor(data.getTagColor(key).getHexString())
                     .borderWidth(10);
-                    
                 }
                 scope.gui.remember(tag.values);
-                
 
             });
         }

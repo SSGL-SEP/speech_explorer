@@ -1,6 +1,6 @@
 Indentation 4 spaces.
 
-Max 2 vertical lines between code blocks.
+Max 2 blank lines between code blocks.
 
 If/else/while/for -clauses always inside curly brackets and always on multiple lines.
 

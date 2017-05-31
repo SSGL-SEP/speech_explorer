@@ -1,27 +1,28 @@
-'use strict';
+
 
 var appDir = require('app-root-path');
 var assert = require('assert');
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
-var Data = require(appDir + "/app/Data");
-var json = require(appDir + "/test/testdata.json");
-var THREE = require('three');
 
 
 describe('FilterOverlay', function () {
 
 	before(function () {
 		// runs before all tests in this block
-		this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
+		var json = require(appDir + "/test/testdata.json");
+		var Data = require(appDir + "/app/Data");
 		Data.loadData(json);
-
-		FilterOverlay = new FilterOverlay(Data.getTags(), function(x){console.log("mock setFilter")});
+		this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
+		
+		
+		console.log(Data.tagColors);
+		FilterOverlay = new FilterOverlay(Data, function(x){console.log("mock setFilter")});
 
 	});
 
 	after(function () {
 		// runs after all tests in this block
-		this.jsdom();
+		
 	});
 
 	beforeEach(function () {

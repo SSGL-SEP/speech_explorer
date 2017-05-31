@@ -12,4 +12,4 @@ Data.loadData(json);
 var visualizer = new Visualizer();
 visualizer.init();
 
-new FilterOverlay(Data.getTags(), visualizer.setFilter);
+new FilterOverlay(Data.getTags(), visualizer.setFilter); // eslint-disable-line no-new

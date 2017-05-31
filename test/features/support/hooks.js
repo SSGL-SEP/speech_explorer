@@ -5,11 +5,11 @@ const sanitize = require("sanitize-filename");
 const appDir = require('app-root-path');
 
 // start server
-// process.env.PORT = 1234;
+process.env.PORT = 3214;
 const server = require(appDir + "/app/server");
 
 const {defineSupportCode} = require('cucumber');
-
+console.log("Path:" + appDir);
 
 
 defineSupportCode(function({After, registerHandler}) {

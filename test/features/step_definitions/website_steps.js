@@ -8,7 +8,7 @@ defineSupportCode(function({Given, When, Then}) {
     });
 
     Given('I navigate to the homepage', function () {
-        return this.driver.get('http://localhost:3000'); // + process.env.PORT);
+        return this.driver.get('http://localhost:' + process.env.PORT);
     });
 
     // When('I click on {stringInDoubleQuotes}', function (text) {
@@ -18,6 +18,7 @@ defineSupportCode(function({Given, When, Then}) {
     // });
 
     Then('I should see {stringInDoubleQuotes} in title', function (str) {
+        this.driver.findElement(By.css("input[type='text']")).sendKeys("k");
         return this.driver.getTitle().then(function (title) {
             return expect(title).to.equal(str);
         });

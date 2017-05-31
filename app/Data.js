@@ -21,11 +21,10 @@ var Data = module.exports = {
             dataPoint.url = "audio/" + data[i][4];
             dataPoint.meta = this.parseTags(data[i][5], i);
             dataPoint.color = new THREE.Color(data[i][6]);
-            this.parseTagColors(dataPoint);
+            this.parseTagColors(dataPoint, 'phonem');
             parsedPoints.push(dataPoint);
         }
     },
-
 
     /**
      * Parses tag JSON into tag objects. 
@@ -60,12 +59,23 @@ var Data = module.exports = {
     },
 
     /**
-     * Function that maps the color to the tag value that corresponds to it. Wanted tag value is usually
-     * found at dataPoint.meta[1] because the value at index 0 is the filename.
+     * Function that maps the color to the correct tag value. Wanted tag is usually the one
+     * that was used to compute the color og the point.
      * @param {any} dataPoint - data point object
+     * @param {any} tagKey - key value of tag that was used to determine color of the point
      */
-    parseTagColors: function(dataPoint) {
-        var value = dataPoint.meta[1].values[0];
+    parseTagColors: function(dataPoint, tagKey) {
+        var metaData = dataPoint.meta,
+            value,
+            tag;
+
+        for (var i = 0; i < metaData.length; i++) {
+            tag = metaData[i];
+            if (tag.key === tagKey) {
+                value = tag.values[0];
+            }
+        }
+
         if (!tagColors.has(value)) {
             tagColors.set(value, dataPoint.color);
         }
@@ -102,7 +112,6 @@ var Data = module.exports = {
 
         }
     },
-
 
     /**
      * Adds an object with two properties to an array, if it doesnt exist, and returns index of that object.

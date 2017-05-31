@@ -1,61 +1,72 @@
 var Data = require("./Data");
 
+var updateDiv = function (uDiv, point) {
+    var currdiv;
+    uDiv.getElementsByClassName('filename')[0].innerHTML = point.meta[0].values;
+    for (var i = 1; i < point.meta.length; i++) {
+        currdiv = uDiv.getElementsByClassName(point.meta[i].key)[0];
+        currdiv.innerHTML = point.meta[i].values;
+    }
+};
 
 var InfoOverlay = module.exports = {
     tags: null,
-    info: null,
-    active: null,
+    infoDiv: null,
+    activeDiv: null,
+    infopanelDiv: null,
 
-    init : function (newActiveElement, newinfo, newTags) {
-        active = newActiveElement;
-        info = newinfo;
+    init : function (newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
+        
+        activeDiv = newActiveDiv;
+        infoDiv = newInfoDiv;
+        infopanelDiv = newInfoPanelDiv;
         tags = newTags;
+
         var outerDiv, innerDiv;
         outerDiv = document.createElement( 'div' );
-        outerDiv.innerHTML = '</br>';
-        outerDiv.id = 'filename';
-        info.appendChild(outerDiv);
+        outerDiv.className = 'filename';
+        
+        infoDiv.appendChild(outerDiv);
+        infopanelDiv.appendChild(outerDiv.cloneNode(true));
+
 
         for (var i = 1; i < tags.length; i++) {
             outerDiv = document.createElement( 'div' );
-            info.appendChild(outerDiv);
             outerDiv.innerHTML = tags[i].key + ': ';
+ 
             innerDiv = document.createElement( 'div' );
+            innerDiv.className = tags[i].key + ' infoInstance';
+            
             outerDiv.appendChild(innerDiv);
-            innerDiv.id = tags[i].key;
-            innerDiv.className = 'infoInstance';
+ 
+            infoDiv.appendChild(outerDiv);
+            infopanelDiv.appendChild(outerDiv.cloneNode(true));
         }
-        info.style.visibility = 'hidden';
-        active.style.visibility = 'visible';
+
+        infoDiv.style.visibility = 'hidden';
+        activeDiv.style.visibility = 'visible';
 
     },
 
     updateInfo : function (activePoint) {
-        var currdiv;
-        var currPoint = activePoint;
         var point = Data.getPoint(activePoint);
-        document.getElementById('filename').innerHTML = point.meta[0].values;
-        for (var i = 1; i < point.meta.length; i++) {
-            currdiv = document.getElementById(point.meta[i].key);
-            currdiv.innerHTML = point.meta[i].values;
-        }
-        info.style.visibility = 'visible';
+        updateDiv(infoDiv, point);
+        infoDiv.style.visibility = 'visible';
     },
 
     hideInfo : function () {
-        info.style.visibility = 'hidden';
+        infoDiv.style.visibility = 'hidden';
     },
 
     updateActive : function (totalPoints, activePoints) {
-        active.innerHTML =  activePoints + '/' + totalPoints + ' active';
+        activeDiv.innerHTML =  activePoints + '/' + totalPoints + ' active';
     },
 
     onClickOnPoint : function (activePoint) {
         var point = Data.getPoint(activePoint);
-        console.log("filename: " + point.meta[0].values.toString());
-        for (var i = 1; i < point.meta.length; i++) {
-            console.log(point.meta[i].key + ": " + point.meta[i].values);
-        }
+        updateDiv(infopanelDiv, point);
+        infopanelDiv.style.visibility = 'visible';
+
     }
 
 }

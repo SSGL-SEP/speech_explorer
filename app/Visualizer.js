@@ -35,7 +35,7 @@ var Visualizer = module.exports = function() {
         this.createDraggers();
         this.createListeners();      
         // this.createZoomElements();
-        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), Data.getTags());
+        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
         this.animate();
         showActive();
 

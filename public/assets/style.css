@@ -15,7 +15,7 @@ body {
     position: fixed;
 }
 
-#info, #active {
+#info, #active, #infoPanels {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
@@ -37,4 +37,8 @@ body {
 
 #info {
     top: 13px;
+}
+
+#infoPanels {
+    top: 90%;
 }

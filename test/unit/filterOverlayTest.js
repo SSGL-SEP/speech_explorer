@@ -12,8 +12,9 @@ describe('FilterOverlay', function () {
         Data.loadData(json);
         this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
 
+
         console.log(Data.tagColors);
-        FilterOverlay = new FilterOverlay(Data, function () {
+        FilterOverlay = new FilterOverlay(Data, function (x) {
             console.log("mock setFilter");
         });
 
@@ -32,12 +33,12 @@ describe('FilterOverlay', function () {
         // runs after each test in this block
     });
 
-    var checkAllFalse = function () {
+    var checkAll = function (tf) {
         for (var i = 0; i < FilterOverlay.boolTags.length; i++) {
             var tag = FilterOverlay.boolTags[i];
             for (var property in tag.values) {
                 if (tag.values.hasOwnProperty(property)) {
-                    assert(tag.values[property] === false);
+                    assert(tag.values[property] === tf);
                 }
             }
         }
@@ -46,8 +47,8 @@ describe('FilterOverlay', function () {
 
     // test cases
     describe('FilterOverlay#boolTags', function () {
-        it('all should be set to false after creation', function () {
-            checkAllFalse();
+        it('all should be set to true after creation', function () {
+            checkAll(true);
         });
     });
 
@@ -63,19 +64,25 @@ describe('FilterOverlay', function () {
         });
     });
 
-    describe('FilterOverlay#filterButton#Filter()', function () {
+    describe('FilterOverlay#selectButton#SelectAll()', function () {
         it('should not be null', function () {
-            assert(FilterOverlay.filterButton.Filter);
-            FilterOverlay.filterButton.Filter();
+            assert(FilterOverlay.selectButton.SelectAll);
+        });
+        it('should select all filters', function () {
+            FilterOverlay.boolTags[0].values[0] = false;
+            FilterOverlay.selectButton.SelectAll();
+            checkAll(true);
         });
     });
 
     describe('FilterOverlay#createFilterData()', function () {
         it('should return null if no filter is selected', function () {
+            FilterOverlay.clearAllButton.ClearAll();
             assert(FilterOverlay.createFilterData() === null);
         });
 
         it('should return an array of tags if filters are on', function () {
+            FilterOverlay.clearAllButton.ClearAll();
             FilterOverlay.boolTags[0].values[0] = true;
             assert(FilterOverlay.createFilterData().length === 1);
         });
@@ -85,9 +92,8 @@ describe('FilterOverlay', function () {
         it('should set all filters to false', function () {
             FilterOverlay.boolTags[0].values[0] = true;
             FilterOverlay.clearAllButton.ClearAll();
-            checkAllFalse();
+            checkAll(false);
         });
     });
-
 
 });

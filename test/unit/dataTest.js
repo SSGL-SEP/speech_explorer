@@ -56,9 +56,9 @@ describe('Data', function() {
 	});
 
 	describe('Data#parsedTags[1])', function() {
-		it('should be key === phonem, values === [\'i\',\'e\',\'h\',\'n\',\'l\',\'a\']', function() {
+		it('should be key === phonem, values === [\'a\',\'e\',\'h\',\'i\',\'l\',\'n\']', function() {
 			var testTag = Data.getTags()[1],
-				testValues = ['i', 'e', 'h', 'n', 'l', 'a'];
+				testValues = ['a', 'e', 'h', 'i', 'l', 'n'];
 			assert(testTag.key === 'phonem');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.values[i].value === testValues[i]);
@@ -67,9 +67,9 @@ describe('Data', function() {
 	});
 
 	describe('Data#parsedTags[2])', function() {
-		it('should be key === voice, values === [\'voiced\', \'unvoiced\']', function() {
+		it('should be key === voice, values === [\'unvoiced\', \'voiced\']', function() {
 			var testTag = Data.getTags()[2],
-				testValues = ['voiced', 'unvoiced'];
+				testValues = ['unvoiced', 'voiced'];
 			assert(testTag.key === 'voice');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.values[i].value === testValues[i]);
@@ -78,9 +78,9 @@ describe('Data', function() {
 	});
 
 	describe('Data#parsedTags[3])', function() {
-		it('should be key === stress, values === [\'unstressed\', \'stressed\']', function() {
+		it('should be key === stress, values === [\'stressed\', \'unstressed\']', function() {
 			var testTag = Data.getTags()[3],
-				testValues = ['unstressed', 'stressed'];
+				testValues = ['stressed', 'unstressed'];
 			assert(testTag.key === 'stress');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.values[i].value === testValues[i]);
@@ -89,10 +89,10 @@ describe('Data', function() {
 	});
 
 	describe('Data#parsedTags[3].values[0])', function() {
-		it('should be value === unstressed, values === [0,2,3,4,5,8,9]', function() {
+		it('should be value === stressed, values === [1,6,7]', function() {
 			var testTag = Data.getTags()[3].values[0],
-				testValues = [0, 2, 3, 4, 5, 8, 9];
-			assert(testTag.value === 'unstressed');
+				testValues = [1,6,7];
+			assert(testTag.value === 'stressed');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.points[i] === testValues[i]);
 			}
@@ -100,10 +100,10 @@ describe('Data', function() {
 	});
 
 	describe('Data#parsedTags[3].values[1])', function() {
-		it('should be value === unstressed, values === [1,6,7]', function() {
+		it('should be value === unstressed, values === [0,2,3,4,5,8,9]', function() {
 			var testTag = Data.getTags()[3].values[1],
-				testValues = [1, 6, 7];
-			assert(testTag.value === 'stressed');
+				testValues = [0,2,3,4,5,8,9];
+			assert(testTag.value === 'unstressed');
 			for (var i = 0; i < testValues.length; i++) {
 				assert(testTag.points[i] === testValues[i]);
 			}
@@ -114,8 +114,8 @@ describe('Data', function() {
 		it('should return correct object with valid key ', function() {
 			var testTag = Data.getTag('stress');
 			assert(testTag.key === 'stress');
-			assert(testTag.values[0].value === 'unstressed');
-			assert(testTag.values[1].value === 'stressed');
+			assert(testTag.values[0].value === 'stressed');
+			assert(testTag.values[1].value === 'unstressed');
 		});
 
 		it('should return undefined with invalid argument', function() {

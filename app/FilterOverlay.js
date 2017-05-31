@@ -6,7 +6,6 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
-    this.data = data;
     this.gui = new dat.GUI();
     this.filterFunction = filterFunction;
 
@@ -43,12 +42,12 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                             scope.filterFunction(scope.createFilterData());
                         }
                     );
-                if(this.data.getTagColor(key)){
-                    controller.borderColor(this.data.getTagColor(key).getHexString())
+                if(data.getTagColor(key)){
+                    controller.borderColor(data.getTagColor(key).getHexString())
                     .borderWidth(10);
                     
                 }
-                this.gui.remember(tag.values);
+                scope.gui.remember(tag.values);
                 
 
             });

@@ -26,16 +26,14 @@ var Visualizer = module.exports = function() {
     var activePoint = null;
     var raycaster;
     var mouse;
-    var soundBuffer;
-    var audioLoader;
     var needsRefresh = true;
-   	var infotext;
+    var audioFile = null;
 
     this.init = function() {
         this.createEnvironment();
         this.createCloud();
         this.createDraggers();
-        this.createListeners();      
+        this.createListeners();
         // this.createZoomElements();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
         this.animate();
@@ -72,9 +70,6 @@ var Visualizer = module.exports = function() {
         var audioListener = new THREE.AudioListener();
 
         this.camera.add( audioListener );
-        soundBuffer = new THREE.Audio( audioListener );
-        audioLoader = new THREE.AudioLoader();
-        this.scene.add( soundBuffer );
 
         this.scene.add(this.camera);
 
@@ -336,29 +331,14 @@ var Visualizer = module.exports = function() {
     };
 
     var playSound = function(path) {
-        audioLoader.load(
-            // resource URL
-            path,
-            // Function when resource is loaded
-            function ( buffer ) {
-                // set the audio object buffer to the loaded object
-                if (soundBuffer.isPlaying) {
-                    soundBuffer.stop();
-                }
-                soundBuffer.setBuffer( buffer );
+        if (audioFile !== null) {
+            audioFile.pause();
+            audioFile.startTime = 0;
+        }
+        
+        audioFile = new Audio(path);
+        audioFile.play();
 
-                // play the audio
-                soundBuffer.play();
-            },
-            // Function called when download progresses
-            function ( xhr ) {
-                console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-            },
-            // Function called when download errors
-            function ( xhr ) {
-                console.log( 'Download failed' );
-            }
-        );
     };
 
 

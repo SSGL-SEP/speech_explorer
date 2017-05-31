@@ -44,12 +44,13 @@ var InfoOverlay = module.exports = {
         }
 
         var a1 = document.createElement('a');
-        a1.appendChild(document.createTextNode("open box"));
-        a1.href = "http://example.com";
+        a1.appendChild(document.createTextNode("Download"));
+        a1.id = "downloadlink";
 
         var a2 = document.createElement('a');
-        a2.appendChild(document.createTextNode("remove"));
-        a2.href = "http://example.com";
+        a2.appendChild(document.createTextNode("Remove"));
+        a2.href = "#";
+        a2.onclick = function () {document.getElementById('infoPanels').style.visibility = 'hidden'};
 
         infopanelDiv.appendChild(a1);
         infopanelDiv.appendChild(a2);
@@ -78,6 +79,8 @@ var InfoOverlay = module.exports = {
         var point = Data.getPoint(activePoint);
         updateDiv(infopanelDiv, point);
         infopanelDiv.style.visibility = 'visible';
+        document.getElementById('downloadlink').download = point.meta[0].values;  
+        document.getElementById('downloadlink').href = Data.getUrl(activePoint);  
 
     }
 

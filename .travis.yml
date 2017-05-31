@@ -10,6 +10,3 @@ before_script:
   - sleep 3
 addons:
     firefox: "49.0"
-before_script:
-# firefox sendKeys patch for webdriver 3.4.0 + geckodriver 1.6.1
-  - sed -i 's/setParameter(\x27text\x27, keys)/setParameter(\x27text\x27, keys\.then(keys => keys\.join(\x27\x27)))/g' node_modules/selenium-webdriver/lib/webdriver.js

@@ -60,8 +60,8 @@ var Data = module.exports = {
     },
 
     /**
-     * Function that maps the color to the tag value that corresponds to it. Usually found at dataPoint.meta[1]
-     * because the value at index 0 is filename.
+     * Function that maps the color to the tag value that corresponds to it. Wanted tag value is usually
+     * found at dataPoint.meta[1] because the value at index 0 is the filename.
      * @param {any} dataPoint - data point object
      */
     parseTagColors: function(dataPoint) {
@@ -105,7 +105,7 @@ var Data = module.exports = {
 
 
     /**
-     * Adds an object with two properties to an array if it doesnt exist and returns index of that object.
+     * Adds an object with two properties to an array, if it doesnt exist, and returns index of that object.
      * @param {array} array - array to wich object will be added
      * @param {string} firstKey - name (key) of the first property 
      * @param {any} firstValue - value of the first property

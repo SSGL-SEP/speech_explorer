@@ -12,4 +12,4 @@ Data.loadData(json);
 var visualizer = new Visualizer();
 visualizer.init();
 
-FilterOverlay(Data.getTags(), visualizer.setFilter);
+new FilterOverlay(Data.getTags(), visualizer.setFilter);

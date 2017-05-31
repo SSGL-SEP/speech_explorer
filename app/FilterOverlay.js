@@ -90,7 +90,7 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 values: []
             };
             Object.keys(tag.values).forEach(function(key, index) {
-                if (tag.values[key]) {
+                if (!tag.values[key]) {
                     obj.values.push(key);
                     isUsed = true;
                 }

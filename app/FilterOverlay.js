@@ -36,22 +36,17 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
             Object.keys(tag.values).forEach(function(key, index) {
+                var controller = folder.add(tag.values, key);
+                controller.listen()
+                    .onChange(
+                        function() {
+                            scope.filterFunction(scope.createFilterData());
+                        }
+                    );
                 if(this.data.getTagColor(key)){
-                    folder.add(tag.values, key).borderColor(this.data.getTagColor(key).getHexString())
-                    .listen()
-                    .onChange(
-                        function() {
-                            scope.filterFunction(scope.createFilterData());
-                        }
-                    );
-                }else{
-                    folder.add(tag.values, key)
-                    .listen()
-                    .onChange(
-                        function() {
-                            scope.filterFunction(scope.createFilterData());
-                        }
-                    );
+                    controller.borderColor(this.data.getTagColor(key).getHexString())
+                    .borderWidth(10);
+                    
                 }
                 this.gui.remember(tag.values);
                 

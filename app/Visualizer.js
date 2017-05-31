@@ -28,13 +28,12 @@ var Visualizer = module.exports = function() {
     var mouse;
     var needsRefresh = true;
     var audioFile = null;
-    var audioPath = null;
 
     this.init = function() {
         this.createEnvironment();
         this.createCloud();
         this.createDraggers();
-        this.createListeners();      
+        this.createListeners();
         // this.createZoomElements();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), Data.getTags());
         this.animate();
@@ -277,7 +276,6 @@ var Visualizer = module.exports = function() {
                 attributes.size.needsUpdate = true;
 				infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
-                console.log(activePoint);
             }
         } else if (activePoint !== null){
             attributes.size.array[activePoint] = size;
@@ -337,9 +335,10 @@ var Visualizer = module.exports = function() {
             audioFile.pause();
             audioFile.startTime = 0;
         }
-
+        
         audioFile = new Audio(path);
         audioFile.play();
+
     };
 
 

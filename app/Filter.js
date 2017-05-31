@@ -31,8 +31,9 @@ var Filter = module.exports = {
             return;
         }
 
-        var res = [];
+        activePoints = [];
 
+        console.log(activeTags);
         for (var i = 0; i < Data.getTotalPoints(); i++) {
             var point = Data.getPoint(i);
             var meta = point.meta;
@@ -53,61 +54,8 @@ var Filter = module.exports = {
                 }
             }
             if (!isPresent) {
-                res.push(i);
+                activePoints.push(i);
             }
-
         }
-        console.log(res);
-        activePoints = res;
-        // var activeLists = [];
-
-        // console.log('activeTags');
-        // console.log(activeTags);
-        // activeTags.forEach(function(activeTag) {
-        //     var tag = Data.getTag(activeTag.key);
-        //     var values = tag.values;
-        //     // console.log('values');
-        //     // console.log(values);
-        //     values.forEach(function(parsedTag) {
-        //         activeTag.values.forEach(function(activeTag) {
-        //             if(activeTag !== parsedTag.value) {
-        //                 activeLists.push(parsedTag.points);
-        //             }
-        //         });
-        //     });
-        // });
-        // activePoints = _.intersection.apply(_, activeLists);
-        // console.log('active points');
-        // console.log(activePoints);
     }
 };
-//     /**
-//      * Creates a list of points that should be active based on the tags supplied.
-//      *
-//      * @param {array} activeTags list of tags that are selected. If null, the filter is deactivated.
-//      */
-//     setFilter: function(activeTags) {
-//         // if param is not an array, turn the filter off
-//         isActive = activeTags instanceof Array;
-
-//         if(!isActive) {
-//             activePoints = [];
-//             return;
-//         }
-
-//         var activeLists = [];
-//         activeTags.forEach(function(activeTag) {
-//             var tag = Data.getTag(activeTag.key);
-//             var values = tag.values;
-//             values.forEach(function(parsedTag) {
-//                 activeTag.values.forEach(function(activeTag) {
-//                     if(activeTag === parsedTag.value) {
-//                         activeLists.push(parsedTag.points);
-//                     }
-//                 });
-//             });
-//         });
-//         console.log(activeLists);
-//         activePoints = _.intersection.apply(_, activeLists);
-//     }
-// };

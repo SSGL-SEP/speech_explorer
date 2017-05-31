@@ -18,7 +18,6 @@ defineSupportCode(function({Given, When, Then}) {
     // });
 
     Then('I should see {stringInDoubleQuotes} in title', function (str) {
-        this.driver.findElement(By.css("input[type='text']")).sendKeys("k");
         return this.driver.getTitle().then(function (title) {
             return expect(title).to.equal(str);
         });

@@ -1,6 +1,6 @@
-var appDir = require('app-root-path');
-var dat = require('../lib/dat/build/dat.gui.min.js');
+'use strict';
 
+var dat = require('../lib/dat/build/dat.gui.min.js');
 
 var FilterOverlay = module.exports = function (data, filterFunction) {
     var scope = this;

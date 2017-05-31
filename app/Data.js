@@ -1,3 +1,5 @@
+'use strict';
+
 var THREE = require("three");
 
 var parsedPoints = [],
@@ -21,11 +23,11 @@ var Data = module.exports = {
             dataPoint.url = "audio/" + data[i][4];
             dataPoint.meta = this.parseTags(data[i][5], i);
             dataPoint.color = new THREE.Color(data[i][6]);
-            this.parseTagColors(dataPoint);
+            this.parseTagColors(dataPoint, 'phonem');
             parsedPoints.push(dataPoint);
         }
+        this.sortTagValues();
     },
-
 
     /**
      * Parses tag JSON into tag objects. 
@@ -60,12 +62,26 @@ var Data = module.exports = {
     },
 
     /**
-     * Function that maps the color to the tag value that corresponds to it. Usually found at dataPoint.meta[1]
-     * because the value at index 0 is filename.
+     * Function that maps the color to the correct tag value. Wanted tag is usually the one
+     * that was used to compute the color og the point.
      * @param {any} dataPoint - data point object
+     * @param {any} tagKey - key value of tag that was used to determine color of the point
      */
-    parseTagColors: function(dataPoint) {
-        var value = dataPoint.meta[1].values[0];
+
+    
+    parseTagColors: function(dataPoint, tagKey) {
+        var metaData = dataPoint.meta,
+            value,
+            tag;
+
+        for (var i = 0; i < metaData.length; i++) {
+            tag = metaData[i];
+            if (tag.key === tagKey) {
+                value = tag.values[0];
+            }
+        }
+
+
         if (!tagColors.has(value)) {
             tagColors.set(value, dataPoint.color);
         }
@@ -103,9 +119,8 @@ var Data = module.exports = {
         }
     },
 
-
     /**
-     * Adds an object with two properties to an array if it doesnt exist and returns index of that object.
+     * Adds an object with two properties to an array, if it doesnt exist, and returns index of that object.
      * @param {array} array - array to wich object will be added
      * @param {string} firstKey - name (key) of the first property 
      * @param {any} firstValue - value of the first property
@@ -140,6 +155,24 @@ var Data = module.exports = {
             }
         }
         return -1;
+    },
+
+    /**
+     * Sorts tag values alphabetically
+     */
+    sortTagValues: function() {
+        for (var i = 0; i < parsedTags.length; i++) {
+            var values = parsedTags[i].values;
+            values.sort(function(a, b) {
+                if (a.value < b.value) {
+                    return -1
+                }
+                if (a.value > b.value) {
+                    return 1;
+                }
+                return 0;
+            })
+        }
     },
 
     getTag: function(key) {

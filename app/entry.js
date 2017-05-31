@@ -1,3 +1,4 @@
+
 if (process.env.NODE_ENV === 'production') {
     //webpack was build with -p, set base url to amazon s3 for heroku to DL files
 }
@@ -11,4 +12,4 @@ Data.loadData(json);
 var visualizer = new Visualizer();
 visualizer.init();
 
-FilterOverlay(Data.getTags(), visualizer.setFilter);
+new FilterOverlay(Data.getTags(), visualizer.setFilter); // eslint-disable-line no-new

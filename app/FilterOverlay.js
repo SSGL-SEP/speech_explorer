@@ -23,7 +23,7 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
             };
 
             for (var j = 0; j < this.tags[i].values.length; j++) {
-                boolObj.values[this.tags[i].values[j].value] = false;
+                boolObj.values[this.tags[i].values[j].value] = true;
             }
             this.boolTags.push(boolObj);
 
@@ -52,16 +52,23 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
 
             });
         }
-        var filter = this.filterButton;
+        var select = this.selectButton;
         var clear = this.clearAllButton;
         this.gui.add(clear, 'ClearAll');
-        this.gui.add(filter, 'Filter');
+        this.gui.add(select, 'SelectAll');
         var doc = document.getElementById('overlay');
         doc.appendChild(this.gui.domElement);
     };
 
-    this.filterButton = {
-        Filter: function() {
+    this.selectButton = {
+        SelectAll: function() {
+            for (var i = 0; i < scope.boolTags.length; i++) {
+                var tag = scope.boolTags[i];
+                Object.keys(tag.values).forEach(function(key, index) {
+                    tag.values[key] = true;
+                });
+            }
+            scope.update();
             scope.filterFunction(scope.createFilterData());
         }
     };

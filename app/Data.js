@@ -24,6 +24,7 @@ var Data = module.exports = {
             this.parseTagColors(dataPoint, 'phonem');
             parsedPoints.push(dataPoint);
         }
+        this.sortTagValues();
     },
 
     /**
@@ -149,6 +150,24 @@ var Data = module.exports = {
             }
         }
         return -1;
+    },
+
+    /**
+     * Sorts tag values alphabetically
+     */
+    sortTagValues: function() {
+        for (var i = 0; i < parsedTags.length; i++) {
+            var values = parsedTags[i].values;
+            values.sort(function(a, b) {
+                if (a.value < b.value) {
+                    return -1
+                }
+                if (a.value > b.value) {
+                    return 1;
+                }
+                return 0;
+            })
+        }
     },
 
     getTag: function(key) {

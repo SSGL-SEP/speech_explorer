@@ -1,9 +1,11 @@
-var dat = require("dat.gui/build/dat.gui.min.js");
+var appDir = require('app-root-path');
+var dat = require('../lib/dat/build/dat.gui.min.js');
 
-var FilterOverlay = module.exports = function(tags, filterFunction) {
+
+var FilterOverlay = module.exports = function (data, filterFunction) {
     var scope = this;
     this.boolTags = [];
-    this.tags = tags;
+    this.tags = data.getTags();
     this.gui = new dat.GUI();
     this.filterFunction = filterFunction;
 
@@ -33,13 +35,21 @@ var FilterOverlay = module.exports = function(tags, filterFunction) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
             Object.keys(tag.values).forEach(function(key, index) {
-                folder.add(tag.values, key)
-                    .listen()
+                var controller = folder.add(tag.values, key);
+                controller.listen()
                     .onChange(
                         function() {
                             scope.filterFunction(scope.createFilterData());
                         }
                     );
+                if(data.getTagColor(key)){
+                    controller.borderColor(data.getTagColor(key).getHexString())
+                    .borderWidth(10);
+                    
+                }
+                scope.gui.remember(tag.values);
+                
+
             });
         }
         var filter = this.filterButton;

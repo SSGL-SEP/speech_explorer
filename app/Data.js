@@ -65,6 +65,8 @@ var Data = module.exports = {
      * @param {any} dataPoint - data point object
      * @param {any} tagKey - key value of tag that was used to determine color of the point
      */
+
+    
     parseTagColors: function(dataPoint, tagKey) {
         var metaData = dataPoint.meta,
             value,
@@ -76,6 +78,7 @@ var Data = module.exports = {
                 value = tag.values[0];
             }
         }
+
 
         if (!tagColors.has(value)) {
             tagColors.set(value, dataPoint.color);

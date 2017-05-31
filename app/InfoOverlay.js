@@ -9,6 +9,40 @@ var updateDiv = function (uDiv, point) {
     }
 };
 
+// var cloneCount = 0;
+
+var cloneForPanel = function (model) {
+    var newDiv = document.createElement( 'div' );
+    // var id = 'panel_' + cloneCount++;
+    // newDiv.id = id;
+    var children = model.childNodes;
+    for (var i = 0; i < children.length; i++) {
+        newDiv.appendChild(children[i].cloneNode(true));
+    }
+
+    var a1 = document.createElement('a');
+    a1.appendChild(document.createTextNode("Download"));
+    a1.id = "downloadlink";
+
+    var a2 = document.createElement('a');
+    a2.appendChild(document.createTextNode("Close"));
+    a2.href = "#";
+    a2.onclick = function () {document.getElementById('infoPanels').style.visibility = 'hidden'};
+
+    var a3 = document.createElement('a');
+    a3.appendChild(document.createTextNode("Play"));
+    a3.href = "#";
+    a3.onclick = function () {console.log('Playing!')};
+
+
+    newDiv.appendChild(a1);
+    newDiv.appendChild(a3);
+    newDiv.appendChild(a2);
+
+    return newDiv;
+
+};
+
 var InfoOverlay = module.exports = {
     tags: null,
     infoDiv: null,
@@ -24,11 +58,8 @@ var InfoOverlay = module.exports = {
 
         var outerDiv, innerDiv;
         outerDiv = document.createElement( 'div' );
-        outerDiv.className = 'filename';
-        
+        outerDiv.className = 'filename';        
         infoDiv.appendChild(outerDiv);
-        infopanelDiv.appendChild(outerDiv.cloneNode(true));
-
 
         for (var i = 1; i < tags.length; i++) {
             outerDiv = document.createElement( 'div' );
@@ -38,22 +69,10 @@ var InfoOverlay = module.exports = {
             innerDiv.className = tags[i].key + ' infoInstance';
             
             outerDiv.appendChild(innerDiv);
- 
             infoDiv.appendChild(outerDiv);
-            infopanelDiv.appendChild(outerDiv.cloneNode(true));
         }
 
-        var a1 = document.createElement('a');
-        a1.appendChild(document.createTextNode("Download"));
-        a1.id = "downloadlink";
-
-        var a2 = document.createElement('a');
-        a2.appendChild(document.createTextNode("Remove"));
-        a2.href = "#";
-        a2.onclick = function () {document.getElementById('infoPanels').style.visibility = 'hidden'};
-
-        infopanelDiv.appendChild(a1);
-        infopanelDiv.appendChild(a2);
+        infopanelDiv.appendChild(cloneForPanel(infoDiv));
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

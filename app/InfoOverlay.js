@@ -43,8 +43,20 @@ var InfoOverlay = module.exports = {
             infopanelDiv.appendChild(outerDiv.cloneNode(true));
         }
 
+        var a1 = document.createElement('a');
+        a1.appendChild(document.createTextNode("open box"));
+        a1.href = "http://example.com";
+
+        var a2 = document.createElement('a');
+        a2.appendChild(document.createTextNode("remove"));
+        a2.href = "http://example.com";
+
+        infopanelDiv.appendChild(a1);
+        infopanelDiv.appendChild(a2);
+
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';
+        infopanelDiv.style.visibility = 'hidden';
 
     },
 

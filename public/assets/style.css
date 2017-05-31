@@ -42,3 +42,8 @@ body {
 #infoPanels {
     top: 90%;
 }
+
+a {
+    color: yellow;
+    padding-right: 10px;
+}

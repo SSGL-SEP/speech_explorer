@@ -34,21 +34,20 @@ var Filter = module.exports = {
         activePoints = [];
 
         for (var i = 0; i < Data.getTotalPoints(); i++) {
-            var point = Data.getPoint(i);
-            var meta = point.meta;
+            // var point = Data.getPoint(i);
+            var meta = Data.getPoint(i).point.meta;
             var isPresent = false;
 
-            for (var k = 0; k < meta.length; k++) {
-                var metaTag = meta[k];
-                for (var j = 0; j < activeTags.length; j++) {
-                    var element = activeTags[j];
+            for (var j = 0; j < meta.length; j++) {
+                var metaTag = meta[j];
+                for (var k = 0; k < activeTags.length; k++) {
+                    var element = activeTags[k];
                     var tagKey = element.key;
                     var tagValues = element.values;
 
                     if (tagKey === metaTag.key && tagValues.includes(metaTag.values[0])) {
                         isPresent = true;
                     }
-
                 }
             }
             if (!isPresent) {

@@ -46,10 +46,10 @@ var Visualizer = module.exports = function() {
         // this.info = document.getElementById('info');
         // this.info.classList.add("show");
         this.renderer = new THREE.WebGLRenderer({
-            antialias : true
+            antialias: true
         });
-        this.renderer.setClearColor( 0x0F0F0F );
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setClearColor(0x0F0F0F);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
         this.context = document.getElementById('visualizer');
         this.context.appendChild(this.renderer.domElement);
@@ -62,7 +62,7 @@ var Visualizer = module.exports = function() {
             window.innerWidth / 2,
             window.innerHeight / 2,
             window.innerHeight / - 2,
-            near, far );
+            near, far);
 
         this.camera.position.x = 0;
         this.camera.position.y = 0;
@@ -70,7 +70,7 @@ var Visualizer = module.exports = function() {
 
         var audioListener = new THREE.AudioListener();
 
-        this.camera.add( audioListener );
+        this.camera.add(audioListener);
 
         this.scene.add(this.camera);
 
@@ -88,18 +88,18 @@ var Visualizer = module.exports = function() {
     };
 
     this.createCloud = function() {
-        if(!this.zoomer) {
+        if (!this.zoomer) {
             this.zoomer = new THREE.Object3D();
-            this.base.add( this.zoomer );
+            this.base.add(this.zoomer);
             this.panner = new THREE.Object3D();
-            this.zoomer.add( this.panner );
+            this.zoomer.add(this.panner);
 
-            var scalarWidth = window.innerWidth/1000;
-            var scalarHeight = window.innerHeight/1000;
-            var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
+            var scalarWidth = window.innerWidth / 1000;
+            var scalarHeight = window.innerHeight / 1000;
+            var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
             resetScale *= 1.65;
             Data.cloudSize2D = resetScale;
-            scope.zoomer.scale.set(resetScale,resetScale,resetScale);
+            scope.zoomer.scale.set(resetScale, resetScale, resetScale);
 
             // Set panner position to match data between coordinates 0 - 800
             scope.panner.position.x = -200;
@@ -110,14 +110,14 @@ var Visualizer = module.exports = function() {
 
         }
 
-        if(this.pointCloud) {
+        if (this.pointCloud) {
             this.pointCloud.removeCloud();
             this.panner.remove(this.pointCloud);
             this.pointCloud = null;
         }
 
         this.pointCloud = new PointCloud();
-        this.panner.add( this.pointCloud );
+        this.panner.add(this.pointCloud);
         // scope.pointCloud.rotateOnAxis(new THREE.Vector3(1,0,0), THREE.Math.degToRad(90));
         this.update();
 
@@ -135,25 +135,25 @@ var Visualizer = module.exports = function() {
         var onPinchStarted = function(event) {
             var startScale = scope.zoomer.scale.x;
 
-            var dx = event.touches[ 0 ].clientX - event.touches[ 1 ].clientX;
-            var dy = event.touches[ 0 ].clientY - event.touches[ 1 ].clientY;
-            var touchZoomDistanceStart = Math.sqrt( dx * dx + dy * dy );
+            var dx = event.touches[0].clientX - event.touches[1].clientX;
+            var dy = event.touches[0].clientY - event.touches[1].clientY;
+            var touchZoomDistanceStart = Math.sqrt(dx * dx + dy * dy);
 
             var onPinchMoved = function(event) {
 
-                var dx = event.touches[ 0 ].clientX - event.touches[ 1 ].clientX;
-                var dy = event.touches[ 0 ].clientY - event.touches[ 1 ].clientY;
-                var touchZoomDistanceEnd = Math.sqrt( dx * dx + dy * dy );
-                var size = startScale + (touchZoomDistanceEnd - touchZoomDistanceStart)*0.025;
+                var dx = event.touches[0].clientX - event.touches[1].clientX;
+                var dy = event.touches[0].clientY - event.touches[1].clientY;
+                var touchZoomDistanceEnd = Math.sqrt(dx * dx + dy * dy);
+                var size = startScale + (touchZoomDistanceEnd - touchZoomDistanceStart) * 0.025;
 
-                var scalarWidth = window.innerWidth/1000;
-                var scalarHeight = window.innerHeight/1000;
-                var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
+                var scalarWidth = window.innerWidth / 1000;
+                var scalarHeight = window.innerHeight / 1000;
+                var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
 
-                size = (size>6) ? 6 : size;
-                size = (size<resetScale) ? resetScale : size;
+                size = (size > 6) ? 6 : size;
+                size = (size < resetScale) ? resetScale : size;
 
-                scope.zoomer.scale.set(size,size,size);
+                scope.zoomer.scale.set(size, size, size);
                 scope.updateDraggers();
                 event.stopPropagation();
                 event.preventDefault();
@@ -169,7 +169,7 @@ var Visualizer = module.exports = function() {
             scope.context.addEventListener('touchend', onPinchEnded, false);
 
         };
-        var mouse = new THREE.Vector2(100000,100000);
+        var mouse = new THREE.Vector2(100000, 100000);
 
         this.context.addEventListener('mousedown', onDragStarted, false);
 
@@ -178,7 +178,7 @@ var Visualizer = module.exports = function() {
             event.clientY = event.changedTouches[0].clientY;
             // HACK - Need a better solution instead of using state changes;
             // SEE - this.onBgDown() onMove()
-            switch ( event.touches.length ) {
+            switch (event.touches.length) {
                 case 1:
                     scope.touchState = scope.IS_DRAGGING;
                     onDragStarted(event);
@@ -197,29 +197,29 @@ var Visualizer = module.exports = function() {
         scope.context.addEventListener('touchstart', onTouchStarted, false);
     };
 
-    var onWheel = function (event) {
+    var onWheel = function(event) {
         var delta = (!event.deltaY) ? event.detail : event.deltaY;
         // var controller = document.getElementById("controller");
-        var scalarWidth = window.innerWidth/1000;
-        var scalarHeight = window.innerHeight/1000;
-        var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
+        var scalarWidth = window.innerWidth / 1000;
+        var scalarHeight = window.innerHeight / 1000;
+        var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
         var scalar;
 
-        if(scope.isScrollDisabled) {
+        if (scope.isScrollDisabled) {
             return true;
         }
 
-        if(delta>0) {
-            Data.cloudSize2D/=1.05;
-            Data.cloudSize2D = (Data.cloudSize2D<resetScale) ? resetScale : Data.cloudSize2D;
+        if (delta > 0) {
+            Data.cloudSize2D /= 1.05;
+            Data.cloudSize2D = (Data.cloudSize2D < resetScale) ? resetScale : Data.cloudSize2D;
             scalar = Data.cloudSize2D;
-            scope.zoomer.scale.set(scalar,scalar,scalar);
+            scope.zoomer.scale.set(scalar, scalar, scalar);
             // scope.updateDraggers();
         } else {
-            Data.cloudSize2D*=1.05;
-            Data.cloudSize2D = (Data.cloudSize2D>20) ? 20 : Data.cloudSize2D;
+            Data.cloudSize2D *= 1.05;
+            Data.cloudSize2D = (Data.cloudSize2D > 20) ? 20 : Data.cloudSize2D;
             scalar = Data.cloudSize2D;
-            scope.zoomer.scale.set(scalar,scalar,scalar);
+            scope.zoomer.scale.set(scalar, scalar, scalar);
             // scope.updateDraggers();
         }
         Data.pointSize = Math.max(2, Data.cloudSize2D);
@@ -228,27 +228,20 @@ var Visualizer = module.exports = function() {
     };
 
     this.createListeners = function() {
-        window.addEventListener("resize", function (event) {
+        window.addEventListener("resize", function(event) {
             scope.resize(event);
         });
     };
 
     this.setFilter = function(activeTags) {
         Filter.setFilter(activeTags);
-
-        if(Filter.isActive()) {
-            Data.pointSizeMultiplier = 1.5;
-            scope.pointCloud.activateFilter(Filter.getActivePoints());
-        } else {
-            Data.pointSizeMultiplier = 1;
-            scope.pointCloud.disableFilter();
-        }
+        scope.pointCloud.activateFilter(Filter.getActivePoints());
         needsRefresh = true;
         showActive();
     };
 
     this.update = function() {
-        if(needsRefresh) {
+        if (needsRefresh) {
             this.pointCloud.getAttributes().size.needsUpdate = true;
             this.pointCloud.draw();
             this.pointCloud.update();
@@ -278,7 +271,7 @@ var Visualizer = module.exports = function() {
                 infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
-        } else if (activePoint !== null){
+        } else if (activePoint !== null) {
             attributes.size.array[activePoint] = size;
             attributes.position.array[activePoint * 3 + 2] = 1;
             attributes.size.needsUpdate = true;
@@ -286,7 +279,7 @@ var Visualizer = module.exports = function() {
             infoOverlay.hideInfo();//hides infodiv with sound information
         }
 
-        this.renderer.render( this.scene, this.camera );
+        this.renderer.render(this.scene, this.camera);
     };
 
     var getIntersectingPoints = function(radius) {
@@ -320,15 +313,8 @@ var Visualizer = module.exports = function() {
     // 	infotext.style.visibility = 'visible';
     // };
 
-    var showActive = function () {
-        var activeAmount = "";
-        if (Filter.isActive() === false) {
-            activeAmount = Data.getTotalPoints();
-        } else {
-            activeAmount = Filter.getActivePoints().length;
-        }
-        infoOverlay.updateActive(Data.getTotalPoints(), activeAmount);
-
+    var showActive = function() {
+        infoOverlay.updateActive(Data.getTotalPoints(), Filter.getActivePoints().length);
     };
 
     var playSound = function(path) {
@@ -357,19 +343,19 @@ var Visualizer = module.exports = function() {
     // ------------------------------------------------------------
     this.onDocumentMouseMove = function(event) {
         event.preventDefault();
-        mouse.x = ( event.offsetX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.offsetY / window.innerHeight ) * 2 + 1;
+        mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.offsetY / window.innerHeight) * 2 + 1;
         // console.log(mouse.x,mouse.y);
     };
 
 
 
-    this.onBgDown = function (event) {
-        var x = (event.clientX-window.innerWidth*0.5) / scope.zoomer.scale.x;
-        var y = (-event.clientY+window.innerHeight*0.5) / scope.zoomer.scale.y;
+    this.onBgDown = function(event) {
+        var x = (event.clientX - window.innerWidth * 0.5) / scope.zoomer.scale.x;
+        var y = (-event.clientY + window.innerHeight * 0.5) / scope.zoomer.scale.y;
         // console.log("onBgDown triggered");
-        var anchorOffset = new THREE.Vector2( x, y );
-        var draggerStart = new THREE.Vector2(scope.panner.position.x,scope.panner.position.y);
+        var anchorOffset = new THREE.Vector2(x, y);
+        var draggerStart = new THREE.Vector2(scope.panner.position.x, scope.panner.position.y);
 
         var onTouchMove = function(event) {
             event.clientX = event.changedTouches[0].clientX;
@@ -379,14 +365,14 @@ var Visualizer = module.exports = function() {
 
         var onMove = function(event) {
             // console.log("onMove triggered");
-            if(	scope.touchState === scope.IS_ZOOMING) {
+            if (scope.touchState === scope.IS_ZOOMING) {
                 return;
             }
 
-            scope.panner.position.x = event.clientX-window.innerWidth*0.5;
-            scope.panner.position.y = -event.clientY+window.innerHeight*0.5;
-            scope.panner.position.x/=scope.zoomer.scale.x;
-            scope.panner.position.y/=scope.zoomer.scale.y;
+            scope.panner.position.x = event.clientX - window.innerWidth * 0.5;
+            scope.panner.position.y = -event.clientY + window.innerHeight * 0.5;
+            scope.panner.position.x /= scope.zoomer.scale.x;
+            scope.panner.position.y /= scope.zoomer.scale.y;
             scope.panner.position.x -= anchorOffset.x;
             scope.panner.position.y -= anchorOffset.y;
             scope.panner.position.x += draggerStart.x;
@@ -434,7 +420,7 @@ var Visualizer = module.exports = function() {
             scope.camera.top = window.innerHeight / 2;
             scope.camera.bottom = window.innerHeight / - 2;
             scope.camera.updateProjectionMatrix();
-            scope.renderer.setSize( window.innerWidth, window.innerHeight );
+            scope.renderer.setSize(window.innerWidth, window.innerHeight);
             // scope.updateDraggers();
         }, 250);
 

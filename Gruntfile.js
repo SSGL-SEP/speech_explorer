@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 
         watch: {
             app: {
-                files: ['./app/**/*.js'],
+                files: ['./app/**/*.js', 'webpack.config.js'],
                 tasks: ['webpack:build']
             }
         },

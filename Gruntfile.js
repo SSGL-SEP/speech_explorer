@@ -1,7 +1,4 @@
-'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
 
 module.exports = function(grunt) {
@@ -19,13 +16,19 @@ module.exports = function(grunt) {
         jshint: {
             options: {
                 node: true,
+                browser: true,
                 strict: true,
-                globalstrict: true
+                loopfunc: true,
+                globals: {
+                    "Map": false
+                }
             },
-            uses_defaults: ['app/**/*.js'],
-            with_overrides: {
+            app: ['app/**/*.js'],
+            tests: {
                 options: {
-                    esversion: 6
+                    esversion: 6,
+                    strict: "implied",
+                    mocha: true
                 },
                 files: {
                     src: ['test/**/*.js']
@@ -41,7 +44,7 @@ module.exports = function(grunt) {
                 command: 'node app/server.js & istanbul cover ./node_modules/.bin/cucumberjs -r test/features'
             },
             kill_all:{
-                command:'killall node'
+                command: 'killall node'
             },
             run_cucumber_tests: {
                 command: 'node_modules/.bin/cucumberjs test/features'
@@ -100,8 +103,8 @@ module.exports = function(grunt) {
     //grunt.registerTask('default', ['jshint', 'exec']);
     //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);
     // grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
-    // grunt.registerTask('default', ['env:firefox', 'jshint', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
-    grunt.registerTask('default', ['env:firefox', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
+    grunt.registerTask('default', ['env:firefox', 'jshint', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
+    // grunt.registerTask('default', ['env:firefox', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
 
     grunt.registerTask('serve-and-watch', ['webpack:build', 'concurrent:watchers']);
 

@@ -9,6 +9,7 @@ function CustomWorld() {
         .build();
 
     var defaultTimeout = 10000;
+    var driver = this.driver;
     this.waitFor = function(cssLocator, timeout) {
         var waitTimeout = timeout || defaultTimeout;
         return driver.wait(function() {
@@ -23,5 +24,5 @@ function CustomWorld() {
 }
 
 defineSupportCode(function({setWorldConstructor}) {
-    setWorldConstructor(CustomWorld)
+    setWorldConstructor(CustomWorld);
 });

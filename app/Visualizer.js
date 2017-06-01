@@ -26,16 +26,14 @@ var Visualizer = module.exports = function() {
     var activePoint = null;
     var raycaster;
     var mouse;
-    var soundBuffer;
-    var audioLoader;
     var needsRefresh = true;
-   	var infotext;
+    var audioFile = null;
 
     this.init = function() {
         this.createEnvironment();
         this.createCloud();
         this.createDraggers();
-        this.createListeners();      
+        this.createListeners();
         // this.createZoomElements();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), Data.getTags());
         this.animate();
@@ -72,9 +70,6 @@ var Visualizer = module.exports = function() {
         var audioListener = new THREE.AudioListener();
 
         this.camera.add( audioListener );
-        soundBuffer = new THREE.Audio( audioListener );
-        audioLoader = new THREE.AudioLoader();
-        this.scene.add( soundBuffer );
 
         this.scene.add(this.camera);
 
@@ -151,7 +146,7 @@ var Visualizer = module.exports = function() {
                 var size = startScale + (touchZoomDistanceEnd - touchZoomDistanceStart)*0.025;
 
                 var scalarWidth = window.innerWidth/1000;
-                var scalarHeight = (window.innerHeight-controller.clientHeight)/1000;
+                var scalarHeight = window.innerHeight/1000;
                 var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
 
                 size = (size>6) ? 6 : size;
@@ -279,7 +274,7 @@ var Visualizer = module.exports = function() {
                 attributes.position.array[activePoint * 3 + 2] = 1;
                 attributes.position.needsUpdate = true;
                 attributes.size.needsUpdate = true;
-				infoOverlay.updateInfo(activePoint);
+                infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null){
@@ -313,16 +308,16 @@ var Visualizer = module.exports = function() {
         return intersects;
     };
 
- //    var showInfo = function (activePoint) {
- //    	var currPoint = activePoint;
- //        var point = Data.getPoint(activePoint);
- //        infotext = document.getElementById('info');
- //        infotext.innerHTML = point.meta[0].values + '<br />';
-	// 	for (var i = 1; i < point.meta.length; i++) {
- //            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
-	// 	}
-	// 	infotext.style.visibility = 'visible';
-	// };
+    //    var showInfo = function (activePoint) {
+    //    	var currPoint = activePoint;
+    //        var point = Data.getPoint(activePoint);
+    //        infotext = document.getElementById('info');
+    //        infotext.innerHTML = point.meta[0].values + '<br />';
+    // 	for (var i = 1; i < point.meta.length; i++) {
+    //            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+    // 	}
+    // 	infotext.style.visibility = 'visible';
+    // };
 
     var showActive = function () {
         var activeAmount = "";
@@ -336,29 +331,14 @@ var Visualizer = module.exports = function() {
     };
 
     var playSound = function(path) {
-        audioLoader.load(
-            // resource URL
-            path,
-            // Function when resource is loaded
-            function ( buffer ) {
-                // set the audio object buffer to the loaded object
-                if (soundBuffer.isPlaying) {
-                    soundBuffer.stop();
-                }
-                soundBuffer.setBuffer( buffer );
+        if (audioFile !== null) {
+            audioFile.pause();
+            audioFile.startTime = 0;
+        }
 
-                // play the audio
-                soundBuffer.play();
-            },
-            // Function called when download progresses
-            function ( xhr ) {
-                console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-            },
-            // Function called when download errors
-            function ( xhr ) {
-                console.log( 'Download failed' );
-            }
-        );
+        audioFile = new Audio(path);
+        audioFile.play();
+
     };
 
 

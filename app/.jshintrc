@@ -1,0 +1,7 @@
+{
+  "esversion": 5,
+  "strict": true,
+  "node": true,
+  "quotmark": false,
+  "browser": true
+}

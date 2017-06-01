@@ -13,7 +13,7 @@ var Filter = module.exports = {
         return activePoints;
     },
 
-    isActive: function () {
+    isActive: function() {
         return isActive;
     },
 
@@ -26,23 +26,31 @@ var Filter = module.exports = {
         // if param is not an array, turn the filter off
         isActive = activeTags instanceof Array;
 
-        if(!isActive) {
+        if (!isActive) {
             activePoints = [];
             return;
         }
+        activePoints = [];
 
-        var activeLists = [];
-        activeTags.forEach(function(activeTag) {
-            var tag = Data.getTag(activeTag.key);
-            var values = tag.values;
-            values.forEach(function(parsedTag) {
-                activeTag.values.forEach(function(activeTag) {
-                    if(activeTag === parsedTag.value) {
-                        activeLists.push(parsedTag.points);
+        for (var i = 0; i < Data.getTotalPoints(); i++) {
+            var meta = Data.getPoint(i).meta;
+            var isPresent = false;
+
+            for (var j = 0; j < meta.length; j++) {
+                var metaTag = meta[j];
+                for (var k = 0; k < activeTags.length; k++) {
+                    var element = activeTags[k];
+                    var tagKey = element.key;
+                    var tagValues = element.values;
+
+                    if (tagKey === metaTag.key && tagValues.includes(metaTag.values[0])) {
+                        isPresent = true;
                     }
-                });
-            });
-        });
-        activePoints = _.intersection.apply(_, activeLists);
+                }
+            }
+            if (!isPresent) {
+                activePoints.push(i);
+            }
+        }
     }
 };

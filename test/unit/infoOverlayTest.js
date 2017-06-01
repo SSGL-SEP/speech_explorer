@@ -39,6 +39,14 @@ describe('InfoOverlay', function () {
 		});
 	});
 
+	describe('InfoOverlay#updateInfo', function () {
+		it('should make infodisplay visible', function () {
+			InfoOverlay.updateInfo(0);
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.style.visibility === 'visible');
+		});
+	});
+
 	describe('InfoOverlay#updateActive', function () {
 		it('should update display of number of active sounds correctly', function () {
 			InfoOverlay.updateActive(2,1);
@@ -78,14 +86,6 @@ describe('InfoOverlay', function () {
 		});
 	});
 
-	describe('InfoOverlay#updateInfo', function () {
-		it('should make infodisplay visible', function () {
-			InfoOverlay.updateInfo(0);
-			var target = this.dom.window.document.getElementById('info');
-			assert(target.style.visibility === 'visible');
-		});
-	});
-
 	describe('InfoOverlay#hideInfo', function () {
 		it('should hide display of info when requested', function () {
 			InfoOverlay.hideInfo();
@@ -101,16 +101,5 @@ describe('InfoOverlay', function () {
 	// 		assert(target.style.visibility === 'visible');
 	// 	});
 	// });
-
-	// describe('InfoOverlay#onClickOnPoint', function () {
-	// 	it('should set downloadlink correctly', function () {
-	// 		InfoOverlay.onClickOnPoint(0);
-	// 		var target = this.dom.window.document.getElementById('infoPanels');
-	// 		assert(target.href === Data.getUrl(0));//"mv_0693_021_i_1_0.wav");
-	// 	});
-	// });
-	
-
-
 
 });

@@ -1,5 +1,7 @@
 var Data = require("./Data");
 
+var infoDiv, activeDiv, infopanelDiv;
+
 var updateDiv = function (uDiv, point) {
     var currdiv;
     uDiv.getElementsByClassName('filename')[0].innerHTML = point.meta[0].values;
@@ -13,8 +15,6 @@ var updateDiv = function (uDiv, point) {
 
 var cloneForPanel = function (model) {
     var newDiv = document.createElement( 'div' );
-    // var id = 'panel_' + cloneCount++;
-    // newDiv.id = id;
     var children = model.childNodes;
     for (var i = 0; i < children.length; i++) {
         newDiv.appendChild(children[i].cloneNode(true));
@@ -22,7 +22,7 @@ var cloneForPanel = function (model) {
 
     var a1 = document.createElement('a');
     a1.appendChild(document.createTextNode("Download"));
-    a1.id = "downloadlink";
+    a1.id = "downloadlink1";
 
     var a2 = document.createElement('a');
     a2.appendChild(document.createTextNode("Close"));
@@ -45,9 +45,6 @@ var cloneForPanel = function (model) {
 
 var InfoOverlay = module.exports = {
     tags: null,
-    infoDiv: null,
-    activeDiv: null,
-    infopanelDiv: null,
 
     init : function (newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
         
@@ -98,8 +95,9 @@ var InfoOverlay = module.exports = {
         var point = Data.getPoint(activePoint);
         updateDiv(infopanelDiv, point);
         infopanelDiv.style.visibility = 'visible';
-        document.getElementById('downloadlink').download = point.meta[0].values;  
-        document.getElementById('downloadlink').href = Data.getUrl(activePoint);  
+        var dlLinkDiv = document.getElementById('downloadlink1');
+        dlLinkDiv.download = point.meta[0].values;  
+        dlLinkDiv.href = Data.getUrl(activePoint);  
 
     }
 

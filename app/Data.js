@@ -20,7 +20,12 @@ var Data = module.exports = {
         var i;
         for (i = 0; i < data.length; i++) {
             var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
-            dataPoint.url = "audio/" + data[i][4];
+            if (process.env.DATA_SRC) {
+                dataPoint.url = process.env.DATA_SRC + data[i][4];
+            } else {
+                dataPoint.url = "audio/" + data[i][4];
+            }
+
             dataPoint.meta = this.parseTags(data[i][5], i);
             dataPoint.color = new THREE.Color(data[i][6]);
             this.parseTagColors(dataPoint, 'phonem');

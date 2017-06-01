@@ -4,7 +4,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var Data = require('./Data');
-var json = require('../data/2D_newformat_full.json');
+var json;
+if (process.env.NODE_ENV === 'development') {
+        json = require('../test/testdata200.json');
+    } else {
+        json = require('../data/2D_newformat_full.json');
+    }
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
 

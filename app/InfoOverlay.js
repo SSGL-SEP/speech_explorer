@@ -1,6 +1,7 @@
 'use strict';
 
 var Data = require("./Data");
+var audioPlayer = require("./AudioPlayer");
 
 var infoDiv, activeDiv, infopanelDiv;
 
@@ -34,8 +35,15 @@ var cloneForPanel = function (model) {
     var a3 = document.createElement('a');
     a3.appendChild(document.createTextNode("Play"));
     a3.href = "#";
-    a3.onclick = function () {console.log('Playing!');};
-
+    a3.onclick = function () {
+        var siblings = this.parentNode.children;
+        for(var i = siblings.length; i--;) {
+            if(siblings[i].id) {  // Tää on vaarallinen mutta voi toimia niin kauan kun muilla linkeillä ei id:tä!!
+                audioPlayer.play(siblings[i].href);
+            break;
+            }
+        }
+    };
 
     newDiv.appendChild(a1);
     newDiv.appendChild(a3);

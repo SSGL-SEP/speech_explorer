@@ -5,6 +5,7 @@ var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
 var THREE = require("three");
 var infoOverlay = require("./InfoOverlay");
+var audioPlayer = require("./AudioPlayer");
 
 var Visualizer = module.exports = function() {
     var scope = this;
@@ -317,13 +318,14 @@ var Visualizer = module.exports = function() {
     };
 
     var playSound = function(path) {
-        if (audioFile !== null) {
-            audioFile.pause();
-            audioFile.startTime = 0;
-        }
+        audioPlayer.play(path);
+        // if (audioFile !== null) {
+        //     audioFile.pause();
+        //     audioFile.startTime = 0;
+        // }
 
-        audioFile = new Audio(path);
-        audioFile.play();
+        // audioFile = new Audio(path);
+        // audioFile.play();
 
     };
 

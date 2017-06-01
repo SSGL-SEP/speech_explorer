@@ -235,13 +235,14 @@ var Visualizer = module.exports = function() {
     this.setFilter = function(activeTags) {
         Filter.setFilter(activeTags);
 
-        if(Filter.isActive()) {
+        // if(Filter.isActive()) {
             Data.pointSizeMultiplier = 1.5;
             scope.pointCloud.activateFilter(Filter.getActivePoints());
-        } else {
-            Data.pointSizeMultiplier = 1;
-            scope.pointCloud.disableFilter();
-        }
+        // } 
+        // else {
+        //     Data.pointSizeMultiplier = 1;
+        //     scope.pointCloud.disableFilter();
+        // }
         needsRefresh = true;
         showActive();
     };

@@ -81,7 +81,7 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 });
             }
             scope.update();
-            scope.filterFunction(null);
+            scope.filterFunction(scope.createFilterData());
         }
     };
 
@@ -104,10 +104,12 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 data.push(obj);
             }
         }
-        if (data.length === 0) {
-            // nothing selected -> filter off
-            return null;
-        }
+        // if (data.length === 0) {
+        //     // nothing selected -> filter off
+        //     console.log('data lenght is null');
+        //     return null;
+        // }
+        console.log(data);
         return data;
     };
 

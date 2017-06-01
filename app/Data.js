@@ -206,6 +206,4 @@ var Data = module.exports = {
     getTagColor: function(tag) {
         return tagColors.get(tag);
     }
-
 };
-

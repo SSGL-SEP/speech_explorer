@@ -4,7 +4,6 @@ var THREE = require("three");
 
 var parsedPoints = [],
     parsedTags = [],
-    tagMap = new Map(),
     tagColors = new Map(),
     total = 0;
 
@@ -28,7 +27,6 @@ var Data = module.exports = {
             parsedPoints.push(dataPoint);
         }
         this.sortTagValues();
-        console.log(tagMap);
     },
 
     /**
@@ -54,16 +52,6 @@ var Data = module.exports = {
             meta[tagIndex].values.push(tagVal);
 
             // Parse tag for parsedTag array
-            if(!tagMap.has(tagKey)){
-                tagMap.set(tagKey, new Object);
-            }
-
-            if(tagMap.get(tagKey)[tagVal] === undefined){
-                tagMap.get(tagKey)[tagVal] = [];
-            }
-            
-            tagMap.get(tagKey)[tagVal].push(pointIndex);
-            
             tagIndex = this.addTwoPropertyObject(parsedTags, 'key', tagKey, 'values', new Array());
             values = parsedTags[tagIndex].values;
             valueIndex = this.addTwoPropertyObject(values, 'value', tagVal, 'points', new Array());
@@ -80,7 +68,7 @@ var Data = module.exports = {
      * @param {any} tagKey - key value of tag that was used to determine color of the point
      */
 
-    
+
     parseTagColors: function(dataPoint, tagKey) {
         var metaData = dataPoint.meta,
             value,
@@ -218,10 +206,4 @@ var Data = module.exports = {
     getTagColor: function(tag) {
         return tagColors.get(tag);
     },
-
-    getTagMap: function(){
-        return tagMap;
-    }
-
 };
-

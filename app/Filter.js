@@ -33,7 +33,6 @@ var Filter = module.exports = {
 
         activePoints = [];
 
-        console.log(activeTags);
         for (var i = 0; i < Data.getTotalPoints(); i++) {
             var point = Data.getPoint(i);
             var meta = point.meta;
@@ -49,7 +48,6 @@ var Filter = module.exports = {
                     if (tagKey === metaTag.key && tagValues.includes(metaTag.values[0])) {
                         isPresent = true;
                     }
-
 
                 }
             }

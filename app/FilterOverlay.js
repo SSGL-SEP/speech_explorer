@@ -2,7 +2,7 @@
 
 var dat = require('../lib/dat/build/dat.gui.min.js');
 
-var FilterOverlay = module.exports = function (data, filterFunction) {
+var FilterOverlay = module.exports = function(data, filterFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
@@ -38,13 +38,13 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 var controller = folder.add(tag.values, key);
                 controller.listen()
                     .onChange(
-                        function() {
-                            scope.filterFunction(scope.createFilterData());
-                        }
+                    function() {
+                        scope.filterFunction(scope.createFilterData());
+                    }
                     );
-                if(data.getTagColor(key)){
+                if (data.getTagColor(key)) {
                     controller.borderColor(data.getTagColor(key).getHexString())
-                    .borderWidth(10);
+                        .borderWidth(10);
                 }
                 scope.gui.remember(tag.values);
 
@@ -58,30 +58,27 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
         doc.appendChild(this.gui.domElement);
     };
 
+    var updateAll = function(isActive) {
+        for (var i = 0; i < scope.boolTags.length; i++) {
+            var tag = scope.boolTags[i];
+            Object.keys(tag.values).forEach(function(key, index) {
+                tag.values[key] = isActive;
+            });
+        }
+        scope.update();
+        scope.filterFunction(scope.createFilterData());
+    };
+
     this.selectButton = {
         SelectAll: function() {
-            for (var i = 0; i < scope.boolTags.length; i++) {
-                var tag = scope.boolTags[i];
-                Object.keys(tag.values).forEach(function(key, index) {
-                    tag.values[key] = true;
-                });
+            updateAll(true);
             }
-            scope.update();
-            scope.filterFunction(scope.createFilterData());
-        }
     };
 
 
     this.clearAllButton = {
         ClearAll: function() {
-            for (var i = 0; i < scope.boolTags.length; i++) {
-                var tag = scope.boolTags[i];
-                Object.keys(tag.values).forEach(function(key, index) {
-                    tag.values[key] = false;
-                });
-            }
-            scope.update();
-            scope.filterFunction(scope.createFilterData());
+             updateAll(false);
         }
     };
 

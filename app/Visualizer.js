@@ -35,7 +35,7 @@ var Visualizer = module.exports = function() {
         this.createDraggers();
         this.createListeners();
         // this.createZoomElements();
-        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), Data.getTags());
+        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
         this.animate();
         showActive();
 
@@ -408,6 +408,9 @@ var Visualizer = module.exports = function() {
             scope.context.removeEventListener('touchmove', onTouchMove, false);
             scope.context.removeEventListener('touchend', onTouchUp, false);
             scope.context.removeEventListener('touchcancel', onTouchUp, false);
+            if (activePoint !== null) {
+                infoOverlay.onClickOnPoint(activePoint);
+            }
             event.preventDefault();
         };
 

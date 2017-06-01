@@ -47,7 +47,7 @@ module.exports = function(grunt) {
                 command: 'killall node'
             },
             run_cucumber_tests: {
-                command: 'npm run buildtest & node_modules/.bin/cucumberjs test/features'
+                command: 'node_modules/.bin/cucumberjs test/features'
             }
         },
 

@@ -146,7 +146,7 @@ var Visualizer = module.exports = function() {
                 var size = startScale + (touchZoomDistanceEnd - touchZoomDistanceStart)*0.025;
 
                 var scalarWidth = window.innerWidth/1000;
-                var scalarHeight = (window.innerHeight-controller.clientHeight)/1000;
+                var scalarHeight = window.innerHeight/1000;
                 var resetScale = (scalarWidth<scalarHeight) ? scalarWidth : scalarHeight;
 
                 size = (size>6) ? 6 : size;
@@ -274,7 +274,7 @@ var Visualizer = module.exports = function() {
                 attributes.position.array[activePoint * 3 + 2] = 1;
                 attributes.position.needsUpdate = true;
                 attributes.size.needsUpdate = true;
-				infoOverlay.updateInfo(activePoint);
+                infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null){
@@ -308,16 +308,16 @@ var Visualizer = module.exports = function() {
         return intersects;
     };
 
- //    var showInfo = function (activePoint) {
- //    	var currPoint = activePoint;
- //        var point = Data.getPoint(activePoint);
- //        infotext = document.getElementById('info');
- //        infotext.innerHTML = point.meta[0].values + '<br />';
-	// 	for (var i = 1; i < point.meta.length; i++) {
- //            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
-	// 	}
-	// 	infotext.style.visibility = 'visible';
-	// };
+    //    var showInfo = function (activePoint) {
+    //    	var currPoint = activePoint;
+    //        var point = Data.getPoint(activePoint);
+    //        infotext = document.getElementById('info');
+    //        infotext.innerHTML = point.meta[0].values + '<br />';
+    // 	for (var i = 1; i < point.meta.length; i++) {
+    //            infotext.innerHTML += point.meta[i].key + ': ' + point.meta[i].values + '<br />';
+    // 	}
+    // 	infotext.style.visibility = 'visible';
+    // };
 
     var showActive = function () {
         var activeAmount = "";
@@ -335,7 +335,7 @@ var Visualizer = module.exports = function() {
             audioFile.pause();
             audioFile.startTime = 0;
         }
-        
+
         audioFile = new Audio(path);
         audioFile.play();
 

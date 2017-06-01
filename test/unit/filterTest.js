@@ -63,7 +63,7 @@ describe('Filter', function () {
             assert(_.contains(Filter.getActivePoints(), 0));
         });
         it('When parameter is invalid, activePoints is empty and isActive is false', function () {
-            Filter.setFilter(1)
+            Filter.setFilter(1);
             assert(Filter.getActivePoints.length === 0);
             assert(Filter.isActive() === false);
         });

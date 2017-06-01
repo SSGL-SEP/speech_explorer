@@ -1,3 +1,5 @@
+'use strict';
+
 var Data = require("./Data");
 
 var infoDiv, activeDiv, infopanelDiv;
@@ -27,12 +29,12 @@ var cloneForPanel = function (model) {
     var a2 = document.createElement('a');
     a2.appendChild(document.createTextNode("Close"));
     a2.href = "#";
-    a2.onclick = function () {document.getElementById('infoPanels').style.visibility = 'hidden'};
+    a2.onclick = function () {document.getElementById('infoPanels').style.visibility = 'hidden';};
 
     var a3 = document.createElement('a');
     a3.appendChild(document.createTextNode("Play"));
     a3.href = "#";
-    a3.onclick = function () {console.log('Playing!')};
+    a3.onclick = function () {console.log('Playing!');};
 
 
     newDiv.appendChild(a1);
@@ -44,26 +46,28 @@ var cloneForPanel = function (model) {
 };
 
 var InfoOverlay = module.exports = {
-    tags: null,
+
+    tags : null,
 
     init : function (newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
         
         activeDiv = newActiveDiv;
         infoDiv = newInfoDiv;
         infopanelDiv = newInfoPanelDiv;
-        tags = newTags;
+        this.tags = newTags;
 
         var outerDiv, innerDiv;
         outerDiv = document.createElement( 'div' );
         outerDiv.className = 'filename';        
         infoDiv.appendChild(outerDiv);
 
-        for (var i = 1; i < tags.length; i++) {
+
+        for (var i = 1; i < this.tags.length; i++) {
             outerDiv = document.createElement( 'div' );
-            outerDiv.innerHTML = tags[i].key + ': ';
- 
+            outerDiv.innerHTML = this.tags[i].key + ': ';
+
             innerDiv = document.createElement( 'div' );
-            innerDiv.className = tags[i].key + ' infoInstance';
+            innerDiv.className = this.tags[i].key + ' infoInstance';
             
             outerDiv.appendChild(innerDiv);
             infoDiv.appendChild(outerDiv);
@@ -74,7 +78,6 @@ var InfoOverlay = module.exports = {
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';
         infopanelDiv.style.visibility = 'hidden';
-
     },
 
     updateInfo : function (activePoint) {
@@ -98,7 +101,5 @@ var InfoOverlay = module.exports = {
         var dlLinkDiv = document.getElementById('downloadlink1');
         dlLinkDiv.download = point.meta[0].values;  
         dlLinkDiv.href = Data.getUrl(activePoint);  
-
     }
-
-}
+};

@@ -1,5 +1,3 @@
-'use strict';
-
 var appDir = require('app-root-path');
 var assert = require('assert');
 var InfoOverlay = require(appDir + "/app/InfoOverlay");

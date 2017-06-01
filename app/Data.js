@@ -30,7 +30,7 @@ var Data = module.exports = {
     },
 
     /**
-     * Parses tag JSON into tag objects. 
+     * Parses tag JSON into tag objects.
      * @param {array} tags - array of {key: foo, value: bar} objects
      * @param {number} pointIndex - index of current dataPoint
      * @returns {array} Array that includes tag information for a point {key: foor, values: []}
@@ -47,14 +47,14 @@ var Data = module.exports = {
             tagKey = tags[i].key;
             tagVal = tags[i].val;
 
-            // Parse tag for a point object 
-            tagIndex = this.addTwoPropertyObject(meta, 'key', tagKey, 'values', new Array());
+            // Parse tag for a point object
+            tagIndex = this.addTwoPropertyObject(meta, 'key', tagKey, 'values', []);
             meta[tagIndex].values.push(tagVal);
 
             // Parse tag for parsedTag array
-            tagIndex = this.addTwoPropertyObject(parsedTags, 'key', tagKey, 'values', new Array());
+            tagIndex = this.addTwoPropertyObject(parsedTags, 'key', tagKey, 'values', []);
             values = parsedTags[tagIndex].values;
-            valueIndex = this.addTwoPropertyObject(values, 'value', tagVal, 'points', new Array());
+            valueIndex = this.addTwoPropertyObject(values, 'value', tagVal, 'points', []);
             values[valueIndex].points.push(pointIndex);
         }
         // Returns array of tag objects for use as a property of a point object
@@ -68,7 +68,7 @@ var Data = module.exports = {
      * @param {any} tagKey - key value of tag that was used to determine color of the point
      */
 
-    
+
     parseTagColors: function(dataPoint, tagKey) {
         var metaData = dataPoint.meta,
             value,
@@ -98,7 +98,7 @@ var Data = module.exports = {
             maxZ = 0,
             hueOffset = 20,
             hues = [];
-
+        var i;
         for (i = 0; i < data.length; i++) {
             var x = Math.pow(parsedPoints[i].x, 2);
             var y = Math.pow(parsedPoints[i].y, 2);
@@ -122,9 +122,9 @@ var Data = module.exports = {
     /**
      * Adds an object with two properties to an array, if it doesnt exist, and returns index of that object.
      * @param {array} array - array to wich object will be added
-     * @param {string} firstKey - name (key) of the first property 
+     * @param {string} firstKey - name (key) of the first property
      * @param {any} firstValue - value of the first property
-     * @param {string} secondKey - name (key) of the second property 
+     * @param {string} secondKey - name (key) of the second property
      * @param {any} secondValue - value of the second property
      * @returns {number} Index of the object
      */
@@ -165,18 +165,18 @@ var Data = module.exports = {
             var values = parsedTags[i].values;
             values.sort(function(a, b) {
                 if (a.value < b.value) {
-                    return -1
+                    return -1;
                 }
                 if (a.value > b.value) {
                     return 1;
                 }
                 return 0;
-            })
+            });
         }
     },
 
     getTag: function(key) {
-        var index = this.getObjectIndex(parsedTags, 'key', key)
+        var index = this.getObjectIndex(parsedTags, 'key', key);
         if (index === -1) {
             return undefined;
         }

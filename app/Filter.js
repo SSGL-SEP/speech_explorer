@@ -30,12 +30,10 @@ var Filter = module.exports = {
             activePoints = [];
             return;
         }
-
         activePoints = [];
 
         for (var i = 0; i < Data.getTotalPoints(); i++) {
-            // var point = Data.getPoint(i);
-            var meta = Data.getPoint(i).point.meta;
+            var meta = Data.getPoint(i).meta;
             var isPresent = false;
 
             for (var j = 0; j < meta.length; j++) {

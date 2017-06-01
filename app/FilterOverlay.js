@@ -108,7 +108,6 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
             // nothing selected -> filter off
             return null;
         }
-        // console.log(data);
         return data;
     };
 

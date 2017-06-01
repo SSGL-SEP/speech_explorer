@@ -12,10 +12,7 @@ describe('FilterOverlay', function() {
         Data.loadData(json);
         this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
 
-
-        console.log(Data.tagColors);
         FilterOverlay = new FilterOverlay(Data, function(x) {
-            console.log("mock setFilter");
         });
 
     });

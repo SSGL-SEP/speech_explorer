@@ -104,12 +104,6 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 data.push(obj);
             }
         }
-        // if (data.length === 0) {
-        //     // nothing selected -> filter off
-        //     console.log('data lenght is null');
-        //     return null;
-        // }
-        console.log(data);
         return data;
     };
 

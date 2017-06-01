@@ -1,97 +1,103 @@
-// 'use strict';
+var appDir = require('app-root-path');
+var assert = require('assert');
+var InfoOverlay = require(appDir + "/app/InfoOverlay");
 
-// var appDir = require('app-root-path');
-// var assert = require('assert');
-// var Data = require(appDir + "/app/Data");
-// var json = require(appDir + "/test/testdata.json");
-// var InfoOverlay;
+describe('InfoOverlay', function () {
 
-// describe('FilterOverlay', function () {
+	before(function () {
+		var Data = require(appDir + "/app/Data");
+		var json = require(appDir + "/test/testdata.json");
+		const jsdom = require("jsdom");
+		const { JSDOM } = jsdom;
 
-// 	before(function () {
-// 		// runs before all tests in this block
-// 		this.infoDomElement = require('jsdom-global')(`<!DOCTYPE html><div id="info"></div>`);
-// 		this.activeDomElement = require('jsdom-global')(`<!DOCTYPE html><div id="active"></div>`);
-		
-// 		Data.loadData(json);
-// 		InfoOverlay = require(appDir + "/app/InfoOverlay");
-// 		InfoOverlay.init(this.activeDomElement, this.infoDomElement, Data.getTags());
+		this.dom = new JSDOM('<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div></div>');				
+		Data.loadData(json);
+		InfoOverlay.init(this.dom.window.document.getElementById('active'), this.dom.window.document.getElementById('info'), this.dom.window.document.getElementById('infoPanels'), Data.getTags());
 
-// 	});
+	});
 
-// 	after(function () {
-// 		// runs after all tests in this block
-// 		this.jsdom();
-// 	});
+	after(function () {
+		// runs after all tests in this block
+		//this.jsdom();
+	});
 
-// 	beforeEach(function () {
-// 		// runs before each test in this block
-// 	});
+	beforeEach(function () {
+		// runs before each test in this block
+	});
 
-// 	afterEach(function () {
-// 		// runs after each test in this block
-// 	});
-
-// 	// var checkAllFalse = function () {
-// 	// 	for (var i = 0; i < FilterOverlay.boolTags.length; i++) {
-// 	// 		var tag = FilterOverlay.boolTags[i];
-// 	// 		for (var property in tag.values) {
-// 	// 			if (tag.values.hasOwnProperty(property)) {
-// 	// 				assert(tag.values[property] === false);
-// 	// 			}
-// 	// 		}
-// 	// 	}
-// 	// };
+	afterEach(function () {
+		// runs after each test in this block
+	});
 
 
+	// test cases 
+	describe('InfoOverlay', function () {
+		it('should hide infodisplay by default', function () {
+			assert(this.dom.window.document.getElementById('info').style.visibility === 'hidden');
+		});
+	});
 
-// 	// test cases
-// 	describe('InfoOverlay#updateActive', function () {
-// 		it('number of active units should be adjustable', function () {
-// 			InfoOverlay.updateActive(2,1);
-// 			assert(this.activeDomElement.innerHTML === "1/2");
-// 		});
-// 	});
+	describe('InfoOverlay#updateInfo', function () {
+		it('should make infodisplay visible', function () {
+			InfoOverlay.updateInfo(0);
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.style.visibility === 'visible');
+		});
+	});
 
-// 	// describe('FilterOverlay#tags', function () {
-// 	// 	it('should be set after creation', function () {
-// 	// 		assert(FilterOverlay.tags);
-// 	// 	});
-// 	// });
+	describe('InfoOverlay#updateActive', function () {
+		it('should update display of number of active sounds correctly', function () {
+			InfoOverlay.updateActive(2,1);
+			assert(this.dom.window.document.getElementById('active').innerHTML === "1/2 active");
+		});
+	});
 
-// 	// describe('FilterOverlay#gui', function () {
-// 	// 	it('should be created after init', function () {
-// 	// 		assert(FilterOverlay.gui);
-// 	// 	});
-// 	// });
+	describe('InfoOverlay#updateInfo', function () {
+		it('should update display of filename correctly', function () {
+			InfoOverlay.updateInfo(0);
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.getElementsByClassName('filename')[0].innerHTML === "mv_0693_021_i_1_0.wav");
+		});
+	});
 
-// 	// describe('FilterOverlay#filterButton#Filter()',function(){
-// 	// 	it('should not be null', function(){
-// 	// 		assert(FilterOverlay.filterButton.Filter);
-// 	// 		FilterOverlay.filterButton.Filter();
-// 	// 	});
-// 	// });
+	describe('InfoOverlay#updateInfo', function () {
+		it('should update display of phonem correctly', function () {
+			InfoOverlay.updateInfo(0);
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.getElementsByClassName('phonem')[0].innerHTML === "i");
+		});
+	});
 
-// 	// describe('FilterOverlay#createFilterData()', function () {
-// 	// 	it('should return null if no filter is selected', function () {
-// 	// 		assert(FilterOverlay.createFilterData() === null);
-// 	// 	});
+	describe('InfoOverlay#updateInfo', function () {
+		it('should update display of voicing correctly', function () {
+			InfoOverlay.updateInfo(0);
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.getElementsByClassName('voice')[0].innerHTML === "voiced");
+		});
+	});
 
-// 	// 	it('should return an array of tags if filters are on',function(){
-// 	// 		FilterOverlay.boolTags[0].values[0] = true;
-// 	// 		assert(FilterOverlay.createFilterData().length === 1);
-// 	// 	});
-// 	// });
+	describe('InfoOverlay#updateInfo', function () {
+		it('should update display of stress correctly', function () {
+			InfoOverlay.updateInfo(0);
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.getElementsByClassName('stress')[0].innerHTML === "unstressed");
+		});
+	});
 
-// 	// describe('FilterOverlay#clearAllButton#ClearAll()', function () {
-// 	// 	it('should set all filters to false', function () {
-// 	// 		FilterOverlay.boolTags[0].values[0] = true;
-// 	// 		FilterOverlay.clearAllButton.ClearAll();
-// 	// 		checkAllFalse();
-// 	// 	});
-// 	// });
+	describe('InfoOverlay#hideInfo', function () {
+		it('should hide display of info when requested', function () {
+			InfoOverlay.hideInfo();
+			var target = this.dom.window.document.getElementById('info');
+			assert(target.style.visibility === 'hidden');
+		});
+	});
 
+	// describe('InfoOverlay#onClickOnPoint', function () {
+	// 	it('should make infopanel visible', function () {
+	// 		InfoOverlay.onClickOnPoint(0);
+	// 		var target = this.dom.window.document.getElementById('infoPanels');
+	// 		assert(target.style.visibility === 'visible');
+	// 	});
+	// });
 
-
-
-// });
+});

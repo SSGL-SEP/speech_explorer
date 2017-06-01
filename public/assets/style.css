@@ -15,14 +15,13 @@ body {
     position: fixed;
 }
 
-#info, #active {
+#info, #active, #infoPanels {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
     top: 0;
     right: 0;
     width: 175px;
-    cursor: pointer;
     font-size: 12px;
     z-index: 100;
     display:block;
@@ -37,4 +36,14 @@ body {
 
 #info {
     top: 13px;
+}
+
+#infoPanels {
+    top: 85%;
+}
+
+a {
+    color: yellow;
+    padding-right: 10px;
+    cursor: pointer;
 }

@@ -10,7 +10,6 @@ if (process.env.NODE_ENV === 'test') {
     } else {
         json = require('../data/2D_newformat_full.json');
     }
-json = require('../test/testdata200.json');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
 

@@ -28,7 +28,6 @@ var Visualizer = module.exports = function() {
     var raycaster;
     var mouse;
     var needsRefresh = true;
-    var audioFile = null;
 
     this.init = function() {
         this.createEnvironment();
@@ -43,8 +42,6 @@ var Visualizer = module.exports = function() {
     };
 
     this.createEnvironment = function() {
-        // this.info = document.getElementById('info');
-        // this.info.classList.add("show");
         this.renderer = new THREE.WebGLRenderer({
             antialias: true
         });
@@ -67,10 +64,6 @@ var Visualizer = module.exports = function() {
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-
-        var audioListener = new THREE.AudioListener();
-
-        this.camera.add(audioListener);
 
         this.scene.add(this.camera);
 
@@ -125,7 +118,6 @@ var Visualizer = module.exports = function() {
 
     this.createDraggers = function() {
         var onDragStarted = function(event) {
-            // console.log("onDragStarted triggered (createDraggers)");
             scope.onBgDown(event);
 
             scope.pointCloud.update();
@@ -199,7 +191,6 @@ var Visualizer = module.exports = function() {
 
     var onWheel = function(event) {
         var delta = (!event.deltaY) ? event.detail : event.deltaY;
-        // var controller = document.getElementById("controller");
         var scalarWidth = window.innerWidth / 1000;
         var scalarHeight = window.innerHeight / 1000;
         var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
@@ -214,13 +205,11 @@ var Visualizer = module.exports = function() {
             Data.cloudSize2D = (Data.cloudSize2D < resetScale) ? resetScale : Data.cloudSize2D;
             scalar = Data.cloudSize2D;
             scope.zoomer.scale.set(scalar, scalar, scalar);
-            // scope.updateDraggers();
         } else {
             Data.cloudSize2D *= 1.05;
             Data.cloudSize2D = (Data.cloudSize2D > 20) ? 20 : Data.cloudSize2D;
             scalar = Data.cloudSize2D;
             scope.zoomer.scale.set(scalar, scalar, scalar);
-            // scope.updateDraggers();
         }
         Data.pointSize = Math.max(2, Data.cloudSize2D);
         scope.update(true);
@@ -319,14 +308,6 @@ var Visualizer = module.exports = function() {
 
     var playSound = function(path) {
         audioPlayer.play(path);
-        // if (audioFile !== null) {
-        //     audioFile.pause();
-        //     audioFile.startTime = 0;
-        // }
-
-        // audioFile = new Audio(path);
-        // audioFile.play();
-
     };
 
 

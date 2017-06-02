@@ -1,8 +1,6 @@
 'use strict';
 
 var Data = require("./Data");
-var _ = require("underscore");
-
 var activePoints = [];
 
 var Filter = module.exports = {

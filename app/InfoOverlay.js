@@ -5,7 +5,7 @@ var audioPlayer = require("./AudioPlayer");
 
 var infoDiv, activeDiv, infopanelDiv;
 
-var updateDiv = function (uDiv, point) {
+var updateDiv = function(uDiv, point) {
     var currdiv;
     uDiv.getElementsByClassName('filename')[0].innerHTML = point.meta[0].values;
     for (var i = 1; i < point.meta.length; i++) {
@@ -16,8 +16,8 @@ var updateDiv = function (uDiv, point) {
 
 // var cloneCount = 0;
 
-var cloneForPanel = function (model) {
-    var newDiv = document.createElement( 'div' );
+var cloneForPanel = function(model) {
+    var newDiv = document.createElement('div');
     var children = model.childNodes;
     for (var i = 0; i < children.length; i++) {
         newDiv.appendChild(children[i].cloneNode(true));
@@ -30,17 +30,19 @@ var cloneForPanel = function (model) {
     var a2 = document.createElement('a');
     a2.appendChild(document.createTextNode("Close"));
     a2.href = "#";
-    a2.onclick = function () {document.getElementById('infoPanels').style.visibility = 'hidden';};
+    a2.onclick = function() {
+        document.getElementById('infoPanels').style.visibility = 'hidden';
+    };
 
     var a3 = document.createElement('a');
     a3.appendChild(document.createTextNode("Play"));
     a3.href = "#";
-    a3.onclick = function () {
+    a3.onclick = function() {
         var siblings = this.parentNode.children;
-        for(var i = siblings.length; i--;) {
-            if(siblings[i].id) {  // Tää on vaarallinen mutta voi toimia niin kauan kun muilla linkeillä ei id:tä!!
+        for (var i = siblings.length; i--;) {
+            if (siblings[i].id) {  // Tää on vaarallinen mutta voi toimia niin kauan kun muilla linkeillä ei id:tä!!
                 audioPlayer.play(siblings[i].href);
-            break;
+                break;
             }
         }
     };
@@ -55,28 +57,28 @@ var cloneForPanel = function (model) {
 
 var InfoOverlay = module.exports = {
 
-    tags : null,
+    tags: null,
 
-    init : function (newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
-        
+    init: function(newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
+
         activeDiv = newActiveDiv;
         infoDiv = newInfoDiv;
         infopanelDiv = newInfoPanelDiv;
         this.tags = newTags;
 
         var outerDiv, innerDiv;
-        outerDiv = document.createElement( 'div' );
-        outerDiv.className = 'filename';        
+        outerDiv = document.createElement('div');
+        outerDiv.className = 'filename';
         infoDiv.appendChild(outerDiv);
 
 
         for (var i = 1; i < this.tags.length; i++) {
-            outerDiv = document.createElement( 'div' );
+            outerDiv = document.createElement('div');
             outerDiv.innerHTML = this.tags[i].key + ': ';
 
-            innerDiv = document.createElement( 'div' );
+            innerDiv = document.createElement('div');
             innerDiv.className = this.tags[i].key + ' infoInstance';
-            
+
             outerDiv.appendChild(innerDiv);
             infoDiv.appendChild(outerDiv);
         }
@@ -88,26 +90,26 @@ var InfoOverlay = module.exports = {
         infopanelDiv.style.visibility = 'hidden';
     },
 
-    updateInfo : function (activePoint) {
+    updateInfo: function(activePoint) {
         var point = Data.getPoint(activePoint);
         updateDiv(infoDiv, point);
         infoDiv.style.visibility = 'visible';
     },
 
-    hideInfo : function () {
+    hideInfo: function() {
         infoDiv.style.visibility = 'hidden';
     },
 
-    updateActive : function (totalPoints, activePoints) {
-        activeDiv.innerHTML =  activePoints + '/' + totalPoints + ' active';
+    updateActive: function(totalPoints, activePoints) {
+        activeDiv.innerHTML = activePoints + '/' + totalPoints + ' active';
     },
 
-    onClickOnPoint : function (activePoint) {
+    onClickOnPoint: function(activePoint) {
         var point = Data.getPoint(activePoint);
         updateDiv(infopanelDiv, point);
         infopanelDiv.style.visibility = 'visible';
         var dlLinkDiv = document.getElementById('downloadlink1');
-        dlLinkDiv.download = point.meta[0].values;  
-        dlLinkDiv.href = Data.getUrl(activePoint);  
+        dlLinkDiv.download = point.meta[0].values;
+        dlLinkDiv.href = Data.getUrl(activePoint);
     }
 };

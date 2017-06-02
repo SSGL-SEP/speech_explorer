@@ -58,10 +58,10 @@ var Visualizer = module.exports = function() {
         var far = 2000;
 
         this.camera = new THREE.OrthographicCamera(
-            window.innerWidth / - 2,
+            window.innerWidth / -2,
             window.innerWidth / 2,
             window.innerHeight / 2,
-            window.innerHeight / - 2,
+            window.innerHeight / -2,
             near, far);
 
         this.camera.position.x = 0;
@@ -344,10 +344,9 @@ var Visualizer = module.exports = function() {
     this.onDocumentMouseMove = function(event) {
         event.preventDefault();
         mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
-        mouse.y = - (event.offsetY / window.innerHeight) * 2 + 1;
+        mouse.y = -(event.offsetY / window.innerHeight) * 2 + 1;
         // console.log(mouse.x,mouse.y);
     };
-
 
 
     this.onBgDown = function(event) {
@@ -415,10 +414,10 @@ var Visualizer = module.exports = function() {
 
         clearTimeout(scope.resizeTimer);
         scope.resizeTimer = setTimeout(function() {
-            scope.camera.left = window.innerWidth / - 2;
+            scope.camera.left = window.innerWidth / -2;
             scope.camera.right = window.innerWidth / 2;
             scope.camera.top = window.innerHeight / 2;
-            scope.camera.bottom = window.innerHeight / - 2;
+            scope.camera.bottom = window.innerHeight / -2;
             scope.camera.updateProjectionMatrix();
             scope.renderer.setSize(window.innerWidth, window.innerHeight);
             // scope.updateDraggers();

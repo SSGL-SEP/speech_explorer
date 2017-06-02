@@ -3,7 +3,7 @@
 var THREE = require("three");
 var Data = require("./Data");
 
-var PointCloud = module.exports = function () {
+var PointCloud = module.exports = function() {
     THREE.Object3D.call(this);
 
     this.cloud = null;
@@ -70,7 +70,7 @@ var PointCloud = module.exports = function () {
     // VARS AND OBJECTS
     // ------------------------------------------------------------
 
-    this.update = function () {
+    this.update = function() {
         var attributes = this.getAttributes();
         var total = Data.getTotalPoints();
         var size = Data.pointSize * Data.pointSizeMultiplier;
@@ -94,29 +94,29 @@ var PointCloud = module.exports = function () {
         }
     };
 
-    this.activateFilter = function (points) {
+    this.activateFilter = function(points) {
         filteredPoints = points;
         filterIsActive = true;
     };
 
-    this.disableFilter = function () {
+    this.disableFilter = function() {
         filterIsActive = false;
     };
 
-    this.draw = function () {
+    this.draw = function() {
         this.cloud.geometry.attributes.position.needsUpdate = true;
         this.cloud.geometry.attributes.size.needsUpdate = true;
         this.cloud.geometry.attributes.enabled.needsUpdate = true;
     };
 
-    this.removeCloud = function () {
+    this.removeCloud = function() {
         if (this.cloud) {
             this.remove(this.cloud);
             this.cloud = null;
         }
     };
 
-    this.getAttributes = function () {
+    this.getAttributes = function() {
         return this.cloud.geometry.attributes;
     };
 

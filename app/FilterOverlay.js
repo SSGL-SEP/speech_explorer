@@ -38,9 +38,9 @@ var FilterOverlay = module.exports = function(data, filterFunction) {
                 var controller = folder.add(tag.values, key);
                 controller.listen()
                     .onChange(
-                    function() {
-                        scope.filterFunction(scope.createFilterData());
-                    }
+                        function() {
+                            scope.filterFunction(scope.createFilterData());
+                        }
                     );
                 if (data.getTagColor(key)) {
                     controller.borderColor(data.getTagColor(key).getHexString())
@@ -72,13 +72,13 @@ var FilterOverlay = module.exports = function(data, filterFunction) {
     this.selectButton = {
         SelectAll: function() {
             updateAll(true);
-            }
+        }
     };
 
 
     this.clearAllButton = {
         ClearAll: function() {
-             updateAll(false);
+            updateAll(false);
         }
     };
 

@@ -116,73 +116,69 @@ var Visualizer = module.exports = function() {
             scope.pointCloud.update();
         };
 
-        // Test mobile version and then remove this commented block:
 
-        // var onPinchStarted = function(event) {
-        //     var startScale = scope.zoomer.scale.x;
-        //
-        //     var dx = event.touches[0].clientX - event.touches[1].clientX;
-        //     var dy = event.touches[0].clientY - event.touches[1].clientY;
-        //     var touchZoomDistanceStart = Math.sqrt(dx * dx + dy * dy);
-        //
-        //     var onPinchMoved = function(event) {
-        //
-        //         var dx = event.touches[0].clientX - event.touches[1].clientX;
-        //         var dy = event.touches[0].clientY - event.touches[1].clientY;
-        //         var touchZoomDistanceEnd = Math.sqrt(dx * dx + dy * dy);
-        //         var size = startScale + (touchZoomDistanceEnd - touchZoomDistanceStart) * 0.025;
-        //
-        //         var scalarWidth = window.innerWidth / 1000;
-        //         var scalarHeight = window.innerHeight / 1000;
-        //         var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
-        //
-        //         size = (size > 6) ? 6 : size;
-        //         size = (size < resetScale) ? resetScale : size;
-        //
-        //         scope.zoomer.scale.set(size, size, size);
-        //         scope.updateDraggers();
-        //         event.stopPropagation();
-        //         event.preventDefault();
-        //     };
-        //
-        //     var onPinchEnded = function(event) {
-        //         scope.context.removeEventListener('touchmove', onPinchMoved, false);
-        //         scope.context.removeEventListener('touchend', onPinchEnded, false);
-        //         scope.context.addEventListener('touchstart', onTouchStarted, false);
-        //     };
-        //
-        //     scope.context.addEventListener('touchmove', onPinchMoved, false);
-        //     scope.context.addEventListener('touchend', onPinchEnded, false);
-        //
-        // };
+        var onPinchStarted = function(event) {
+            var startScale = scope.zoomer.scale.x;
+
+            var dx = event.touches[0].clientX - event.touches[1].clientX;
+            var dy = event.touches[0].clientY - event.touches[1].clientY;
+            var touchZoomDistanceStart = Math.sqrt(dx * dx + dy * dy);
+
+            var onPinchMoved = function(event) {
+
+                var dx = event.touches[0].clientX - event.touches[1].clientX;
+                var dy = event.touches[0].clientY - event.touches[1].clientY;
+                var touchZoomDistanceEnd = Math.sqrt(dx * dx + dy * dy);
+                var size = startScale + (touchZoomDistanceEnd - touchZoomDistanceStart) * 0.025;
+
+                var scalarWidth = window.innerWidth / 1000;
+                var scalarHeight = window.innerHeight / 1000;
+                var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
+
+                size = (size > 6) ? 6 : size;
+                size = (size < resetScale) ? resetScale : size;
+
+                scope.zoomer.scale.set(size, size, size);
+                event.stopPropagation();
+                event.preventDefault();
+            };
+
+            var onPinchEnded = function(event) {
+                scope.context.removeEventListener('touchmove', onPinchMoved, false);
+                scope.context.removeEventListener('touchend', onPinchEnded, false);
+                scope.context.addEventListener('touchstart', onTouchStarted, false);
+            };
+
+            scope.context.addEventListener('touchmove', onPinchMoved, false);
+            scope.context.addEventListener('touchend', onPinchEnded, false);
+
+        };
         var mouse = new THREE.Vector2(100000, 100000);
 
         this.context.addEventListener('mousedown', onDragStarted, false);
 
-        // Test mobile version and then remove this commented block:
+        var onTouchStarted = function(event) {
+            event.clientX = event.changedTouches[0].clientX;
+            event.clientY = event.changedTouches[0].clientY;
+            // HACK - Need a better solution instead of using state changes;
+            // SEE - this.onBgDown() onMove()
+            switch (event.touches.length) {
+                case 1:
+                    scope.touchState = scope.IS_DRAGGING;
+                    onDragStarted(event);
+                    break;
+                case 2:
+                    scope.touchState = scope.IS_ZOOMING;
+                    scope.context.removeEventListener('mousedown', onDragStarted, false);
+                    scope.context.removeEventListener('touchstart', onTouchStarted, false);
+                    onPinchStarted(event);
+                    break;
 
-        // var onTouchStarted = function(event) {
-        //     event.clientX = event.changedTouches[0].clientX;
-        //     event.clientY = event.changedTouches[0].clientY;
-        //     // HACK - Need a better solution instead of using state changes;
-        //     // SEE - this.onBgDown() onMove()
-        //     switch (event.touches.length) {
-        //         case 1:
-        //             scope.touchState = scope.IS_DRAGGING;
-        //             onDragStarted(event);
-        //             break;
-        //         case 2:
-        //             scope.touchState = scope.IS_ZOOMING;
-        //             scope.context.removeEventListener('mousedown', onDragStarted, false);
-        //             scope.context.removeEventListener('touchstart', onTouchStarted, false);
-        //             onPinchStarted(event);
-        //             break;
-        //
-        //         default:
-        //     }
-        // };
-        //
-        // scope.context.addEventListener('touchstart', onTouchStarted, false);
+                default:
+            }
+        };
+
+        scope.context.addEventListener('touchstart', onTouchStarted, false);
     };
 
     var onWheel = function(event) {

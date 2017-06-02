@@ -11,3 +11,6 @@ before_script:
   - sleep 3
 addons:
     firefox: "49.0"
+cache:
+  directories:
+    - "node_modules"

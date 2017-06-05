@@ -33,11 +33,12 @@ var PointCloud = module.exports = function() {
 
     var vs = "attribute float size;\n" +
         "attribute vec3 customColor;\n" +
+        "uniform float pointsize;\n" +
         "varying vec3 vColor;\n" +
         "void main() {\n" +
         "	vColor = customColor;\n" +
         "	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
-        "	gl_PointSize = size ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
+        "	gl_PointSize = pointsize ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
         "	gl_Position = projectionMatrix * mvPosition;\n" +
         "}\n";
 
@@ -56,7 +57,8 @@ var PointCloud = module.exports = function() {
     geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
     material = new THREE.ShaderMaterial({
         uniforms: {
-            color: {type: "c", value: new THREE.Color(0xffffff)}
+            color: {type: "c", value: new THREE.Color(0xffffff)},
+            pointsize: {value: Data.pointSize}
         },
         vertexShader: vs,
         fragmentShader: fs,
@@ -74,24 +76,25 @@ var PointCloud = module.exports = function() {
         var attributes = this.getAttributes();
         var total = Data.getTotalPoints();
         var size = Data.pointSize * Data.pointSizeMultiplier;
-
+        // console.log(size)
         var i;
-        if (filterIsActive) {
-            for (i = 0; i < total; i++) {
-                if (filteredPoints.includes(i)) {
-                    attributes.size.array[i] = size;
-                    attributes.enabled.array[i] = true;
-                } else {
-                    attributes.size.array[i] = size * 0.4; //magic number \o/
-                    attributes.enabled.array[i] = false;
-                }
-            }
-        } else {
-            for (i = 0; i < total; i++) {
-                attributes.size.array[i] = size;
-                attributes.enabled.array[i] = true;
-            }
-        }
+        material.uniforms.pointsize.value = Data.pointSize;
+        // if (filterIsActive) {
+        //     for (i = 0; i < total; i++) {
+        //         if (filteredPoints.includes(i)) {
+        //             attributes.size.array[i] = size;
+        //             attributes.enabled.array[i] = true;
+        //         } else {
+        //             attributes.size.array[i] = size * 0.4; //magic number \o/
+        //             attributes.enabled.array[i] = false;
+        //         }
+        //     }
+        // } else {
+        //     for (i = 0; i < total; i++) {
+        //         attributes.size.array[i] = size;
+        //         attributes.enabled.array[i] = true;
+        //     }
+        // }
     };
 
     this.activateFilter = function(points) {

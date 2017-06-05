@@ -12,6 +12,7 @@ var FilterOverlay = module.exports = function(data, filterFunction) {
     this.Init = function() {
         this.createBoolArray(this.tags);
         this.createGUI();
+        filterFunction(scope.createFilterData());
     };
 
     this.createBoolArray = function() {

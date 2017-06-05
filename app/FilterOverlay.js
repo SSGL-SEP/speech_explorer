@@ -6,7 +6,7 @@ var FilterOverlay = module.exports = function(data, filterFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
-    this.gui = new dat.GUI();
+    this.gui = new dat.GUI({width:265});
     this.filterFunction = filterFunction;
 
     this.Init = function() {

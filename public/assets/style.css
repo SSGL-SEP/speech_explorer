@@ -12,7 +12,19 @@ body {
 
 .dg.main.taller-than-window .close-button {
     /* fix for FireFox */
-    position: fixed;
+    position: fixed !important;
+}
+
+.dg li.save-row select {
+    margin-left: 5px;
+    width: 55px;
+    font-size: 9px;
+    padding: 0;
+    border-radius: 0;
+    border: 0px solid #000;
+}
+.dg.a {
+    margin-right: 0 !important;
 }
 
 #info, #active, #infoPanels {

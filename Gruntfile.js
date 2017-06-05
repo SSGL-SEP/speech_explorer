@@ -103,7 +103,9 @@ module.exports = function(grunt) {
     //grunt.registerTask('default', ['jshint', 'exec']);
     //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);
     // grunt.registerTask('default', ['env:firefox', 'jshint', 'exec']);
+
     grunt.registerTask('default', ['env:firefox', 'jshint','exec:run_istanbul_mocha_tests']);
+
     // grunt.registerTask('default', ['env:firefox', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
 
     grunt.registerTask('serve-and-watch', ['webpack:build', 'concurrent:watchers']);

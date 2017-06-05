@@ -75,7 +75,7 @@ var Visualizer = module.exports = function() {
         document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 
         raycaster = new THREE.Raycaster();
-        mouse = new THREE.Vector2();
+        mouse = new THREE.Vector2(999999, 999999);
     };
 
     this.createCloud = function() {

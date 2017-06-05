@@ -3,7 +3,7 @@ const { By, until } = require('selenium-webdriver');
 const { defineSupportCode } = require('cucumber');
 
 defineSupportCode(function ({ Given, When, Then }) {
-    
+
     When('I press the new button', function () {
         var scope = this;
         this.driver.wait(until.elementLocated(By.className('button save-as')), 6000);
@@ -19,7 +19,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     When('I press the delete button', function () {
-         // Write code here that turns the phrase above into concrete actions
+        // Write code here that turns the phrase above into concrete actions
         var scope = this;
         this.driver.wait(until.elementLocated(By.className('button delete')), 6000);
         var element = this.driver.findElement(By.className('button delete'));
@@ -31,20 +31,21 @@ defineSupportCode(function ({ Given, When, Then }) {
 
     Then('I should see {stringInDoubleQuotes} in dropdown menu', function (preset) {
         // Write code here that turns the phrase above into concrete actions
-        this.driver.findElement(By.name(preset)).getText().then(function (text) {
-            return expect(text).to.equal(preset);
+        return this.driver.findElement(By.xpath("//*[@id='overlay']/div/ul/li[1]/select/option[2]")).then(function (element) {
+            return element.getText().then(function (text) {
+                return expect(text).to.equal(preset);
+            });
         });
 
     });
 
-    Then('I should not find {stringInDoubleQuotes} in the dropdown menu', function (stringInDoubleQuotes, callback) {
-         // Write code here that turns the phrase above into concrete actions
-         callback(null, 'pending');
-       });
+    Then('I should not find {stringInDoubleQuotes} in the dropdown menu', function (preset) {
+        // Write code here that turns the phrase above into concrete actions
+        return this.driver.findElements(By.xpath("//*[@id='overlay']/div/ul/li[1]/select/option[2]")).then(function (elements) {
 
-    Then('The preset should be set to default', function (callback) {
-         // Write code here that turns the phrase above into concrete actions
-         callback(null, 'pending');
+            return expect(elements.length).to.equal(0);
+
+        });
     });
 
 

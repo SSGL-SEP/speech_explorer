@@ -28,14 +28,14 @@ defineSupportCode(function({Given, When, Then}) {
 
 
     When('I open folder {stringInDoubleQuotes}', function(folder) {
-        return this.driver.findElement(By.xpath("//*[contains(.,'" + folder + "')]")).then(function(element) {
+        return this.driver.findElement(By.css("#overlay > div > ul > li:nth-child(2) > div > ul > li.title")).then(function(element) {
             return element.click();
         });
     });
 
 
     When('I click on checkbox of phonem s', function() {
-        return this.driver.findElement(By.xpath("//*[@id=\"overlay\"]/div/ul/li[2]/div/ul/li[18]/div/div")).then(function(element) {
+        return this.driver.findElement(By.xpath("//*[@id="overlay"]/div/ul/li[2]/div/ul/li[16]")).then(function(element) {
            return element.click();
         });
     });

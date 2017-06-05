@@ -5,7 +5,7 @@ Feature: Filter
 
   Scenario: Deactivate filter checkbox for phonem s
     Given I navigate to the homepage
-    When I open folder "phonem"
+    When I open folder "voice"
     And I click on checkbox of phonem s
     Then I should see "5" active samples
 

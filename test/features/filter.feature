@@ -7,7 +7,7 @@ Feature: Filter
     Given I navigate to the homepage
     When I open folder "voice"
     And I click on checkbox of phonem s
-    Then I should see "5" active samples
+    Then I should see "184" active samples
 
   Scenario: On start-up I want to see all points active
     Given I navigate to the homepage

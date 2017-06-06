@@ -22,4 +22,10 @@ defineSupportCode(function({Given, When, Then}) {
             return expect(title).to.equal(str);
         });
     });
+
+    Then('I should see a loaded overlay', function () {
+        return this.driver.getTitle().then(function (title) {
+            return expect(title).to.equal(str);
+        });
+    });
 });

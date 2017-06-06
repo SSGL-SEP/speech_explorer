@@ -17,6 +17,8 @@ var Data = module.exports = {
         parsedTags = [];
         total = data.length;
 
+        console.log('Loading data...')
+
         var i;
         for (i = 0; i < data.length; i++) {
             var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
@@ -30,6 +32,9 @@ var Data = module.exports = {
             dataPoint.color = new THREE.Color(data[i][6]);
             this.parseTagColors(dataPoint, 'phonem');
             parsedPoints.push(dataPoint);
+            if (i % 1000 === 0) {
+                console.log('Points loaded: ' + i)
+            }
         }
         this.sortTagValues();
     },

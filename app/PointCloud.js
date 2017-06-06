@@ -27,33 +27,42 @@ var PointCloud = module.exports = function() {
 
         color = Data.getColor(i);
         color.toArray(colors, i * 3);
-        sizes[i] = Data.pointSize;
-        enabled[i] = true;
+        sizes[i] = -1;
+        enabled[i] = 1; // shader does not take in booleans -> using 0 & 1 as truthiness
     }
 
-    var vs = "attribute float size;\n" +
+    var vs = "attribute float customSize;\n" +
+        "attribute float enabled;\n" +
         "attribute vec3 customColor;\n" +
         "uniform float pointsize;\n" +
         "varying vec3 vColor;\n" +
         "void main() {\n" +
-        "	vColor = customColor;\n" +
-        "	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
-        "	gl_PointSize = pointsize ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
-        "	gl_Position = projectionMatrix * mvPosition;\n" +
+        "   vColor = customColor;\n" +
+        "   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
+        "   if(enabled > 0.5) {" +
+        "       gl_PointSize = pointsize;" +
+        "   } else {" +
+        "       gl_PointSize = pointsize * 0.2;" +
+        "   }" +
+        "   if(customSize > 0.0) {" + // mouseover etc.
+        "      gl_PointSize = customSize;" +
+        "   }" +
+        //"	gl_PointSize = pointsize ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
+        "   gl_Position = projectionMatrix * mvPosition;\n" +
         "}\n";
 
     var fs = "uniform vec3 color;\n" +
         "varying vec3 vColor;\n" +
         "void main() {\n" +
-        "	gl_FragColor = vec4( color * vColor, 1.0 );\n" +
-        "	if ( gl_FragColor.a < ALPHATEST ) discard;\n" +
+        "   gl_FragColor = vec4( color * vColor, 1.0 );\n" +
+        "   if ( gl_FragColor.a < ALPHATEST ) discard;\n" +
         "}\n";
 
     var geometry, material;
     geometry = new THREE.BufferGeometry();
     geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-    geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geometry.addAttribute('customSize', new THREE.BufferAttribute(sizes, 1));
     geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
     material = new THREE.ShaderMaterial({
         uniforms: {
@@ -73,33 +82,21 @@ var PointCloud = module.exports = function() {
     // ------------------------------------------------------------
 
     this.update = function() {
-        var attributes = this.getAttributes();
-        var total = Data.getTotalPoints();
-        var size = Data.pointSize * Data.pointSizeMultiplier;
-        // console.log(size)
-        var i;
         material.uniforms.pointsize.value = Data.pointSize;
-        // if (filterIsActive) {
-        //     for (i = 0; i < total; i++) {
-        //         if (filteredPoints.includes(i)) {
-        //             attributes.size.array[i] = size;
-        //             attributes.enabled.array[i] = true;
-        //         } else {
-        //             attributes.size.array[i] = size * 0.4; //magic number \o/
-        //             attributes.enabled.array[i] = false;
-        //         }
-        //     }
-        // } else {
-        //     for (i = 0; i < total; i++) {
-        //         attributes.size.array[i] = size;
-        //         attributes.enabled.array[i] = true;
-        //     }
-        // }
     };
 
     this.activateFilter = function(points) {
+        var attributes = this.getAttributes();
         filteredPoints = points;
         filterIsActive = true;
+
+        for (i = 0; i < total; i++) {
+            if (filteredPoints.includes(i)) { // perf bottleneck?
+                attributes.enabled.array[i] = 1;
+            } else {
+                attributes.enabled.array[i] = 0;
+            }
+        }
     };
 
     this.disableFilter = function() {
@@ -108,7 +105,7 @@ var PointCloud = module.exports = function() {
 
     this.draw = function() {
         this.cloud.geometry.attributes.position.needsUpdate = true;
-        this.cloud.geometry.attributes.size.needsUpdate = true;
+        this.cloud.geometry.attributes.customSize.needsUpdate = true;
         this.cloud.geometry.attributes.enabled.needsUpdate = true;
     };
 

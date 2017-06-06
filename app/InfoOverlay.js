@@ -88,6 +88,7 @@ var InfoOverlay = module.exports = {
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';
         infopanelDiv.style.visibility = 'hidden';
+
     },
 
     updateInfo: function(activePoint) {
@@ -111,5 +112,9 @@ var InfoOverlay = module.exports = {
         var dlLinkDiv = document.getElementById('downloadlink1');
         dlLinkDiv.download = point.meta[0].values;
         dlLinkDiv.href = Data.getUrl(activePoint);
+    },
+
+    onClickAndHotkey: function(activePoint) {
+        console.log('infoOverlay called with ' + activePoint);
     }
 };

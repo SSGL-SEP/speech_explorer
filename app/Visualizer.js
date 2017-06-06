@@ -27,6 +27,7 @@ var Visualizer = module.exports = function() {
     var raycaster;
     var mouse;
     var needsRefresh = true;
+    var dKeyDown = false;
 
     this.init = function() {
         this.createEnvironment();
@@ -71,6 +72,26 @@ var Visualizer = module.exports = function() {
 
         this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
         this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+
+        var keyUpAction = function (e) {
+            if (e.keyCode == 68) {
+                window.removeEventListener("keyup" ,keyUpAction);
+                window.addEventListener("keydown", keyDownAction, false);
+                console.log('key "d" is up!');
+            }
+        }
+
+        var keyDownAction = function (e) {
+            if (e.keyCode == 68) {
+                window.addEventListener("keyup" ,keyUpAction, false);
+                window.removeEventListener("keydown", keyDownAction);
+                console.log('key "d" is down!');
+                infoOverlay.onClickAndHotkey(activePoint);
+            }
+        }
+
+        window.addEventListener("keydown", keyDownAction, false);
+
 
         document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 

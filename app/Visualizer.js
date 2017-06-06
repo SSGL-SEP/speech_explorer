@@ -79,7 +79,7 @@ var Visualizer = module.exports = function() {
                 window.addEventListener("keydown", keyDownAction, false);
                 console.log('key "d" is up!');
             }
-        }
+        };
 
         var keyDownAction = function (e) {
             if (e.keyCode == 68) {
@@ -88,7 +88,7 @@ var Visualizer = module.exports = function() {
                 console.log('key "d" is down!');
                 infoOverlay.onClickAndHotkey(activePoint);
             }
-        }
+        };
 
         window.addEventListener("keydown", keyDownAction, false);
 

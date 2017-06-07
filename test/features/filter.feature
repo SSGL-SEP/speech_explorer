@@ -13,9 +13,9 @@ Feature: Filter
     When I press "SelectAll" button
     Then I should see all samples being active
 
-  Scenario: Deactivate filter checkbox for phoneme s
+  Scenario: Deactivate filter checkbox for phonem s
     Given I navigate to the homepage
-    When I open folder "phoneme"
-    And I click on checkbox of phoneme s
+    When I open folder "phonem"
+    And I click on checkbox of phonem s
     Then I should see "184" active samples
 

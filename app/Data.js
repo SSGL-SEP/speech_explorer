@@ -6,71 +6,40 @@ var THREE = require("three");
 
 var parsedPoints = [],
     parsedTags = [],
-    parsedData,
+    tagColors = new Map(),
     total = 0;
 
-var inputData = module.exports = {
+var Data = module.exports = {
     pointSize: 2,
     pointSizeMultiplier: 1,
     cloudSize2D: 1.5,
 
-    loadData: function(inputData) {
+    loadData: function(data) {
         parsedPoints = [];
-        parsedTags = inputData.tags;
-        parsedData = inputData;
-        total = inputData.totalPoints;
-
-        console.log(inputData);
-        console.log(parsedTags);
-        console.log(total);
+        parsedTags = [];
+        total = data.length;
 
         var i;
-        for (i = 0; i < total; i++) {
-            var dataPoint = new THREE.Vector3(parsedData.points[i][0], parsedData.points[i][1], parsedData.points[i][2]);
-            dataPoint.filename = parsedData.points[i][3];
-            dataPoint.meta = {};
+        for (i = 0; i < data.length; i++) {
+            var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
+            if (process.env.DATA_SRC) {
+                dataPoint.url = process.env.DATA_SRC + data[i][4];
+            } else {
+                dataPoint.url = "audio/" + data[i][4];
+            }
+
+            dataPoint.meta = this.parseTags(data[i][5], i);
+            dataPoint.color = new THREE.Color(data[i][6]);
+            this.parseTagColors(dataPoint, 'phonem');
             parsedPoints.push(dataPoint);
         }
-
-        for (var tag in parsedTags) {
-            if (parsedTags.hasOwnProperty(tag)) {
-                for (var value in parsedTags[tag]) {
-                    if (parsedTags[tag].hasOwnProperty(value)) {
-                        for (var point in parsedTags[tag][value].points) {
-                            parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
-                        }
-                    }
-                }
-            }
-        }
-
-
-        console.log(parsedPoints);
-        // console.log('Loading inputData...');
-        // 
-        // var i;
-        // for (i = 0; i < inputData.length; i++) {
-        //     var inputDataPoint = new THREE.Vector3(inputData[i][1], inputData[i][2], inputData[i][3]);
-        //     if (process.env.inputDATA_SRC) {
-        //         inputDataPoint.url = process.env.inputDATA_SRC + inputData[i][4];
-        //     } else {
-        //         inputDataPoint.url = "audio/" + inputData[i][4];
-        //     }
-
-        //     inputDataPoint.meta = this.parseTags(inputData[i][5], i);
-        //     inputDataPoint.color = new THREE.Color(inputData[i][6]);
-        //     parsedPoints.push(inputDataPoint);
-        //     if (i % 1000 === 0) {
-        //         console.log('Points loaded: ' + i);
-        //     }
-        // }
-        // this.sortTagValues();
+        this.sortTagValues();
     },
 
     /**
      * Parses tag JSON into tag objects.
      * @param {array} tags - array of {key: foo, value: bar} objects
-     * @param {number} pointIndex - index of current inputDataPoint
+     * @param {number} pointIndex - index of current dataPoint
      * @returns {array} Array that includes tag information for a point {key: foor, values: []}
      */
     parseTags: function(tags, pointIndex) {
@@ -102,18 +71,18 @@ var inputData = module.exports = {
     /**
      * Function that maps the color to the correct tag value. Wanted tag is usually the one
      * that was used to compute the color og the point.
-     * @param {any} inputDataPoint - inputData point object
+     * @param {any} dataPoint - data point object
      * @param {any} tagKey - key value of tag that was used to determine color of the point
      */
 
 
-    parseTagColors: function(inputDataPoint, tagKey) {
-        var metainputData = inputDataPoint.meta,
+    parseTagColors: function(dataPoint, tagKey) {
+        var metaData = dataPoint.meta,
             value,
             tag;
 
-        for (var i = 0; i < metainputData.length; i++) {
-            tag = metainputData[i];
+        for (var i = 0; i < metaData.length; i++) {
+            tag = metaData[i];
             if (tag.key === tagKey) {
                 value = tag.values[0];
             }
@@ -121,23 +90,23 @@ var inputData = module.exports = {
 
 
         if (!tagColors.has(value)) {
-            tagColors.set(value, inputDataPoint.color);
+            tagColors.set(value, dataPoint.color);
         }
     },
 
     /**
-     * Computes color for every inputDatapoint and sets the color of each point.
-     * Used when no color information is provided in inputData JSON
-     * @param {JSON} inputData - inputData in JSON format
+     * Computes color for every datapoint and sets the color of each point.
+     * Used when no color information is provided in data JSON
+     * @param {JSON} data - data in JSON format
      */
-    computeColorInformation: function(inputData) {
+    computeColorInformation: function(data) {
         var maxEuc = 0,
             minEuc = Number.MAX_VALUE,
             maxZ = 0,
             hueOffset = 20,
             hues = [];
         var i;
-        for (i = 0; i < inputData.length; i++) {
+        for (i = 0; i < data.length; i++) {
             var x = Math.pow(parsedPoints[i].x, 2);
             var y = Math.pow(parsedPoints[i].y, 2);
             var z = Math.pow(parsedPoints[i].z, 2);
@@ -148,7 +117,7 @@ var inputData = module.exports = {
             maxEuc = Math.max(maxEuc, hue);
             minEuc = Math.min(minEuc, hue);
         }
-        for (i = 0; i < inputData.length; i++) {
+        for (i = 0; i < data.length; i++) {
             var color = new THREE.Color();
             var lightness = parsedPoints[i].z / (2 * maxZ);
             color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
@@ -227,7 +196,7 @@ var inputData = module.exports = {
     },
 
     getUrl: function(index) {
-        return parsedPoints[index].filename;
+        return parsedPoints[index].url;
     },
 
     getPoint: function(index) {
@@ -235,8 +204,7 @@ var inputData = module.exports = {
     },
 
     getColor: function(index) {
-        var pointTagValue = parsedPoints[index].meta[parsedData.colorBy];
-        return new THREE.Color(parsedTags[parsedData.colorBy][pointTagValue].color);
+        return parsedPoints[index].color;
     },
 
     getTags: function() {
@@ -244,6 +212,6 @@ var inputData = module.exports = {
     },
 
     getTagColor: function(tag) {
-        return parsedTags[parsedData.colorBy][tag];
+        return tagColors.get(tag);
     }
 };

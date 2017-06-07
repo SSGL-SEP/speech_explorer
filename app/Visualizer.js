@@ -112,6 +112,8 @@ var Visualizer = module.exports = function() {
     this.createDraggers = function() {
         var onDragStarted = function(event) {
             scope.onBgDown(event);
+
+            scope.pointCloud.update();
         };
 
 
@@ -217,7 +219,7 @@ var Visualizer = module.exports = function() {
 
     this.update = function() {
         if (needsRefresh) {
-            // this.pointCloud.getAttributes().size.needsUpdate = true;
+            this.pointCloud.getAttributes().size.needsUpdate = true;
             this.pointCloud.draw();
             this.pointCloud.update();
             needsRefresh = false;
@@ -233,23 +235,23 @@ var Visualizer = module.exports = function() {
         if (intersectingPoints.length > 0) {
 
             if (activePoint !== intersectingPoints[0].index) {
-                attributes.customSize.array[activePoint] = 0;
+                attributes.size.array[activePoint] = size;
                 // Reset z-position back to 0
                 attributes.position.array[activePoint * 3 + 2] = 0;
                 activePoint = intersectingPoints[0].index;
-                attributes.customSize.array[activePoint] = size + 10;
+                attributes.size.array[activePoint] = size + 10;
                 // Move activepoint towards a camera so that overlapping
                 // points don't clip through.
                 attributes.position.array[activePoint * 3 + 2] = 1;
                 attributes.position.needsUpdate = true;
-                attributes.customSize.needsUpdate = true;
+                attributes.size.needsUpdate = true;
                 infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
             }
         } else if (activePoint !== null) {
-            attributes.customSize.array[activePoint] = 0;
+            attributes.size.array[activePoint] = size;
             attributes.position.array[activePoint * 3 + 2] = 1;
-            attributes.customSize.needsUpdate = true;
+            attributes.size.needsUpdate = true;
             activePoint = null;
             infoOverlay.hideInfo();//hides infodiv with sound information
         }

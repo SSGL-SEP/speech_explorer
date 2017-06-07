@@ -143,5 +143,5 @@ var InfoOverlay = module.exports = {
     onClickOnDownloadLink: function () {
         downloadSound(activeHref);
 
-    },
+    }
 };

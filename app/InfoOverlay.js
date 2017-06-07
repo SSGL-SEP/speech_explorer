@@ -103,6 +103,7 @@ var InfoOverlay = module.exports = {
         }
 
         infopanelDiv.appendChild(cloneForPanel(infoDiv));
+        infopanelDiv.title = 'Download hotkey: ' + String.fromCharCode(68); // D
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

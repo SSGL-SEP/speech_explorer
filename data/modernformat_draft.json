@@ -1,0 +1,64 @@
+{
+    "soundInfo": "xxx/yyy/zzz",
+    "dataName": "handwritten",
+    "mapName": "firstTestDraft",
+    "colorBy": "phoneme",
+    "totalPoints": 5,
+    "tags": {
+        "phoneme": {
+            "a":{
+                "color":"#ffda00",
+                "points":[1,3]
+            },
+            "d":{
+                "color":"#ff0000",
+                "points":[0,2]
+            },
+            "e":{
+                "color":"#da00ff",
+                "points":[4]
+            },
+            "__display":true
+        },
+        "stress":{
+            "stressed":{
+                "color": "#000000",
+                "points": [0,1,2]
+            },
+            "unstressed":{
+                "color": "#000000",
+                "points": [3,4]
+            },
+            "__display":true
+        },
+        "randomStuff":{
+            "doNotShow":{
+                "color":"#ffffff",
+                "points":[0,1,2,3,4]
+            },
+            "__display":true
+        }    
+    },
+    "points":[
+        [497.0221746270128,
+        397.8536363508332,
+        0,
+        "mv_0763_019_a_1_1.wav"],
+        [509.38648879559855,
+        562.2678547560703,
+        0,
+        "mv_0768_041_C230_1_0.wav"],
+        [426.2265782875388,
+        170.57269543435214,
+        0,
+        "mv_0750_118_t_0_0.wav"],
+        [471.2430429306479,
+        156.73257035914855,
+        0,
+        "mv_0772_049_t_0_1.wav"],
+        [222.25953390179694,
+        301.980082152092,
+        0,
+        "mv_0735_060_i_1_1.wav"]
+    ]
+}

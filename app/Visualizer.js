@@ -112,8 +112,6 @@ var Visualizer = module.exports = function() {
     this.createDraggers = function() {
         var onDragStarted = function(event) {
             scope.onBgDown(event);
-
-            scope.pointCloud.update();
         };
 
 

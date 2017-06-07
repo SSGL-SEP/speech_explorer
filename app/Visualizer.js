@@ -74,14 +74,14 @@ var Visualizer = module.exports = function() {
         this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
 
         var keyUpAction = function (e) {
-            if (e.keyCode == 68) {
+            if (e.keyCode === 68) {
                 window.removeEventListener("keyup" ,keyUpAction);
                 window.addEventListener("keydown", keyDownAction, false);
             }
         };
 
         var keyDownAction = function (e) {
-            if (e.keyCode == 68) {
+            if (e.keyCode === 68) {
                 window.addEventListener("keyup" ,keyUpAction, false);
                 window.removeEventListener("keydown", keyDownAction);
                 infoOverlay.onDownloadHotkey(activePoint);

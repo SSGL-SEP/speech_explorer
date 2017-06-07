@@ -23,12 +23,14 @@ var playSound = function (href) {
 //Lataa äänitiedoston 
 // https://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
 var downloadSound = function (href) {
-    var a = document.createElement('A');
-    a.href = href;
-    a.download = href.substr(href.lastIndexOf('/') + 1);
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    if (href) {
+        var a = document.createElement('A');
+        a.href = href;
+        a.download = href.substr(href.lastIndexOf('/') + 1);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }    
 };
 
 // var cloneCount = 0;

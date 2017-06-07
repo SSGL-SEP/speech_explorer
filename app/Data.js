@@ -17,6 +17,8 @@ var Data = module.exports = {
         parsedTags = [];
         total = data.length;
 
+        console.log('Loading data...');
+
         var i;
         for (i = 0; i < data.length; i++) {
             var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
@@ -28,8 +30,11 @@ var Data = module.exports = {
 
             dataPoint.meta = this.parseTags(data[i][5], i);
             dataPoint.color = new THREE.Color(data[i][6]);
-            this.parseTagColors(dataPoint, 'phonem');
+            this.parseTagColors(dataPoint, 'phoneme');
             parsedPoints.push(dataPoint);
+            if (i % 1000 === 0) {
+                console.log('Points loaded: ' + i);
+            }
         }
         this.sortTagValues();
     },
@@ -68,7 +73,7 @@ var Data = module.exports = {
 
     /**
      * Function that maps the color to the correct tag value. Wanted tag is usually the one
-     * that was used to compute the color og the point.
+     * that was used to compute the color of the point.
      * @param {any} dataPoint - data point object
      * @param {any} tagKey - key value of tag that was used to determine color of the point
      */

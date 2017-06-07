@@ -1,7 +1,7 @@
 {
     "soundInfo": "xxx/yyy/zzz",
-    "dataName": "handwritten",
-    "mapName": "firstTestDraft",
+    "dataSet": "handwritten",
+    "processingMethod": "firstTestDraft",
     "colorBy": "phoneme",
     "totalPoints": 5,
     "tags": {

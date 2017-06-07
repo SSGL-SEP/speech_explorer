@@ -34,7 +34,7 @@ defineSupportCode(function({Given, When, Then}) {
     });
 
 
-    When('I click on checkbox of phonem s', function() {
+    When('I click on checkbox of phoneme s', function() {
         return this.driver.findElement(By.xpath("//*[@id=\"overlay\"]/div/ul/li[2]/div/ul/li[16]")).then(function(element) {
            return element.click();
         });

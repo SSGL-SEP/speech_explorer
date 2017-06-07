@@ -11,20 +11,6 @@ describe('The PointCloud', function() {
 		var json = require(appDir + "/test/testdata.json");
 		Data.loadData(json);
 		pc = new pointCloud();
-		pc.update();
-	});
-
-	it('should have a point for each data point after initialization', function() {
-		assert(pc.getAttributes().size.count === Data.getTotalPoints());
-	});
-});
-
-describe('The PointCloud', function() {
-	before(function() {
-		Data = require(appDir + "/app/Data");
-		var json = require(appDir + "/test/testdata.json");
-		Data.loadData(json);
-		pc = new pointCloud();
 
 		var activePoints = [];
 		activePoints.push(1);

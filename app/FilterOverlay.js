@@ -17,7 +17,6 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
 
     this.createBoolArray = function () {
         //1 because filenames are at zero
-        console.log(this.tags);
         for (var folder in this.tags) {
             if (this.tags[folder].__filterable) {
                 var boolObj = {
@@ -27,7 +26,6 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
 
                 for (var tag in this.tags[folder]) {
                     if (!tag.startsWith("__")) {
-                        console.log(tag);
                         boolObj.values[tag] = true;
                     }
 
@@ -48,12 +46,10 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                 controller.listen()
                     .onChange(
                     function () {
-                        console.log(scope.createFilterData());
                         scope.filterFunction(scope.createFilterData());
                     }
                     );
                 if (data.getTagColor(key)) {
-                    console.log(data.getTagColor(key));
                     controller.borderColor(data.getTagColor(key))
                         .borderWidth(10);
                 }

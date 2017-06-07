@@ -11,7 +11,7 @@
                 "val": "mv_0693_021_i_1_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "i"
             },
             {
@@ -37,7 +37,7 @@
                 "val": "mv_0699_025_e_1_1.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "e"
             },
             {
@@ -63,7 +63,7 @@
                 "val": "mv_0698_016_i_1_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "i"
             },
             {
@@ -89,7 +89,7 @@
                 "val": "mv_0693_003_h_0_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "h"
             },
             {
@@ -115,7 +115,7 @@
                 "val": "mv_0693_012_e_1_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "e"
             },
             {
@@ -141,7 +141,7 @@
                 "val": "mv_0693_018_n_1_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "n"
             },
             {
@@ -167,7 +167,7 @@
                 "val": "mv_0694_010_e_1_1.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "e"
             },
             {
@@ -193,7 +193,7 @@
                 "val": "mv_0699_013_l_1_1.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "l"
             },
             {
@@ -219,7 +219,7 @@
                 "val": "mv_0695_020_n_1_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "n"
             },
             {
@@ -245,7 +245,7 @@
                 "val": "mv_0696_017_a_1_0.wav"
             },
             {
-                "key": "phonem",
+                "key": "phoneme",
                 "val": "a"
             },
             {

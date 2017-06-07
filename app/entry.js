@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'development') {
     json = require('../test/testdata200.json');
 } else {
     // json = require('../data/modernformat_draft.json');
-    json = require('../data/ntest30.json');
+    json = require('../data/ntest100.json');
 }
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");

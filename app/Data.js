@@ -2,6 +2,8 @@
 
 var THREE = require("three");
 
+
+
 var parsedPoints = [],
     parsedTags = [],
     tagColors = new Map(),
@@ -185,6 +187,7 @@ var Data = module.exports = {
         if (index === -1) {
             return undefined;
         }
+        console.log(parsedTags[index]);
         return parsedTags[index];
     },
 

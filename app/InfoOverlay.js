@@ -7,6 +7,7 @@ var infoDiv, activeDiv, infopanelDiv;
 
 var updateDiv = function(uDiv, point) {
     var currdiv;
+    console.log(point.meta);
     uDiv.getElementsByClassName('filename')[0].innerHTML = point.meta[0].values;
     for (var i = 1; i < point.meta.length; i++) {
         currdiv = uDiv.getElementsByClassName(point.meta[i].key)[0];

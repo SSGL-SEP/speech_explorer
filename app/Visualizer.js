@@ -77,7 +77,6 @@ var Visualizer = module.exports = function() {
             if (e.keyCode == 68) {
                 window.removeEventListener("keyup" ,keyUpAction);
                 window.addEventListener("keydown", keyDownAction, false);
-                console.log('key "d" is up!');
             }
         };
 
@@ -85,8 +84,7 @@ var Visualizer = module.exports = function() {
             if (e.keyCode == 68) {
                 window.addEventListener("keyup" ,keyUpAction, false);
                 window.removeEventListener("keydown", keyDownAction);
-                console.log('key "d" is down!');
-                infoOverlay.onClickAndHotkey(activePoint);
+                infoOverlay.onDownloadHotkey(activePoint);
             }
         };
 

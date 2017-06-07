@@ -4,11 +4,6 @@ node_js:
 env:
     global:
         - NODE_ENV=development
-before_script:
-  - sed -i 's/setParameter(\x27text\x27, keys)/setParameter(\x27text\x27, keys\.then(keys => keys\.join(\x27\x27)))/g' node_modules/selenium-webdriver/lib/webdriver.js #selenium fix for firefox sendkeys
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
 addons:
     firefox: "49.0"
 cache:

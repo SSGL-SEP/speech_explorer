@@ -224,7 +224,7 @@ var inputData = module.exports = {
     },
 
     getUrl: function(index) {
-        return parsedPoints[index].url;
+        return parsedPoints[index].filename;
     },
 
     getPoint: function(index) {
@@ -232,7 +232,8 @@ var inputData = module.exports = {
     },
 
     getColor: function(index) {
-        return parsedPoints[index].color;
+        var pointTagValue = parsedPoints[index].meta[parsedData.colorBy];
+        return new THREE.Color(parsedTags[parsedData.colorBy][pointTagValue].color);
     },
 
     getTags: function() {

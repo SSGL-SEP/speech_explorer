@@ -66,8 +66,6 @@ var inputData = module.exports = {
     },
 
     getTagColor: function (tag) {
-        console.log(tag);
-        console.log();
         if (parsedTags[parsedData.colorBy][tag]) {
             return parsedTags[parsedData.colorBy][tag].color;
         }

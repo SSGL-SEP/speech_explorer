@@ -35,7 +35,7 @@ var inputData = module.exports = {
                 for (var value in parsedTags[tag]) {
                     if (parsedTags[tag].hasOwnProperty(value)) {
                         for (var point in parsedTags[tag][value].points) {
-                            parsedPoints[point].meta[tag] = value;
+                            parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
                         }
                     }
                 }

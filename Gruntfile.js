@@ -31,7 +31,7 @@ module.exports = function(grunt) {
                     mocha: true
                 },
                 files: {
-                    src: ['test/**/*.js']
+                    src: ['test/features/**/*.js', 'test/unit/**/*.js']
                 }
             }
         },

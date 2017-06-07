@@ -18,7 +18,7 @@
                 "color":"#da00ff",
                 "points":[4]
             },
-            "__display":true
+            "__filterable":true
         },
         "stress":{
             "stressed":{
@@ -29,14 +29,14 @@
                 "color": "#000000",
                 "points": [3,4]
             },
-            "__display":true
+            "__filterable":true
         },
         "randomStuff":{
             "doNotShow":{
                 "color":"#ffffff",
                 "points":[0,1,2,3,4]
             },
-            "__display":true
+            "__filterable":true
         }    
     },
     "points":[

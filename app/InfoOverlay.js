@@ -3,14 +3,14 @@
 var Data = require("./Data");
 var audioPlayer = require("./AudioPlayer");
 
-var infoDiv, activeDiv, infopanelDiv;
+var infoDiv, activeDiv, infopanelDiv, tags;
 
 var updateDiv = function(uDiv, point) {
     var currdiv;
-    uDiv.getElementsByClassName('filename')[0].innerHTML = point.meta[0].values;
-    for (var i = 1; i < point.meta.length; i++) {
-        currdiv = uDiv.getElementsByClassName(point.meta[i].key)[0];
-        currdiv.innerHTML = point.meta[i].values;
+    uDiv.getElementsByClassName('filename')[0].innerHTML = point['filename'];
+    for (var key in tags) {
+        currdiv = uDiv.getElementsByClassName(key)[0];
+        currdiv.innerHTML = point.meta[key];
     }
 };
 
@@ -57,14 +57,12 @@ var cloneForPanel = function(model) {
 
 var InfoOverlay = module.exports = {
 
-    tags: null,
-
     init: function(newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
 
         activeDiv = newActiveDiv;
         infoDiv = newInfoDiv;
         infopanelDiv = newInfoPanelDiv;
-        this.tags = newTags;
+        tags = newTags;
 
         var outerDiv, innerDiv;
         outerDiv = document.createElement('div');
@@ -72,12 +70,12 @@ var InfoOverlay = module.exports = {
         infoDiv.appendChild(outerDiv);
 
 
-        for (var i = 1; i < this.tags.length; i++) {
+        for (var key in tags) {
             outerDiv = document.createElement('div');
-            outerDiv.innerHTML = this.tags[i].key + ': ';
+            outerDiv.innerHTML = key + ': ';
 
             innerDiv = document.createElement('div');
-            innerDiv.className = this.tags[i].key + ' infoInstance';
+            innerDiv.className = key + ' infoInstance';
 
             outerDiv.appendChild(innerDiv);
             infoDiv.appendChild(outerDiv);
@@ -109,7 +107,7 @@ var InfoOverlay = module.exports = {
         updateDiv(infopanelDiv, point);
         infopanelDiv.style.visibility = 'visible';
         var dlLinkDiv = document.getElementById('downloadlink1');
-        dlLinkDiv.download = point.meta[0].values;
+        dlLinkDiv.download = Data.getUrl(activePoint);
         dlLinkDiv.href = Data.getUrl(activePoint);
     }
 };

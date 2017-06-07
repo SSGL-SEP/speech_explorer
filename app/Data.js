@@ -18,9 +18,9 @@ var inputData = module.exports = {
         parsedData = inputData;
         total = inputData.totalPoints;
 
-        console.log(inputData);
-        console.log(parsedTags);
-        console.log(total);
+        // console.log(inputData);
+        // console.log(parsedTags);
+        // console.log(total);
 
         var i;
         for (i = 0; i < total; i++) {
@@ -41,7 +41,7 @@ var inputData = module.exports = {
                 }
             }
         }
-        console.log(parsedPoints);
+        // console.log(parsedPoints);
     },
 
     getTotalPoints: function() {
@@ -66,6 +66,6 @@ var inputData = module.exports = {
     },
 
     getTagColor: function(tag) {
-        return parsedTags[parsedData.colorBy][tag];
+        return parsedTags[parsedData.colorBy][tag].color;
     }
 };

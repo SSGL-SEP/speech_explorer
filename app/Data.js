@@ -17,7 +17,7 @@ var Data = module.exports = {
         parsedTags = [];
         total = data.length;
 
-        console.log('Loading data...')
+        console.log('Loading data...');
 
         var i;
         for (i = 0; i < data.length; i++) {
@@ -33,7 +33,7 @@ var Data = module.exports = {
             this.parseTagColors(dataPoint, 'phonem');
             parsedPoints.push(dataPoint);
             if (i % 1000 === 0) {
-                console.log('Points loaded: ' + i)
+                console.log('Points loaded: ' + i);
             }
         }
         this.sortTagValues();

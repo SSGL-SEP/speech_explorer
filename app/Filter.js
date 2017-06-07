@@ -16,8 +16,6 @@ var Filter = module.exports = {
      * @param {array} - filterStatus list of tag states
      */
     setFilter: function(filterStatus) {
-        console.log('filterStatus');
-        console.log(filterStatus)
         activePoints = [];
         var tagMap = Data.getTags();
 
@@ -25,10 +23,9 @@ var Filter = module.exports = {
             var categories = [];
             var tagObj = tagMap[category.key];
 
-
             Object.keys(category.values).forEach(function(key) {
                 if (category.values[key]) {
-                    categories.push(tagObj[key]);
+                    categories.push(tagObj[category.values[key]].points);
                 }
             });
 

@@ -3,9 +3,8 @@
 var THREE = require("three");
 
 var parsedPoints = [],
-    parsedTags = [],
-    parsedData,
-    total = 0;
+    parsedTags = {},
+    parsedHeader = {};
 
 module.exports = {
     pointSize: 2,
@@ -15,36 +14,52 @@ module.exports = {
     loadData: function(inputData) {
         parsedPoints = [];
         parsedTags = inputData.tags;
-        parsedData = inputData;
-        total = inputData.totalPoints;
+        parsedHeader = {};
 
-        var i;
-        for (i = 0; i < total; i++) {
-            var dataPoint = new THREE.Vector3(parsedData.points[i][0], parsedData.points[i][1], parsedData.points[i][2]);
-            dataPoint.filename = parsedData.points[i][3];
+        console.log('Loading data...');
+
+        console.log('Parsing header...');
+        parsedHeader.soundInfo = inputData.soundInfo;
+        parsedHeader.dataSet = inputData.dataSet;
+        parsedHeader.processingMethod = inputData.processingMethod;
+        parsedHeader.colorBy = inputData.colorBy;
+        parsedHeader.totalPoints = inputData.totalPoints;
+
+        console.log('Loading points...');
+        for (var i = 0; i < inputData.totalPoints; i++) {
+            var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
+            dataPoint.filename = inputData.points[i][3];
             dataPoint.meta = {};
             parsedPoints.push(dataPoint);
+            if (i % 1000 === 0) {
+                console.log('Points loaded: ' + i);
+            }
         }
 
+        console.log('Parsing tags...');
+        this.parseTags();
+
+        console.log('Data loaded!');
+    },
+
+    parseTags: function() {
         for (var tag in parsedTags) {
             if (parsedTags.hasOwnProperty(tag)) {
                 for (var value in parsedTags[tag]) {
                     if (parsedTags[tag].hasOwnProperty(value)) {
                         for (var point in parsedTags[tag][value].points) {
-                            parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
+                            if (parsedTags[tag][value].points.hasOwnProperty(point)) {
+                                parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
+                            }
                         }
                     }
                 }
             }
         }
-        // console.log(inputData);
-        // console.log(parsedTags);
-        // console.log(total);
-        // console.log(parsedPoints);
     },
 
     getTotalPoints: function() {
-        return total;
+        return parsedHeader.totalPoints;
     },
 
     getUrl: function(index) {
@@ -56,8 +71,8 @@ module.exports = {
     },
 
     getColor: function(index) {
-        var pointTagValue = parsedPoints[index].meta[parsedData.colorBy];
-        return new THREE.Color(parsedTags[parsedData.colorBy][pointTagValue].color);
+        var pointTagValue = parsedPoints[index].meta[parsedHeader.colorBy];
+        return new THREE.Color(parsedTags[parsedHeader.colorBy][pointTagValue].color);
     },
 
     getTags: function() {
@@ -69,9 +84,12 @@ module.exports = {
     },
 
     getTagColor: function(tag) {
-        if (parsedTags[parsedData.colorBy][tag]) {
-            return parsedTags[parsedData.colorBy][tag].color;
+        if (parsedTags[parsedHeader.colorBy][tag]) {
+            return parsedTags[parsedHeader.colorBy][tag].color;
         }
+    },
 
+    getParsedHeader: function() {
+        return parsedHeader;
     }
 };

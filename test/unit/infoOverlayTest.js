@@ -56,15 +56,16 @@ describe('InfoOverlay', function() {
         it('should update display of filename correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('filename')[0].innerHTML === "mv_0693_021_i_1_0.wav");
+            assert(target.getElementsByClassName('file name')[0].innerHTML === "mv_0693_003_h_0_0.wav");
+
         });
     });
 
     describe('InfoOverlay#updateInfo', function() {
-        it('should update display of phonem correctly', function() {
+        it('should update display of phoneme correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('phonem')[0].innerHTML === "i");
+            assert(target.getElementsByClassName('phoneme')[0].innerHTML === "h");
         });
     });
 
@@ -72,7 +73,7 @@ describe('InfoOverlay', function() {
         it('should update display of voicing correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('voice')[0].innerHTML === "voiced");
+            assert(target.getElementsByClassName('voice')[0].innerHTML === "unvoiced");
         });
     });
 

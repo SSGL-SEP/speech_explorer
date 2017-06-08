@@ -30,8 +30,8 @@ describe('Data', function() {
         });
     });
 
-    describe('#getUrl(1)', function() {
-        it('should be mv_0693_001_k_0_0.wav', function() {
+    describe('#getUrl()', function() {
+        it('should be mv_0693_001_k_0_0.wav with parameter 1', function() {
             assert(Data.getUrl(1) === "mv_0693_001_k_0_0.wav");
         });
     });
@@ -89,102 +89,85 @@ describe('Data', function() {
 
     describe('#getTags())', function() {
         it('should return an object', function() {
-            assert(Data.getTags().typeof === 'object');
+            assert(typeof Data.getTags() === 'object');
         });
-        it('should return  ', function() {
-            assert(Data.getColor(0).getHexString() === "00ff3f");
+        it('should return with valid property \'phoneme\'', function() {
+            var testTag = Data.getTags().phoneme;
+            assert(typeof testTag === 'object');
+        });
+        it('should return with valid property \'stress\'', function() {
+            var testTag = Data.getTags().stress;
+            assert(typeof testTag === 'object');
+        });
+        it('should return with valid property \'voice\'', function() {
+            var testTag = Data.getTags().voice;
+            assert(typeof testTag === 'object');
         });
     });
 
-    describe('Data#parsedTags[1])', function() {
-        it('should be key === phonem, values === [\'a\',\'e\',\'h\',\'i\',\'l\',\'n\']', function() {
-            var testTag = Data.getTags()[1],
-                testValues = ['a', 'e', 'h', 'i', 'l', 'n'];
-            assert(testTag.key === 'phonem');
-            for (var i = 0; i < testValues.length; i++) {
-                assert(testTag.values[i].value === testValues[i]);
+    describe('#getTag(\'stress\'))', function() {
+        it('should return object', function() {
+            assert(typeof Data.getTag('stress') === 'object');
+        });
+        it('should have property \'stressed\' with correct fields ', function() {
+            var testValue = Data.getTag('stress').stressed;
+            var testPoints = [6, 8, 10, 11, 12];
+            for (var i = 0; i < testValue.length; i++) {
+                assert(testValue.points[i] === testPoints[i]);
             }
+            assert(testValue.color === "#00ff00");
         });
-    });
-
-    describe('Data#parsedTags[2])', function() {
-        it('should be key === voice, values === [\'unvoiced\', \'voiced\']', function() {
-            var testTag = Data.getTags()[2],
-                testValues = ['unvoiced', 'voiced'];
-            assert(testTag.key === 'voice');
-            for (var i = 0; i < testValues.length; i++) {
-                assert(testTag.values[i].value === testValues[i]);
+        it('should have property \'unstressed\' with correct fields ', function() {
+            var testValue = Data.getTag('stress').unstressed;
+            var testPoints = [0, 1, 2, 3, 4, 5, 7, 9];
+            for (var i = 0; i < testValue.length; i++) {
+                assert(testValue.points[i] === testPoints[i]);
             }
+            assert(testValue.color === "#0000ff");
+        });
+        it('should have property \'__filterable\' that is true ', function() {
+            var testValue = Data.getTag('stress').__filterable;
+            assert(testValue);
         });
     });
 
-    describe('Data#parsedTags[3])', function() {
-        it('should be key === stress, values === [\'stressed\', \'unstressed\']', function() {
-            var testTag = Data.getTags()[3],
-                testValues = ['stressed', 'unstressed'];
-            assert(testTag.key === 'stress');
-            for (var i = 0; i < testValues.length; i++) {
-                assert(testTag.values[i].value === testValues[i]);
-            }
+    describe('#getTag(\'notATag\'))', function() {
+        it('should return undefined', function() {
+            assert(typeof Data.getTag('notATag') === 'undefined');
         });
     });
 
-    describe('Data#parsedTags[3].values[0])', function() {
-        it('should be value === stressed, values === [1,6,7]', function() {
-            var testTag = Data.getTags()[3].values[0],
-                testValues = [1, 6, 7];
-            assert(testTag.value === 'stressed');
-            for (var i = 0; i < testValues.length; i++) {
-                assert(testTag.points[i] === testValues[i]);
-            }
+    describe('#getTagColor()', function() {
+        it('should return hex with value #00ff3f when called with parameter \'h\' ', function() {
+            var color = Data.getTagColor('h');
+            assert(color === '#00ff3f');
+        });
+        it('should return undefined when called with parameter \'xxx\' ', function() {
+            var color = Data.getTagColor('xxx');
+            assert(typeof color === 'undefined');
         });
     });
 
-    describe('Data#parsedTags[3].values[1])', function() {
-        it('should be value === unstressed, values === [0,2,3,4,5,8,9]', function() {
-            var testTag = Data.getTags()[3].values[1],
-                testValues = [0, 2, 3, 4, 5, 8, 9];
-            assert(testTag.value === 'unstressed');
-            for (var i = 0; i < testValues.length; i++) {
-                assert(testTag.points[i] === testValues[i]);
-            }
+    describe('#parsedHeader()', function() {
+        it('should return object with attribute \'soundInfo\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().soundInfo;
+            assert(headerObject === null);
         });
-    });
-
-    describe('Point object at index 0', function() {
-        it('should have valid url', function() {
-            assert(Data.getPoint(0).url === 'audio/mv_0693_021_i_1_0.wav');
+        it('should return object with attribute \'dataSet\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().dataSet;
+            assert(headerObject === "phoneme");
         });
-        it('should have valid position information', function() {
-            assert(Data.getPoint(0).x === 167.9238936178313);
-            assert(Data.getPoint(0).y === 254.04705572486748);
-            assert(Data.getPoint(0).z === 0);
+        it('should return object with attribute \'processingMethod\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().processingMethod;
+            assert(headerObject === "mfcc - t-SNE");
         });
-    });
-
-
-    describe('Meta information of point object', function() {
-        it('should have \'phonem\' property with a value ', function() {
-            var point = Data.getPoint(0);
-            assert(point.meta[1].key === 'phonem');
-            assert(point.meta[1].values[0] === 'i');
+        it('should return object with attribute \'colorBy\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().colorBy;
+            assert(headerObject === "phoneme");
         });
-        it('should have \'voice\' property with a value ', function() {
-            var point = Data.getPoint(0);
-            assert(point.meta[2].key === 'voice');
-            assert(point.meta[2].values[0] === 'voiced');
-        });
-        it('should have \'stress\' property with a value ', function() {
-            var point = Data.getPoint(0);
-            assert(point.meta[3].key === 'stress');
-            assert(point.meta[3].values[0] === 'unstressed');
-        });
-    });
-
-    describe('Data#getTagColor(\'i\')', function() {
-        it('should return color object with value 6bff00', function() {
-            var color = Data.getTagColor('i');
-            assert(color.getHexString() === '6bff00');
+        it('should return object with attribute \'totalPoints\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().totalPoints;
+            assert(headerObject === 13);
         });
     });
 

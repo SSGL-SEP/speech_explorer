@@ -21,8 +21,8 @@ module.exports = {
         console.log('Parsing header...');
         parsedHeader.soundInfo = inputData.soundInfo;
         parsedHeader.dataSet = inputData.dataSet;
-        parsedHeader.colorBy = inputData.colorBy;
         parsedHeader.processingMethod = inputData.processingMethod;
+        parsedHeader.colorBy = inputData.colorBy;
         parsedHeader.totalPoints = inputData.totalPoints;
 
         console.log('Loading points...');
@@ -87,5 +87,9 @@ module.exports = {
         if (parsedTags[parsedHeader.colorBy][tag]) {
             return parsedTags[parsedHeader.colorBy][tag].color;
         }
+    },
+
+    getParsedHeader: function() {
+        return parsedHeader;
     }
 };

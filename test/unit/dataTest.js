@@ -130,14 +130,14 @@ describe('Data', function() {
             assert(testValue);
         });
     });
-    
+
     describe('#getTag(\'notATag\'))', function() {
         it('should return undefined', function() {
             assert(typeof Data.getTag('notATag') === 'undefined');
         });
     });
 
-    describe('Data#getTagColor()', function() {
+    describe('#getTagColor()', function() {
         it('should return hex with value #00ff3f when called with parameter \'h\' ', function() {
             var color = Data.getTagColor('h');
             assert(color === '#00ff3f');
@@ -145,6 +145,29 @@ describe('Data', function() {
         it('should return undefined when called with parameter \'xxx\' ', function() {
             var color = Data.getTagColor('xxx');
             assert(typeof color === 'undefined');
+        });
+    });
+
+    describe('#parsedHeader()', function() {
+        it('should return object with attribute \'soundInfo\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().soundInfo;
+            assert(headerObject === null);
+        });
+        it('should return object with attribute \'dataSet\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().dataSet;
+            assert(headerObject === "phoneme");
+        });
+        it('should return object with attribute \'processingMethod\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().processingMethod;
+            assert(headerObject === "mfcc - t-SNE");
+        });
+        it('should return object with attribute \'colorBy\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().colorBy;
+            assert(headerObject === "phoneme");
+        });
+        it('should return object with attribute \'totalPoints\' with correct value ', function() {
+            var headerObject = Data.getParsedHeader().totalPoints;
+            assert(headerObject === 13);
         });
     });
 

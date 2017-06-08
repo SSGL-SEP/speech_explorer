@@ -75,8 +75,6 @@ var FilterOverlay = module.exports = function (data, filterFunction, config, vis
             var viz = document.getElementById('visualizer');
             viz.innerHTML = '';
             doc.innerHTML = ''
-            doc.parentNode.removeChild(doc);
-            console.log(doc);
             visualizer.init();
             //document.body.innerHTML += '<div id="overlay"></div>';
             scope.Init();

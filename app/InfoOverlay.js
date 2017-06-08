@@ -63,8 +63,23 @@ var InfoOverlay = module.exports = {
     init: function(newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
 
         activeDiv = newActiveDiv;
+        var element = document.getElementById(activeDiv);
+        if(element){
+            element.innerHTML='';
+        }
+        
+
         infoDiv = newInfoDiv;
+        element = document.getElementById(infoDiv);
+        if(element){
+            element.innerHTML='';
+        }
+        
         infopanelDiv = newInfoPanelDiv;
+        element = document.getElementById(infopanelDiv);
+        if(element){
+            element.innerHTML='';
+        }
         this.tags = newTags;
 
         var outerDiv, innerDiv;

@@ -77,4 +77,6 @@ screenshots/
 # Local audio data
 public/audio/
 
+local_*.json
+
 .idea/

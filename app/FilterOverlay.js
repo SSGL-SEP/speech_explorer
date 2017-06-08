@@ -90,25 +90,25 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
     };
 
     this.createFilterData = function () {
-        var data = [];
-        for (var i = 0; i < this.boolTags.length; i++) {
-            var isUsed = false;
-            var tag = this.boolTags[i];
-            var obj = {
-                key: this.boolTags[i].key,
-                values: []
-            };
-            Object.keys(tag.values).forEach(function (key, index) {
-                if (!tag.values[key]) {
-                    obj.values.push(key);
-                    isUsed = true;
-                }
-            });
-            if (isUsed) {
-                data.push(obj);
-            }
-        }
-        return data;
+        // var data = [];
+        // for (var i = 0; i < this.boolTags.length; i++) {
+        //     var isUsed = false;
+        //     var tag = this.boolTags[i];
+        //     var obj = {
+        //         key: this.boolTags[i].key,
+        //         values: []
+        //     };
+        //     Object.keys(tag.values).forEach(function (key, index) {
+        //         if (!tag.values[key]) {
+        //             obj.values.push(key);
+        //             isUsed = true;
+        //         }
+        //     });
+        //     if (isUsed) {
+        //         data.push(obj);
+        //     }
+        // }
+        return this.boolTags;
     };
 
     this.update = function () {

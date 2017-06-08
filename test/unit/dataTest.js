@@ -130,6 +130,7 @@ describe('Data', function() {
             assert(testValue);
         });
     });
+    
     describe('#getTag(\'notATag\'))', function() {
         it('should return undefined', function() {
             assert(typeof Data.getTag('notATag') === 'undefined');

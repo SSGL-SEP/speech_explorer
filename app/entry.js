@@ -9,14 +9,13 @@ var IO = require('./IO.js');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
 var config = {};
-var mutex = 1;
 
 function startApp(pointData) {
     Data.loadData(pointData);
-    var visualizer = new Visualizer(mutex);
+    var visualizer = new Visualizer();
     visualizer.init();
 
-    new FilterOverlay(Data, visualizer.setFilter, config, visualizer, mutex); // eslint-disable-line no-new
+    new FilterOverlay(Data, visualizer.setFilter, config, visualizer); // eslint-disable-line no-new
 
 }
 

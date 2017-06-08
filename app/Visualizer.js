@@ -7,7 +7,7 @@ var THREE = require("three");
 var infoOverlay = require("./InfoOverlay");
 var audioPlayer = require("./AudioPlayer");
 
-var Visualizer = module.exports = function(mutex) {
+var Visualizer = module.exports = function() {
     var scope = this;
     // BoilerPlate.call(this);
     this.name = "Visualizer";
@@ -306,16 +306,11 @@ var Visualizer = module.exports = function(mutex) {
 
 
     this.animate = function() {
-        while (mutex < 1) {
-
-        }
-        mutex--;
         this.update();
 
         requestAnimationFrame(function() {
             scope.animate();
         });
-        mutex++;
     };
 
     // ------------------------------------------------------------

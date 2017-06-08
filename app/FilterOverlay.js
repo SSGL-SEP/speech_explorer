@@ -5,7 +5,7 @@ var IO = require('./IO.js');
 var Visualizer = require('./Visualizer');
 
 
-var FilterOverlay = module.exports = function(data, filterFunction, config, visualizer, mutex) {
+var FilterOverlay = module.exports = function(data, filterFunction, config, visualizer) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
@@ -60,10 +60,6 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, visu
     }
 
     this.changeDataset = function(dataset) {
-        while (mutex < 1) {
-
-        }
-        mutex--;
         var confobj = this.findDataSet(dataset);
         console.log(confobj.src);
         return IO.loadJSON(confobj.src).then(function(json) {
@@ -80,7 +76,7 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, visu
             visualizer.init();
             //document.body.innerHTML += '<div id="overlay"></div>';
             scope.Init();
-            mutex++;
+
         });
 
     }

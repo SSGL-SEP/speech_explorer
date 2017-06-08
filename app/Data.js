@@ -41,6 +41,7 @@ module.exports = {
         // console.log(parsedTags);
         // console.log(total);
         // console.log(parsedPoints);
+        // console.log(this.getTag('stress').stressed.points);
     },
 
     getTotalPoints: function() {

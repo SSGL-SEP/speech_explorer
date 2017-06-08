@@ -8,13 +8,13 @@ var ConfigDAO = module.exports = function() {
     this.loadConfigFile = function(file){
         return IO.loadJSON(file).then(function(json){
             scope.config = json;
-            return scope.config
+            return scope.config;
         });
-    }
+    };
 
     this.loadDefaultDataSetJSON = function(){
        return IO.loadJSON(scope.config.dataSets[scope.config.defaultSet].src);
-    }
+    };
     
     
     this.findDataSet = function(dataset) {
@@ -24,7 +24,7 @@ var ConfigDAO = module.exports = function() {
             }
         }
         return null;
-    }
+    };
 
     this.findAllDataSets = function(){
         var allSets = [];
@@ -32,7 +32,7 @@ var ConfigDAO = module.exports = function() {
             allSets.push(scope.config.dataSets[i]);
         }
         return allSets;
-    }
+    };
 
     this.findAllDataSetNames = function(){
         var allNames = [];
@@ -40,5 +40,5 @@ var ConfigDAO = module.exports = function() {
             allNames.push(scope.config.dataSets[i].dataSet);
         }
         return allNames;
-    }
+    };
 };

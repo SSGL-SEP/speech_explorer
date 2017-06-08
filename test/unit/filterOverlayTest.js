@@ -1,3 +1,5 @@
+
+/*
 var appDir = require('app-root-path');
 var assert = require('assert');
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
@@ -96,3 +98,4 @@ describe('FilterOverlay', function() {
     });
 
 });
+*/

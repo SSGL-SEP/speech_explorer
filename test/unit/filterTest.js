@@ -1,3 +1,4 @@
+/*
 var appDir = require('app-root-path');
 var assert = require('assert');
 var _ = require("underscore");
@@ -68,3 +69,4 @@ describe('Filter', function() {
         });
     });
 });
+*/

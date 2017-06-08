@@ -20,5 +20,5 @@ Feature: Filter
     Given Page is finished loading
     When I open folder "phoneme"
     And I click on checkbox of phoneme s
-    Then I should see "184" active samples
+    Then I should see "159" active samples
 

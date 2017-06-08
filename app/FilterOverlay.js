@@ -6,17 +6,15 @@ var Config = require('./ConfigDAO');
 
 
 
-var FilterOverlay = module.exports = function(data, filterFunction, config, changeDataSetFunction) {
+var FilterOverlay = module.exports = function(data, filterFunction, Config, changeDataSetFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
 
     this.dataset = { Dataset: [] };
-    this.filterFolder;
-    this.datasetFolder;
-    this.Config = config;
-
-
+    this.filterFolder = null;
+    this.datasetFolder = null;
+    this.Config = Config;
     this.filterFunction = filterFunction;
     this.changeDataSetFunction = changeDataSetFunction;
 
@@ -24,7 +22,9 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, chan
         this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI();
-        filterFunction(scope.createFilterData());
+        filterFunction({
+            selectAll: true
+        });
     };
 
     this.reset = function() {
@@ -33,28 +33,33 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, chan
         scope.dataset = { Dataset: [] };
         var overlay = document.getElementById('overlay');
         overlay.innerHTML = '';
-    }
+    };
 
 
     this.createBoolArray = function() {
-        //1 because filenames are at zero
-        for (var i = 1; i < this.tags.length; i++) {
-            var boolObj = {
-                key: this.tags[i].key,
-                values: {}
-            };
+        for (var folder in this.tags) {
+            if (this.tags[folder].__filterable) {
+                var boolObj = {
+                    key: folder,
+                    values: {}
+                };
 
-            for (var j = 0; j < this.tags[i].values.length; j++) {
-                boolObj.values[this.tags[i].values[j].value] = true;
+                for (var tag in this.tags[folder]) {
+                    if (!tag.startsWith("__")) {
+                        boolObj.values[tag] = true;
+                    }
+
+                }
+                this.boolTags.push(boolObj);
+
             }
-            this.boolTags.push(boolObj);
 
         }
     };
 
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetNames();
-    }
+    };
 
 
 
@@ -88,12 +93,18 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, chan
                 var controller = folder.add(tag.values, key);
                 controller.listen()
                     .onChange(
-                    function() {
-                        scope.filterFunction(scope.createFilterData());
-                    }
+                        (function(tagKey) {
+                            return function(value) {
+                                scope.filterFunction({
+                                    tagName: tagKey,
+                                    tagValue: this.property,
+                                    isActive: value
+                                });
+                            };
+                        })(tag.key)
                     );
                 if (data.getTagColor(key)) {
-                    controller.borderColor(data.getTagColor(key).getHexString())
+                    controller.borderColor(data.getTagColor(key))
                         .borderWidth(10);
                 }
                 console.log(tag.values);
@@ -119,7 +130,16 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, chan
             });
         }
         scope.update();
-        scope.filterFunction(scope.createFilterData());
+
+        if (isActive) {
+            scope.filterFunction({
+                selectAll: true
+            });
+        } else {
+            scope.filterFunction({
+                clearAll: true
+            });
+        }
     };
 
     this.selectButton = {
@@ -133,28 +153,6 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, chan
         ClearAll: function() {
             updateAll(false);
         }
-    };
-
-    this.createFilterData = function() {
-        var data = [];
-        for (var i = 0; i < this.boolTags.length; i++) {
-            var isUsed = false;
-            var tag = this.boolTags[i];
-            var obj = {
-                key: this.boolTags[i].key,
-                values: []
-            };
-            Object.keys(tag.values).forEach(function(key, index) {
-                if (!tag.values[key]) {
-                    obj.values.push(key);
-                    isUsed = true;
-                }
-            });
-            if (isUsed) {
-                data.push(obj);
-            }
-        }
-        return data;
     };
 
     this.update = function() {

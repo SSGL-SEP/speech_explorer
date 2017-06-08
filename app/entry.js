@@ -51,6 +51,6 @@ function printError() {
 }
 
 Config = new Config();
-console.log(Config.loadConfigFile('config.json')
+Config.loadConfigFile('config.json')
 .then(Config.loadDefaultDataSetJSON, printError)
-.then(startApp, printError));
+.then(startApp, printError);

@@ -3,8 +3,8 @@
     {
       "dataSet": "Phonemes on parade",
       "processingMethod": "T-SNE",
-      "totalPoints": 3200,
-      "src": "data/testdata200.json"
+      "totalPoints": 168,
+      "src": "data/testdata168.json"
     }
   ],
   "defaultSet": 0

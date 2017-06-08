@@ -46,7 +46,9 @@ module.exports = {
                 for (var value in parsedTags[tag]) {
                     if (parsedTags[tag].hasOwnProperty(value)) {
                         for (var point in parsedTags[tag][value].points) {
-                            parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
+                            if (parsedTags[tag][value].points.hasOwnProperty(point)) {
+                                parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
+                            }
                         }
                     }
                 }

@@ -22,7 +22,7 @@ module.exports = {
         parsedHeader.soundInfo = inputData.soundInfo;
         parsedHeader.dataSet = inputData.dataSet;
         parsedHeader.colorBy = inputData.colorBy;
-        parsedHeader.totalPoints = inputData.totalPoints;
+        parsedHeader.processingMethod = inputData.processingMethod;
         parsedHeader.totalPoints = inputData.totalPoints;
 
         console.log('Loading points...');

@@ -208,8 +208,8 @@ var Visualizer = module.exports = function() {
         });
     };
 
-    this.setFilter = function(activeTags) {
-        Filter.setFilter(activeTags);
+    this.setFilter = function(params) {
+        Filter.setFilter(params);
         scope.pointCloud.activateFilter(Filter.getActivePoints());
         needsRefresh = true;
         showActive();

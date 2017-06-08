@@ -2,20 +2,22 @@
 
 var dat = require('../lib/dat/build/dat.gui.min.js');
 
-var FilterOverlay = module.exports = function (data, filterFunction) {
+var FilterOverlay = module.exports = function(data, filterFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
-    this.gui = new dat.GUI({ width: 265 });
+    this.gui = new dat.GUI({width: 265});
     this.filterFunction = filterFunction;
 
-    this.Init = function () {
+    this.Init = function() {
         this.createBoolArray(this.tags);
         this.createGUI();
-        filterFunction(scope.createFilterData());
+        filterFunction({
+            selectAll: true
+        });
     };
 
-    this.createBoolArray = function () {
+    this.createBoolArray = function() {
         //1 because filenames are at zero
         for (var folder in this.tags) {
             if (this.tags[folder].__filterable) {
@@ -37,17 +39,23 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
         }
     };
 
-    this.createGUI = function () {
+    this.createGUI = function() {
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.gui.addFolder(tag.key);
-            Object.keys(tag.values).forEach(function (key, index) {
+            Object.keys(tag.values).forEach(function(key, index) {
                 var controller = folder.add(tag.values, key);
                 controller.listen()
                     .onChange(
-                    function () {
-                        scope.filterFunction(scope.createFilterData());
-                    }
+                        (function(tagKey) {
+                            return function(value) {
+                                scope.filterFunction({
+                                    tagName: tagKey,
+                                    tagValue: this.property,
+                                    isActive: value
+                                });
+                            };
+                        })(tag.key)
                     );
                 if (data.getTagColor(key)) {
                     controller.borderColor(data.getTagColor(key))
@@ -65,53 +73,40 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
         doc.appendChild(this.gui.domElement);
     };
 
-    var updateAll = function (isActive) {
+    var updateAll = function(isActive) {
         for (var i = 0; i < scope.boolTags.length; i++) {
             var tag = scope.boolTags[i];
-            Object.keys(tag.values).forEach(function (key, index) {
+            Object.keys(tag.values).forEach(function(key, index) {
                 tag.values[key] = isActive;
             });
         }
         scope.update();
-        scope.filterFunction(scope.createFilterData());
+
+        if (isActive) {
+            scope.filterFunction({
+                selectAll: true
+            });
+        } else {
+            scope.filterFunction({
+                clearAll: true
+            });
+        }
     };
 
     this.selectButton = {
-        SelectAll: function () {
+        SelectAll: function() {
             updateAll(true);
         }
     };
 
 
     this.clearAllButton = {
-        ClearAll: function () {
+        ClearAll: function() {
             updateAll(false);
         }
     };
 
-    this.createFilterData = function () {
-        // var data = [];
-        // for (var i = 0; i < this.boolTags.length; i++) {
-        //     var isUsed = false;
-        //     var tag = this.boolTags[i];
-        //     var obj = {
-        //         key: this.boolTags[i].key,
-        //         values: []
-        //     };
-        //     Object.keys(tag.values).forEach(function (key, index) {
-        //         if (!tag.values[key]) {
-        //             obj.values.push(key);
-        //             isUsed = true;
-        //         }
-        //     });
-        //     if (isUsed) {
-        //         data.push(obj);
-        //     }
-        // }
-        return this.boolTags;
-    };
-
-    this.update = function () {
+    this.update = function() {
         for (var i = 0; i < Object.keys(scope.gui.__folders).length; i++) {
             var key = Object.keys(scope.gui.__folders)[i];
             for (var j = 0; j < scope.gui.__folders[key].__controllers.length; j++) {

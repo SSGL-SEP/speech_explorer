@@ -47,7 +47,6 @@ var PointCloud = module.exports = function() {
         "   if(customSize > 0.0) {" + // mouseover etc.
         "      gl_PointSize = customSize;" +
         "   }" +
-        //"	gl_PointSize = pointsize ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
         "   gl_Position = projectionMatrix * mvPosition;\n" +
         "}\n";
 
@@ -77,10 +76,6 @@ var PointCloud = module.exports = function() {
 
     this.add(this.cloud);
 
-    // ------------------------------------------------------------
-    // VARS AND OBJECTS
-    // ------------------------------------------------------------
-
     this.update = function() {
         material.uniforms.pointsize.value = Data.pointSize;
     };
@@ -90,12 +85,8 @@ var PointCloud = module.exports = function() {
         filteredPoints = points;
         filterIsActive = true;
 
-        for (i = 0; i < total; i++) {
-            if (filteredPoints.includes(i)) { // perf bottleneck?
-                attributes.enabled.array[i] = 1;
-            } else {
-                attributes.enabled.array[i] = 0;
-            }
+        for (i = 0; i < filteredPoints.length; i++) {
+            attributes.enabled.array[i] = filteredPoints[i];
         }
     };
 

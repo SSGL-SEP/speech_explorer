@@ -17,11 +17,10 @@ module.exports = {
      */
     setFilter: function(filterStatus) {
         activePoints = [];
-        var tagMap = Data.getTags();
 
         filterStatus.forEach(function(tag) {
             var matchingPoints = [];
-            var tagData = tagMap[tag.key];
+            var tagData = Data.getTag(tag.key);
 
             Object.keys(tag.values).forEach(function(tagValue) {
                 if (tag.values[tagValue] === true) {

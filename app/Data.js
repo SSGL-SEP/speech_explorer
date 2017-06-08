@@ -24,7 +24,6 @@ module.exports = {
         parsedHeader.dataSet = inputData.dataSet;
         parsedHeader.colorBy = inputData.colorBy;
         parsedHeader.totalPoints = inputData.totalPoints;
-        parsedHeader.totalPoints = inputData.totalPoints;
 
         console.log('Loading points...');
 

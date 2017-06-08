@@ -42,6 +42,8 @@ var Visualizer = module.exports = function(mutex) {
     this.reset = function() {
 
         this.base = null;
+        this.zoomer = null;
+        this.panner = null;
         this.renderer = null;
         this.scene = null;
         this.camera = null;
@@ -51,11 +53,6 @@ var Visualizer = module.exports = function(mutex) {
         this.IS_ZOOMING = 2;
         this.touchState = this.IS_DRAGGING;
         this.resizeTimer = null;
-        // ---------------------
-        var activePoint = null;
-        var raycaster;
-        var mouse;
-        var needsRefresh = true;
     }
 
     this.createEnvironment = function() {
@@ -266,6 +263,7 @@ var Visualizer = module.exports = function(mutex) {
                 attributes.size.needsUpdate = true;
                 infoOverlay.updateInfo(activePoint);
                 playSound(Data.getUrl(activePoint)); // TODO: move to a better location
+
             }
         } else if (activePoint !== null) {
             attributes.size.array[activePoint] = size;

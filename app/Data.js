@@ -15,7 +15,6 @@ module.exports = {
         parsedPoints = [];
         parsedTags = inputData.tags;
         parsedHeader = {};
-        var total = inputData.totalPoints;
 
         console.log('Loading data...');
 
@@ -27,9 +26,7 @@ module.exports = {
         parsedHeader.totalPoints = inputData.totalPoints;
 
         console.log('Loading points...');
-
-        var i;
-        for (i = 0; i < total; i++) {
+        for (var i = 0; i < inputData.totalPoints; i++) {
             var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
             dataPoint.filename = inputData.points[i][3];
             dataPoint.meta = {};
@@ -40,7 +37,12 @@ module.exports = {
         }
 
         console.log('Parsing tags...');
+        this.parseTags();
 
+        console.log('Data loaded!');
+    },
+
+    parseTags: function() {
         for (var tag in parsedTags) {
             if (parsedTags.hasOwnProperty(tag)) {
                 for (var value in parsedTags[tag]) {
@@ -54,8 +56,6 @@ module.exports = {
                 }
             }
         }
-
-        console.log('Data loaded!');
     },
 
     getTotalPoints: function() {

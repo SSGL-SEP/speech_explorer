@@ -1,9 +1,10 @@
 'use strict';
 
 var dat = require('../lib/dat/build/dat.gui.min.js');
+var IO = require('./IO.js');
 
 
-var FilterOverlay = module.exports = function (data, filterFunction) {
+var FilterOverlay = module.exports = function (data, filterFunction, config, visualizer, mutex) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
@@ -18,6 +19,7 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
 
     this.Init = function () {
         this.createBoolArray(this.tags);
+        this.createDatasets();
         this.createGUI();
         filterFunction(scope.createFilterData());
     };
@@ -39,23 +41,54 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
         }
     };
 
+    this.createDatasets = function () {
+        console.log(config);
+        for (var i = 0; i < config.dataSets.length; i++) {
+            this.dataset.Dataset.push(config.dataSets[i].dataSet);
+        }
+        console.log(this.dataset);
+    }
+
+    this.findDataSet = function (dataset) {
+        for (var i = 0; i < config.dataSets.length; i++) {
+            if (config.dataSets[i].dataSet === dataset) {
+                return config.dataSets[i];
+            }
+        }
+        return null;
+    }
+
     this.changeDataset = function (dataset) {
-        var json = require('../data/' + dataset);
-        data.loadData(json);
-        scope.tags = data.getTags();
-        this.boolTags = [];
-        var doc = document.getElementById('overlay');
-        doc.parentNode.removeChild(doc);
-        document.body.innerHTML += '<div id="overlay"></div>';
-        console.log(doc);
-        scope.Init();
-        console.log(dataset);
+        while (mutex < 1) {
+
+        }
+        mutex--;
+        var confobj = this.findDataSet(dataset);
+        console.log(confobj.src);
+        return IO.loadJSON(confobj.src).then(function (json) {
+            console.log(json);
+            data.loadData(json);
+            scope.tags = data.getTags();
+            scope.boolTags = [];
+            scope.dataset = { Dataset: [] };
+            var doc = document.getElementById('overlay');
+            var viz = document.getElementById('visualizer');
+            viz.innerHTML = '';
+            doc.innerHTML = ''
+            doc.parentNode.removeChild(doc);
+            console.log(doc);
+            visualizer.init();
+            //document.body.innerHTML += '<div id="overlay"></div>';
+            scope.Init();
+            mutex++;
+        });
+
     }
 
     this.createGUI = function () {
         this.gui = new dat.GUI({ width: 265 });
         this.datasetFolder = this.gui.addFolder("Dataset");
-        this.datasetFolder.add(this.dataset, 'Dataset', ['2D_newformat_full.json', 'nsynth_small.json']).onChange(function (set) {
+        this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function (set) {
             scope.changeDataset(set);
         });
         //this.datasetFolder.add(this.soundmap,'Soundmap',['soundmap1','soundmap2','soundmap3']);
@@ -75,6 +108,7 @@ var FilterOverlay = module.exports = function (data, filterFunction) {
                     controller.borderColor(data.getTagColor(key).getHexString())
                         .borderWidth(10);
                 }
+                console.log(tag.values);
                 scope.gui.remember(tag.values);
 
             });

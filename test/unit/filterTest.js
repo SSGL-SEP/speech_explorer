@@ -27,10 +27,10 @@ describe('Filter', function() {
 
 
     describe('Filter returns correct data', function() {
-        it('Filtered samples without phonem e should be 7', function() {
+        it('Filtered samples without phoneme e should be 7', function() {
 
             var filterParam = [{
-                key: "phonem",
+                key: "phoneme",
                 values: ['e']
             }];
 
@@ -38,10 +38,10 @@ describe('Filter', function() {
 
             assert(Filter.getActivePoints().length === 7);
         });
-        it('Filtered samples without non existing phonem v should be 10', function() {
+        it('Filtered samples without non existing phoneme v should be 10', function() {
 
             var filterParam = [{
-                key: "phonem",
+                key: "phoneme",
                 values: ['v']
             }];
 
@@ -50,9 +50,9 @@ describe('Filter', function() {
 
             assert(Filter.getActivePoints().length === 10);
         });
-        it('Filtered samples with only phonem i active should have indexes 0 and 2', function() {
+        it('Filtered samples with only phoneme i active should have indexes 0 and 2', function() {
             var filterParam = [{
-                key: "phonem",
+                key: "phoneme",
                 values: ['a', 'e', 'h', 'l', 'n']
             }];
 

@@ -61,10 +61,10 @@ describe('InfoOverlay', function() {
     });
 
     describe('InfoOverlay#updateInfo', function() {
-        it('should update display of phonem correctly', function() {
+        it('should update display of phoneme correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('phonem')[0].innerHTML === "i");
+            assert(target.getElementsByClassName('phoneme')[0].innerHTML === "i");
         });
     });
 

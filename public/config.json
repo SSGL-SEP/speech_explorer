@@ -1,0 +1,18 @@
+{
+  "dataSets": [
+    {
+      "dataSet": "Phonemes on parade",
+      "processingMethod": "T-SNE",
+      "totalPoints": 3200,
+      "src": "data/2D_newformat_full.json"
+    },
+    {
+      "dataSet": "Nsynth",
+      "processingMethod": "T-SNE",
+      "totalPoints": 9000,
+      "src": "data/nsynth_small.json"
+    }
+    
+  ],
+  "defaultSet": 0
+}

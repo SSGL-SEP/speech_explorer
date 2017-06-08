@@ -1,19 +1,34 @@
+'use strict';
+
 if (process.env.NODE_ENV === 'production') {
     //webpack was build with -p, set base url to amazon s3 for heroku to DL files
 }
 
 var Data = require('./Data');
-var json;
-if (process.env.NODE_ENV === 'development') {
-    json = require('../test/testdata200.json');
-} else {
-    json = require('../data/2D_newformat_full.json');
-}
+var IO = require('./IO.js');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
+var config = {};
+var mutex = 1;
 
-Data.loadData(json);
-var visualizer = new Visualizer();
-visualizer.init();
+function startApp(pointData) {
+    Data.loadData(pointData);
+    var visualizer = new Visualizer(mutex);
+    visualizer.init();
 
-new FilterOverlay(Data, visualizer.setFilter); // eslint-disable-line no-new
+    new FilterOverlay(Data, visualizer.setFilter, config, visualizer, mutex); // eslint-disable-line no-new
+
+}
+
+function loadDefaultDataSet(configuration) {
+    config = configuration;
+    return IO.loadJSON(config.dataSets[config.defaultSet].src);
+}
+
+function printError() {
+    console.error("Loading data failed");
+}
+
+IO.loadJSON('config.json')
+    .then(loadDefaultDataSet, printError)
+    .then(startApp, printError);

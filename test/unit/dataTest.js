@@ -56,10 +56,10 @@ describe('Data', function() {
     });
 
     describe('Data#parsedTags[1])', function() {
-        it('should be key === phonem, values === [\'a\',\'e\',\'h\',\'i\',\'l\',\'n\']', function() {
+        it('should be key === phoneme, values === [\'a\',\'e\',\'h\',\'i\',\'l\',\'n\']', function() {
             var testTag = Data.getTags()[1],
                 testValues = ['a', 'e', 'h', 'i', 'l', 'n'];
-            assert(testTag.key === 'phonem');
+            assert(testTag.key === 'phoneme');
             for (var i = 0; i < testValues.length; i++) {
                 assert(testTag.values[i].value === testValues[i]);
             }
@@ -149,9 +149,9 @@ describe('Data', function() {
 
 
     describe('Meta information of point object', function() {
-        it('should have \'phonem\' property with a value ', function() {
+        it('should have \'phoneme\' property with a value ', function() {
             var point = Data.getPoint(0);
-            assert(point.meta[1].key === 'phonem');
+            assert(point.meta[1].key === 'phoneme');
             assert(point.meta[1].values[0] === 'i');
         });
         it('should have \'voice\' property with a value ', function() {

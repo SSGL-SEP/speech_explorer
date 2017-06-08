@@ -4,7 +4,7 @@ var Data = require("./Data");
 var _ = require("underscore");
 var activePoints = [];
 
-var Filter = module.exports = {
+module.exports = {
 
     getActivePoints: function() {
         return activePoints;
@@ -17,20 +17,19 @@ var Filter = module.exports = {
      */
     setFilter: function(filterStatus) {
         activePoints = [];
-        var tagMap = Data.getTags();
 
-        filterStatus.forEach(function(category) {
-            var categories = [];
-            var tagObj = tagMap[category.key];
+        filterStatus.forEach(function(tag) {
+            var matchingPoints = [];
+            var tagData = Data.getTag(tag.key);
 
-            Object.keys(category.values).forEach(function(key) {
-                if (category.values[key]) {
-                    categories.push(tagObj[category.values[key]].points);
+            Object.keys(tag.values).forEach(function(tagValue) {
+                if (tag.values[tagValue] === true) {
+                    matchingPoints.push(tagData[tagValue].points);
                 }
             });
 
-            categories = _.union.apply(_, categories);
-            activePoints.push(categories);
+            matchingPoints = _.union.apply(_, matchingPoints);
+            activePoints.push(matchingPoints);
         });
 
         activePoints = _.intersection.apply(_, activePoints);

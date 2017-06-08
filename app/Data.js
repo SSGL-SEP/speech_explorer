@@ -7,12 +7,12 @@ var parsedPoints = [],
     parsedData,
     total = 0;
 
-var inputData = module.exports = {
+module.exports = {
     pointSize: 2,
     pointSizeMultiplier: 1,
     cloudSize2D: 1.5,
 
-    loadData: function (inputData) {
+    loadData: function(inputData) {
         parsedPoints = [];
         parsedTags = inputData.tags;
         parsedData = inputData;
@@ -43,28 +43,32 @@ var inputData = module.exports = {
         // console.log(parsedPoints);
     },
 
-    getTotalPoints: function () {
+    getTotalPoints: function() {
         return total;
     },
 
-    getUrl: function (index) {
+    getUrl: function(index) {
         return parsedPoints[index].filename;
     },
 
-    getPoint: function (index) {
+    getPoint: function(index) {
         return parsedPoints[index];
     },
 
-    getColor: function (index) {
+    getColor: function(index) {
         var pointTagValue = parsedPoints[index].meta[parsedData.colorBy];
         return new THREE.Color(parsedTags[parsedData.colorBy][pointTagValue].color);
     },
 
-    getTags: function () {
+    getTags: function() {
         return parsedTags;
     },
 
-    getTagColor: function (tag) {
+    getTag: function(tagName) {
+        return parsedTags[tagName];
+    },
+
+    getTagColor: function(tag) {
         if (parsedTags[parsedData.colorBy][tag]) {
             return parsedTags[parsedData.colorBy][tag].color;
         }

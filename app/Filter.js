@@ -2,13 +2,17 @@
 
 var Data = require("./Data");
 var activePoints = [];
+var activeCount = 0;
 
 module.exports = {
 
     getActivePoints: function() {
         return activePoints;
     },
-    getActiveCount: 0,
+
+    getActiveCount: function() {
+        return activeCount;
+    },
 
     /**
      * Creates a list of points that should be active based on the tags supplied.
@@ -25,17 +29,21 @@ module.exports = {
             for (i = 0; i < totalPoints; i++) {
                 activePoints[i] = 0;
             }
+            activeCount = 0;
         } else if (params.selectAll) {
             for (i = 0; i < totalPoints; i++) {
                 activePoints[i] = 1;
             }
+            activeCount = Data.getTotalPoints();
         } else if (params.isActive) {
             for (i = 0; i < tagData[tagValue].points.length; i++) {
                 activePoints[tagData[tagValue].points[i]] = 1;
+                activeCount++;
             }
         } else {
             for (i = 0; i < tagData[tagValue].points.length; i++) {
                 activePoints[tagData[tagValue].points[i]] = 0;
+                activeCount--;
             }
         }
     }

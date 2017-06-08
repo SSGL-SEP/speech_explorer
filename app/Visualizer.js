@@ -297,7 +297,7 @@ var Visualizer = module.exports = function() {
     };
 
     var showActive = function() {
-        infoOverlay.updateActive(Data.getTotalPoints(), Filter.getActivePoints().length);
+        infoOverlay.updateActive(Data.getTotalPoints(), Filter.getActiveCount());
     };
 
     var playSound = function(path) {

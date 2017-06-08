@@ -89,10 +89,17 @@ describe('Data', function() {
 
     describe('#getTags())', function() {
         it('should return an object', function() {
-            assert(Data.getTags().typeof === 'object');
+            assert(typeof Data.getTags() === 'object');
         });
-        it('should return  ', function() {
-            assert(Data.getColor(0).getHexString() === "00ff3f");
+        it('should return with valid property \'phoneme\'', function() {
+            assert(typeof Data.getTags().phoneme === 'object');
+            
+        });
+        it('should return with valid property \'stress\'', function() {
+            assert(typeof Data.getTags().stress === 'object');
+        });
+        it('should return with valid property \'voice\'', function() {
+            assert(typeof Data.getTags().voice === 'object');
         });
     });
 

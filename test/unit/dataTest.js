@@ -24,34 +24,75 @@ describe('Data', function() {
     });
 
 
-    describe('Data#total', function() {
-        it('should be 10', function() {
-            assert(Data.getTotalPoints() === 10);
+    describe('#getTotalPoints()', function() {
+        it('should return 13', function() {
+            assert(Data.getTotalPoints() === 13);
         });
     });
 
-    describe('Data#getUrl(0)', function() {
-        it('should be mv_0693_021_i_1_0.wav', function() {
-            assert(Data.getUrl(0) === "audio/mv_0693_021_i_1_0.wav");
+    describe('#getUrl(1)', function() {
+        it('should be mv_0693_001_k_0_0.wav', function() {
+            assert(Data.getUrl(1) === "mv_0693_001_k_0_0.wav");
         });
     });
 
-    describe('Data#getPoint(0)', function() {
-        it('should be vector3', function() {
+    describe('#getPoint(0)', function() {
+        it('should return vector3', function() {
             var test = Data.getPoint(0);
             assert(test.isVector3);
         });
-        it('should be x === 172.6496880346923', function() {
+        it('should return vector3', function() {
             var test = Data.getPoint(0);
-            assert(test.x === 172.6496880346923);
+            assert(test.isVector3);
         });
-        it('should be y === 452.2038254799528', function() {
+        it('should have property x === 167.9238936178313', function() {
             var test = Data.getPoint(0);
-            assert(test.y === 452.2038254799528);
+            assert(test.x === 167.9238936178313);
         });
-        it('should be z === 0', function() {
+        it('should have property y === 254.04705572486748', function() {
+            var test = Data.getPoint(0);
+            assert(test.y === 254.04705572486748);
+        });
+        it('should have property z === 0', function() {
             var test = Data.getPoint(0);
             assert(test.z === 0);
+        });
+        it('should have property filename === mv_0693_003_h_0_0.wav', function() {
+            var test = Data.getPoint(0);
+            assert(test.filename === "mv_0693_003_h_0_0.wav");
+        });
+        it('should have valid and correct metadata', function() {
+            var test = Data.getPoint(0);
+            assert(test.meta.phoneme === "h");
+            assert(test.meta.stress === "unstressed");
+            assert(test.meta.voice === "unvoiced");
+        });
+
+    });
+
+    describe('#getColor(0))', function() {
+        it('should return THREE.Color object', function() {
+            assert(Data.getColor(0).isColor);
+        });
+        it('should return object that has HEX === \"00ff3f\"  ', function() {
+            assert(Data.getColor(0).getHexString() === "00ff3f");
+        });
+    });
+
+    describe('Color data is created', function() {
+        it('color data is not undefined', function() {
+            for (var i = 0; i < Data.getTotalPoints(); i++) {
+                assert(Data.getColor(i).isColor);
+            }
+        });
+    });
+
+    describe('#getTags())', function() {
+        it('should return an object', function() {
+            assert(Data.getTags().typeof === 'object');
+        });
+        it('should return  ', function() {
+            assert(Data.getColor(0).getHexString() === "00ff3f");
         });
     });
 
@@ -110,39 +151,13 @@ describe('Data', function() {
         });
     });
 
-    describe('Data#getTag() ', function() {
-        it('should return correct object with valid key ', function() {
-            var testTag = Data.getTag('stress');
-            assert(testTag.key === 'stress');
-            assert(testTag.values[0].value === 'stressed');
-            assert(testTag.values[1].value === 'unstressed');
-        });
-
-        it('should return undefined with invalid argument', function() {
-            var invalidTag = Data.getTag('not a key');
-            assert(invalidTag === undefined);
-        });
-    });
-
-    describe('Color data is created', function() {
-        it('color data is not undefined', function() {
-            for (var i = 0; i < Data.getTotalPoints(); i++) {
-                assert(Data.getColor(i).isColor);
-            }
-        });
-    });
-
-    describe('Point object', function() {
-        it('should have valid color information', function() {
-            assert(Data.getPoint(0).color.isColor);
-            assert(Data.getPoint(0).color.getHexString() === '6bff00');
-        });
+    describe('Point object at index 0', function() {
         it('should have valid url', function() {
             assert(Data.getPoint(0).url === 'audio/mv_0693_021_i_1_0.wav');
         });
         it('should have valid position information', function() {
-            assert(Data.getPoint(0).x === 172.6496880346923);
-            assert(Data.getPoint(0).y === 452.2038254799528);
+            assert(Data.getPoint(0).x === 167.9238936178313);
+            assert(Data.getPoint(0).y === 254.04705572486748);
             assert(Data.getPoint(0).z === 0);
         });
     });

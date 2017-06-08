@@ -18,10 +18,6 @@ var inputData = module.exports = {
         parsedData = inputData;
         total = inputData.totalPoints;
 
-        // console.log(inputData);
-        // console.log(parsedTags);
-        // console.log(total);
-
         var i;
         for (i = 0; i < total; i++) {
             var dataPoint = new THREE.Vector3(parsedData.points[i][0], parsedData.points[i][1], parsedData.points[i][2]);
@@ -41,6 +37,9 @@ var inputData = module.exports = {
                 }
             }
         }
+        // console.log(inputData);
+        // console.log(parsedTags);
+        // console.log(total);
         // console.log(parsedPoints);
     },
 

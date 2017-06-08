@@ -61,25 +61,21 @@ var InfoOverlay = module.exports = {
     tags: null,
 
     init: function(newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
-
+        if(activeDiv){
+            activeDiv.innerHTML = '';
+        }
         activeDiv = newActiveDiv;
-        var element = document.getElementById(activeDiv);
-        if(element){
-            element.innerHTML='';
-        }
         
-
+        if(infoDiv){
+            infoDiv.innerHTML = '';
+        }
         infoDiv = newInfoDiv;
-        element = document.getElementById(infoDiv);
-        if(element){
-            element.innerHTML='';
-        }
         
-        infopanelDiv = newInfoPanelDiv;
-        element = document.getElementById(infopanelDiv);
-        if(element){
-            element.innerHTML='';
+        if(infopanelDiv){
+             infopanelDiv.innerHTML = '';
         }
+        infopanelDiv = newInfoPanelDiv;
+    
         this.tags = newTags;
 
         var outerDiv, innerDiv;

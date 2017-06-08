@@ -1,22 +1,24 @@
 'use strict';
-
 var dat = require('../lib/dat/build/dat.gui.min.js');
 var IO = require('./IO.js');
 var Visualizer = require('./Visualizer');
+var Config = require('./ConfigDAO');
 
 
-var FilterOverlay = module.exports = function(data, filterFunction, config, visualizer) {
+
+var FilterOverlay = module.exports = function(data, filterFunction, config, changeDataSetFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
 
-    //this.datasetGui = new dat.GUI();
     this.dataset = { Dataset: [] };
     this.filterFolder;
     this.datasetFolder;
+    this.Config = config;
 
 
     this.filterFunction = filterFunction;
+    this.changeDataSetFunction = changeDataSetFunction;
 
     this.Init = function() {
         this.createBoolArray(this.tags);
@@ -24,6 +26,14 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, visu
         this.createGUI();
         filterFunction(scope.createFilterData());
     };
+
+    this.reset = function() {
+        scope.tags = data.getTags();
+        scope.boolTags = [];
+        scope.dataset = { Dataset: [] };
+        var overlay = document.getElementById('overlay');
+        overlay.innerHTML = '';
+    }
 
 
     this.createBoolArray = function() {
@@ -43,51 +53,33 @@ var FilterOverlay = module.exports = function(data, filterFunction, config, visu
     };
 
     this.createDatasets = function() {
-        console.log(config);
-        for (var i = 0; i < config.dataSets.length; i++) {
-            this.dataset.Dataset.push(config.dataSets[i].dataSet);
-        }
-        console.log(this.dataset);
+        this.dataset.Dataset = this.Config.findAllDataSetNames();
     }
 
-    this.findDataSet = function(dataset) {
-        for (var i = 0; i < config.dataSets.length; i++) {
-            if (config.dataSets[i].dataSet === dataset) {
-                return config.dataSets[i];
-            }
-        }
-        return null;
-    }
 
+
+    /*
     this.changeDataset = function(dataset) {
-        var confobj = this.findDataSet(dataset);
-        console.log(confobj.src);
+        var confobj = this.Config.findDataSet(dataset);
         return IO.loadJSON(confobj.src).then(function(json) {
-            console.log(json);
             data.loadData(json);
-            scope.tags = data.getTags();
-            scope.boolTags = [];
-            scope.dataset = { Dataset: [] };
-            var doc = document.getElementById('overlay');
-            var viz = document.getElementById('visualizer');
-            viz.innerHTML = '';
-            doc.innerHTML = ''
+            scope.reset();
             visualizer.reset();
             visualizer.init();
-            //document.body.innerHTML += '<div id="overlay"></div>';
             scope.Init();
 
         });
 
     }
+    */
 
     this.createGUI = function() {
         this.gui = new dat.GUI({ width: 265 });
         this.datasetFolder = this.gui.addFolder("Dataset");
         this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
-            scope.changeDataset(set);
+            scope.changeDataSetFunction(set);
         });
-        //this.datasetFolder.add(this.soundmap,'Soundmap',['soundmap1','soundmap2','soundmap3']);
+        
         this.filterFolder = this.gui.addFolder("Filter");
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];

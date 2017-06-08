@@ -40,7 +40,6 @@ var Visualizer = module.exports = function() {
     };
 
     this.reset = function() {
-
         this.base = null;
         this.zoomer = null;
         this.panner = null;
@@ -53,6 +52,8 @@ var Visualizer = module.exports = function() {
         this.IS_ZOOMING = 2;
         this.touchState = this.IS_DRAGGING;
         this.resizeTimer = null;
+        var element = document.getElementById('visualizer');
+        element.innerHTML = '';
     }
 
     this.createEnvironment = function() {

@@ -7,21 +7,22 @@ var infoDiv, activeDiv, infopanelDiv, activeHref, tags;
 
 // Päivittää parametrinä saadun paneelin/näytön parametrinä saadun pisteen tiedoilla
 var updateDiv = function(uDiv, point) {
-    var currdiv;
-    for (var key in tags) {
-        currdiv = uDiv.getElementsByClassName(key)[0];
-        currdiv.innerHTML = point.meta[key];
+    var currdiv, i;
+    var tagNames = Object.keys(tags);
+    for (i = 0; i < tagNames.length; i++) {
+        currdiv = uDiv.getElementsByClassName(tagNames[i])[0];
+        currdiv.innerHTML = point.meta[tagNames[i]];
     }
 };
 
 // Toistaa äänitiedoston
-var playSound = function (href) {
+var playSound = function(href) {
     audioPlayer.play(href);
 };
 
-//Lataa äänitiedoston 
+//Lataa äänitiedoston
 // https://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
-var downloadSound = function (href) {
+var downloadSound = function(href) {
     if (href) {
         var a = document.createElement('A');
         a.href = href;
@@ -29,7 +30,7 @@ var downloadSound = function (href) {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    }    
+    }
 };
 
 // var cloneCount = 0;
@@ -45,17 +46,17 @@ var cloneForPanel = function(model) {
     // infopaneelissa kloonatun tiedon lisäksi linkkejä
     var a1 = document.createElement('a');
     a1.appendChild(document.createTextNode("Download"));
-    a1.href="#";
+    a1.href = "#";
     a1.title = 'Keyboard shortcut: ' + String.fromCharCode(68); // D
-    a1.onclick = function () {
+    a1.onclick = function() {
         InfoOverlay.onClickOnDownloadLink();
     };
 
     var a2 = document.createElement('a');
     a2.appendChild(document.createTextNode("Play"));
     a2.href = "#";
-    a2.onclick = function() {      
-        InfoOverlay.onClickOnPlayLink(); 
+    a2.onclick = function() {
+        InfoOverlay.onClickOnPlayLink();
     };
 
     var a3 = document.createElement('a');
@@ -76,27 +77,30 @@ var cloneForPanel = function(model) {
 // Varsinainen "luokka"
 var InfoOverlay = module.exports = {
 
-    init: function(newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
-        if(activeDiv){
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, newTags) {
+        if (activeDiv) {
             activeDiv.innerHTML = '';
         }
-        activeDiv = newActiveDiv;
-        
-        if(infoDiv){
+        activeDiv = document.getElementById(activePointsElementId);
+
+        if (infoDiv) {
             infoDiv.innerHTML = '';
         }
-        infoDiv = newInfoDiv;
-        
-        if(infopanelDiv){
-             infopanelDiv.innerHTML = '';
+        infoDiv = document.getElementById(infoElementId);
+
+        if (infopanelDiv) {
+            infopanelDiv.innerHTML = '';
         }
-        infopanelDiv = newInfoPanelDiv;
+        infopanelDiv = document.getElementById(infoPanelElementId);
         tags = newTags;
 
 
-        var outerDiv, innerDiv;
+        var outerDiv, innerDiv, i, key;
 
-        for (var key in tags) {
+        var tagNames = Object.keys(tags);
+        for (i = 0; i < tagNames.length; i++) {
+            key = tagNames[i];
+
             outerDiv = document.createElement('div');
             outerDiv.innerHTML = key + ': ';
 
@@ -108,7 +112,7 @@ var InfoOverlay = module.exports = {
         }
 
         infopanelDiv.appendChild(cloneForPanel(infoDiv));
-        
+
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';
         infopanelDiv.style.visibility = 'hidden';
@@ -140,12 +144,12 @@ var InfoOverlay = module.exports = {
         downloadSound(activeHref);
     },
 
-    onClickOnPlayLink: function () {
+    onClickOnPlayLink: function() {
         playSound(activeHref);
 
     },
 
-    onClickOnDownloadLink: function () {
+    onClickOnDownloadLink: function() {
         downloadSound(activeHref);
     }
 };

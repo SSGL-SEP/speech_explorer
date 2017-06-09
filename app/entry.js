@@ -31,7 +31,6 @@ function printError() {
     console.error("Loading data failed");
 }
 
-//Config = new Config();
 Config.loadConfigFile('config.json')
     .then(Config.loadDefaultDataSetJSON, printError)
     .then(startApp, printError);

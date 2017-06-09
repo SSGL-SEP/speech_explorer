@@ -28,7 +28,13 @@ module.exports = {
         console.log('Loading points...');
         for (var i = 0; i < inputData.totalPoints; i++) {
             var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
-            dataPoint.filename = inputData.points[i][3];
+
+            if (process.env.DATA_SRC) {
+                dataPoint.filename = process.env.DATA_SRC + inputData.points[i][3];
+            } else {
+                dataPoint.filename = 'audio/' + inputData.points[i][3];
+            }
+
             dataPoint.meta = {};
             parsedPoints.push(dataPoint);
             if (i % 1000 === 0) {

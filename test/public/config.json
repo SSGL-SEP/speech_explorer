@@ -1,10 +1,15 @@
 {
   "dataSets": [
     {
-      "dataSet": "Phonemes on parade",
+      "dataSet": "testdata 168",
       "processingMethod": "T-SNE",
       "totalPoints": 168,
       "src": "data/testdata168.json"
+    },{	
+      "dataSet": "testdata 13",
+      "processingMethod": "T-SNE",
+      "totalPoints": 13,
+      "src": "data/testdata.json"
     }
   ],
   "defaultSet": 0

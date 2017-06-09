@@ -3,18 +3,10 @@ const {By, until} = require('selenium-webdriver');
 const {defineSupportCode} = require('cucumber');
 
 defineSupportCode(function({Given, When, Then}) {
-    Then('I should see all samples being active', function() {
-        return this.driver.findElement(By.css("#active")).then(function(element) {
-            element.getText().then(function(text) {
-                return expect(text).to.equal('168/168 active');
-            });
-        });
-    });
-
     Then('I should see {stringInDoubleQuotes} active samples', function(activeAmount) {
         return this.driver.findElement(By.css("#active")).then(function(element) {
             element.getText().then(function(element) {
-                return expect(element).to.equal(activeAmount + '/168 active');
+                return expect(element).to.equal(activeAmount + ' active');
             });
         });
     });
@@ -26,20 +18,18 @@ defineSupportCode(function({Given, When, Then}) {
         });
     });
 
-
     When('I open folder {stringInDoubleQuotes}', function(folder) {
-        return this.driver.findElement(By.xpath("//ul//li[contains(.,'" + folder + "')]")).then(function(element) {
+        return this.driver.findElement(By.id("overlay")).then(function(element) {
+            return element.findElement(By.xpath('//*[text()="' + folder + '" and contains(@class,"title")]')).then(function(element) {
+                return element.click();
+            });
+        });
+    });
+
+    When('I click on checkbox of {stringInDoubleQuotes}', function(setting) {
+        return this.driver.findElement(By.xpath('//span[text()="' + setting + '" and contains(@class,"property-name")]/following-sibling::div[1]//input')).then(function(element) {
             return element.click();
         });
     });
-
-
-    When('I click on checkbox of phonem s', function() {
-        return this.driver.findElement(By.xpath("//*[@id=\"overlay\"]/div/ul/li[2]/div/ul/li[16]")).then(function(element) {
-           return element.click();
-        });
-    });
-
-
 });
 

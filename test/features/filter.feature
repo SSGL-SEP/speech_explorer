@@ -4,21 +4,26 @@ Feature: Filter
 
   Scenario: On start-up I want to see all points active
     Given I navigate to the homepage
-    Given Page is finished loading
-    Then I should see all samples being active
+    And Page is finished loading
+    Then I should see "168/168" active samples
 
   Scenario: FilterAll and ShowAll buttons
     Given I navigate to the homepage
-    Given Page is finished loading
-    When I press "ClearAll" button
-    Then I should see "0" active samples
+    And Page is finished loading
+    When I open folder "Filter"
+    And I press "ClearAll" button
+    Then I should see "0/168" active samples
     When I press "SelectAll" button
-    Then I should see all samples being active
+    Then I should see "168/168" active samples
 
-  Scenario: Deactivate filter checkbox for phonem s
+  Scenario: Deactivate filter checkbox for stress unstressed and voice voiced
     Given I navigate to the homepage
-    Given Page is finished loading
-    When I open folder "phoneme"
-    And I click on checkbox of phoneme s
-    Then I should see "159" active samples
-
+    And Page is finished loading
+    When I open folder "Filter"
+    And I open folder "stress"
+    And I click on checkbox of "unstressed"
+    Then I should see "68/168" active samples
+    When I click on checkbox of "unstressed"
+    And I open folder "voice"
+    And I click on checkbox of "voiced"
+    Then I should see "40/168" active samples

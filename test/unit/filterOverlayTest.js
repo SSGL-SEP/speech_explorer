@@ -3,19 +3,28 @@
 var appDir = require('app-root-path');
 var assert = require('assert');
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
-
+var ConfigDAO = require(appDir + "/app/ConfigDAO");
+var Config = new ConfigDAO();
+var Data = require(appDir + "/app/Data");
 
 describe('FilterOverlay', function() {
 
     before(function() {
         // runs before all tests in this block
-        var json = require(appDir + "/test/testdata.json");
-        var Data = require(appDir + "/app/Data");
-        Data.loadData(json);
-        this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
+       // var json = require(appDir + "/test/testdata.json");
+        //Config = new ConfigDAO();   
+        Config.loadConfigFile('config.json')
+            .then(Config.loadDefaultDataSetJSON)
+            .then(Data.loadData)
+            .then(function(){
+                this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
+            })
+            .then(function(){
+                FilterOverlay = new FilterOverlay(Data, function(x) { }, Config, function(y) { });
+            });
+        
 
-        FilterOverlay = new FilterOverlay(Data, function(x) {
-        });
+        
 
     });
 

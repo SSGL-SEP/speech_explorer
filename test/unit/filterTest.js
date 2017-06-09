@@ -1,75 +1,72 @@
+/*
 var appDir = require('app-root-path');
 var assert = require('assert');
 var _ = require("underscore");
 
 var Data, Filter;
 
-describe('hooks', function () {
+describe('Filter', function() {
 
-    before(function () {
+    before(function() {
         Data = require(appDir + "/app/Data");
         var json = require(appDir + "/test/testdata.json");
         Data.loadData(json);
         Filter = require(appDir + "/app/Filter");
     });
 
-    after(function () {
+    after(function() {
 
     });
 
-    beforeEach(function () {
+    beforeEach(function() {
 
     });
 
-    afterEach(function () {
+    afterEach(function() {
 
     });
 
 
-    describe('Filtered samples with phonem e', function () {
-        it('should be 3', function () {
+    describe('Filter returns correct data', function() {
+        it('Filtered samples without phoneme e should be 7', function() {
 
             var filterParam = [{
-                key: "phonem",
+                key: "phoneme",
                 values: ['e']
             }];
 
             Filter.setFilter(filterParam);
 
-            assert(Filter.getActivePoints().length === 3);
+            assert(Filter.getActivePoints().length === 7);
         });
-    });
-
-
-    describe('Filtered samples with phonem v', function () {
-        it('should be 0', function () {
+        it('Filtered samples without non existing phoneme v should be 10', function() {
 
             var filterParam = [{
-                key: "phonem",
+                key: "phoneme",
                 values: ['v']
             }];
 
 
             Filter.setFilter(filterParam);
 
-            assert(Filter.getActivePoints().length === 0);
+            assert(Filter.getActivePoints().length === 10);
         });
-    });
-
-
-    describe('Filtered samples with phonem h', function () {
-        it('should have indexes 0 and 3', function () {
-
+        it('Filtered samples with only phoneme i active should have indexes 0 and 2', function() {
             var filterParam = [{
-                key: "phonem",
-                values: ['h']
+                key: "phoneme",
+                values: ['a', 'e', 'h', 'l', 'n']
             }];
 
             Filter.setFilter(filterParam);
 
             assert(Filter.getActivePoints().length === 2);
-            assert(_.contains(Filter.getActivePoints(), 3));
+            assert(_.contains(Filter.getActivePoints(), 2));
             assert(_.contains(Filter.getActivePoints(), 0));
+        });
+        it('When parameter is invalid, activePoints is empty', function() {
+            Filter.setFilter(1);
+            assert(Filter.getActivePoints.length === 0);
         });
     });
 });
+*/

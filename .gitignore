@@ -1,3 +1,4 @@
+lib/dat
 # Logs
 logs
 *.log
@@ -18,7 +19,8 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+coverage/
+reports/
 
 # nyc test coverage
 .nyc_output
@@ -63,10 +65,21 @@ typings/
 # webpack output
 bundle.js
 
+# vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
 # Selenium's failed test screenshots
 screenshots/
 
 # Local audio data
 public/audio/
 
+
+# Local data sets
+local_*.json
+
+# JetBrains config files
 .idea/

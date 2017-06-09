@@ -1,147 +1,95 @@
+'use strict';
+
 var THREE = require("three");
 
-var parsedPoints = [],
-    parsedTags = [],
-    maxEuc = 0,
-    minEuc = Number.MAX_VALUE,
-    maxZ = 0,
-    hueOffset = 20,
-    total = 0;
+var parsedPoints = [];
+var parsedTags = {};
+var parsedHeader = {};
 
-var Data = module.exports = {
-    pointSize: 2,
-    pointSizeMultiplier: 1,
-    cloudSize2D: 1.5,
+module.exports = {
 
-    loadData: function (data) {
+    loadData: function(inputData) {
         parsedPoints = [];
-        parsedTags = [];
-        total = data.length;
-        var hues = [];
+        parsedTags = inputData.tags;
+        parsedHeader = {};
 
-        var i;
-        for (i = 0; i < data.length; i++) {
-            var dataPoint = new THREE.Vector3(data[i][1], data[i][2], data[i][3]);
-            dataPoint.url = "audio/" + data[i][4];
-            dataPoint.meta = this.parseTags(data[i][5], i);
+        console.log('Loading data...');
+
+        console.log('Parsing header...');
+        parsedHeader.soundInfo = inputData.soundInfo;
+        parsedHeader.dataSet = inputData.dataSet;
+        parsedHeader.processingMethod = inputData.processingMethod;
+        parsedHeader.colorBy = inputData.colorBy;
+        parsedHeader.totalPoints = inputData.totalPoints;
+
+        console.log('Loading points...');
+        for (var i = 0; i < inputData.totalPoints; i++) {
+            var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
+            dataPoint.filename = inputData.points[i][3];
+            dataPoint.meta = {};
             parsedPoints.push(dataPoint);
-
-            var x = Math.pow(parsedPoints[i].x, 2);
-            var y = Math.pow(parsedPoints[i].y, 2);
-            var z = Math.pow(parsedPoints[i].z, 2);
-            var hue = Math.sqrt(x + y + z);
-            hues.push(hue);
-
-            maxZ = Math.max(maxZ, z);
-            maxEuc = Math.max(maxEuc, hue);
-            minEuc = Math.min(minEuc, hue);
-        }
-        for (i = 0; i < data.length; i++) {
-            var color = new THREE.Color();
-            var lightness = parsedPoints[i].z / (2 * maxZ);
-            // should we continue (maxEuc-minEuc+hueOffset):lla? Seemes to make it worse..
-            color.setHSL((hues[i] - minEuc + hueOffset) / (maxEuc - minEuc), 1, lightness + 0.5);
-            parsedPoints[i].color = color;
-
-        }
-    },
-
-
-    /**
-     * Parses tag JSON into tag objects. 
-     * @param {array} tags - array of {key: foo, value: bar} objects
-     * @param {number} pointIndex - index of current dataPoint
-     * @returns {array} Array that includes tag information for a point {key: foor, values: []}
-     */
-    parseTags: function (tags, pointIndex) {
-        var meta = [],
-            tagKey,
-            tagVal,
-            tagIndex,
-            values,
-            valueIndex;
-
-        for (var i = 0; i < tags.length; i++) {
-            tagKey = tags[i].key;
-            tagVal = tags[i].val;
-
-            // Parse tag for a point object 
-            tagIndex = this.addTwoPropertyObject(meta, 'key', tagKey, 'values', new Array());
-            meta[tagIndex].values.push(tagVal);
-
-            // Parse tag for parsedTag array
-            tagIndex = this.addTwoPropertyObject(parsedTags, 'key', tagKey, 'values', new Array());
-            values = parsedTags[tagIndex].values;
-            valueIndex = this.addTwoPropertyObject(values, 'value', tagVal, 'points', new Array());
-            values[valueIndex].points.push(pointIndex);
-        }
-        // Returns array of tag objects for use as a property of a point object
-        return meta;
-    },
-
-
-    /**
-     * Adds an object with two properties to an array if it doesnt exist and returns index of that object.
-     * @param {array} array - array to wich object will be added
-     * @param {string} firstKey - name of the first property 
-     * @param {any} firstValue - value of the first property
-     * @param {string} secondKey - name of the second property 
-     * @param {any} secondValue - value of the second property
-     * @returns {number} Index of the object
-     */
-    addTwoPropertyObject: function (array, firstKey, firstValue, secondKey, secondValue) {
-        var valueIndex = this.getObjectIndex(array, firstKey, firstValue);
-        if (valueIndex === -1) {
-            array.push({ [firstKey]: firstValue, [secondKey]: secondValue });
-            return array.length - 1;
-        }
-        return valueIndex;
-    },
-
-    /**
-     * Returns index of an object with desired value of a property
-     * @param {array} array - array that will be searched
-     * @param {string} propertyName - name of the attribute that will be compared
-     * @param {any} value - wanted value of the attribute
-     * @returns {number} Index of an object
-     */
-    getObjectIndex: function (array, propertyName, value) {
-        for (var i = 0; i < array.length; i++) {
-            var object = array[i];
-            if (array[i][propertyName] === value) {
-                return i;
+            if (i % 1000 === 0) {
+                console.log('Points loaded: ' + i);
             }
         }
-        return -1;
+
+        console.log('Parsing tags...');
+        this.parseTags();
+
+        console.log('Data loaded!');
     },
 
-    getTag: function (key) {
-        var index = this.getObjectIndex(parsedTags, 'key', key)
-        if (index === -1) {
-            return undefined;
+    parseTags: function() {
+        for (var tag in parsedTags) {
+            if (parsedTags.hasOwnProperty(tag)) {
+                for (var value in parsedTags[tag]) {
+                    if (parsedTags[tag].hasOwnProperty(value)) {
+                        for (var point in parsedTags[tag][value].points) {
+                            if (parsedTags[tag][value].points.hasOwnProperty(point)) {
+                                parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return parsedTags[index];
     },
 
-    getTotalPoints: function () {
-        return total;
+    getTotalPoints: function() {
+        return parsedHeader.totalPoints;
     },
 
-    getUrl: function (index) {
-        return parsedPoints[index].url;
+    getUrl: function(index) {
+        if (process.env.DATA_SRC) {
+            return process.env.DATA_SRC + parsedPoints[index].filename;
+        }
+        return 'audio/' + parsedHeader.dataSet + '/' + parsedPoints[index].filename;
     },
 
-    getPoint: function (index) {
+    getPoint: function(index) {
         return parsedPoints[index];
     },
 
-    getColor: function (index) {
-        return parsedPoints[index].color;
+    getColor: function(index) {
+        var pointTagValue = parsedPoints[index].meta[parsedHeader.colorBy];
+        return new THREE.Color(parsedTags[parsedHeader.colorBy][pointTagValue].color);
     },
 
-    getTags: function () {
+    getTags: function() {
         return parsedTags;
+    },
+
+    getTag: function(tagName) {
+        return parsedTags[tagName];
+    },
+
+    getTagColor: function(tag) {
+        if (parsedTags[parsedHeader.colorBy][tag]) {
+            return parsedTags[parsedHeader.colorBy][tag].color;
+        }
+    },
+
+    getParsedHeader: function() {
+        return parsedHeader;
     }
-
 };
-

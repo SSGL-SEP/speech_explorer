@@ -4,8 +4,7 @@ body {
     overflow: hidden;
 }
 
-
-#overlay{
+#overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,21 +12,50 @@ body {
 
 .dg.main.taller-than-window .close-button {
     /* fix for FireFox */
-    position: fixed;
+    position: fixed !important;
 }
 
-#info {
+.dg li.save-row select {
+    margin-left: 5px;
+    width: 55px;
+    font-size: 9px;
+    padding: 0;
+    border-radius: 0;
+    border: 0px solid #000;
+}
+.dg.a {
+    margin-right: 0 !important;
+}
+
+#info, #active, #infoPanels {
     font-family: 'Lucida Grande',sans-serif;
     position: absolute;
     color: white;
     top: 0;
     right: 0;
     width: 175px;
-    cursor: pointer;
     font-size: 12px;
     z-index: 100;
     display:block;
     visibility: visible;
     opacity: 0.8;
     background-color: #0F0F0F;
+}
+
+.infoInstance {
+    display: inline;
+}
+
+#info {
+    top: 13px;
+}
+
+#infoPanels {
+    top: 85%;
+}
+
+a {
+    color: yellow;
+    padding-right: 10px;
+    cursor: pointer;
 }

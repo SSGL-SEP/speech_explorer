@@ -1,28 +1,33 @@
-'use strict';
+// var driver = require('./world.js').getDriver();
+const fs = require('fs');
+const path = require('path');
+const sanitize = require("sanitize-filename");
+const appDir = require('app-root-path');
 
-var driver = require('./world.js').getDriver();
-var fs = require('fs');
-var path = require('path');
-var sanitize = require("sanitize-filename");
+// start server
+process.env.PORT = 3214;
+const server = require(appDir + "/app/server");
 
-var myHooks = function () {
-  
-  this.After(function(scenario) {
-    if(scenario.isFailed()) {
-      this.driver.takeScreenshot().then(function(data){
-        var base64Data = data.replace(/^data:image\/png;base64,/,"");
-        fs.writeFile(path.join('screenshots', sanitize(scenario.getName() + ".png").replace(/ /g,"_")), base64Data, 'base64', function(err) {
-            if(err) console.log(err);
-        });
-      });
-    }
-    return this.driver.manage().deleteAllCookies();
-  });
+const {defineSupportCode} = require('cucumber');
+console.log("Path:" + appDir);
 
-  this.registerHandler('AfterFeatures', function (event) {
-    return driver.quit();
-  });
 
-};
+defineSupportCode(function({After, registerHandler}) {
+    After(function(result) {
+        if(result.isFailed()) {
+            this.driver.takeScreenshot().then(function(data){
+                var base64Data = data.replace(/^data:image\/png;base64,/,"");
+                fs.writeFile(path.join('screenshots', sanitize(result.scenario.name + ".png").replace(/ /g,"_")), base64Data, 'base64', function(err) {
+                    if(err) {
+                        console.log(err);
+                    }
+                });
+            });
+        }
+        return this.driver.quit();
+    });
 
-module.exports = myHooks;
+    registerHandler('AfterFeatures', function () {
+        server.close();
+    });
+});

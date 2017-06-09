@@ -31,13 +31,13 @@ var Visualizer = module.exports = function() {
     var needsRefresh = true;
     var dKeyDown = false;
 
-
     this.init = function() {
         this.createEnvironment();
         this.createCloud();
         this.createDraggers();
         this.createListeners();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
+        Filter.init();
         this.animate();
         showActive();
 
@@ -64,6 +64,7 @@ var Visualizer = module.exports = function() {
         this.createCloud();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
         this.animate();
+        Filter.init();
         showActive();
 
     };
@@ -96,8 +97,6 @@ var Visualizer = module.exports = function() {
 
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
-
-
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2(999999, 999999);
@@ -260,7 +259,17 @@ var Visualizer = module.exports = function() {
     };
 
     this.setFilter = function(params) {
-        Filter.setFilter(params);
+        if (params.clearAll) {
+            Filter.clearAll();
+        } else if (params.selectAll) {
+            Filter.selectAll();
+        } else if (params.addPoints) {
+            Filter.activatePoints(params.tagName, params.tagValue);
+        } else {
+            Filter.deactivatePoints(params.tagName, params.tagValue);
+        }
+
+//asdfsadf
         scope.pointCloud.activateFilter(Filter.getActivePoints());
         needsRefresh = true;
         showActive();

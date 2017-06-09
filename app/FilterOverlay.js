@@ -2,12 +2,13 @@
 var dat = require('../lib/dat/build/dat.gui.min.js');
 
 
+
 var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, changeDataSetFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
 
-    this.dataset = { Dataset: [] };
+    this.dataset = {Dataset: []};
     this.filterFolder = null;
     this.datasetFolder = null;
     this.Config = ConfigDAO;
@@ -26,7 +27,7 @@ var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, c
     this.reset = function() {
         scope.tags = data.getTags();
         scope.boolTags = [];
-        scope.dataset = { Dataset: [] };
+        scope.dataset = {Dataset: []};
         var overlay = document.getElementById('overlay');
         overlay.innerHTML = '';
     };
@@ -57,12 +58,12 @@ var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, c
     };
 
     this.createGUI = function() {
-        this.gui = new dat.GUI({ width: 265 });
+        this.gui = new dat.GUI({width: 265});
         this.datasetFolder = this.gui.addFolder("Dataset");
         this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
             scope.changeDataSetFunction(set);
         });
-        
+
         this.filterFolder = this.gui.addFolder("Filter");
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
@@ -72,11 +73,11 @@ var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, c
                 controller.listen()
                     .onChange(
                         (function(tagKey) {
-                            return function(value) {
+                            return function(boxIsChecked) {
                                 scope.filterFunction({
                                     tagName: tagKey,
                                     tagValue: this.property,
-                                    isActive: value
+                                    addPoints: boxIsChecked
                                 });
                             };
                         })(tag.key)

@@ -2,9 +2,8 @@
 
 var THREE = require("three");
 var Data = require("./Data");
-var Visualizer = require("./Visualizer");
 
-var PointCloud = module.exports = function() {
+var PointCloud = module.exports = function(initialPointSize) {
     THREE.Object3D.call(this);
 
     this.cloud = null;
@@ -18,8 +17,6 @@ var PointCloud = module.exports = function() {
     var vertex;
     var color = new THREE.Color();
     var position;
-    var filterIsActive = false;
-    var filteredPoints = [];
 
     for (var i = 0; i < total; i++) {
         position = Data.getPoint(i);
@@ -68,8 +65,7 @@ var PointCloud = module.exports = function() {
     material = new THREE.ShaderMaterial({
         uniforms: {
             color: {type: "c", value: new THREE.Color(0xffffff)},
-            // pointsize: {value: pointSize}
-            pointsize: {value: 2}  // Same value as pointSize in Visualizer. Can't access it from here?
+            pointsize: {value: initialPointSize}
         },
         vertexShader: vs,
         fragmentShader: fs,
@@ -79,28 +75,11 @@ var PointCloud = module.exports = function() {
 
     this.add(this.cloud);
 
-    this.update = function(newSize) {
-        // material.uniforms.pointsize.value = pointSize;
-
+    this.setPointSize = function(newSize) {
         material.uniforms.pointsize.value = newSize;
-
     };
 
-    this.activateFilter = function(points) {
-        var attributes = this.getAttributes();
-        filteredPoints = points;
-        filterIsActive = true;
-
-        for (i = 0; i < filteredPoints.length; i++) {
-            attributes.enabled.array[i] = filteredPoints[i];
-        }
-    };
-
-    this.disableFilter = function() {
-        filterIsActive = false;
-    };
-
-    this.draw = function() {
+    this.update = function() {
         this.cloud.geometry.attributes.position.needsUpdate = true;
         this.cloud.geometry.attributes.customSize.needsUpdate = true;
         this.cloud.geometry.attributes.enabled.needsUpdate = true;

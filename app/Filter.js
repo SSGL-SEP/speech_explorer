@@ -49,10 +49,15 @@ var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
 };
 
 module.exports = {
-    init: function() {
-        totalPoints = Data.getTotalPoints();
+    /**
+     * (Re-)initializes the filter
+     *
+     * @param {number[]} activationStatusArray - A vector of ones and zeroes that indicate if points are enabled
+     */
+    init: function(activationStatusArray) {
+        totalPoints = activationStatusArray.length || Data.getTotalPoints();
         pointGroups = {};
-        activePoints = [];
+        activePoints = activationStatusArray || [];
         initializeGroups(1);
         calculateActivePoints();
     },
@@ -68,14 +73,20 @@ module.exports = {
     /**
      * Activates a set of points based on the supplied tag name and value.
      *
-     * @param {string} - tagName
-     * @param {string} - tagValue
+     * @param {string} tagName
+     * @param {string} tagValue
      */
     activatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(1, tagName, tagValue);
         calculateActivePoints();
     },
 
+    /**
+     * Deactivates a set of points based on the supplied tag name and value.
+     *
+     * @param {string} tagName
+     * @param {string} tagValue
+     */
     deactivatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(0, tagName, tagValue);
         calculateActivePoints();

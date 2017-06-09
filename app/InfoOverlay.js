@@ -80,18 +80,22 @@ var InfoOverlay = module.exports = {
     init: function(activePointsElementId, infoElementId, infoPanelElementId, newTags) {
         if (activeDiv) {
             activeDiv.innerHTML = '';
+        } else {
+            activeDiv = document.getElementById(activePointsElementId);
         }
-        activeDiv = document.getElementById(activePointsElementId);
 
         if (infoDiv) {
             infoDiv.innerHTML = '';
+        } else {
+            infoDiv = document.getElementById(infoElementId);
         }
-        infoDiv = document.getElementById(infoElementId);
 
         if (infopanelDiv) {
             infopanelDiv.innerHTML = '';
+        } else {
+            infopanelDiv = document.getElementById(infoPanelElementId);
         }
-        infopanelDiv = document.getElementById(infoPanelElementId);
+
         tags = newTags;
 
 

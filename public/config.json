@@ -1,0 +1,22 @@
+{
+  "dataSets": [
+    {
+      "dataSet": "phonem",
+      "processingMethod": "T-SNE",
+      "totalPoints": 3200,
+      "src": "data/ntest100.json"
+    },{
+      "dataSet": "testphonem",
+      "processingMethod": "T-SNE",
+      "totalPoints": 3200,
+      "src": "data/testdata.json"
+    },{
+      "dataSet": "bignsynth",
+      "processingMethod": "T-SNE",
+      "totalPoints": 50000,
+      "src": "data/ns50000_noindent.json"
+    }
+    
+  ],
+  "defaultSet": 0
+}

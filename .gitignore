@@ -77,4 +77,9 @@ screenshots/
 # Local audio data
 public/audio/
 
+
+# Local data sets
+local_*.json
+
+# JetBrains config files
 .idea/

@@ -37,6 +37,14 @@ describe('InfoOverlay', function() {
         });
     });
 
+    describe('InfoOverlay', function() {
+        it('should hide infoPanel by default', function() {
+            InfoOverlay.onClickOnPoint(0);
+            var target = this.dom.window.document.getElementById('infoPanels');
+            assert(target.style.visibility === 'visible');
+        });
+    });
+
     describe('InfoOverlay#updateInfo', function() {
         it('should make infodisplay visible', function() {
             InfoOverlay.updateInfo(0);
@@ -56,7 +64,8 @@ describe('InfoOverlay', function() {
         it('should update display of filename correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('filename')[0].innerHTML === "mv_0693_021_i_1_0.wav");
+            assert(target.getElementsByClassName('file name')[0].innerHTML === "mv_0693_003_h_0_0.wav");
+
         });
     });
 
@@ -64,7 +73,7 @@ describe('InfoOverlay', function() {
         it('should update display of phoneme correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('phoneme')[0].innerHTML === "i");
+            assert(target.getElementsByClassName('phoneme')[0].innerHTML === "h");
         });
     });
 
@@ -72,7 +81,7 @@ describe('InfoOverlay', function() {
         it('should update display of voicing correctly', function() {
             InfoOverlay.updateInfo(0);
             var target = this.dom.window.document.getElementById('info');
-            assert(target.getElementsByClassName('voice')[0].innerHTML === "voiced");
+            assert(target.getElementsByClassName('voice')[0].innerHTML === "unvoiced");
         });
     });
 
@@ -92,12 +101,57 @@ describe('InfoOverlay', function() {
         });
     });
 
-    // describe('InfoOverlay#onClickOnPoint', function () {
-    // 	it('should make infopanel visible', function () {
-    // 		InfoOverlay.onClickOnPoint(0);
-    // 		var target = this.dom.window.document.getElementById('infoPanels');
-    // 		assert(target.style.visibility === 'visible');
-    // 	});
-    // });
+     describe('InfoOverlay#onClickOnPoint', function() {
+        it('should make infoPanel visible', function() {
+            InfoOverlay.onClickOnPoint(0);
+            var target = this.dom.window.document.getElementById('infoPanels');
+            assert(target.style.visibility === 'visible');
+        });
+    });
+
+});
+
+describe('InfoOverlay', function() {
+
+    before(function() {
+        var Data = require(appDir + "/app/Data");
+        var json = require(appDir + "/test/testdata.json");
+        const jsdom = require("jsdom");
+        const {JSDOM} = jsdom;
+
+        this.dom = new JSDOM('<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div></div>');
+        Data.loadData(json);
+        InfoOverlay.init(this.dom.window.document.getElementById('active'), this.dom.window.document.getElementById('info'), this.dom.window.document.getElementById('infoPanels'), Data.getTags());
+        InfoOverlay.init(this.dom.window.document.getElementById('active'), this.dom.window.document.getElementById('info'), this.dom.window.document.getElementById('infoPanels'), Data.getTags());
+    });
+
+    after(function() {
+        // runs after all tests in this block
+        //this.jsdom();
+    });
+
+    beforeEach(function() {
+        // runs before each test in this block
+    });
+
+    afterEach(function() {
+        // runs after each test in this block
+    });
+
+
+    // test cases
+    describe('InfoOverlay#updateActive', function() {
+        it('updates display of number of active sounds correctly after re-initialization', function() {
+            InfoOverlay.updateActive(3, 1);
+            assert(this.dom.window.document.getElementById('active').innerHTML === "1/3 active");
+        });
+    });
+    describe('InfoOverlay#updateInfo', function() {
+        it('updates display of phoneme correctly after re-initialization', function() {
+            InfoOverlay.updateInfo(0);
+            var target = this.dom.window.document.getElementById('info');
+            assert(target.getElementsByClassName('phoneme')[0].innerHTML === "h");
+        });
+    });
 
 });

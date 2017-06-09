@@ -1,5 +1,4 @@
 'use strict';
-
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");
@@ -22,7 +21,10 @@ var Visualizer = module.exports = function() {
     this.IS_ZOOMING = 2;
     this.touchState = this.IS_DRAGGING;
     this.resizeTimer = null;
+    this.pointSize = 2;
+    this.cloudSize2D = 1.5;
     // ---------------------
+
     var activePoint = null;
     var raycaster;
     var mouse;
@@ -35,6 +37,33 @@ var Visualizer = module.exports = function() {
         this.createDraggers();
         this.createListeners();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
+        Filter.init();
+        this.animate();
+        showActive();
+
+    };
+
+    this.reset = function() {
+        this.base = null;
+        this.zoomer = null;
+        this.panner = null;
+        this.renderer = null;
+        this.scene = null;
+        this.camera = null;
+        this.pointCloud = null;
+        this.context = null;
+        this.IS_DRAGGING = 1;
+        this.IS_ZOOMING = 2;
+        this.touchState = this.IS_DRAGGING;
+        this.resizeTimer = null;
+        var element = document.getElementById('visualizer');
+        element.innerHTML = '';
+        this.pointSize = 2;
+        this.cloudSize2D = 1.5;
+        this.createEnvironment();
+        this.createCloud();
+        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
+        Filter.init();
         this.animate();
         showActive();
 
@@ -69,30 +98,6 @@ var Visualizer = module.exports = function() {
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
 
-
-        this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
-        this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
-
-        var keyUpAction = function (e) {
-            if (e.keyCode === 68) {
-                window.removeEventListener("keyup" ,keyUpAction);
-                window.addEventListener("keydown", keyDownAction, false);
-            }
-        };
-
-        var keyDownAction = function (e) {
-            if (e.keyCode === 68) {
-                window.addEventListener("keyup" ,keyUpAction, false);
-                window.removeEventListener("keydown", keyDownAction);
-                infoOverlay.onDownloadHotkey(activePoint);
-            }
-        };
-
-        window.addEventListener("keydown", keyDownAction, false);
-
-
-        document.addEventListener('mousemove', this.onDocumentMouseMove, false);
-
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2(999999, 999999);
     };
@@ -108,7 +113,8 @@ var Visualizer = module.exports = function() {
             var scalarHeight = window.innerHeight / 1000;
             var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
             resetScale *= 1.65;
-            Data.cloudSize2D = resetScale;
+
+            this.cloudSize2D = resetScale;
             scope.zoomer.scale.set(resetScale, resetScale, resetScale);
 
             // Set panner position to match data between coordinates 0 - 800
@@ -200,23 +206,24 @@ var Visualizer = module.exports = function() {
 
     var onWheel = function(event) {
         var delta = (!event.deltaY) ? event.detail : event.deltaY;
+
         var scalarWidth = window.innerWidth / 1000;
         var scalarHeight = window.innerHeight / 1000;
         var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
-        var scalar;
+        var scalar = null;
 
         if (delta > 0) {
-            Data.cloudSize2D /= 1.05;
-            Data.cloudSize2D = (Data.cloudSize2D < resetScale) ? resetScale : Data.cloudSize2D;
-            scalar = Data.cloudSize2D;
+            this.cloudSize2D /= 1.05;
+            this.cloudSize2D = (this.cloudSize2D < resetScale) ? resetScale : this.cloudSize2D;
+            scalar = this.cloudSize2D;
             scope.zoomer.scale.set(scalar, scalar, scalar);
         } else {
-            Data.cloudSize2D *= 1.05;
-            Data.cloudSize2D = (Data.cloudSize2D > 20) ? 20 : Data.cloudSize2D;
-            scalar = Data.cloudSize2D;
+            this.cloudSize2D *= 1.05;
+            this.cloudSize2D = (this.cloudSize2D > 20) ? 20 : this.cloudSize2D;
+            scalar = this.cloudSize2D;
             scope.zoomer.scale.set(scalar, scalar, scalar);
         }
-        Data.pointSize = Math.max(2, Data.cloudSize2D);
+        this.pointSize = Math.max(2, this.cloudSize2D);
         scope.update(true);
         needsRefresh = true;
     };
@@ -225,10 +232,43 @@ var Visualizer = module.exports = function() {
         window.addEventListener("resize", function(event) {
             scope.resize(event);
         });
+
+        this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
+        this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+
+        var keyUpAction = function(e) {
+            if (e.keyCode === 68) {
+                window.removeEventListener("keyup", keyUpAction);
+                window.addEventListener("keydown", keyDownAction, false);
+            }
+        };
+
+        var keyDownAction = function(e) {
+            if (e.keyCode === 68) {
+                window.addEventListener("keyup", keyUpAction, false);
+                window.removeEventListener("keydown", keyDownAction);
+                infoOverlay.onDownloadHotkey(activePoint);
+            }
+        };
+
+        window.addEventListener("keydown", keyDownAction, false);
+
+
+        document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+
     };
 
-    this.setFilter = function(activeTags) {
-        Filter.setFilter(activeTags);
+    this.setFilter = function(params) {
+        if (params.clearAll) {
+            Filter.clearAll();
+        } else if (params.selectAll) {
+            Filter.selectAll();
+        } else if (params.addPoints) {
+            Filter.activatePoints(params.tagName, params.tagValue);
+        } else {
+            Filter.deactivatePoints(params.tagName, params.tagValue);
+        }
+
         scope.pointCloud.activateFilter(Filter.getActivePoints());
         needsRefresh = true;
         showActive();
@@ -238,7 +278,7 @@ var Visualizer = module.exports = function() {
         if (needsRefresh) {
             // this.pointCloud.getAttributes().size.needsUpdate = true;
             this.pointCloud.draw();
-            this.pointCloud.update();
+            this.pointCloud.update(this.pointSize);
             needsRefresh = false;
         }
         this.draw();
@@ -246,7 +286,7 @@ var Visualizer = module.exports = function() {
 
     this.draw = function() {
         var attributes = this.pointCloud.getAttributes();
-        var size = Data.pointSize * Data.pointSizeMultiplier;
+        var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
 
         if (intersectingPoints.length > 0) {
@@ -297,7 +337,7 @@ var Visualizer = module.exports = function() {
     };
 
     var showActive = function() {
-        infoOverlay.updateActive(Data.getTotalPoints(), Filter.getActivePoints().length);
+        infoOverlay.updateActive(Data.getTotalPoints(), Filter.getActiveCount());
     };
 
     var playSound = function(path) {
@@ -339,7 +379,6 @@ var Visualizer = module.exports = function() {
             if (scope.touchState === scope.IS_ZOOMING) {
                 return;
             }
-
             scope.panner.position.x = event.clientX - window.innerWidth * 0.5;
             scope.panner.position.y = -event.clientY + window.innerHeight * 0.5;
             scope.panner.position.x /= scope.zoomer.scale.x;
@@ -394,4 +433,3 @@ var Visualizer = module.exports = function() {
 
     };
 };
-

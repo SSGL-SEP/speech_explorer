@@ -2,6 +2,7 @@
 
 var THREE = require("three");
 var Data = require("./Data");
+var Visualizer = require("./Visualizer");
 
 var PointCloud = module.exports = function() {
     THREE.Object3D.call(this);
@@ -47,7 +48,6 @@ var PointCloud = module.exports = function() {
         "   if(customSize > 0.0) {" + // mouseover etc.
         "      gl_PointSize = customSize;" +
         "   }" +
-        //"	gl_PointSize = pointsize ;//* ( 300.0 / length( mvPosition.xyz ) );\n" +
         "   gl_Position = projectionMatrix * mvPosition;\n" +
         "}\n";
 
@@ -64,10 +64,12 @@ var PointCloud = module.exports = function() {
     geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
     geometry.addAttribute('customSize', new THREE.BufferAttribute(sizes, 1));
     geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
+    
     material = new THREE.ShaderMaterial({
         uniforms: {
             color: {type: "c", value: new THREE.Color(0xffffff)},
-            pointsize: {value: Data.pointSize}
+            // pointsize: {value: pointSize}
+            pointsize: {value: 2}  // Same value as pointSize in Visualizer. Can't access it from here?
         },
         vertexShader: vs,
         fragmentShader: fs,
@@ -77,12 +79,11 @@ var PointCloud = module.exports = function() {
 
     this.add(this.cloud);
 
-    // ------------------------------------------------------------
-    // VARS AND OBJECTS
-    // ------------------------------------------------------------
+    this.update = function(newSize) {
+        // material.uniforms.pointsize.value = pointSize;
 
-    this.update = function() {
-        material.uniforms.pointsize.value = Data.pointSize;
+        material.uniforms.pointsize.value = newSize;
+
     };
 
     this.activateFilter = function(points) {
@@ -90,12 +91,8 @@ var PointCloud = module.exports = function() {
         filteredPoints = points;
         filterIsActive = true;
 
-        for (i = 0; i < total; i++) {
-            if (filteredPoints.includes(i)) { // perf bottleneck?
-                attributes.enabled.array[i] = 1;
-            } else {
-                attributes.enabled.array[i] = 0;
-            }
+        for (i = 0; i < filteredPoints.length; i++) {
+            attributes.enabled.array[i] = filteredPoints[i];
         }
     };
 

@@ -1,12 +1,8 @@
 'use strict';
 var dat = require('../lib/dat/build/dat.gui.min.js');
-var IO = require('./IO.js');
-var Visualizer = require('./Visualizer');
-var Config = require('./ConfigDAO');
 
 
-
-var FilterOverlay = module.exports = function(data, filterFunction, Config, changeDataSetFunction) {
+var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, changeDataSetFunction) {
     var scope = this;
     this.boolTags = [];
     this.tags = data.getTags();
@@ -14,7 +10,7 @@ var FilterOverlay = module.exports = function(data, filterFunction, Config, chan
     this.dataset = { Dataset: [] };
     this.filterFolder = null;
     this.datasetFolder = null;
-    this.Config = Config;
+    this.Config = ConfigDAO;
     this.filterFunction = filterFunction;
     this.changeDataSetFunction = changeDataSetFunction;
 
@@ -51,7 +47,6 @@ var FilterOverlay = module.exports = function(data, filterFunction, Config, chan
 
                 }
                 this.boolTags.push(boolObj);
-
             }
 
         }
@@ -60,23 +55,6 @@ var FilterOverlay = module.exports = function(data, filterFunction, Config, chan
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetNames();
     };
-
-
-
-    /*
-    this.changeDataset = function(dataset) {
-        var confobj = this.Config.findDataSet(dataset);
-        return IO.loadJSON(confobj.src).then(function(json) {
-            data.loadData(json);
-            scope.reset();
-            visualizer.reset();
-            visualizer.init();
-            scope.Init();
-
-        });
-
-    }
-    */
 
     this.createGUI = function() {
         this.gui = new dat.GUI({ width: 265 });
@@ -115,9 +93,8 @@ var FilterOverlay = module.exports = function(data, filterFunction, Config, chan
         var clear = this.clearAllButton;
         this.filterFolder.add(clear, 'ClearAll');
         this.filterFolder.add(select, 'SelectAll');
-        var doc = document.getElementById('overlay');
-        //doc.appendChild(this.datasetGui.domElement);
-        doc.appendChild(this.gui.domElement);
+        var element = document.getElementById('overlay');
+        element.appendChild(this.gui.domElement);
 
     };
 

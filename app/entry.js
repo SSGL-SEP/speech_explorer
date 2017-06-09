@@ -5,51 +5,33 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var Data = require('./Data');
-var IO = require('./IO.js');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
-var Config = require("./ConfigDAO");
-//var config = {};
+var ConfigDAO = require("./ConfigDAO");
+var Config = new ConfigDAO();
 
 
 function startApp(pointData) {
     Data.loadData(pointData);
     Visualizer = new Visualizer();
     Visualizer.init();
-
     FilterOverlay = new FilterOverlay(Data, Visualizer.setFilter, Config, changeDataSet); // eslint-disable-line no-new
-
 }
 
 function changeDataSet(dataset) {
-    var confobj = Config.findDataSet(dataset);
-    return IO.loadJSON(confobj.src).then(function(json) {
+    Config.loadDataSetJSON(dataset).then(function(json){
         Data.loadData(json);
         FilterOverlay.reset();
         Visualizer.reset();
         FilterOverlay.Init();
-
     });
 }
 
-/*
-function loadDefaultDataSet(configuration) {
-    config = configuration;
-    return IO.loadJSON(config.dataSets[config.defaultSet].src);
-}
-
-
-
-
-IO.loadJSON('config.json')
-    .then(loadDefaultDataSet, printError)
-    .then(startApp, printError);
-    */
 function printError() {
     console.error("Loading data failed");
 }
 
-Config = new Config();
+//Config = new Config();
 Config.loadConfigFile('config.json')
-.then(Config.loadDefaultDataSetJSON, printError)
-.then(startApp, printError);
+    .then(Config.loadDefaultDataSetJSON, printError)
+    .then(startApp, printError);

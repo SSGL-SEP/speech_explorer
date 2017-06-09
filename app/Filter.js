@@ -51,7 +51,10 @@ var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
 module.exports = {
     init: function() {
         totalPoints = Data.getTotalPoints();
+        pointGroups = {};
+        activePoints = [];
         initializeGroups(1);
+        calculateActivePoints();
     },
 
     getActivePoints: function() {

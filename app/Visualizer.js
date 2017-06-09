@@ -63,8 +63,8 @@ var Visualizer = module.exports = function() {
         this.createEnvironment();
         this.createCloud();
         infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
-        this.animate();
         Filter.init();
+        this.animate();
         showActive();
 
     };
@@ -269,7 +269,6 @@ var Visualizer = module.exports = function() {
             Filter.deactivatePoints(params.tagName, params.tagValue);
         }
 
-//asdfsadf
         scope.pointCloud.activateFilter(Filter.getActivePoints());
         needsRefresh = true;
         showActive();

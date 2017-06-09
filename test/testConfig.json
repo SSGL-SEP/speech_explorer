@@ -4,7 +4,7 @@
       "dataSet": "testphonem",
       "processingMethod": "T-SNE",
       "totalPoints": 3200,
-      "src": "data/testdata.json"
+      "src": "/test/testdata.json"
     }
     
   ],

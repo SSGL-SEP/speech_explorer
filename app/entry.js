@@ -23,7 +23,6 @@ function changeDataSet(dataset) {
         Data.loadData(json);
         FilterOverlay.reset();
         Visualizer.reset();
-        Visualizer.init();
         FilterOverlay.Init();
     });
 }

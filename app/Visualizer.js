@@ -7,7 +7,7 @@ var THREE = require("three");
 var infoOverlay = require("./InfoOverlay");
 var audioPlayer = require("./AudioPlayer");
 
-var Visualizer = module.exports = function () {
+var Visualizer = module.exports = function() {
     var scope = this;
     // BoilerPlate.call(this);
     this.name = "Visualizer";
@@ -22,14 +22,18 @@ var Visualizer = module.exports = function () {
     this.IS_ZOOMING = 2;
     this.touchState = this.IS_DRAGGING;
     this.resizeTimer = null;
+    this.pointSize = 2;
+    this.cloudSize2D = 1.5;
     // ---------------------
+
     var activePoint = null;
     var raycaster;
     var mouse;
     var needsRefresh = true;
     var dKeyDown = false;
 
-    this.init = function () {
+
+    this.init = function() {
         this.createEnvironment();
         this.createCloud();
         this.createDraggers();
@@ -40,7 +44,7 @@ var Visualizer = module.exports = function () {
 
     };
 
-    this.reset = function () {
+    this.reset = function() {
         this.base = null;
         this.zoomer = null;
         this.panner = null;
@@ -55,9 +59,17 @@ var Visualizer = module.exports = function () {
         this.resizeTimer = null;
         var element = document.getElementById('visualizer');
         element.innerHTML = '';
+        this.pointSize = 2;
+        this.cloudSize2D = 1.5;
+        this.createEnvironment();
+        this.createCloud();
+        infoOverlay.init(document.getElementById('active'), document.getElementById('info'), document.getElementById('infoPanels'), Data.getTags());
+        this.animate();
+        showActive();
+
     };
 
-    this.createEnvironment = function () {
+    this.createEnvironment = function() {
         this.renderer = new THREE.WebGLRenderer({
             antialias: true
         });
@@ -87,34 +99,12 @@ var Visualizer = module.exports = function () {
         this.scene.add(this.base);
 
 
-        this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
-        this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
-
-        var keyUpAction = function (e) {
-            if (e.keyCode === 68) {
-                window.removeEventListener("keyup", keyUpAction);
-                window.addEventListener("keydown", keyDownAction, false);
-            }
-        };
-
-        var keyDownAction = function (e) {
-            if (e.keyCode === 68) {
-                window.addEventListener("keyup", keyUpAction, false);
-                window.removeEventListener("keydown", keyDownAction);
-                infoOverlay.onDownloadHotkey(activePoint);
-            }
-        };
-
-        window.addEventListener("keydown", keyDownAction, false);
-
-
-        document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2(999999, 999999);
     };
 
-    this.createCloud = function () {
+    this.createCloud = function() {
         if (!this.zoomer) {
             this.zoomer = new THREE.Object3D();
             this.base.add(this.zoomer);
@@ -125,7 +115,8 @@ var Visualizer = module.exports = function () {
             var scalarHeight = window.innerHeight / 1000;
             var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
             resetScale *= 1.65;
-            Data.cloudSize2D = resetScale;
+
+            this.cloudSize2D = resetScale;
             scope.zoomer.scale.set(resetScale, resetScale, resetScale);
 
             // Set panner position to match data between coordinates 0 - 800
@@ -145,20 +136,20 @@ var Visualizer = module.exports = function () {
 
     };
 
-    this.createDraggers = function () {
-        var onDragStarted = function (event) {
+    this.createDraggers = function() {
+        var onDragStarted = function(event) {
             scope.onBgDown(event);
         };
 
 
-        var onPinchStarted = function (event) {
+        var onPinchStarted = function(event) {
             var startScale = scope.zoomer.scale.x;
 
             var dx = event.touches[0].clientX - event.touches[1].clientX;
             var dy = event.touches[0].clientY - event.touches[1].clientY;
             var touchZoomDistanceStart = Math.sqrt(dx * dx + dy * dy);
 
-            var onPinchMoved = function (event) {
+            var onPinchMoved = function(event) {
 
                 var dx = event.touches[0].clientX - event.touches[1].clientX;
                 var dy = event.touches[0].clientY - event.touches[1].clientY;
@@ -177,7 +168,7 @@ var Visualizer = module.exports = function () {
                 event.preventDefault();
             };
 
-            var onPinchEnded = function (event) {
+            var onPinchEnded = function(event) {
                 scope.context.removeEventListener('touchmove', onPinchMoved, false);
                 scope.context.removeEventListener('touchend', onPinchEnded, false);
                 scope.context.addEventListener('touchstart', onTouchStarted, false);
@@ -191,7 +182,7 @@ var Visualizer = module.exports = function () {
 
         this.context.addEventListener('mousedown', onDragStarted, false);
 
-        var onTouchStarted = function (event) {
+        var onTouchStarted = function(event) {
             event.clientX = event.changedTouches[0].clientX;
             event.clientY = event.changedTouches[0].clientY;
             // HACK - Need a better solution instead of using state changes;
@@ -215,55 +206,80 @@ var Visualizer = module.exports = function () {
         scope.context.addEventListener('touchstart', onTouchStarted, false);
     };
 
-    var onWheel = function (event) {
+    var onWheel = function(event) {
         var delta = (!event.deltaY) ? event.detail : event.deltaY;
+
         var scalarWidth = window.innerWidth / 1000;
         var scalarHeight = window.innerHeight / 1000;
         var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
-        var scalar;
+        var scalar = null;
 
         if (delta > 0) {
-            Data.cloudSize2D /= 1.05;
-            Data.cloudSize2D = (Data.cloudSize2D < resetScale) ? resetScale : Data.cloudSize2D;
-            scalar = Data.cloudSize2D;
+            this.cloudSize2D /= 1.05;
+            this.cloudSize2D = (this.cloudSize2D < resetScale) ? resetScale : this.cloudSize2D;
+            scalar = this.cloudSize2D;
             scope.zoomer.scale.set(scalar, scalar, scalar);
         } else {
-            Data.cloudSize2D *= 1.05;
-            Data.cloudSize2D = (Data.cloudSize2D > 20) ? 20 : Data.cloudSize2D;
-            scalar = Data.cloudSize2D;
+            this.cloudSize2D *= 1.05;
+            this.cloudSize2D = (this.cloudSize2D > 20) ? 20 : this.cloudSize2D;
+            scalar = this.cloudSize2D;
             scope.zoomer.scale.set(scalar, scalar, scalar);
         }
-        Data.pointSize = Math.max(2, Data.cloudSize2D);
+        this.pointSize = Math.max(2, this.cloudSize2D);
         scope.update(true);
         needsRefresh = true;
     };
 
-    this.createListeners = function () {
-        window.addEventListener("resize", function (event) {
+    this.createListeners = function() {
+        window.addEventListener("resize", function(event) {
             scope.resize(event);
         });
+
+        this.context.addEventListener("mousewheel", onWheel.bind(scope), false);
+        this.context.addEventListener("DOMMouseScroll", onWheel.bind(scope), false);
+
+        var keyUpAction = function(e) {
+            if (e.keyCode === 68) {
+                window.removeEventListener("keyup", keyUpAction);
+                window.addEventListener("keydown", keyDownAction, false);
+            }
+        };
+
+        var keyDownAction = function(e) {
+            if (e.keyCode === 68) {
+                window.addEventListener("keyup", keyUpAction, false);
+                window.removeEventListener("keydown", keyDownAction);
+                infoOverlay.onDownloadHotkey(activePoint);
+            }
+        };
+
+        window.addEventListener("keydown", keyDownAction, false);
+
+
+        document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+
     };
 
-    this.setFilter = function (params) {
+    this.setFilter = function(params) {
         Filter.setFilter(params);
         scope.pointCloud.activateFilter(Filter.getActivePoints());
         needsRefresh = true;
         showActive();
     };
 
-    this.update = function () {
+    this.update = function() {
         if (needsRefresh) {
             // this.pointCloud.getAttributes().size.needsUpdate = true;
             this.pointCloud.draw();
-            this.pointCloud.update();
+            this.pointCloud.update(this.pointSize);
             needsRefresh = false;
         }
         this.draw();
     };
 
-    this.draw = function () {
+    this.draw = function() {
         var attributes = this.pointCloud.getAttributes();
-        var size = Data.pointSize * Data.pointSizeMultiplier;
+        var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
 
         if (intersectingPoints.length > 0) {
@@ -293,39 +309,39 @@ var Visualizer = module.exports = function () {
         this.renderer.render(this.scene, this.camera);
     };
 
-    var getIntersectingPoints = function (radius) {
+    var getIntersectingPoints = function(radius) {
         var attributes = scope.pointCloud.getAttributes();
         raycaster.setFromCamera(mouse, scope.camera);
         raycaster.params.Points.threshold = radius;
         var intersects = raycaster.intersectObject(scope.pointCloud, true);
 
         // remove disabled points
-        intersects = intersects.filter(function (point) {
+        intersects = intersects.filter(function(point) {
             return attributes.enabled.array[point.index];
         });
 
         // Sort intersected objects by 'distance to ray' because default is 'distance'
         // which is distance from the camera.
-        intersects.sort(function (a, b) {
+        intersects.sort(function(a, b) {
             return parseFloat(a.distanceToRay) - parseFloat(b.distanceToRay);
         });
 
         return intersects;
     };
 
-    var showActive = function () {
+    var showActive = function() {
         infoOverlay.updateActive(Data.getTotalPoints(), Filter.getActiveCount());
     };
 
-    var playSound = function (path) {
+    var playSound = function(path) {
         audioPlayer.play(path);
     };
 
 
-    this.animate = function () {
+    this.animate = function() {
         this.update();
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
             scope.animate();
         });
     };
@@ -333,30 +349,29 @@ var Visualizer = module.exports = function () {
     // ------------------------------------------------------------
     // EVENTS
     // ------------------------------------------------------------
-    this.onDocumentMouseMove = function (event) {
+    this.onDocumentMouseMove = function(event) {
         event.preventDefault();
         mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.offsetY / window.innerHeight) * 2 + 1;
     };
 
 
-    this.onBgDown = function (event) {
+    this.onBgDown = function(event) {
         var x = (event.clientX - window.innerWidth * 0.5) / scope.zoomer.scale.x;
         var y = (-event.clientY + window.innerHeight * 0.5) / scope.zoomer.scale.y;
         var anchorOffset = new THREE.Vector2(x, y);
         var draggerStart = new THREE.Vector2(scope.panner.position.x, scope.panner.position.y);
 
-        var onTouchMove = function (event) {
+        var onTouchMove = function(event) {
             event.clientX = event.changedTouches[0].clientX;
             event.clientY = event.changedTouches[0].clientY;
             onMove(event);
         };
 
-        var onMove = function (event) {
+        var onMove = function(event) {
             if (scope.touchState === scope.IS_ZOOMING) {
                 return;
             }
-
             scope.panner.position.x = event.clientX - window.innerWidth * 0.5;
             scope.panner.position.y = -event.clientY + window.innerHeight * 0.5;
             scope.panner.position.x /= scope.zoomer.scale.x;
@@ -368,13 +383,13 @@ var Visualizer = module.exports = function () {
             event.preventDefault();
         };
 
-        var onTouchUp = function (event) {
+        var onTouchUp = function(event) {
             event.clientX = event.changedTouches[0].clientX;
             event.clientY = event.changedTouches[0].clientY;
             onUp(event);
         };
 
-        var onUp = function (event) {
+        var onUp = function(event) {
             scope.context.removeEventListener('mousemove', onMove, false);
             scope.context.removeEventListener('mouseup', onUp, false);
             scope.context.removeEventListener('mouseupoutside', onUp, false);
@@ -397,10 +412,10 @@ var Visualizer = module.exports = function () {
         scope.context.addEventListener('touchcancel', onTouchUp, false);
     };
 
-    this.resize = function (event) {
+    this.resize = function(event) {
 
         clearTimeout(scope.resizeTimer);
-        scope.resizeTimer = setTimeout(function () {
+        scope.resizeTimer = setTimeout(function() {
             scope.camera.left = window.innerWidth / -2;
             scope.camera.right = window.innerWidth / 2;
             scope.camera.top = window.innerHeight / 2;
@@ -411,4 +426,3 @@ var Visualizer = module.exports = function () {
 
     };
 };
-

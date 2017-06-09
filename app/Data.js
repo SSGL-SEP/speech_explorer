@@ -2,14 +2,11 @@
 
 var THREE = require("three");
 
-var parsedPoints = [],
-    parsedTags = {},
-    parsedHeader = {};
+var parsedPoints = [];
+var parsedTags = {};
+var parsedHeader = {};
 
 module.exports = {
-    pointSize: 2,
-    pointSizeMultiplier: 1,
-    cloudSize2D: 1.5,
 
     loadData: function(inputData) {
         parsedPoints = [];

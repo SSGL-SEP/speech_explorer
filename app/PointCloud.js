@@ -2,6 +2,7 @@
 
 var THREE = require("three");
 var Data = require("./Data");
+var Visualizer = require("./Visualizer");
 
 var PointCloud = module.exports = function() {
     THREE.Object3D.call(this);
@@ -67,7 +68,8 @@ var PointCloud = module.exports = function() {
     material = new THREE.ShaderMaterial({
         uniforms: {
             color: {type: "c", value: new THREE.Color(0xffffff)},
-            pointsize: {value: Data.pointSize}
+            // pointsize: {value: pointSize}
+            pointsize: {value: 2}  // Same value as pointSize in Visualizer. Can't access it from here?
         },
         vertexShader: vs,
         fragmentShader: fs,
@@ -77,8 +79,11 @@ var PointCloud = module.exports = function() {
 
     this.add(this.cloud);
 
-    this.update = function() {
-        material.uniforms.pointsize.value = Data.pointSize;
+    this.update = function(newSize) {
+        // material.uniforms.pointsize.value = pointSize;
+
+        material.uniforms.pointsize.value = newSize;
+
     };
 
     this.activateFilter = function(points) {

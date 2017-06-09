@@ -31,8 +31,8 @@ describe('Data', function() {
     });
 
     describe('#getUrl()', function() {
-        it('should be mv_0693_001_k_0_0.wav with parameter 1', function() {
-            assert(Data.getUrl(1) === "mv_0693_001_k_0_0.wav");
+        it('should be audio/mv_0693_001_k_0_0.wav with parameter 1', function() {
+            assert(Data.getUrl(1) === "audio/mv_0693_001_k_0_0.wav");
         });
     });
 
@@ -57,9 +57,9 @@ describe('Data', function() {
             var test = Data.getPoint(0);
             assert(test.z === 0);
         });
-        it('should have property filename === mv_0693_003_h_0_0.wav', function() {
+        it('should have property filename === audio/mv_0693_003_h_0_0.wav', function() {
             var test = Data.getPoint(0);
-            assert(test.filename === "mv_0693_003_h_0_0.wav");
+            assert(test.filename === "audio/mv_0693_003_h_0_0.wav");
         });
         it('should have valid and correct metadata', function() {
             var test = Data.getPoint(0);

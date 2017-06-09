@@ -1,5 +1,4 @@
 'use strict';
-
 var Data = require("./Data");
 var PointCloud = require("./PointCloud");
 var Filter = require("./Filter");

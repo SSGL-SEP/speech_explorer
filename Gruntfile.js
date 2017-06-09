@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 
         exec: {
             run_istanbul_mocha_tests:{
-                command: 'istanbul cover ./node_modules/.bin/_mocha test/unit/**/*.js'
+                command: 'istanbul cover ./node_modules/mocha/bin/_mocha test/unit/**/*.js'
             },
             run_istanbul_cucumber_tests:{
                 command: 'node app/server.js & istanbul cover ./node_modules/.bin/cucumberjs -r test/features'

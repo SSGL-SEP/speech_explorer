@@ -27,7 +27,12 @@ describe('FilterOverlay', function() {
         };
 
         this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
-        FilterOverlay = new FilterOverlay(Data, filterFunctionMock, ConfigMock, dataSetChangeFunctionMock);
+        FilterOverlay = new FilterOverlay({
+            data: Data,
+            filterFunction: filterFunctionMock,
+            configDAO: ConfigMock,
+            changeDataSetFunction: dataSetChangeFunctionMock
+        });
     });
 
     after(function() {

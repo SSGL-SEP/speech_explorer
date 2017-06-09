@@ -1,3 +1,5 @@
+'use strict';
+
 var THREE = require('three');
 
 module.exports = function(viz) {
@@ -31,11 +33,11 @@ module.exports = function(viz) {
             event.preventDefault();
         };
 
-        var onTouchUp = function(event) {
-            event.clientX = event.changedTouches[0].clientX;
-            event.clientY = event.changedTouches[0].clientY;
-            onUp(event);
-        };
+        // var onTouchUp = function(event) {
+        //     event.clientX = event.changedTouches[0].clientX;
+        //     event.clientY = event.changedTouches[0].clientY;
+        //     onUp(event);
+        // };
 
         var onUp = function(event) {
             visualizer.context.removeEventListener('mousemove', onMove, false);
@@ -43,8 +45,8 @@ module.exports = function(viz) {
             visualizer.context.removeEventListener('mouseupoutside', onUp, false);
 
             visualizer.context.removeEventListener('touchmove', onTouchMove, false);
-            visualizer.context.removeEventListener('touchend', onTouchUp, false);
-            visualizer.context.removeEventListener('touchcancel', onTouchUp, false);
+            visualizer.context.removeEventListener('touchend', onUp, false);
+            visualizer.context.removeEventListener('touchcancel', onUp, false);
             event.preventDefault();
         };
 
@@ -53,8 +55,8 @@ module.exports = function(viz) {
         visualizer.context.addEventListener('mouseupoutside', onUp, false);
 
         visualizer.context.addEventListener('touchmove', onTouchMove, false);
-        visualizer.context.addEventListener('touchend', onTouchUp, false);
-        visualizer.context.addEventListener('touchcancel', onTouchUp, false);
+        visualizer.context.addEventListener('touchend', onUp, false);
+        visualizer.context.addEventListener('touchcancel', onUp, false);
     };
 
     this.createDraggers = function() {

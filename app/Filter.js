@@ -3,8 +3,56 @@
 var Data = require("./Data");
 var activePoints = [];
 var activeCount = 0;
+var pointGroups = {};
+var totalPoints = 0;
+
+var calculateActivePoints = function() {
+    var groups = Object.keys(pointGroups);
+    var i, j, val, count = 0;
+    for (i = 0; i < totalPoints; i++) {
+        val = 1;
+        for (j = 0; j < groups.length; j++) {
+            if (pointGroups[groups[j]][i] === 0) {
+                val = 0;
+                break;
+            }
+        }
+        activePoints[i] = val;
+        if (val === 1) {
+            count++;
+        }
+    }
+    activeCount = count;
+};
+
+var initializeGroups = function(initialValue) {
+    var tagNames = Object.keys(Data.getTags());
+    tagNames = tagNames.filter(function(tag) {
+        return Data.getTag(tag).__filterable;
+    });
+    for (var i = 0; i < tagNames.length; i++) {
+        pointGroups[tagNames[i]] = [];
+        for (var j = 0; j < totalPoints; j++) {
+            pointGroups[tagNames[i]][j] = initialValue;
+        }
+    }
+};
+
+var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
+    var tagData = Data.getTag(tagName);
+    var tagPoints = tagData[tagValue].points;
+
+    var i;
+    for (i = 0; i < tagPoints.length; i++) {
+        pointGroups[tagName][tagPoints[i]] = newValue;
+    }
+};
 
 module.exports = {
+    init: function() {
+        totalPoints = Data.getTotalPoints();
+        initializeGroups(1);
+    },
 
     getActivePoints: function() {
         return activePoints;
@@ -15,46 +63,28 @@ module.exports = {
     },
 
     /**
-     * Creates a list of points that should be active based on the tags supplied.
+     * Activates a set of points based on the supplied tag name and value.
      *
-     * @param {array} - filterStatus list of tag states
+     * @param {string} - tagName
+     * @param {string} - tagValue
      */
-    setFilter: function(params) {
+    activatePoints: function(tagName, tagValue) {
+        setGroupPointValuesTo(1, tagName, tagValue);
+        calculateActivePoints();
     },
 
-    activatePoints(tagName, tagValue) {
-        var tagData = Data.getTag(tagName);
-        var i;
-        for (i = 0; i < tagData[tagValue].points.length; i++) {
-            activePoints[tagData[tagValue].points[i]] = 1;
-            activeCount++;
-        }
-    },
-
-    deactivatePoints(tagName, tagValue) {
-        var tagData = Data.getTag(tagName);
-        var i;
-        for (i = 0; i < tagData[tagValue].points.length; i++) {
-            activePoints[tagData[tagValue].points[i]] = 0;
-            activeCount--;
-        }
+    deactivatePoints: function(tagName, tagValue) {
+        setGroupPointValuesTo(0, tagName, tagValue);
+        calculateActivePoints();
     },
 
     clearAll: function() {
-        var totalPoints = Data.getTotalPoints();
-        var i;
-        for (i = 0; i < totalPoints; i++) {
-            activePoints[i] = 0;
-        }
-        activeCount = 0;
+        initializeGroups(0);
+        calculateActivePoints();
     },
 
     selectAll: function() {
-        var totalPoints = Data.getTotalPoints();
-        var i;
-        for (i = 0; i < totalPoints; i++) {
-            activePoints[i] = 1;
-        }
-        activeCount = Data.getTotalPoints();
+        initializeGroups(1);
+        calculateActivePoints();
     }
 };

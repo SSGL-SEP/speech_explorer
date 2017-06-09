@@ -105,7 +105,6 @@ var FilterOverlay = module.exports = function(data, filterFunction, Config, chan
                     controller.borderColor(data.getTagColor(key))
                         .borderWidth(10);
                 }
-                console.log(tag.values);
                 scope.gui.remember(tag.values);
 
             });

@@ -104,9 +104,11 @@ module.exports = function(params) {
     var updateAll = function(isActive) {
         for (var i = 0; i < scope.boolTags.length; i++) {
             var tag = scope.boolTags[i];
-            Object.keys(tag.values).forEach(function(key, index) {
-                tag.values[key] = isActive;
-            });
+            
+            var tagValues = Object.keys(tag.values);
+            for(var j = 0; j < tagValues.length; j++) {
+                tag.values[tagValues[j]] = isActive;
+            }
         }
         scope.update();
 

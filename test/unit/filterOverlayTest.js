@@ -35,7 +35,7 @@ describe('FilterOverlay', function() {
 
     after(function() {
         // runs after all tests in this block
-
+        this.jsdom();
     });
 
     beforeEach(function() {

@@ -52,8 +52,6 @@ module.exports = {
         // middle loop
         var getPointsAssociatedToTagValues = function(tagName) {
             tag = parsedTags[tagName];
-            if(typeof tag !== 'object')
-                console.log(typeof tag);
             tagValues = Object.keys(tag);
 
             for(j = 0; j < tagValues.length; j++) {
@@ -66,8 +64,6 @@ module.exports = {
         };
 
         // start parsing
-        if(typeof parsedTags !== 'object')
-            console.log('fuccccccc');
         var tagNames = Object.keys(parsedTags);
         for(k = 0; k < tagNames.length; k++) {
             getPointsAssociatedToTagValues(tagNames[k]);

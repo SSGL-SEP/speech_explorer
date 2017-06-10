@@ -3,11 +3,7 @@
 var THREE = require("three");
 var Data = require("./Data");
 
-var PointCloud = module.exports = function(initialPointSize) {
-    THREE.Object3D.call(this);
-
-    this.cloud = null;
-
+var createGeometry = function() {
     var total = Data.getTotalPoints();
     var positions = new Float32Array(total * 3);
     var colors = new Float32Array(total * 3);
@@ -29,14 +25,24 @@ var PointCloud = module.exports = function(initialPointSize) {
         enabled[i] = 1; // shader does not take in booleans -> using 0 & 1 as truthiness
     }
 
-    var vs = "attribute float customSize;\n" +
-        "attribute float enabled;\n" +
-        "attribute vec3 customColor;\n" +
-        "uniform float pointsize;\n" +
-        "varying vec3 vColor;\n" +
-        "void main() {\n" +
-        "   vColor = customColor;\n" +
-        "   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
+    var geometry = new THREE.BufferGeometry();
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+    geometry.addAttribute('customSize', new THREE.BufferAttribute(sizes, 1));
+    geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
+
+    return geometry;
+};
+
+var createMaterial = function(initialPointSize) {
+    var vs = "attribute float customSize;" +
+        "attribute float enabled;" +
+        "attribute vec3 customColor;" +
+        "uniform float pointsize;" +
+        "varying vec3 vColor;" +
+        "void main() {" +
+        "   vColor = customColor;" +
+        "   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );" +
         "   if(enabled > 0.5) {" +
         "       gl_PointSize = pointsize;" +
         "   } else {" +
@@ -45,24 +51,17 @@ var PointCloud = module.exports = function(initialPointSize) {
         "   if(customSize > 0.0) {" + // mouseover etc.
         "      gl_PointSize = customSize;" +
         "   }" +
-        "   gl_Position = projectionMatrix * mvPosition;\n" +
-        "}\n";
+        "   gl_Position = projectionMatrix * mvPosition;" +
+        "}";
 
-    var fs = "uniform vec3 color;\n" +
-        "varying vec3 vColor;\n" +
-        "void main() {\n" +
-        "   gl_FragColor = vec4( color * vColor, 1.0 );\n" +
-        "   if ( gl_FragColor.a < ALPHATEST ) discard;\n" +
-        "}\n";
+    var fs = "uniform vec3 color;" +
+        "varying vec3 vColor;" +
+        "void main() {" +
+        "   gl_FragColor = vec4( color * vColor, 1.0 );" +
+        "   if ( gl_FragColor.a < ALPHATEST ) discard;" +
+        "}";
 
-    var geometry, material;
-    geometry = new THREE.BufferGeometry();
-    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-    geometry.addAttribute('customSize', new THREE.BufferAttribute(sizes, 1));
-    geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
-    
-    material = new THREE.ShaderMaterial({
+    return new THREE.ShaderMaterial({
         uniforms: {
             color: {type: "c", value: new THREE.Color(0xffffff)},
             pointsize: {value: initialPointSize}
@@ -71,6 +70,16 @@ var PointCloud = module.exports = function(initialPointSize) {
         fragmentShader: fs,
         alphaTest: 0.1
     });
+};
+
+var PointCloud = module.exports = function(initialPointSize) {
+    THREE.Object3D.call(this);
+
+    this.cloud = null;
+
+    var geometry = createGeometry();
+    var material = createMaterial(initialPointSize);
+
     this.cloud = new THREE.Points(geometry, material);
 
     this.add(this.cloud);

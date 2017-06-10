@@ -10,21 +10,21 @@ body {
     left: 0;
 }
 
-.dg.main.taller-than-window .close-button {
+.dg.main.taller-than-window .close-button.close-bottom {
     /* fix for FireFox */
-    position: fixed !important;
+    position: fixed;
 }
 
-.dg li.save-row select {
+.dg .save-row select {
     margin-left: 5px;
     width: 55px;
     font-size: 9px;
     padding: 0;
     border-radius: 0;
-    border: 0px solid #000;
+    border: 0 solid #000;
 }
-.dg.a {
-    margin-right: 0 !important;
+.dg.a.main {
+    margin-right: 0;
 }
 
 #info, #active, #infoPanels {

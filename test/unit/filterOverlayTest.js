@@ -1,18 +1,11 @@
 var appDir = require('app-root-path');
 var assert = require('assert');
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
-//var ConfigDAO = require(appDir + "/app/ConfigDAO");
-
-var Data = require(appDir + "/app/Data");
-Data.loadData(appDir + '/test/testdata.json');
 
 describe('FilterOverlay', function() {
 
     before(function() {
         // runs before all tests in this block
-        // var json = require(appDir + "/test/testdata.json");
-        //Config = new ConfigDAO();   
-        //console.log(appDir+'/test/testConfig.json');
         var ConfigMock = {
             findAllDataSetNames: function() {
                 return ["testdata"];
@@ -26,7 +19,12 @@ describe('FilterOverlay', function() {
             return "dataSetChange";
         };
 
-        this.jsdom = require('jsdom-global')(`<!DOCTYPE html><div id="overlay"></div>`);
+        this.jsdom = require('jsdom-global')('<!DOCTYPE html><div id="overlay"></div>');
+        var Data = require(appDir + "/app/Data");
+        var json = require(appDir + '/test/testdata.json');
+
+        Data.loadData(json);
+
         FilterOverlay = new FilterOverlay({
             data: Data,
             filterFunction: filterFunctionMock,

@@ -40,18 +40,37 @@ module.exports = {
     },
 
     parseTags: function() {
-        for (var tag in parsedTags) {
-            if (parsedTags.hasOwnProperty(tag)) {
-                for (var value in parsedTags[tag]) {
-                    if (parsedTags[tag].hasOwnProperty(value)) {
-                        for (var point in parsedTags[tag][value].points) {
-                            if (parsedTags[tag][value].points.hasOwnProperty(point)) {
-                                parsedPoints[parsedTags[tag][value].points[point]].meta[tag] = value;
-                            }
-                        }
-                    }
-                }
+        var tag, tagValues, tagValue, i, j, k;
+
+        // inner loop
+        var setMetaFieldForPoints = function(points, tagName, tagValue) {
+            for (i = 0; i < points.length; i++) {
+                parsedPoints[points[i]].meta[tagName] = tagValue;
             }
+        };
+
+        // middle loop
+        var getPointsAssociatedToTagValues = function(tagName) {
+            tag = parsedTags[tagName];
+            if(typeof tag !== 'object')
+                console.log(typeof tag);
+            tagValues = Object.keys(tag);
+
+            for(j = 0; j < tagValues.length; j++) {
+                tagValue = tagValues[j];
+                if(tagValue === '__filterable') {
+                    continue; // no need to process this flag
+                }
+                setMetaFieldForPoints(tag[tagValue].points, tagName, tagValue);
+            }
+        };
+
+        // start parsing
+        if(typeof parsedTags !== 'object')
+            console.log('fuccccccc');
+        var tagNames = Object.keys(parsedTags);
+        for(k = 0; k < tagNames.length; k++) {
+            getPointsAssociatedToTagValues(tagNames[k]);
         }
     },
 

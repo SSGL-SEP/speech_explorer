@@ -40,17 +40,18 @@ module.exports = {
     },
 
     parseTags: function() {
-        var tag, tagValues, tagValue, i, j, k;
+        var tag, tagName, tagValues, tagValue, i, j, k;
 
-        // inner loop
         var setMetaFieldForPoints = function(points, tagName, tagValue) {
-            for (i = 0; i < points.length; i++) {
-                parsedPoints[points[i]].meta[tagName] = tagValue;
+            for (k = 0; k < points.length; k++) {
+                parsedPoints[points[k]].meta[tagName] = tagValue;
             }
         };
 
-        // middle loop
-        var getPointsAssociatedToTagValues = function(tagName) {
+        var tagNames = Object.keys(parsedTags);
+
+        for(i = 0; i < tagNames.length; i++) {
+            tagName = tagNames[i];
             tag = parsedTags[tagName];
             tagValues = Object.keys(tag);
 
@@ -61,12 +62,6 @@ module.exports = {
                 }
                 setMetaFieldForPoints(tag[tagValue].points, tagName, tagValue);
             }
-        };
-
-        // start parsing
-        var tagNames = Object.keys(parsedTags);
-        for(k = 0; k < tagNames.length; k++) {
-            getPointsAssociatedToTagValues(tagNames[k]);
         }
     },
 

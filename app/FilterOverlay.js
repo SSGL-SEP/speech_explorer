@@ -89,7 +89,10 @@ module.exports = function(params) {
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
-            Object.keys(tag.values).forEach(createItem);
+            var keys = Object.keys(tag.values);
+            for(var j = 0; j < keys.length; j++){
+                createItem(keys[j]);
+            }
         }
 
         var select = this.selectButton;

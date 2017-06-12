@@ -9,8 +9,8 @@ body {
 }
 
 #overlay {
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: 27px;
     left: 0;
 }
 
@@ -70,4 +70,10 @@ a {
     color: yellow;
     padding-right: 10px;
     cursor: pointer;
+}
+
+.dg.a .save-row {
+    top: 0;
+    position: fixed;
+    z-index: 1002;
 }

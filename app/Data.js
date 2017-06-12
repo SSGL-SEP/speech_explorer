@@ -28,7 +28,7 @@ module.exports = {
             var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
             dataPoint.filename = inputData.points[i][3];
             dataPoint.meta = {};
-            parsedPoints.push(dataPoint)
+            parsedPoints.push(dataPoint);
         }
 
         this.parseTags();

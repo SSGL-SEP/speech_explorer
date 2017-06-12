@@ -9,11 +9,12 @@ describe('Visualizer', function() {
 
     before(function() {
         // runs before all tests in this block
-
+        this.jsdom = require('jsdom-global')('<!DOCTYPE html><div id="overlay"></div>');
     });
 
     after(function() {
         // runs after all tests in this block
+        this.jsdom();
     });
 
     beforeEach(function() {

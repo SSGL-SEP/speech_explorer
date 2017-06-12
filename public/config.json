@@ -8,14 +8,14 @@
       "audioSrc": "phonemes/"
     },
     {
-      "dataSet": "syllables 30m",
+      "dataSet": "syllables30m",
       "processingMethod": "mfcc",
       "totalPoints": 18741,
       "dataSrc": "data/syllables_30m.json",
       "audioSrc": "syllables/"
     },
     {
-      "dataSet": "syllables 50m",
+      "dataSet": "syllables50m",
       "processingMethod": "mfcc",
       "totalPoints": 18741,
       "dataSrc": "data/syllables_50m.json",
@@ -29,21 +29,21 @@
       "audioSrc": "syllables/"
     },
     {
-      "dataSet": "syllables 300m",
+      "dataSet": "syllables300m",
       "processingMethod": "mfcc",
       "totalPoints": 18741,
       "dataSrc": "data/syllables_300m.json",
       "audioSrc": "syllables/"
     },
     {
-      "dataSet": "syllables 500m",
+      "dataSet": "syllables500m",
       "processingMethod": "mfcc",
       "totalPoints": 18741,
       "dataSrc": "data/syllables_500m.json",
       "audioSrc": "syllables/"
     },
     {
-      "dataSet": "syllables 600m",
+      "dataSet": "syllables600m",
       "processingMethod": "mfcc",
       "totalPoints": 18741,
       "dataSrc": "data/syllables_600m.json",

@@ -1,9 +1,9 @@
 'use strict';
 var IO = require('./IO.js');
 
-var ConfigDAO = module.exports = function() {
+var ConfigDAO = module.exports = function(config) {
     var scope = this;
-    this.config = {};
+    this.config = config || {};
 
     this.loadConfigFile = function(file) {
         return IO.loadJSON(file).then(function(json) {
@@ -47,11 +47,9 @@ var ConfigDAO = module.exports = function() {
     };
 
     this.getAudioSrc = function(dataSetName) {
-        console.log(dataSetName, this.config.dataSets)
         for (var i = 0; i < this.config.dataSets.length; i++) {
             var set = this.config.dataSets[i];
             if (set.dataSet === dataSetName) {
-                console.log('found:' + set.audioSrc);
                 return set.audioSrc;
             }
         }

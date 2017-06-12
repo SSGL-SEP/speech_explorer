@@ -8,6 +8,9 @@ describe('Data', function() {
     before(function() {
         Data = require(appDir + "/app/Data");
         var json = require(appDir + "/test/testdata.json");
+        var Config = require(appDir + "/app/ConfigDAO");
+        var config = new Config({dataSets:[{dataSet:"phoneme", audioSrc: "phoneme/"}]});
+        Data.setConfig(config);
         Data.loadData(json);
     });
 

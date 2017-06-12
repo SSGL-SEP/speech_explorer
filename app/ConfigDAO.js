@@ -13,11 +13,11 @@ var ConfigDAO = module.exports = function() {
     };
 
     this.loadDefaultDataSetJSON = function() {
-        return IO.loadJSON(scope.config.dataSets[scope.config.defaultSet].src);
+        return IO.loadJSON(scope.config.dataSets[scope.config.defaultSet].dataSrc);
     };
 
     this.loadDataSetJSON = function(datasetName) {
-        var src = this.findDataSet(datasetName).src;
+        var src = this.findDataSet(datasetName).dataSrc;
         return IO.loadJSON(src);
     };
 
@@ -44,5 +44,17 @@ var ConfigDAO = module.exports = function() {
             allNames.push(scope.config.dataSets[i].dataSet);
         }
         return allNames;
+    };
+
+    this.getAudioSrc = function(dataSetName) {
+        console.log(dataSetName, this.config.dataSets)
+        for (var i = 0; i < this.config.dataSets.length; i++) {
+            var set = this.config.dataSets[i];
+            if (set.dataSet === dataSetName) {
+                console.log('found:' + set.audioSrc);
+                return set.audioSrc;
+            }
+        }
+        return "";
     };
 };

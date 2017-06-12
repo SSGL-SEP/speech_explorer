@@ -12,6 +12,7 @@ var Config = new ConfigDAO();
 
 
 function startApp(pointData) {
+    Data.setConfig(Config);
     Data.loadData(pointData);
     Visualizer = new Visualizer();
     Visualizer.init();

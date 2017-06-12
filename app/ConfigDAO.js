@@ -50,14 +50,14 @@ var ConfigDAO = module.exports = function(config) {
         if(dataSetName.startsWith("syllable")) {
             return "syllables/";
         }
-        
+
         for (var i = 0; i < this.config.dataSets.length; i++) {
             var set = this.config.dataSets[i];
             if (set.dataSet === dataSetName) {
                 return set.audioSrc;
             }
         }
-        console.error('audioSrc not found')
+        console.error('audioSrc not found');
         return "";
     };
 };

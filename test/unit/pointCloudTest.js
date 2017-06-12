@@ -11,20 +11,13 @@ describe('The PointCloud', function() {
         Data = require(appDir + "/app/Data");
         var json = require(appDir + "/test/testdata.json");
         Data.loadData(json);
-        pc = new pointCloud();
-
-        pc.activateFilter([1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1]);
-        pc.draw();
-        pc.update();
+        pc = new pointCloud(1);
 
     });
 
-    // it('should have correct number of points after filtering', function() {
-    //     var pts = pc.getAttributes().enabled.array;
-    //     var enableds = 0;
-    //     for (var i = 0; i < pts.length; i++) {
-    //         enableds += pts[i];
-    //     }
-    //     expect(enableds).to.equal(Data.getTotalPoints() - 2);
-    // });
+    it('should have correct number of points after initialization', function() {
+        var pts = pc.getAttributes().enabled.array;
+        var enableds = pts.length;
+        expect(enableds).to.equal(Data.getTotalPoints());
+    });
 });

@@ -1,22 +1,61 @@
 {
   "dataSets": [
     {
-      "dataSet": "phonem",
+      "dataSet": "phoneme",
       "processingMethod": "T-SNE",
       "totalPoints": 3200,
-      "src": "data/ntest100.json"
-    },{
-      "dataSet": "testphonem",
-      "processingMethod": "T-SNE",
-      "totalPoints": 3200,
-      "src": "data/testdata.json"
-    },{
+      "dataSrc": "data/ntest100.json",
+      "audioSrc": "phonemes/"
+    },
+    {
+      "dataSet": "syllables 30m",
+      "processingMethod": "mfcc",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_30m.json",
+      "audioSrc": "syllables/"
+    },
+    {
+      "dataSet": "syllables 50m",
+      "processingMethod": "mfcc",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_50m.json",
+      "audioSrc": "syllables/"
+    },
+    {
+      "dataSet": "syllables 100m",
+      "processingMethod": "mfcc",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_100m.json",
+      "audioSrc": "syllables/"
+    },
+    {
+      "dataSet": "syllables 300m",
+      "processingMethod": "mfcc",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_300m.json",
+      "audioSrc": "syllables/"
+    },
+    {
+      "dataSet": "syllables 500m",
+      "processingMethod": "mfcc",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_500m.json",
+      "audioSrc": "syllables/"
+    },
+    {
+      "dataSet": "syllables 600m",
+      "processingMethod": "mfcc",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_600m.json",
+      "audioSrc": "syllables/"
+    },
+    {
       "dataSet": "bignsynth",
       "processingMethod": "T-SNE",
       "totalPoints": 50000,
-      "src": "data/ns50000_noindent.json"
+      "dataSrc": "data/ns50000_noindent.json",
+      "audioSrc": "phonemes/"
     }
-    
   ],
   "defaultSet": 0
 }

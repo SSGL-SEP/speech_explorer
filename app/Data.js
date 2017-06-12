@@ -1,12 +1,17 @@
 'use strict';
 
 var THREE = require("three");
+var Config;
 
 var parsedPoints = [];
 var parsedTags = {};
 var parsedHeader = {};
 
 module.exports = {
+
+    setConfig: function(config) {
+        Config = config;
+    },
 
     loadData: function(inputData) {
         parsedPoints = [];
@@ -60,10 +65,11 @@ module.exports = {
     },
 
     getUrl: function(index) {
+        var folder = Config.getAudioSrc(parsedHeader.dataSet);
         if (process.env.DATA_SRC) {
-            return process.env.DATA_SRC + parsedPoints[index].filename;
+            return process.env.DATA_SRC + folder + parsedPoints[index].filename;
         }
-        return 'audio/' + parsedHeader.dataSet + '/' + parsedPoints[index].filename;
+        return 'audio/' + folder + parsedPoints[index].filename;
     },
 
     getPoint: function(index) {

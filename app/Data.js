@@ -13,30 +13,20 @@ module.exports = {
         parsedTags = inputData.tags;
         parsedHeader = {};
 
-        console.log('Loading data...');
-
-        console.log('Parsing header...');
         parsedHeader.soundInfo = inputData.soundInfo;
         parsedHeader.dataSet = inputData.dataSet;
         parsedHeader.processingMethod = inputData.processingMethod;
         parsedHeader.colorBy = inputData.colorBy;
         parsedHeader.totalPoints = inputData.totalPoints;
 
-        console.log('Loading points...');
         for (var i = 0; i < inputData.totalPoints; i++) {
             var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
             dataPoint.filename = inputData.points[i][3];
             dataPoint.meta = {};
-            parsedPoints.push(dataPoint);
-            if (i % 1000 === 0) {
-                console.log('Points loaded: ' + i);
-            }
+            parsedPoints.push(dataPoint)
         }
 
-        console.log('Parsing tags...');
         this.parseTags();
-
-        console.log('Data loaded!');
     },
 
     parseTags: function() {
@@ -50,14 +40,14 @@ module.exports = {
 
         var tagNames = Object.keys(parsedTags);
 
-        for(i = 0; i < tagNames.length; i++) {
+        for (i = 0; i < tagNames.length; i++) {
             tagName = tagNames[i];
             tag = parsedTags[tagName];
             tagValues = Object.keys(tag);
 
-            for(j = 0; j < tagValues.length; j++) {
+            for (j = 0; j < tagValues.length; j++) {
                 tagValue = tagValues[j];
-                if(tagValue === '__filterable') {
+                if (tagValue === '__filterable') {
                     continue; // no need to process this flag
                 }
                 setMetaFieldForPoints(tag[tagValue].points, tagName, tagValue);

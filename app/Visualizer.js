@@ -154,7 +154,8 @@ var Visualizer = module.exports = function() {
 
     this.update = function(refreshPointCloud) {
         if (refreshPointCloud) {
-            this.pointCloud.setPointSize(Math.max(DEFAULT_POINTSIZE, this.pointSize));
+            this.pointSize = Math.max(DEFAULT_POINTSIZE, this.cloudSize2D);
+            this.pointCloud.setPointSize(this.pointSize);
             this.pointCloud.update();
         }
         this.draw();

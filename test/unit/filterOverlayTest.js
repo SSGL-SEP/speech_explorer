@@ -47,7 +47,6 @@ describe('FilterOverlay', function() {
     });
 
     var checkAll = function(tf) {
-        console.log(FilterOverlay.boolTags);
         for (var i = 0; i < FilterOverlay.boolTags.length; i++) {
             var tag = FilterOverlay.boolTags[i];
             for (var property in tag.values) {

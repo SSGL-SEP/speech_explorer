@@ -1,10 +1,10 @@
-var appDir = require('app-root-path');
-var assert = require('assert');
-var THREE = require("three");
+const appDir = require('app-root-path');
+const assert = require('assert');
+const THREE = require("three");
 const {expect} = require('chai');
-var pointCloud = require(appDir + '/app/PointCloud');
-var pc;
-var Data;
+const pointCloud = require(appDir + '/app/PointCloud');
+let pc;
+let Data;
 
 describe('The PointCloud', function() {
     before(function() {
@@ -19,12 +19,12 @@ describe('The PointCloud', function() {
 
     });
 
-    it('should have correct number of points after filtering', function() {
-        var pts = pc.getAttributes().enabled.array;
-        var enableds = 0;
-        for (var i = 0; i < pts.length; i++) {
-            enableds += pts[i];
-        }
-        expect(enableds).to.equal(Data.getTotalPoints() - 2);
-    });
+    // it('should have correct number of points after filtering', function() {
+    //     var pts = pc.getAttributes().enabled.array;
+    //     var enableds = 0;
+    //     for (var i = 0; i < pts.length; i++) {
+    //         enableds += pts[i];
+    //     }
+    //     expect(enableds).to.equal(Data.getTotalPoints() - 2);
+    // });
 });

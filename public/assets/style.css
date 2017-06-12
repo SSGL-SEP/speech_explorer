@@ -4,46 +4,50 @@ body {
     overflow: hidden;
 }
 
+#page {
+    position: relative;
+}
+
 #overlay {
     position: fixed;
     top: 0;
     left: 0;
 }
 
-.dg.main.taller-than-window .close-button {
+.dg.main.taller-than-window .close-button.close-bottom {
     /* fix for FireFox */
-    position: fixed !important;
+    position: fixed;
 }
 
-.dg li.save-row select {
+.dg .save-row select {
     margin-left: 5px;
     width: 55px;
     font-size: 9px;
     padding: 0;
     border-radius: 0;
-    border: 0px solid #000;
+    border: 0 solid #000;
 }
-.dg.a {
-    margin-right: 0 !important;
+
+.dg.a.main {
+    margin-right: 0;
 }
 
 #info, #active, #infoPanels {
-    font-family: 'Lucida Grande',sans-serif;
+    font-family: 'Lucida Grande', sans-serif;
     position: absolute;
-    color: white;
-    top: 0;
     right: 0;
+    color: #fff;
     width: 175px;
     font-size: 12px;
-    z-index: 100;
-    display:block;
+    z-index: 10;
+    display: block;
     visibility: visible;
     opacity: 0.8;
     background-color: #0F0F0F;
 }
 
-.infoInstance {
-    display: inline;
+#active {
+    top: 0;
 }
 
 #info {
@@ -51,7 +55,15 @@ body {
 }
 
 #infoPanels {
-    top: 85%;
+    bottom: 10px;
+}
+
+#infoPanels .buttons {
+    margin-top: 3px;
+}
+
+.infoInstance {
+    display: inline;
 }
 
 a {

@@ -2,13 +2,8 @@
 
 var THREE = require("three");
 var Data = require("./Data");
-var Visualizer = require("./Visualizer");
 
-var PointCloud = module.exports = function() {
-    THREE.Object3D.call(this);
-
-    this.cloud = null;
-
+var createGeometry = function() {
     var total = Data.getTotalPoints();
     var positions = new Float32Array(total * 3);
     var colors = new Float32Array(total * 3);
@@ -18,8 +13,6 @@ var PointCloud = module.exports = function() {
     var vertex;
     var color = new THREE.Color();
     var position;
-    var filterIsActive = false;
-    var filteredPoints = [];
 
     for (var i = 0; i < total; i++) {
         position = Data.getPoint(i);
@@ -32,14 +25,24 @@ var PointCloud = module.exports = function() {
         enabled[i] = 1; // shader does not take in booleans -> using 0 & 1 as truthiness
     }
 
-    var vs = "attribute float customSize;\n" +
-        "attribute float enabled;\n" +
-        "attribute vec3 customColor;\n" +
-        "uniform float pointsize;\n" +
-        "varying vec3 vColor;\n" +
-        "void main() {\n" +
-        "   vColor = customColor;\n" +
-        "   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n" +
+    var geometry = new THREE.BufferGeometry();
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+    geometry.addAttribute('customSize', new THREE.BufferAttribute(sizes, 1));
+    geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
+
+    return geometry;
+};
+
+var createMaterial = function(initialPointSize) {
+    var vs = "attribute float customSize;" +
+        "attribute float enabled;" +
+        "attribute vec3 customColor;" +
+        "uniform float pointsize;" +
+        "varying vec3 vColor;" +
+        "void main() {" +
+        "   vColor = customColor;" +
+        "   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );" +
         "   if(enabled > 0.5) {" +
         "       gl_PointSize = pointsize;" +
         "   } else {" +
@@ -48,59 +51,44 @@ var PointCloud = module.exports = function() {
         "   if(customSize > 0.0) {" + // mouseover etc.
         "      gl_PointSize = customSize;" +
         "   }" +
-        "   gl_Position = projectionMatrix * mvPosition;\n" +
-        "}\n";
+        "   gl_Position = projectionMatrix * mvPosition;" +
+        "}";
 
-    var fs = "uniform vec3 color;\n" +
-        "varying vec3 vColor;\n" +
-        "void main() {\n" +
-        "   gl_FragColor = vec4( color * vColor, 1.0 );\n" +
-        "   if ( gl_FragColor.a < ALPHATEST ) discard;\n" +
-        "}\n";
+    var fs = "uniform vec3 color;" +
+        "varying vec3 vColor;" +
+        "void main() {" +
+        "   gl_FragColor = vec4( color * vColor, 1.0 );" +
+        "   if ( gl_FragColor.a < ALPHATEST ) discard;" +
+        "}";
 
-    var geometry, material;
-    geometry = new THREE.BufferGeometry();
-    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-    geometry.addAttribute('customSize', new THREE.BufferAttribute(sizes, 1));
-    geometry.addAttribute('enabled', new THREE.BufferAttribute(enabled, 1));
-    
-    material = new THREE.ShaderMaterial({
+    return new THREE.ShaderMaterial({
         uniforms: {
             color: {type: "c", value: new THREE.Color(0xffffff)},
-            // pointsize: {value: pointSize}
-            pointsize: {value: 2}  // Same value as pointSize in Visualizer. Can't access it from here?
+            pointsize: {value: initialPointSize}
         },
         vertexShader: vs,
         fragmentShader: fs,
         alphaTest: 0.1
     });
+};
+
+var PointCloud = module.exports = function(initialPointSize) {
+    THREE.Object3D.call(this);
+
+    this.cloud = null;
+
+    var geometry = createGeometry();
+    var material = createMaterial(initialPointSize);
+
     this.cloud = new THREE.Points(geometry, material);
 
     this.add(this.cloud);
 
-    this.update = function(newSize) {
-        // material.uniforms.pointsize.value = pointSize;
-
+    this.setPointSize = function(newSize) {
         material.uniforms.pointsize.value = newSize;
-
     };
 
-    this.activateFilter = function(points) {
-        var attributes = this.getAttributes();
-        filteredPoints = points;
-        filterIsActive = true;
-
-        for (i = 0; i < filteredPoints.length; i++) {
-            attributes.enabled.array[i] = filteredPoints[i];
-        }
-    };
-
-    this.disableFilter = function() {
-        filterIsActive = false;
-    };
-
-    this.draw = function() {
+    this.update = function() {
         this.cloud.geometry.attributes.position.needsUpdate = true;
         this.cloud.geometry.attributes.customSize.needsUpdate = true;
         this.cloud.geometry.attributes.enabled.needsUpdate = true;

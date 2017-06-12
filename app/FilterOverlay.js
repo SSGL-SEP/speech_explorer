@@ -2,24 +2,24 @@
 var dat = require('../lib/dat/build/dat.gui.min.js');
 
 
-
-var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, changeDataSetFunction) {
+module.exports = function(params) {
     var scope = this;
+    var data = params.data;
     this.boolTags = [];
     this.tags = data.getTags();
 
     this.dataset = {Dataset: []};
     this.filterFolder = null;
     this.datasetFolder = null;
-    this.Config = ConfigDAO;
-    this.filterFunction = filterFunction;
-    this.changeDataSetFunction = changeDataSetFunction;
+    this.Config = params.configDAO;
+    this.filterFunction = params.filterFunction;
+    this.changeDataSetFunction = params.changeDataSetFunction;
 
     this.Init = function() {
         this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI();
-        filterFunction({
+        this.filterFunction({
             selectAll: true
         });
     };
@@ -64,32 +64,34 @@ var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, c
             scope.changeDataSetFunction(set);
         });
 
+        var createItem = function(key) {
+            var controller = folder.add(tag.values, key);
+            controller.listen()
+                .onChange(
+                    (function(tagKey) {
+                        return function(boxIsChecked) {
+                            scope.filterFunction({
+                                tagName: tagKey,
+                                tagValue: this.property,
+                                addPoints: boxIsChecked
+                            });
+                        };
+                    })(tag.key)
+                );
+            if (data.getTagColor(key)) {
+                controller.borderColor(data.getTagColor(key))
+                    .borderWidth(10);
+            }
+            scope.gui.remember(tag.values);
+        };
+
         this.filterFolder = this.gui.addFolder("Filter");
         for (var i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
-            Object.keys(tag.values).forEach(function(key, index) {
-                var controller = folder.add(tag.values, key);
-                controller.listen()
-                    .onChange(
-                        (function(tagKey) {
-                            return function(boxIsChecked) {
-                                scope.filterFunction({
-                                    tagName: tagKey,
-                                    tagValue: this.property,
-                                    addPoints: boxIsChecked
-                                });
-                            };
-                        })(tag.key)
-                    );
-                if (data.getTagColor(key)) {
-                    controller.borderColor(data.getTagColor(key))
-                        .borderWidth(10);
-                }
-                scope.gui.remember(tag.values);
-
-            });
+            Object.keys(tag.values).forEach(createItem);
         }
+
         var select = this.selectButton;
         var clear = this.clearAllButton;
         this.filterFolder.add(clear, 'ClearAll');
@@ -102,9 +104,11 @@ var FilterOverlay = module.exports = function(data, filterFunction, ConfigDAO, c
     var updateAll = function(isActive) {
         for (var i = 0; i < scope.boolTags.length; i++) {
             var tag = scope.boolTags[i];
-            Object.keys(tag.values).forEach(function(key, index) {
-                tag.values[key] = isActive;
-            });
+            
+            var tagValues = Object.keys(tag.values);
+            for(var j = 0; j < tagValues.length; j++) {
+                tag.values[tagValues[j]] = isActive;
+            }
         }
         scope.update();
 

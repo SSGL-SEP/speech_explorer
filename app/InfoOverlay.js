@@ -5,23 +5,36 @@ var audioPlayer = require("./AudioPlayer");
 
 var infoDiv, activeDiv, infopanelDiv, activeHref, tags;
 
-// Päivittää parametrinä saadun paneelin/näytön parametrinä saadun pisteen tiedoilla
-var updateDiv = function(uDiv, point) {
-    var currdiv;
-    for (var key in tags) {
-        currdiv = uDiv.getElementsByClassName(key)[0];
-        currdiv.innerHTML = point.meta[key];
+var tagNames = [];
+
+var createMetaHTML = function(point) {
+    var html = "", key, i;
+
+    for (i = 0; i < tagNames.length; i++) {
+        key = tagNames[i];
+        html += '<div>' + key + ': <span class="infoInstance ' + key + '">' + point.meta[key] + '</span></div>';
     }
+    return html;
+};
+
+/**
+ * Replaces html element contents with the meta info of a point
+ *
+ * @param targetElement
+ * @param point
+ */
+var updateDiv = function(targetElement, point) {
+    targetElement.innerHTML = createMetaHTML(point);
 };
 
 // Toistaa äänitiedoston
-var playSound = function (href) {
+var playSound = function(href) {
     audioPlayer.play(href);
 };
 
-//Lataa äänitiedoston 
+//Lataa äänitiedoston
 // https://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
-var downloadSound = function (href) {
+var downloadSound = function(href) {
     if (href) {
         var a = document.createElement('A');
         a.href = href;
@@ -29,90 +42,73 @@ var downloadSound = function (href) {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    }    
-};
-
-// var cloneCount = 0;
-
-// Kloonaa hetkellisen infonäytön pysyvämmäksi infopaneeliksi
-var cloneForPanel = function(model) {
-    var newDiv = document.createElement('div');
-    var children = model.childNodes;
-    for (var i = 0; i < children.length; i++) {
-        newDiv.appendChild(children[i].cloneNode(true));
     }
-
-    // infopaneelissa kloonatun tiedon lisäksi linkkejä
-    var a1 = document.createElement('a');
-    a1.appendChild(document.createTextNode("Download"));
-    a1.href="#";
-    a1.title = 'Keyboard shortcut: ' + String.fromCharCode(68); // D
-    a1.onclick = function () {
-        InfoOverlay.onClickOnDownloadLink();
-    };
-
-    var a2 = document.createElement('a');
-    a2.appendChild(document.createTextNode("Play"));
-    a2.href = "#";
-    a2.onclick = function() {      
-        InfoOverlay.onClickOnPlayLink(); 
-    };
-
-    var a3 = document.createElement('a');
-    a3.appendChild(document.createTextNode("Close"));
-    a3.href = "#";
-    a3.onclick = function() {
-        document.getElementById('infoPanels').style.visibility = 'hidden';
-    };
-
-    newDiv.appendChild(a1);
-    newDiv.appendChild(a2);
-    newDiv.appendChild(a3);
-
-    return newDiv;
-
 };
 
-// Varsinainen "luokka"
-var InfoOverlay = module.exports = {
+var onClickOnPlayLink = function() {
+    playSound(activeHref);
+};
 
-    init: function(newActiveDiv, newInfoDiv, newInfoPanelDiv, newTags) {
-        if(activeDiv){
-            activeDiv.innerHTML = '';
-        }
-        activeDiv = newActiveDiv;
-        
-        if(infoDiv){
-            infoDiv.innerHTML = '';
-        }
-        infoDiv = newInfoDiv;
-        
-        if(infopanelDiv){
-             infopanelDiv.innerHTML = '';
-        }
-        infopanelDiv = newInfoPanelDiv;
+var onClickOnDownloadLink = function() {
+    downloadSound(activeHref);
+};
+
+var hideInfoPanels = function() {
+    document.getElementById('infoPanels').style.visibility = 'hidden';
+};
+
+/**
+ * Creates button elements for the info panel
+ * @returns {Element}
+ */
+var createInfoPanelButtons = function() {
+    var buttons = document.createElement('div');
+    buttons.className = 'buttons';
+
+    var createButton = function(text, onclick) {
+        var elem = document.createElement('a');
+        elem.innerHTML = text;
+        elem.addEventListener('click', function(event) {
+            event.preventDefault();
+            onclick();
+        });
+        return elem;
+    };
+
+    var download = createButton('Download', onClickOnDownloadLink);
+    var play = createButton('Play', onClickOnPlayLink);
+    var close = createButton('Close', hideInfoPanels);
+
+    download.title = 'Keyboard shortcut: ' + String.fromCharCode(68); // D
+
+    buttons.appendChild(download);
+    buttons.appendChild(play);
+    buttons.appendChild(close);
+
+    return buttons;
+};
+
+var infoPanelMetaContainer = document.createElement('div');
+var infoPanelButtons = createInfoPanelButtons();
+
+
+module.exports = {
+
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, newTags) {
+        activeDiv = document.getElementById(activePointsElementId);
+        infoDiv = document.getElementById(infoElementId);
+        infopanelDiv = document.getElementById(infoPanelElementId);
+
         tags = newTags;
+        tagNames = Object.keys(tags);
 
+        infopanelDiv.innerHTML = ""; // empty element if resetting
+        infopanelDiv.appendChild(infoPanelMetaContainer);
+        infopanelDiv.appendChild(infoPanelButtons);
 
-        var outerDiv, innerDiv;
-
-        for (var key in tags) {
-            outerDiv = document.createElement('div');
-            outerDiv.innerHTML = key + ': ';
-
-            innerDiv = document.createElement('div');
-            innerDiv.className = key + ' infoInstance';
-
-            outerDiv.appendChild(innerDiv);
-            infoDiv.appendChild(outerDiv);
-        }
-
-        infopanelDiv.appendChild(cloneForPanel(infoDiv));
-        
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';
         infopanelDiv.style.visibility = 'hidden';
-
     },
 
     updateInfo: function(activePoint) {
@@ -132,7 +128,7 @@ var InfoOverlay = module.exports = {
     onClickOnPoint: function(activePoint) {
         var point = Data.getPoint(activePoint);
         activeHref = Data.getUrl(activePoint);
-        updateDiv(infopanelDiv, point);
+        updateDiv(infoPanelMetaContainer, point);
         infopanelDiv.style.visibility = 'visible';
     },
 
@@ -140,12 +136,7 @@ var InfoOverlay = module.exports = {
         downloadSound(activeHref);
     },
 
-    onClickOnPlayLink: function () {
-        playSound(activeHref);
+    onClickOnPlayLink: onClickOnPlayLink,
 
-    },
-
-    onClickOnDownloadLink: function () {
-        downloadSound(activeHref);
-    }
+    onClickOnDownloadLink: onClickOnDownloadLink
 };

@@ -15,11 +15,16 @@ function startApp(pointData) {
     Data.loadData(pointData);
     Visualizer = new Visualizer();
     Visualizer.init();
-    FilterOverlay = new FilterOverlay(Data, Visualizer.setFilter, Config, changeDataSet); // eslint-disable-line no-new
+    FilterOverlay = new FilterOverlay({
+        data: Data,
+        filterFunction: Visualizer.setFilter,
+        configDAO: Config,
+        changeDataSetFunction: changeDataSet
+    });
 }
 
 function changeDataSet(dataset) {
-    Config.loadDataSetJSON(dataset).then(function(json){
+    Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);
         FilterOverlay.reset();
         Visualizer.reset();

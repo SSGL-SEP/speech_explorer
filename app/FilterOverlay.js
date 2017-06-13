@@ -70,8 +70,11 @@ module.exports = function(params) {
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
             scope.changeDataSetFunction(set);
         });
-        console.log(controller);
-        controller.domElement;
+        var opts = controller.domElement.getElementsByTagName('select')[0];
+        console.log(opts);
+        console.log(opts.value);
+        console.log(selectedDataSet);
+        opts.value = selectedDataSet;
 
         var createItem = function(key) {
             var controller = folder.add(tag.values, key);

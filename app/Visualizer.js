@@ -138,14 +138,18 @@ var Visualizer = module.exports = function() {
             } else if (e.keyCode === 83) {
                 if (scope.mode !== 1) {
                     scope.mode = 1;
+                    document.body.style.cursor = 'pointer';
                 } else {
                     scope.mode = 0;
+                    document.body.style.cursor = 'auto';
                 }
             } else if (e.keyCode === 82) {
                 if (scope.mode !== 2) {
                     scope.mode = 2;
+                    document.body.style.cursor = 'no-drop';
                 } else {
                     scope.mode = 0;
+                    document.body.style.cursor = 'auto';
                 }
             }
         };

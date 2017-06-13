@@ -32,7 +32,7 @@ body {
     margin-right: 0;
 }
 
-#info, #active, #infoPanels {
+#info, #active, #infoPanels, #selected {
     font-family: 'Lucida Grande', sans-serif;
     position: absolute;
     right: 0;
@@ -60,6 +60,12 @@ body {
 
 #infoPanels .buttons {
     margin-top: 3px;
+}
+
+#selected {
+    top: 0;
+    left: 50%;
+    width: 220px;
 }
 
 .infoInstance {

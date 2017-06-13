@@ -3,7 +3,7 @@
 var Data = require("./Data");
 var audioPlayer = require("./AudioPlayer");
 
-var infoDiv, activeDiv, infopanelDiv, activeHref, tags;
+var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, tags;
 
 var tagNames = [];
 
@@ -57,6 +57,18 @@ var hideInfoPanels = function() {
     document.getElementById('infoPanels').style.visibility = 'hidden';
 };
 
+var onClickOnDownloadLinkAll = function() {
+
+};
+
+var onClickOnPlayLinkAll = function() {
+
+};
+
+var onCLickOnDeselectAll = function() {
+
+};
+
 /**
  * Creates button elements for the info panel
  * @returns {Element}
@@ -88,16 +100,48 @@ var createInfoPanelButtons = function() {
     return buttons;
 };
 
+var createSelectedPanelButtons = function() {
+    var buttons = document.createElement('div');
+    buttons.className = 'buttons';
+
+    var createButton = function(text, onclick) {
+        var elem = document.createElement('a');
+        elem.innerHTML = text;
+        elem.addEventListener('click', function(event) {
+            event.preventDefault();
+            onclick();
+        });
+        return elem;
+    };
+
+    var download = createButton('Download all', onClickOnDownloadLinkAll);
+    var play = createButton('Play all', onClickOnPlayLinkAll);
+    var deselect = createButton('Deselect all', onCLickOnDeselectAll);
+
+    buttons.appendChild(download);
+    buttons.appendChild(play);
+    buttons.appendChild(deselect);
+
+    return buttons;
+};
+
 var infoPanelMetaContainer = document.createElement('div');
 var infoPanelButtons = createInfoPanelButtons();
-
+var selectedPanelContainer = document.createElement('div');
+var selectedPanelButtons = createSelectedPanelButtons();
 
 module.exports = {
 
-    init: function(activePointsElementId, infoElementId, infoPanelElementId, newTags) {
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
+
+        selectedDiv = document.getElementById(selectedElementId);
+        selectedDiv.innerHTML = "";
+        selectedDiv.appendChild(selectedPanelContainer);
+        selectedDiv.appendChild(selectedPanelButtons);
+        selectedDiv.style.visibility = 'hidden';
 
         tags = newTags;
         tagNames = Object.keys(tags);
@@ -125,6 +169,16 @@ module.exports = {
         activeDiv.innerHTML = activePoints + '/' + totalPoints + ' active';
     },
 
+    resetAndHideSelected: function() {
+        infoPanelMetaContainer.innerHTML = "";
+        selectedDiv.style.visibility = 'hidden';
+    },
+
+    updateSelected: function(selectedAmount) {
+        selectedPanelContainer.innerHTML = selectedAmount + ' selected';
+        selectedDiv.style.visibility = 'visible';
+    },
+
     onClickOnPoint: function(activePoint) {
         var point = Data.getPoint(activePoint);
         activeHref = Data.getUrl(activePoint);
@@ -138,5 +192,12 @@ module.exports = {
 
     onClickOnPlayLink: onClickOnPlayLink,
 
-    onClickOnDownloadLink: onClickOnDownloadLink
+    onClickOnDownloadLink: onClickOnDownloadLink,
+
+    onCLickOnDeselectAll: onCLickOnDeselectAll,
+
+    onClickOnPlayLinkAll: onClickOnPlayLinkAll,
+
+    onClickOnDownloadLinkAll: onClickOnDownloadLinkAll
+
 };

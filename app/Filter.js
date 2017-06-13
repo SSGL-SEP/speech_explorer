@@ -1,6 +1,7 @@
 'use strict';
 
 var Data = require("./Data");
+var InfoOverLay = require("./InfoOverlay");
 var activePoints = [];
 var activeCount = 0;
 var pointGroups = {};
@@ -56,6 +57,11 @@ var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
     }
 };
 
+var clearSelected = function() {
+    selectedPoints.clear();
+    InfoOverLay.resetAndHideSelected();
+};
+
 module.exports = {
     /**
      * (Re-)initializes the filter
@@ -78,6 +84,10 @@ module.exports = {
         return activeCount;
     },
 
+    getSelectedCount: function() {
+        return selectedPoints.size;
+    },
+
     /**
      * Activates a set of points based on the supplied tag name and value.
      *
@@ -86,7 +96,7 @@ module.exports = {
      */
     activatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(1, tagName, tagValue);
-        selectedPoints.clear();
+        clearSelected();
         calculateActivePoints();
     },
 
@@ -98,7 +108,7 @@ module.exports = {
      */
     deactivatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(0, tagName, tagValue);
-        selectedPoints.clear();
+        clearSelected();
         calculateActivePoints();
     },
 
@@ -128,13 +138,13 @@ module.exports = {
 
     clearAll: function() {
         initializeGroups(0);
-        selectedPoints.clear();
+        clearSelected();
         calculateActivePoints();
     },
 
     selectAll: function() {
         initializeGroups(1);
-        selectedPoints.clear();
+        clearSelected();
         calculateActivePoints();
     }
 };

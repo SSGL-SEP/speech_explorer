@@ -49,7 +49,7 @@ var Visualizer = module.exports = function() {
         this.cloudSize2D = 1.5;
         this.createCloud();
         this.resetZoomAndPan();
-        InfoOverlay.init('active', 'info', 'infoPanels', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
         Filter.init(this.pointCloud.getAttributes().enabled.array);
         updateActiveCountDisplay();
         this.update(true);
@@ -188,7 +188,6 @@ var Visualizer = module.exports = function() {
         var mod = this.mode;
         if (intersectingPoints.length > 0) {
             var changed = false;
-            console.log("drawing - mode: ", mod)
             if (mod === 1) {
                 changed = Filter.selectPoints(intersectingPoints);
             }
@@ -198,6 +197,12 @@ var Visualizer = module.exports = function() {
 
             if (changed) {
                 this.update(true);
+                var selectedAmount = Filter.getSelectedCount();
+                if (selectedAmount === 0) {
+                    InfoOverlay.hideSelected();
+                } else {
+                    InfoOverlay.updateSelected(Filter.getSelectedCount());
+                }
             }
 
             if (this.activePoint !== intersectingPoints[0].index) {
@@ -221,7 +226,6 @@ var Visualizer = module.exports = function() {
             this.activePoint = null;
             InfoOverlay.hideInfo();//hides infodiv with sound information
         }
-
         this.renderer.render(this.scene, this.camera);
     };
 

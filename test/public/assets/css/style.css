@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#page {
+    position: relative;
+}
+
+#overlay {
+    position: absolute;
+    top: 27px;
+    left: 0;
+}
+
+.dg.main.taller-than-window .close-button.close-bottom {
+    /* fix for FireFox */
+    position: fixed;
+}
+
+.dg .save-row select {
+    margin-left: 5px;
+    width: 55px;
+    font-size: 9px;
+    padding: 0;
+    border-radius: 0;
+    border: 0 solid #000;
+}
+
+.dg.a.main {
+    margin-right: 0;
+}
+
+#info, #active, #infoPanels, #selected {
+    font-family: 'Lucida Grande', sans-serif;
+    position: absolute;
+    right: 0;
+    color: #fff;
+    width: 175px;
+    font-size: 12px;
+    z-index: 10;
+    display: block;
+    visibility: visible;
+    opacity: 0.8;
+    background-color: #0F0F0F;
+}
+
+#active {
+    top: 0;
+}
+
+#info {
+    top: 13px;
+}
+
+#infoPanels {
+    bottom: 10px;
+}
+
+#infoPanels .buttons {
+    margin-top: 3px;
+}
+
+#selected {
+    top: 0;
+    left: 50%;
+    width: 220px;
+}
+
+.infoInstance {
+    display: inline;
+}
+
+a {
+    color: yellow;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.dg.a .save-row {
+    top: 0;
+    position: fixed;
+    z-index: 1002;
+}

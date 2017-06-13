@@ -6,7 +6,7 @@ var activePoints = [];
 var activeCount = 0;
 var pointGroups = {};
 var totalPoints = 0;
-var selectedPoints = new Set();
+var selectedPoints = new Set(); // jshint ignore:line
 
 
 var calculateActivePoints = function() {
@@ -29,7 +29,7 @@ var calculateActivePoints = function() {
         }
     }
     var arr = Array.from(selectedPoints);
-    for (var i = 0; i < arr.length; i++) {
+    for (i = 0; i < arr.length; i++) {
         activePoints[arr[i]] = 2;
     }
     activeCount = count;

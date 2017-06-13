@@ -4,12 +4,14 @@
       "dataSet": "testdata 168",
       "processingMethod": "T-SNE",
       "totalPoints": 168,
-      "src": "data/testdata168.json"
+      "dataSrc": "data/testdata168.json",
+      "audioSrc": "phonemes/"
     },{	
       "dataSet": "testdata 13",
       "processingMethod": "T-SNE",
       "totalPoints": 13,
-      "src": "data/testdata.json"
+      "dataSrc": "data/testdata.json",
+      "audioSrc": "phonemes/"
     }
   ],
   "defaultSet": 0

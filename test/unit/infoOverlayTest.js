@@ -4,7 +4,7 @@ const {expect} = require('chai');
 const InfoOverlay = require(appDir + "/app/InfoOverlay");
 const Data = require(appDir + "/app/Data");
 
-const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div></div>';
+const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
 
 describe('InfoOverlay', function() {
 
@@ -13,7 +13,7 @@ describe('InfoOverlay', function() {
         this.jsdom = require('jsdom-global')(html);
 
         Data.loadData(json);
-        InfoOverlay.init('active', 'info', 'infoPanels', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
 
     });
 
@@ -119,7 +119,7 @@ describe('InfoOverlay', function() {
         this.jsdom = require('jsdom-global')(html);
 
         Data.loadData(json);
-        InfoOverlay.init('active', 'info', 'infoPanels', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
     });
 
     after(function() {

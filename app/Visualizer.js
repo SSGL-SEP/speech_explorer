@@ -24,6 +24,7 @@ var Visualizer = module.exports = function() {
     this.resizeTimer = null;
     this.pointSize = 2;
     this.cloudSize2D = 1.5;
+    this.mode = 0;
     // ---------------------
 
     this.activePoint = null;
@@ -52,6 +53,7 @@ var Visualizer = module.exports = function() {
         Filter.init(this.pointCloud.getAttributes().enabled.array);
         updateActiveCountDisplay();
         this.update(true);
+        this.mode = 0;
     };
 
     this.createEnvironment = function() {
@@ -120,6 +122,7 @@ var Visualizer = module.exports = function() {
     };
 
     this.createListeners = function() {
+        var scope = this;
         Events.createInfoBoxListener(InfoOverlay);
 
         window.addEventListener("resize", Events.resize);
@@ -129,13 +132,26 @@ var Visualizer = module.exports = function() {
 
         document.addEventListener('mousemove', this.onDocumentMouseMove);
 
-        var pressedDForDownload = function(e) {
+        var keyPress = function(e) {
             if (e.keyCode === 68) {
                 InfoOverlay.onDownloadHotkey(scope.activePoint);
+            } else if (e.keyCode === 83) {
+                if (scope.mode !== 1) {
+                    scope.mode = 1;
+                } else {
+                    scope.mode = 0;
+                }
+            } else if (e.keyCode === 82) {
+                if (scope.mode !== 2) {
+                    scope.mode = 2;
+                } else {
+                    scope.mode = 0;
+                }
             }
         };
 
-        window.addEventListener('keyup', pressedDForDownload);
+
+        window.addEventListener('keyup', keyPress);
     };
 
     this.setFilter = function(params) {
@@ -165,9 +181,20 @@ var Visualizer = module.exports = function() {
         var attributes = this.pointCloud.getAttributes();
         var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
-
+        var selected = [];
+        var mod = this.mode;
         if (intersectingPoints.length > 0) {
-
+            console.log("drawing - mode: ", mod)
+            if (mod === 1) {
+                selected.push(intersectingPoints);
+                Filter.selectPoints(selected);
+                console.log("selected", selected);
+            }
+            if (mod === 2) {
+                selected.push(intersectingPoints);
+                Filter.deselectPoints(selected);
+                console.log("deselected", selected);
+            }
             if (this.activePoint !== intersectingPoints[0].index) {
                 attributes.customSize.array[this.activePoint] = 0;
                 // Reset z-position back to 0

@@ -6,9 +6,12 @@ var activeCount = 0;
 var pointGroups = {};
 var totalPoints = 0;
 
+
 var calculateActivePoints = function() {
     var groups = Object.keys(pointGroups);
-    var i, j, val, count = 0;
+    var i, j, val;
+    var count = 0;
+    // val: 0 = inactive, 1 = active, 2 = selected
     for (i = 0; i < totalPoints; i++) {
         val = 1;
         for (j = 0; j < groups.length; j++) {
@@ -18,7 +21,7 @@ var calculateActivePoints = function() {
             }
         }
         activePoints[i] = val;
-        if (val === 1) {
+        if (val === 1 || val === 2) {
             count++;
         }
     }
@@ -90,6 +93,26 @@ module.exports = {
     deactivatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(0, tagName, tagValue);
         calculateActivePoints();
+    },
+
+    selectPoint: function(index) {
+        activePoints[index] = 2;
+    },
+
+    selectPoints: function(indexes) {
+        for (var i = 0; i < indexes.length; i++) {
+            activePoints[i] = 2;
+        }
+    },
+
+    deselectPoint: function(index) {
+        activePoints[index] = 1;
+    },
+
+    deselectPoints: function(indexes) {
+        for (var i = 0; i < indexes.length; i++) {
+            activePoints[i] = 1;
+        }
     },
 
     clearAll: function() {

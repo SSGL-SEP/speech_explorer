@@ -39,7 +39,7 @@ var Preloader = module.exports = function() {
         context.decodeAudioData(buffer, function(res) {
             loaded++;
             if(loaded === Data.getTotalPoints())
-                console.log('hep')
+                console.log('hep');
             audioSource.buffer = res;
             audioSource.playbackRate.value = 1; // unneeded?
             sounds[soundIndex] = audioSource;

@@ -9,11 +9,15 @@ var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
 var ConfigDAO = require("./ConfigDAO");
 var Config = new ConfigDAO();
+var AudioPlayer = require('./AudioPlayer');
+var Preloader = require("./Preloader");
+Preloader = new Preloader();
 
 
 function startApp(pointData) {
     Data.setConfig(Config);
     Data.loadData(pointData);
+    AudioPlayer.loadSounds(Preloader.loadSounds('audio/phoneme/concatenated_sounds.blob'));
     Visualizer = new Visualizer();
     Visualizer.init();
     FilterOverlay = new FilterOverlay({

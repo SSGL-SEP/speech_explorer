@@ -180,7 +180,7 @@ var Visualizer = module.exports = function() {
                 attributes.position.needsUpdate = true;
                 attributes.customSize.needsUpdate = true;
                 InfoOverlay.updateInfo(this.activePoint);
-                playSound(Data.getUrl(this.activePoint)); // TODO: move to a better location
+                AudioPlayer.playSound(this.activePoint); // TODO: move to a better location
             }
         } else if (this.activePoint !== null) {
             attributes.customSize.array[this.activePoint] = 0;
@@ -217,9 +217,6 @@ var Visualizer = module.exports = function() {
         InfoOverlay.updateActive(Data.getTotalPoints(), Filter.getActiveCount());
     };
 
-    var playSound = function(path) {
-        AudioPlayer.play(path);
-    };
 
 
     this.animate = function() {

@@ -20,7 +20,8 @@ module.exports = function(grunt) {
                 strict: true,
                 loopfunc: true,
                 globals: {
-                    "Map": false
+                    "Map": false,
+                    "AudioContext": false
                 }
             },
             app: ['app/**/*.js'],

@@ -1,22 +1,16 @@
 'use strict';
 
+var sounds = [];
+var soundIndex = 0;
+var context = new AudioContext();
+
 var Preloader = module.exports = function() {
 
-    function loadSounds() {
-        var sounds = [];
-        var soundIndex = 0;
-        var request = new XMLHttpRequest();
-
-        request.open('GET', 'concatenated_file.mp3', true);
-        request.responseType = 'arraybuffer';
-
-        request.onload = function() {
-            processConcatenatedFile(request.response);
-        }
-
-        request.send();
-
-        return sounds;
+    function extractBuffer(src, offset, length) {
+        var dstU8 = new Uint8Array(length);
+        var srcU8 = new Uint8Array(src, offset, length);
+        dstU8.set(srcU8);
+        return dstU8;
     }
 
     function processConcatenatedFile(data) {
@@ -31,20 +25,12 @@ var Preloader = module.exports = function() {
             createSoundWithBuffer(sound.buffer, soundIndex);
             soundIndex++;
         }
+        console.log('audio loaded!');
     }
-
-    function extractBuffer(src, offset, length) {
-        var dstU8 = new Uint8Array(length);
-        var srcU8 = new Uint8Array(src, offset, length);
-        dstU8.set(srcU8);
-        return dstU8;
-    }
-
     function createSoundWithBuffer(buffer, soundIndex) {
         /*
           This audio context is unprefixed!
         */
-        var context = new AudioContext();
         var audioSource = context.createBufferSource();
         audioSource.connect(context.destination);
 
@@ -52,7 +38,25 @@ var Preloader = module.exports = function() {
             audioSource.buffer = res;
             audioSource.playbackRate.value = 1; // unneeded?
             sounds[soundIndex] = audioSource;
-            audioSource.noteOn(0); // deprecated use .start(0)
+            //audioSource.noteOn(0); // deprecated use .start(0)
         });
     }
+
+    this.loadSounds = function(filename) {
+        var request = new XMLHttpRequest();
+
+        request.open('GET', filename, true);
+        request.responseType = 'arraybuffer';
+
+        request.onload = function() {
+            processConcatenatedFile(request.response);
+        };
+        request.onprogress = function(e) {
+            console.log(e.loaded * 100 / e.total);
+        };
+
+        request.send();
+
+        return sounds;
+    };
 };

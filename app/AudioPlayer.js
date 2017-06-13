@@ -1,19 +1,18 @@
 'use strict';
 
+var sounds = [];
+
 var AudioPlayer = module.exports = {
 
-	audioFile: null,
+    loadSounds: function(array) {
+        sounds = array;
+    },
 
-	play: function(path) {
-
-		if (this.audioFile !== null) {
-			this.audioFile.pause();
-			this.audioFile.startTime = 0;
-		}
-
-		this.audioFile = new Audio(path);
-		this.audioFile.play().catch(function() {
-			//whatever
-		});
-	}
+    playSound: function(index) {
+        var context = sounds[index].context;
+        var source = context.createBufferSource();
+        source.buffer = sounds[index].buffer;
+        source.connect(context.destination);
+        source.start(0);
+    }
 };

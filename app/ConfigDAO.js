@@ -23,7 +23,7 @@ var ConfigDAO = module.exports = function(config) {
 
     this.findDataSet = function(datasetName) {
         for (var i = 0; i < scope.config.dataSets.length; i++) {
-            if (scope.config.dataSets[i].dataSet === datasetName) {
+            if (scope.config.dataSets[i].displayName === datasetName) {
                 return scope.config.dataSets[i];
             }
         }
@@ -41,25 +41,24 @@ var ConfigDAO = module.exports = function(config) {
     this.findAllDataSetNames = function() {
         var allNames = [];
         for (var i = 0; i < scope.config.dataSets.length; i++) {
-            allNames.push(scope.config.dataSets[i].dataSet);
+            allNames.push(scope.config.dataSets[i].displayName);
         }
         return allNames;
     };
 
     this.findDefaultDataSetName = function(){
-        return scope.config.dataSets[scope.config.defaultSet].dataSet;
+        return scope.config.dataSets[scope.config.defaultSet].displayName;
     };
 
     this.findAudioSource = function(dataSetName){
         var set = this.findDataSet(dataSetName);
-        console.log(set.audioSrc);
         return set.audioSrc;
     };
 
     this.getAudioSrc = function(dataSetName) {
-        if(dataSetName.startsWith("syllable")) {
-            return "syllables/";
-        }
+        // if(dataSetName.startsWith("syllable")) {
+        //     return "syllables/";
+        // }
 
         for (var i = 0; i < this.config.dataSets.length; i++) {
             var set = this.config.dataSets[i];

@@ -15,10 +15,10 @@ module.exports = function(params) {
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
 
-    this.Init = function() {
+    this.Init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
         this.createDatasets();
-        this.createGUI();
+        this.createGUI(selectedDataSet);
         this.filterFunction({
             selectAll: true
         });
@@ -40,13 +40,20 @@ module.exports = function(params) {
                     key: folder,
                     values: {}
                 };
-
+                var keys = Object.keys(this.tags[folder]);
+                for(var j = 0; j<keys.length; j++){
+                    if (!keys[j].startsWith("__")) {
+                        boolObj.values[keys[j]] = true;
+                    }
+                }
+                /*
                 for (var tag in this.tags[folder]) {
                     if (!tag.startsWith("__")) {
                         boolObj.values[tag] = true;
                     }
 
                 }
+                */
                 this.boolTags.push(boolObj);
             }
 
@@ -57,12 +64,14 @@ module.exports = function(params) {
         this.dataset.Dataset = this.Config.findAllDataSetNames();
     };
 
-    this.createGUI = function() {
+    this.createGUI = function(selectedDataSet) {
         this.gui = new dat.GUI({width: 265});
         this.datasetFolder = this.gui.addFolder("Dataset");
-        this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
+        var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
             scope.changeDataSetFunction(set);
         });
+        console.log(controller);
+        controller.domElement;
 
         var createItem = function(key) {
             var controller = folder.add(tag.values, key);
@@ -148,5 +157,5 @@ module.exports = function(params) {
         }
     };
 
-    this.Init();
+    this.Init(this.Config.findDefaultDataSetName());
 };

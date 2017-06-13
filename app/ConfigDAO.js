@@ -46,6 +46,10 @@ var ConfigDAO = module.exports = function(config) {
         return allNames;
     };
 
+    this.findDefaultDataSetName = function(){
+        return scope.config.dataSets[scope.config.defaultSet].defaultSet;
+    }
+
     this.getAudioSrc = function(dataSetName) {
         for (var i = 0; i < this.config.dataSets.length; i++) {
             var set = this.config.dataSets[i];

@@ -3,6 +3,8 @@
 var sounds = [];
 var soundIndex = 0;
 var context = new AudioContext();
+var loaded = 0;
+var Data = require('./Data');
 
 var Preloader = module.exports = function() {
 
@@ -35,6 +37,9 @@ var Preloader = module.exports = function() {
         audioSource.connect(context.destination);
 
         context.decodeAudioData(buffer, function(res) {
+            loaded++;
+            if(loaded === Data.getTotalPoints())
+                console.log('hep')
             audioSource.buffer = res;
             audioSource.playbackRate.value = 1; // unneeded?
             sounds[soundIndex] = audioSource;

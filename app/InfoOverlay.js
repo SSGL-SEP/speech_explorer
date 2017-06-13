@@ -1,7 +1,7 @@
 'use strict';
 
 var Data = require("./Data");
-var audioPlayer = require("./AudioPlayer");
+var AudioPlayer = require("./AudioPlayer");
 
 var infoDiv, activeDiv, infopanelDiv, activeHref, tags;
 
@@ -29,7 +29,8 @@ var updateDiv = function(targetElement, point) {
 
 // Toistaa äänitiedoston
 var playSound = function(href) {
-    audioPlayer.play(href);
+    // audioPlayer.play(href);
+    AudioPlayer.playSounds([4, 123, 1298, 2, 0, 4, 123, 1298]);
 };
 
 //Lataa äänitiedoston

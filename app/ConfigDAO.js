@@ -48,7 +48,13 @@ var ConfigDAO = module.exports = function(config) {
 
     this.findDefaultDataSetName = function(){
         return scope.config.dataSets[scope.config.defaultSet].dataSet;
-    }
+    };
+
+    this.findAudioSource = function(dataSetName){
+        var set = this.findDataSet(dataSetName);
+        console.log(set.audioSrc);
+        return set.audioSrc;
+    };
 
     this.getAudioSrc = function(dataSetName) {
         if(dataSetName.startsWith("syllable")) {

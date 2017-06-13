@@ -9,6 +9,7 @@ module.exports = function(params) {
     this.tags = data.getTags();
 
     this.dataset = {Dataset: []};
+    this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
     this.Config = params.configDAO;
@@ -29,6 +30,7 @@ module.exports = function(params) {
         scope.boolTags = [];
         scope.dataset = {Dataset: []};
         var overlay = document.getElementById('overlay');
+        this.selectedDataSet = null;
         overlay.innerHTML = '';
     };
 
@@ -46,14 +48,6 @@ module.exports = function(params) {
                         boolObj.values[keys[j]] = true;
                     }
                 }
-                /*
-                for (var tag in this.tags[folder]) {
-                    if (!tag.startsWith("__")) {
-                        boolObj.values[tag] = true;
-                    }
-
-                }
-                */
                 this.boolTags.push(boolObj);
             }
 
@@ -65,16 +59,19 @@ module.exports = function(params) {
     };
 
     this.createGUI = function(selectedDataSet) {
+        //always use localstorage;
+        localStorage.setItem(document.location.href + '.' + 'isLocal', true);
+        this.selectedDataSet = selectedDataSet;
         this.gui = new dat.GUI({width: 265});
         this.datasetFolder = this.gui.addFolder("Dataset");
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
+            if(scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()){
+                localStorage.clear();
+            }            
             scope.changeDataSetFunction(set);
         });
         var opts = controller.domElement.getElementsByTagName('select')[0];
-        console.log(opts);
-        console.log(opts.value);
-        console.log(selectedDataSet);
-        opts.value = selectedDataSet;
+        opts.value = this.selectedDataSet;
 
         var createItem = function(key) {
             var controller = folder.add(tag.values, key);

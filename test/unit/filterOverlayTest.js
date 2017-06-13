@@ -1,5 +1,7 @@
 var appDir = require('app-root-path');
 var assert = require('assert');
+var LocalStorage = require('node-localstorage').LocalStorage;
+
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
 
 describe('FilterOverlay', function() {
@@ -9,6 +11,9 @@ describe('FilterOverlay', function() {
         var ConfigMock = {
             findAllDataSetNames: function() {
                 return ["testdata"];
+            },
+            findDefaultDataSetName: function(){
+                return "testdata";
             }
         };
         var filterFunctionMock = function(filter){
@@ -20,6 +25,9 @@ describe('FilterOverlay', function() {
         };
 
         this.jsdom = require('jsdom-global')('<!DOCTYPE html><div id="overlay"></div>');
+        global.localStorage = new LocalStorage('mockstorage');
+        global.window = document.defaultView;
+        global.window.localStorage = global.localStorage;
         var Data = require(appDir + "/app/Data");
         var json = require(appDir + '/test/testdata.json');
 

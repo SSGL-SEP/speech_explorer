@@ -5,25 +5,31 @@ var activePoints = [];
 var activeCount = 0;
 var pointGroups = {};
 var totalPoints = 0;
+var selectedPoints = new Set();
 
 
 var calculateActivePoints = function() {
     var groups = Object.keys(pointGroups);
-    var i, j, val;
+    var val;
     var count = 0;
     // val: 0 = inactive, 1 = active, 2 = selected
-    for (i = 0; i < totalPoints; i++) {
+    for (var i = 0; i < totalPoints; i++) {
         val = 1;
-        for (j = 0; j < groups.length; j++) {
+        for (var j = 0; j < groups.length; j++) {
             if (pointGroups[groups[j]][i] === 0) {
                 val = 0;
                 break;
             }
         }
         activePoints[i] = val;
+
         if (val === 1 || val === 2) {
             count++;
         }
+    }
+    var arr = Array.from(selectedPoints);
+    for (var i = 0; i < arr.length; i++) {
+        activePoints[arr[i]] = 2;
     }
     activeCount = count;
 };
@@ -45,8 +51,7 @@ var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
     var tagData = Data.getTag(tagName);
     var tagPoints = tagData[tagValue].points;
 
-    var i;
-    for (i = 0; i < tagPoints.length; i++) {
+    for (var i = 0; i < tagPoints.length; i++) {
         pointGroups[tagName][tagPoints[i]] = newValue;
     }
 };
@@ -81,6 +86,7 @@ module.exports = {
      */
     activatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(1, tagName, tagValue);
+        selectedPoints.clear();
         calculateActivePoints();
     },
 
@@ -92,36 +98,43 @@ module.exports = {
      */
     deactivatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(0, tagName, tagValue);
+        selectedPoints.clear();
         calculateActivePoints();
     },
 
-    selectPoint: function(index) {
-        activePoints[index] = 2;
-    },
-
     selectPoints: function(indexes) {
+        var changed = false;
         for (var i = 0; i < indexes.length; i++) {
-            activePoints[i] = 2;
+            if (activePoints[indexes[i].index] !== 2) {
+                changed = true;
+            }
+            selectedPoints.add(indexes[i].index);
         }
-    },
-
-    deselectPoint: function(index) {
-        activePoints[index] = 1;
+        calculateActivePoints();
+        return changed;
     },
 
     deselectPoints: function(indexes) {
+        var changed = false;
         for (var i = 0; i < indexes.length; i++) {
-            activePoints[i] = 1;
+            if (activePoints[indexes[i].index] === 2) {
+                changed = true;
+            }
+            selectedPoints.delete(indexes[i].index);
         }
+        calculateActivePoints();
+        return changed;
     },
 
     clearAll: function() {
         initializeGroups(0);
+        selectedPoints.clear();
         calculateActivePoints();
     },
 
     selectAll: function() {
         initializeGroups(1);
+        selectedPoints.clear();
         calculateActivePoints();
     }
 };

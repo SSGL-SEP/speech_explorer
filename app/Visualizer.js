@@ -181,20 +181,21 @@ var Visualizer = module.exports = function() {
         var attributes = this.pointCloud.getAttributes();
         var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
-        var selected = [];
         var mod = this.mode;
         if (intersectingPoints.length > 0) {
+            var changed = false;
             console.log("drawing - mode: ", mod)
             if (mod === 1) {
-                selected.push(intersectingPoints);
-                Filter.selectPoints(selected);
-                console.log("selected", selected);
+                changed = Filter.selectPoints(intersectingPoints);
             }
             if (mod === 2) {
-                selected.push(intersectingPoints);
-                Filter.deselectPoints(selected);
-                console.log("deselected", selected);
+                changed = Filter.deselectPoints(intersectingPoints);
             }
+
+            if (changed) {
+                this.update(true);
+            }
+
             if (this.activePoint !== intersectingPoints[0].index) {
                 attributes.customSize.array[this.activePoint] = 0;
                 // Reset z-position back to 0

@@ -4,7 +4,7 @@ var sounds = [];
 var soundIndex = 0;
 var context = new AudioContext();
 var loaded = 0;
-var Data = require('./Data');
+var toLoad = 0;
 
 var Preloader = module.exports = function() {
 
@@ -38,19 +38,19 @@ var Preloader = module.exports = function() {
 
         context.decodeAudioData(buffer, function(res) {
             loaded++;
-            if(loaded === Data.getTotalPoints()) {
+            if (loaded === toLoad) {
                 console.log('hep');
                 callback();
             }
             audioSource.buffer = res;
             audioSource.playbackRate.value = 1; // unneeded?
             sounds[soundIndex] = audioSource;
-            //audioSource.noteOn(0); // deprecated use .start(0)
         });
     }
 
-    this.loadSounds = function(filename, callback) {
+    this.loadSounds = function(filename, totalPoints, callback) {
         var request = new XMLHttpRequest();
+        toLoad = totalPoints;
 
         request.open('GET', filename, true);
         request.responseType = 'arraybuffer';
@@ -65,7 +65,5 @@ var Preloader = module.exports = function() {
         };
 
         request.send();
-
-        //return sounds;
     };
 };

@@ -7,6 +7,7 @@ var playingEnabled = true;
 var playSound = function(index) {
     if (current) {
         current.stop(0);
+        current = null;
     }
     var context = sounds[index].context;
     var source = context.createBufferSource();

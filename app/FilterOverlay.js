@@ -104,8 +104,8 @@ module.exports = function(params) {
             }
             // console.log(tag.values);
             //console.log(scope.boolTags);
-            // scope.gui.remember(tag.values);
-            // console.log(scope.gui.getSaveObject());
+            scope.gui.remember(tag.values);
+            console.log(scope.gui.__rememberedObjects);
             
         };
 

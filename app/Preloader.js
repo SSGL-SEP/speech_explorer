@@ -34,21 +34,24 @@ var Preloader = module.exports = function() {
           This audio context is unprefixed!
         */
         var audioSource = context.createBufferSource();
-        audioSource.connect(context.destination); // why? unneeded?
 
         context.decodeAudioData(buffer, function(res) {
             loaded++;
             if (loaded === toLoad) {
-                console.log('hep');
                 callback();
             }
+            if(loaded % 1000 === 0) {
+                console.log(loaded + ' audio samples loaded');
+            }
             audioSource.buffer = res;
-            audioSource.playbackRate.value = 1; // unneeded?
             sounds[soundIndex] = audioSource;
         });
     }
 
     this.loadSounds = function(filename, totalPoints, callback) {
+        sounds = [];
+        soundIndex = 0;
+        loaded = 0;
         var request = new XMLHttpRequest();
         toLoad = totalPoints;
 

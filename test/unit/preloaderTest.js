@@ -8,7 +8,7 @@ describe('Preloader', function() {
 
     before(function() {
         Preloader = require(appDir + "/app/Preloader");
-        audio = require(appDir + "/test/public/audio/testblob");
+        testAudio = require(appDir + "/test/testblob");
     });
 
     after(function() {
@@ -25,8 +25,9 @@ describe('Preloader', function() {
 
 
     describe('#loadSounds', function() {
-        it('should return an array with length x', function() {
-            assert(Data.getTotalPoints() === 13);
+        it('should return an array with length 13', function() {
+            var soundArray = Preloader.loadSounds(testAudio);
+            assert(soundArray.length() === 13);
         });
     });
 });

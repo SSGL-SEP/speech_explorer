@@ -2,7 +2,7 @@
 
 var Data = require("./Data");
 var InfoOverLay = require("./InfoOverlay");
-var activePoints = [];
+var pointStates = [];
 var activeCount = 0;
 var pointGroups = {};
 var totalPoints = 0;
@@ -22,7 +22,7 @@ var calculateActivePoints = function() {
                 break;
             }
         }
-        activePoints[i] = val;
+        pointStates[i] = val;
 
         if (val === 1 || val === 2) {
             count++;
@@ -30,7 +30,7 @@ var calculateActivePoints = function() {
     }
     var arr = Array.from(selectedPoints);
     for (i = 0; i < arr.length; i++) {
-        activePoints[arr[i]] = 2;
+        pointStates[arr[i]] = 2;
     }
     activeCount = count;
 };
@@ -58,7 +58,7 @@ var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
 };
 
 var clearSelected = function() {
-    selectedPoints.clear();
+    selectedPoints = new Set(); // jshint ignore:line
     InfoOverLay.resetAndHideSelected();
 };
 
@@ -71,13 +71,14 @@ module.exports = {
     init: function(activationStatusArray) {
         totalPoints = activationStatusArray.length || Data.getTotalPoints();
         pointGroups = {};
-        activePoints = activationStatusArray || [];
+        pointStates = activationStatusArray || [];
+        clearSelected();
         initializeGroups(1);
         calculateActivePoints();
     },
 
-    getActivePoints: function() {
-        return activePoints;
+    getPointStates: function() {
+        return pointStates;
     },
 
     getActiveCount: function() {
@@ -115,7 +116,7 @@ module.exports = {
     selectPoints: function(indexes) {
         var changed = false;
         for (var i = 0; i < indexes.length; i++) {
-            if (activePoints[indexes[i].index] !== 2) {
+            if (pointStates[indexes[i].index] !== 2) {
                 changed = true;
             }
             selectedPoints.add(indexes[i].index);
@@ -127,7 +128,7 @@ module.exports = {
     deselectPoints: function(indexes) {
         var changed = false;
         for (var i = 0; i < indexes.length; i++) {
-            if (activePoints[indexes[i].index] === 2) {
+            if (pointStates[indexes[i].index] === 2) {
                 changed = true;
             }
             selectedPoints.delete(indexes[i].index);
@@ -146,5 +147,9 @@ module.exports = {
         initializeGroups(1);
         clearSelected();
         calculateActivePoints();
+    },
+
+    getSelected: function() {
+        return selectedPoints;
     }
 };

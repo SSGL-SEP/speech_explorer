@@ -55,6 +55,13 @@
       "totalPoints": 50000,
       "dataSrc": "data/ns50000_noindent.json",
       "audioSrc": "phonemes/"
+    },
+    {
+      "dataSet": "testdata",
+      "processingMethod": "T-SNE",
+      "totalPoints": 13,
+      "dataSrc": "data/testdata.json",
+      "audioSrc": ""
     }
   ],
   "defaultSet": 0

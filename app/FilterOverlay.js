@@ -8,7 +8,7 @@ module.exports = function(params) {
     this.boolTags = [];
     this.tags = data.getTags();
 
-    this.dataset = {Dataset: []};
+    this.dataset = { Dataset: [] };
     this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
@@ -21,16 +21,14 @@ module.exports = function(params) {
         this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI(selectedDataSet);
-        this.filterFunction({
-            selectAll: true
-        });
-        //updateAll();
+        //this.filterFunction({ selectAll: true });
+        this.initFilter();
     };
 
     this.reset = function() {
         scope.tags = data.getTags();
         scope.boolTags = [];
-        scope.dataset = {Dataset: []};
+        scope.dataset = { Dataset: [] };
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
         overlay.innerHTML = '';
@@ -42,14 +40,14 @@ module.exports = function(params) {
 
     this.createBoolArray = function() {
         var folders = Object.keys(this.tags).sort();
-        for (var i = 0; i<folders.length; i++) {
+        for (var i = 0; i < folders.length; i++) {
             if (this.tags[folders[i]].__filterable) {
                 var boolObj = {
                     key: folders[i],
                     values: {}
                 };
                 var keys = Object.keys(this.tags[folders[i]]).sort();
-                for(var j = 0; j<keys.length; j++){
+                for (var j = 0; j < keys.length; j++) {
                     if (!keys[j].startsWith("__")) {
                         boolObj.values[keys[j]] = true;
                     }
@@ -68,45 +66,42 @@ module.exports = function(params) {
         //always use localstorage;
         localStorage.setItem(document.location.href + '.' + 'isLocal', true);
         this.selectedDataSet = selectedDataSet;
-        this.gui = new dat.GUI({width: 265});
+        this.gui = new dat.GUI({ width: 265 });
         this.datasetFolder = this.gui.addFolder("Dataset");
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
-            if(scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()){
+            if (scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()) {
                 localStorage.clear();
                 scope.newSet = true;
-            }else{
+            } else {
                 scope.newSet = false;
             }
-            // console.log(localStorage);            
             scope.changeDataSetFunction(set);
         });
-        // console.log(this.selectedDataSet);
+
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
 
         var createItem = function(key) {
+            //important: first remember, then add!
+            scope.gui.remember(tag.values);
             var controller = folder.add(tag.values, key);
             controller.listen()
                 .onChange(
-                    (function(tagKey) {
-                        return function(boxIsChecked) {
-                            scope.filterFunction({
-                                tagName: tagKey,
-                                tagValue: this.property,
-                                addPoints: boxIsChecked
-                            });
-                        };
-                    })(tag.key)
+                (function(tagKey) {
+                    return function(boxIsChecked) {
+                        scope.filterFunction({
+                            tagName: tagKey,
+                            tagValue: this.property,
+                            addPoints: boxIsChecked
+                        });
+                    };
+                })(tag.key)
                 );
             if (data.getTagColor(key)) {
                 controller.borderColor(data.getTagColor(key))
                     .borderWidth(10);
             }
-            // console.log(tag.values);
-            //console.log(scope.boolTags);
-            scope.gui.remember(tag.values);
-            console.log(scope.gui.__rememberedObjects);
-            
+
         };
 
         this.filterFolder = this.gui.addFolder("Filter");
@@ -114,13 +109,11 @@ module.exports = function(params) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
             var keys = Object.keys(tag.values);
-            for(var j = 0; j < keys.length; j++){
+            for (var j = 0; j < keys.length; j++) {
                 createItem(keys[j]);
             }
-            // console.log(tag);
-            
+
         }
-        //this.gui.remember(this.boolTags);
 
         var select = this.selectButton;
         var clear = this.clearAllButton;
@@ -128,16 +121,14 @@ module.exports = function(params) {
         this.filterFolder.add(select, 'SelectAll');
         var element = document.getElementById('overlay');
         element.appendChild(this.gui.domElement);
-        // console.log(this.boolTags);
-
     };
 
     var updateAll = function(isActive) {
         for (var i = 0; i < scope.boolTags.length; i++) {
             var tag = scope.boolTags[i];
-            
+
             var tagValues = Object.keys(tag.values);
-            for(var j = 0; j < tagValues.length; j++) {
+            for (var j = 0; j < tagValues.length; j++) {
                 tag.values[tagValues[j]] = isActive;
             }
         }
@@ -176,6 +167,22 @@ module.exports = function(params) {
         }
     };
 
+    this.initFilter = function() {
+        for (var i = 0; i < this.boolTags.length; i++) {
+            var tag = this.boolTags[i];
+            var keys = Object.keys(tag.values);
+            for (var j = 0; j < keys.length; j++) {
+                scope.filterFunction({
+                    tagName: tag.key,
+                    tagValue: keys[j],
+                    addPoints: tag.values[keys[j]]
+                });
+            }
+
+        }
+        console.log(this.boolTags);
+    }
+
     this.Init(this.Config.findDefaultDataSetName());
-    this.update();
+
 };

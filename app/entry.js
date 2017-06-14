@@ -17,15 +17,19 @@ Preloader = new Preloader();
 function startApp(pointData) {
     Data.setConfig(Config);
     Data.loadData(pointData);
-    AudioPlayer.loadSounds(Preloader.loadSounds('audio/phoneme/concatenated_sounds.blob'));
-    Visualizer = new Visualizer();
-    Visualizer.init();
-    FilterOverlay = new FilterOverlay({
-        data: Data,
-        filterFunction: Visualizer.setFilter,
-        configDAO: Config,
-        changeDataSetFunction: changeDataSet
+    Preloader.loadSounds('audio/phoneme/concatenated_sounds.blob', function(sounds) {
+        AudioPlayer.loadSounds(sounds);
+
+        Visualizer = new Visualizer();
+        Visualizer.init();
+        FilterOverlay = new FilterOverlay({
+            data: Data,
+            filterFunction: Visualizer.setFilter,
+            configDAO: Config,
+            changeDataSetFunction: changeDataSet
+        });
     });
+
 }
 
 function changeDataSet(dataset) {

@@ -2,6 +2,7 @@
 
 var sounds = [];
 var current = null;
+
 var playSound = function(index) {
 	if (current) {
 		current.stop(0);
@@ -11,8 +12,13 @@ var playSound = function(index) {
 	source.buffer = sounds[index].buffer;
 	source.connect(context.destination);
 	current = source;
+	current.onended = clearCurrent;
 	source.start(0);
 };
+
+var clearCurrent = function(){
+	current = null;
+}
 
 var AudioPlayer = module.exports = {
 

@@ -21,6 +21,7 @@ module.exports = function(grunt) {
                 loopfunc: true,
                 globals: {
                     "Map": false,
+                    "Set": false,
                     "AudioContext": false
                 }
             },

@@ -178,10 +178,6 @@ var Visualizer = module.exports = function() {
             this.pointCloud.setPointSize(this.pointSize);
             this.pointCloud.update();
         }
-        this.draw();
-    };
-
-    this.draw = function() {
         var attributes = this.pointCloud.getAttributes();
         var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
@@ -209,6 +205,10 @@ var Visualizer = module.exports = function() {
             this.activePoint = null;
             InfoOverlay.hideInfo();//hides infodiv with sound information
         }
+        this.draw();
+    };
+
+    this.draw = function() {
         this.renderer.render(this.scene, this.camera);
     };
 

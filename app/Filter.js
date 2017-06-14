@@ -6,7 +6,7 @@ var pointStates = [];
 var activeCount = 0;
 var pointGroups = {};
 var totalPoints = 0;
-var selectedPoints = new Set(); // jshint ignore:line
+var selectedPoints = new Set();
 
 
 var calculateActivePoints = function() {

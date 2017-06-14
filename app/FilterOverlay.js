@@ -1,5 +1,5 @@
 'use strict';
-var dat = require('../lib/dat/build/dat.gui.min.js');
+var dat = require('../lib/dat/build/dat.gui.js');
 
 
 module.exports = function(params) {
@@ -9,19 +9,22 @@ module.exports = function(params) {
     this.tags = data.getTags();
 
     this.dataset = {Dataset: []};
+    this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
     this.Config = params.configDAO;
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
+    this.gui = null;
 
-    this.Init = function() {
+    this.Init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
         this.createDatasets();
-        this.createGUI();
+        this.createGUI(selectedDataSet);
         this.filterFunction({
             selectAll: true
         });
+        //updateAll();
     };
 
     this.reset = function() {
@@ -29,23 +32,27 @@ module.exports = function(params) {
         scope.boolTags = [];
         scope.dataset = {Dataset: []};
         var overlay = document.getElementById('overlay');
+        this.selectedDataSet = null;
         overlay.innerHTML = '';
+        this.filterFolder = null;
+        this.datasetFolder = null;
+        this.gui = null;
     };
 
 
     this.createBoolArray = function() {
-        for (var folder in this.tags) {
-            if (this.tags[folder].__filterable) {
+        var folders = Object.keys(this.tags).sort();
+        for (var i = 0; i<folders.length; i++) {
+            if (this.tags[folders[i]].__filterable) {
                 var boolObj = {
-                    key: folder,
+                    key: folders[i],
                     values: {}
                 };
-
-                for (var tag in this.tags[folder]) {
-                    if (!tag.startsWith("__")) {
-                        boolObj.values[tag] = true;
+                var keys = Object.keys(this.tags[folders[i]]).sort();
+                for(var j = 0; j<keys.length; j++){
+                    if (!keys[j].startsWith("__")) {
+                        boolObj.values[keys[j]] = true;
                     }
-
                 }
                 this.boolTags.push(boolObj);
             }
@@ -54,15 +61,28 @@ module.exports = function(params) {
     };
 
     this.createDatasets = function() {
-        this.dataset.Dataset = this.Config.findAllDataSetNames();
+        this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
     };
 
-    this.createGUI = function() {
+    this.createGUI = function(selectedDataSet) {
+        //always use localstorage;
+        localStorage.setItem(document.location.href + '.' + 'isLocal', true);
+        this.selectedDataSet = selectedDataSet;
         this.gui = new dat.GUI({width: 265});
         this.datasetFolder = this.gui.addFolder("Dataset");
-        this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
+        var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
+            if(scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()){
+                localStorage.clear();
+                scope.newSet = true;
+            }else{
+                scope.newSet = false;
+            }
+            // console.log(localStorage);            
             scope.changeDataSetFunction(set);
         });
+        // console.log(this.selectedDataSet);
+        var opts = controller.domElement.getElementsByTagName('select')[0];
+        opts.value = this.selectedDataSet;
 
         var createItem = function(key) {
             var controller = folder.add(tag.values, key);
@@ -82,7 +102,11 @@ module.exports = function(params) {
                 controller.borderColor(data.getTagColor(key))
                     .borderWidth(10);
             }
-            scope.gui.remember(tag.values);
+            // console.log(tag.values);
+            //console.log(scope.boolTags);
+            // scope.gui.remember(tag.values);
+            // console.log(scope.gui.getSaveObject());
+            
         };
 
         this.filterFolder = this.gui.addFolder("Filter");
@@ -93,7 +117,10 @@ module.exports = function(params) {
             for(var j = 0; j < keys.length; j++){
                 createItem(keys[j]);
             }
+            // console.log(tag);
+            
         }
+        //this.gui.remember(this.boolTags);
 
         var select = this.selectButton;
         var clear = this.clearAllButton;
@@ -101,6 +128,7 @@ module.exports = function(params) {
         this.filterFolder.add(select, 'SelectAll');
         var element = document.getElementById('overlay');
         element.appendChild(this.gui.domElement);
+        // console.log(this.boolTags);
 
     };
 
@@ -148,5 +176,6 @@ module.exports = function(params) {
         }
     };
 
-    this.Init();
+    this.Init(this.Config.findDefaultDataSetName());
+    this.update();
 };

@@ -38,7 +38,7 @@ var Preloader = module.exports = function() {
         context.decodeAudioData(buffer, function(res) {
             loaded++;
             if (loaded === toLoad) {
-                callback();
+                return callback();
             }
             if(loaded % 1000 === 0) {
                 console.log(loaded + ' audio samples loaded');

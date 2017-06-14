@@ -34,7 +34,7 @@ var Preloader = module.exports = function() {
           This audio context is unprefixed!
         */
         var audioSource = context.createBufferSource();
-        audioSource.connect(context.destination);
+        audioSource.connect(context.destination); // why? unneeded?
 
         context.decodeAudioData(buffer, function(res) {
             loaded++;

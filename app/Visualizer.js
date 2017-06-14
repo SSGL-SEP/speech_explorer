@@ -133,27 +133,27 @@ var Visualizer = module.exports = function() {
         document.addEventListener('mousemove', this.onDocumentMouseMove);
 
         var keyPress = function(e) {
+            var cursor = 'auto';
+
             if (e.keyCode === 68) {
                 InfoOverlay.onDownloadHotkey(scope.activePoint);
             } else if (e.keyCode === 83) {
                 if (scope.mode !== 1) {
                     scope.mode = 1;
-                    document.body.style.cursor = 'pointer';
+                    cursor = 'pointer';
                 } else {
                     scope.mode = 0;
-                    document.body.style.cursor = 'auto';
                 }
             } else if (e.keyCode === 82) {
                 if (scope.mode !== 2) {
                     scope.mode = 2;
-                    document.body.style.cursor = 'no-drop';
+                    cursor = 'no-drop';
                 } else {
                     scope.mode = 0;
-                    document.body.style.cursor = 'auto';
                 }
             }
+            document.body.style.cursor = cursor;
         };
-
 
         window.addEventListener('keyup', keyPress);
     };
@@ -185,25 +185,8 @@ var Visualizer = module.exports = function() {
         var attributes = this.pointCloud.getAttributes();
         var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
-        var mod = this.mode;
         if (intersectingPoints.length > 0) {
-            var changed = false;
-            if (mod === 1) {
-                changed = Filter.selectPoints(intersectingPoints);
-            }
-            if (mod === 2) {
-                changed = Filter.deselectPoints(intersectingPoints);
-            }
-
-            if (changed) {
-                this.update(true);
-                var selectedAmount = Filter.getSelectedCount();
-                if (selectedAmount === 0) {
-                    InfoOverlay.hideSelected();
-                } else {
-                    InfoOverlay.updateSelected(Filter.getSelectedCount());
-                }
-            }
+            this.updateSelections(intersectingPoints);
 
             if (this.activePoint !== intersectingPoints[0].index) {
                 attributes.customSize.array[this.activePoint] = 0;
@@ -227,6 +210,26 @@ var Visualizer = module.exports = function() {
             InfoOverlay.hideInfo();//hides infodiv with sound information
         }
         this.renderer.render(this.scene, this.camera);
+    };
+
+    this.updateSelections = function(intersectingPoints) {
+        var changed = false;
+        if (this.mode === 1) {
+            changed = Filter.selectPoints(intersectingPoints);
+        }
+        if (this.mode === 2) {
+            changed = Filter.deselectPoints(intersectingPoints);
+        }
+
+        if (changed) {
+            this.update(true);
+            var selectedAmount = Filter.getSelectedCount();
+            if (selectedAmount === 0) {
+                InfoOverlay.resetAndHideSelected();
+            } else {
+                InfoOverlay.updateSelected(Filter.getSelectedCount());
+            }
+        }
     };
 
     var getIntersectingPoints = function(radius) {

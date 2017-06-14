@@ -70,12 +70,12 @@ var onCLickOnDeselectAll = function() {
 };
 
 /**
- * Creates button elements for the info panel
+ * Creates 3 button elements
  * @returns {Element}
  */
-var createInfoPanelButtons = function() {
+var create3Buttons = function (firstName, secondName, thirdName, className, firstFunction, secondFunction, thirdFunction) {
     var buttons = document.createElement('div');
-    buttons.className = 'buttons';
+    buttons.className = className;
 
     var createButton = function(text, onclick) {
         var elem = document.createElement('a');
@@ -87,48 +87,22 @@ var createInfoPanelButtons = function() {
         return elem;
     };
 
-    var download = createButton('Download', onClickOnDownloadLink);
-    var play = createButton('Play', onClickOnPlayLink);
-    var close = createButton('Close', hideInfoPanels);
+    var firstButton = createButton(firstName, firstFunction);
+    var secondButton = createButton(secondName, secondFunction);
+    var thirdButton = createButton(thirdName, thirdFunction);
 
-    download.title = 'Keyboard shortcut: ' + String.fromCharCode(68); // D
-
-    buttons.appendChild(download);
-    buttons.appendChild(play);
-    buttons.appendChild(close);
-
-    return buttons;
-};
-
-var createSelectedPanelButtons = function() {
-    var buttons = document.createElement('div');
-    buttons.className = 'buttons';
-
-    var createButton = function(text, onclick) {
-        var elem = document.createElement('a');
-        elem.innerHTML = text;
-        elem.addEventListener('click', function(event) {
-            event.preventDefault();
-            onclick();
-        });
-        return elem;
-    };
-
-    var download = createButton('Download all', onClickOnDownloadLinkAll);
-    var play = createButton('Play all', onClickOnPlayLinkAll);
-    var deselect = createButton('Deselect all', onCLickOnDeselectAll);
-
-    buttons.appendChild(download);
-    buttons.appendChild(play);
-    buttons.appendChild(deselect);
+    buttons.appendChild(firstButton);
+    buttons.appendChild(secondButton);
+    buttons.appendChild(thirdButton);
 
     return buttons;
 };
 
 var infoPanelMetaContainer = document.createElement('div');
-var infoPanelButtons = createInfoPanelButtons();
+//var infoPanelButtons = createInfoPanelButtons();
+var infoPanelButtons = create3Buttons('Download', 'Play', 'Close', 'infobuttons', onClickOnDownloadLink, onClickOnPlayLink, hideInfoPanels);
 var selectedPanelContainer = document.createElement('div');
-var selectedPanelButtons = createSelectedPanelButtons();
+var selectedPanelButtons = create3Buttons('Download all', 'Play all', 'Deselect all', 'selectedbuttons', onClickOnDownloadLinkAll, onClickOnPlayLinkAll, onCLickOnDeselectAll);
 
 module.exports = {
 

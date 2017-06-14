@@ -9,7 +9,7 @@ describe('FilterOverlay', function() {
     before(function() {
         // runs before all tests in this block
         var ConfigMock = {
-            findAllDataSetNames: function() {
+            findAllDataSetDisplayNames: function() {
                 return ["testdata"];
             },
             findDefaultDataSetName: function(){

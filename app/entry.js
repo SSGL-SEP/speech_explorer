@@ -35,11 +35,12 @@ function startApp(pointData) {
             configDAO: Config,
             changeDataSetFunction: changeDataSet
         });
+        Visualizer.enableInteraction();
     });
-
 }
 
 function changeDataSet(dataset) {
+    Visualizer.disableInteraction();
     var dataSetInfo = Config.findDataSet(dataset);
     var path;
     if (process.env.DATA_SRC) {
@@ -55,6 +56,7 @@ function changeDataSet(dataset) {
             FilterOverlay.reset();
             Visualizer.reset();
             FilterOverlay.Init(dataset);
+            Visualizer.enableInteraction();
         });
     });
 }

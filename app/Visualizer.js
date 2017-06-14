@@ -25,6 +25,7 @@ var Visualizer = module.exports = function() {
     this.pointSize = 2;
     this.cloudSize2D = 1.5;
     this.mode = 0;
+    this.enabled = false;
     // ---------------------
 
     this.activePoint = null;
@@ -54,6 +55,7 @@ var Visualizer = module.exports = function() {
         updateActiveCountDisplay();
         this.update(true);
         this.mode = 0;
+        this.enabled = false;
     };
 
     this.createEnvironment = function() {
@@ -172,38 +174,48 @@ var Visualizer = module.exports = function() {
         scope.update(true);
     };
 
+    this.enableInteraction = function(){
+        scope.enabled = true;
+    };
+    
+    this.disableInteraction = function(){
+        scope.enabled = false;
+    };
+
     this.update = function(refreshPointCloud) {
         if (refreshPointCloud) {
             this.pointSize = Math.max(DEFAULT_POINTSIZE, this.cloudSize2D);
             this.pointCloud.setPointSize(this.pointSize);
             this.pointCloud.update();
         }
-        var attributes = this.pointCloud.getAttributes();
-        var size = this.pointSize;
-        var intersectingPoints = getIntersectingPoints(8);
-        if (intersectingPoints.length > 0) {
-            this.updateSelections(intersectingPoints);
+        if (this.enabled) {
+            var attributes = this.pointCloud.getAttributes();
+            var size = this.pointSize;
+            var intersectingPoints = getIntersectingPoints(8);
+            if (intersectingPoints.length > 0) {
+                this.updateSelections(intersectingPoints);
 
-            if (this.activePoint !== intersectingPoints[0].index) {
+                if (this.activePoint !== intersectingPoints[0].index) {
+                    attributes.customSize.array[this.activePoint] = 0;
+                    // Reset z-position back to 0
+                    attributes.position.array[this.activePoint * 3 + 2] = 0;
+                    this.activePoint = intersectingPoints[0].index;
+                    attributes.customSize.array[this.activePoint] = size + 10;
+                    // Move activepoint towards a camera so that overlapping
+                    // points don't clip through.
+                    attributes.position.array[this.activePoint * 3 + 2] = 1;
+                    attributes.position.needsUpdate = true;
+                    attributes.customSize.needsUpdate = true;
+                    InfoOverlay.updateInfo(this.activePoint);
+                    AudioPlayer.playSound(this.activePoint); // TODO: move to a better location
+                }
+            } else if (this.activePoint !== null) {
                 attributes.customSize.array[this.activePoint] = 0;
-                // Reset z-position back to 0
-                attributes.position.array[this.activePoint * 3 + 2] = 0;
-                this.activePoint = intersectingPoints[0].index;
-                attributes.customSize.array[this.activePoint] = size + 10;
-                // Move activepoint towards a camera so that overlapping
-                // points don't clip through.
                 attributes.position.array[this.activePoint * 3 + 2] = 1;
-                attributes.position.needsUpdate = true;
                 attributes.customSize.needsUpdate = true;
-                InfoOverlay.updateInfo(this.activePoint);
-                AudioPlayer.playSound(this.activePoint); // TODO: move to a better location
+                this.activePoint = null;
+                InfoOverlay.hideInfo();//hides infodiv with sound information
             }
-        } else if (this.activePoint !== null) {
-            attributes.customSize.array[this.activePoint] = 0;
-            attributes.position.array[this.activePoint * 3 + 2] = 1;
-            attributes.customSize.needsUpdate = true;
-            this.activePoint = null;
-            InfoOverlay.hideInfo();//hides infodiv with sound information
         }
         this.draw();
     };

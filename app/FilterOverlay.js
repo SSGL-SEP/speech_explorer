@@ -68,7 +68,7 @@ module.exports = function(params) {
         this.selectedDataSet = selectedDataSet;
         this.gui = new dat.GUI({ width: 265 });
         this.datasetFolder = this.gui.addFolder("Dataset");
-        this.gui.__folders["Dataset"].open();
+        this.gui.__folders.Dataset.open();
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
             if (scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()) {
                 localStorage.clear();
@@ -182,8 +182,7 @@ module.exports = function(params) {
             }
 
         }
-        console.log(this.boolTags);
-    }
+    };
 
     this.Init(this.Config.findDefaultDataSetName());
 

@@ -1,20 +1,25 @@
-// var appDir = require('app-root-path');
-// var audioPlayer = require(appDir + "/app/AudioPlayer");
-// var assert = require('assert');
-// var Data;
+var appDir = require('app-root-path');
+var audioPlayer = require(appDir + "/app/AudioPlayer");
+var assert = require('assert');
+var AudioPlayer;
+var testAudio = [];
 
-// describe('AudioPlayer', function() {
+describe('AudioPlayer', function() {
 
-// 	before(function() {
-// 		Data = require(appDir + "/app/Data");
-// 		var json = require(appDir + "/test/testdata.json");
-// 		Data.loadData(json);
-		
-// 	});
+    before(function() {
+        AudioPlayer = require(appDir + "/app/AudioPlayer");
+        var context = new AudioContext();
+        for (var i = 0; i < 10; i++) {
+            var audioSource = context.createBufferSource();
+            audioSource.buffer = new AudioBuffer(10000);
+            testAudio.push(audioSource);
+        }
+    });
 
-// 	it('should update audiofile when requested to play it', function() {
-// 		console.log(appDir + '/public/' + Data.getUrl(0));
-// 		audioPlayer.play(appDir  + '/public/' + Data.getUrl(0));
-// 		assert(audioPlayer.audioFile !== null);
-// 	});
-// });
+    describe('#playSound', function() {
+        it('should ', function() {
+            assert(true);
+        });
+    });
+
+});

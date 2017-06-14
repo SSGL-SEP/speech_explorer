@@ -61,7 +61,7 @@ module.exports = function(params) {
     };
 
     this.createDatasets = function() {
-        this.dataset.Dataset = this.Config.findAllDataSetNames();
+        this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
     };
 
     this.createGUI = function(selectedDataSet) {

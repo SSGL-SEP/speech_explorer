@@ -16,14 +16,15 @@ var ConfigDAO = module.exports = function(config) {
         return IO.loadJSON(scope.config.dataSets[scope.config.defaultSet].dataSrc);
     };
 
-    this.loadDataSetJSON = function(datasetName) {
-        var src = this.findDataSet(datasetName).dataSrc;
+    // Tätä funktiota siis käyttää ensisijaisesti dat.gui, joka operoi näyttönimillä
+    this.loadDataSetJSON = function(datasetDisplayName) {
+        var src = this.findDataSet(datasetDisplayName).dataSrc;
         return IO.loadJSON(src);
     };
 
-    this.findDataSet = function(datasetName) {
+    this.findDataSet = function(displayName) {
         for (var i = 0; i < scope.config.dataSets.length; i++) {
-            if (scope.config.dataSets[i].displayName === datasetName) {
+            if (scope.config.dataSets[i].displayName === displayName) {
                 return scope.config.dataSets[i];
             }
         }
@@ -38,7 +39,7 @@ var ConfigDAO = module.exports = function(config) {
         return allSets;
     };
 
-    this.findAllDataSetNames = function() {
+    this.findAllDataSetDisplayNames = function() {
         var allNames = [];
         for (var i = 0; i < scope.config.dataSets.length; i++) {
             allNames.push(scope.config.dataSets[i].displayName);

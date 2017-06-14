@@ -99,7 +99,6 @@ var create3Buttons = function (firstName, secondName, thirdName, className, firs
 };
 
 var infoPanelMetaContainer = document.createElement('div');
-//var infoPanelButtons = createInfoPanelButtons();
 var infoPanelButtons = create3Buttons('Download', 'Play', 'Close', 'infobuttons', onClickOnDownloadLink, onClickOnPlayLink, hideInfoPanels);
 var selectedPanelContainer = document.createElement('div');
 var selectedPanelButtons = create3Buttons('Download all', 'Play all', 'Deselect all', 'selectedbuttons', onClickOnDownloadLinkAll, onClickOnPlayLinkAll, onCLickOnDeselectAll);

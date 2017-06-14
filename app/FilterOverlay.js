@@ -1,5 +1,5 @@
 'use strict';
-var dat = require('../lib/dat/build/dat.gui.min.js');
+var dat = require('../lib/dat/build/dat.gui.js');
 
 
 module.exports = function(params) {
@@ -15,6 +15,7 @@ module.exports = function(params) {
     this.Config = params.configDAO;
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
+    this.gui = null;
 
     this.Init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
@@ -23,6 +24,7 @@ module.exports = function(params) {
         this.filterFunction({
             selectAll: true
         });
+        this.update();
     };
 
     this.reset = function() {
@@ -32,17 +34,21 @@ module.exports = function(params) {
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
         overlay.innerHTML = '';
+        this.filterFolder = null;
+        this.datasetFolder = null;
+        this.gui = null;
     };
 
 
     this.createBoolArray = function() {
-        for (var folder in this.tags) {
-            if (this.tags[folder].__filterable) {
+        var folders = Object.keys(this.tags).sort();
+        for (var i = 0; i<folders.length; i++) {
+            if (this.tags[folders[i]].__filterable) {
                 var boolObj = {
-                    key: folder,
+                    key: folders[i],
                     values: {}
                 };
-                var keys = Object.keys(this.tags[folder]);
+                var keys = Object.keys(this.tags[folders[i]]).sort();
                 for(var j = 0; j<keys.length; j++){
                     if (!keys[j].startsWith("__")) {
                         boolObj.values[keys[j]] = true;
@@ -67,7 +73,8 @@ module.exports = function(params) {
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
             if(scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()){
                 localStorage.clear();
-            }            
+            }
+            console.log(localStorage);            
             scope.changeDataSetFunction(set);
         });
         var opts = controller.domElement.getElementsByTagName('select')[0];
@@ -91,6 +98,7 @@ module.exports = function(params) {
                 controller.borderColor(data.getTagColor(key))
                     .borderWidth(10);
             }
+            //console.log(scope.boolTags);
             scope.gui.remember(tag.values);
         };
 
@@ -103,6 +111,7 @@ module.exports = function(params) {
                 createItem(keys[j]);
             }
         }
+        //this.gui.remember(this.boolTags);
 
         var select = this.selectButton;
         var clear = this.clearAllButton;
@@ -110,6 +119,7 @@ module.exports = function(params) {
         this.filterFolder.add(select, 'SelectAll');
         var element = document.getElementById('overlay');
         element.appendChild(this.gui.domElement);
+        console.log(this.boolTags);
 
     };
 
@@ -158,4 +168,5 @@ module.exports = function(params) {
     };
 
     this.Init(this.Config.findDefaultDataSetName());
+    this.update();
 };

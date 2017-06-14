@@ -69,7 +69,7 @@ module.exports = {
         if (process.env.DATA_SRC) {
             return process.env.DATA_SRC + folder + parsedPoints[index].filename;
         }
-        return 'audio/' + folder + parsedPoints[index].filename;
+        return 'audio/' + folder + '/' + parsedPoints[index].filename;
     },
 
     getPoint: function(index) {

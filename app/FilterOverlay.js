@@ -16,25 +16,20 @@ module.exports = function(params) {
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
-    this.newSet = true;
 
     this.Init = function(selectedDataSet) {
-        if(this.newSet){
-             this.createBoolArray(this.tags);
-        }
+        this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI(selectedDataSet);
         this.filterFunction({
             selectAll: true
         });
-        updateAll();
+        //updateAll();
     };
 
     this.reset = function() {
         scope.tags = data.getTags();
-        if(this.newSet){
-            scope.boolTags = [];
-        }
+        scope.boolTags = [];
         scope.dataset = {Dataset: []};
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
@@ -82,10 +77,10 @@ module.exports = function(params) {
             }else{
                 scope.newSet = false;
             }
-            console.log(localStorage);            
+            // console.log(localStorage);            
             scope.changeDataSetFunction(set);
         });
-        console.log(this.selectedDataSet);
+        // console.log(this.selectedDataSet);
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
 
@@ -107,8 +102,11 @@ module.exports = function(params) {
                 controller.borderColor(data.getTagColor(key))
                     .borderWidth(10);
             }
+            // console.log(tag.values);
             //console.log(scope.boolTags);
-            scope.gui.remember(tag.values);
+            // scope.gui.remember(tag.values);
+            // console.log(scope.gui.getSaveObject());
+            
         };
 
         this.filterFolder = this.gui.addFolder("Filter");
@@ -119,6 +117,8 @@ module.exports = function(params) {
             for(var j = 0; j < keys.length; j++){
                 createItem(keys[j]);
             }
+            // console.log(tag);
+            
         }
         //this.gui.remember(this.boolTags);
 
@@ -128,7 +128,7 @@ module.exports = function(params) {
         this.filterFolder.add(select, 'SelectAll');
         var element = document.getElementById('overlay');
         element.appendChild(this.gui.domElement);
-        console.log(this.boolTags);
+        // console.log(this.boolTags);
 
     };
 
@@ -177,5 +177,5 @@ module.exports = function(params) {
     };
 
     this.Init(this.Config.findDefaultDataSetName());
-    updateAll();
+    this.update();
 };

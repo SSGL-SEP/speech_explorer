@@ -185,4 +185,8 @@ module.exports = function(params) {
 
     this.Init(this.Config.findDefaultDataSetName());
 
+    window.onbeforeunload = function() {
+        localStorage.clear();
+    };
+
 };

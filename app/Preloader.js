@@ -15,7 +15,7 @@ var Preloader = module.exports = function() {
         return dstU8;
     }
 
-    function processConcatenatedFile(data) {
+    function processConcatenatedFile(data, callback) {
         var bb = new DataView(data);
         var offset = 0;
 
@@ -24,12 +24,12 @@ var Preloader = module.exports = function() {
             offset += 4;
             var sound = extractBuffer(data, offset, length);
             offset += length;
-            createSoundWithBuffer(sound.buffer, soundIndex);
+            createSoundWithBuffer(sound.buffer, soundIndex, callback);
             soundIndex++;
         }
         console.log('audio loaded!');
     }
-    function createSoundWithBuffer(buffer, soundIndex) {
+    function createSoundWithBuffer(buffer, soundIndex, callback) {
         /*
           This audio context is unprefixed!
         */
@@ -38,8 +38,10 @@ var Preloader = module.exports = function() {
 
         context.decodeAudioData(buffer, function(res) {
             loaded++;
-            if(loaded === Data.getTotalPoints())
+            if(loaded === Data.getTotalPoints()) {
                 console.log('hep');
+                callback();
+            }
             audioSource.buffer = res;
             audioSource.playbackRate.value = 1; // unneeded?
             sounds[soundIndex] = audioSource;
@@ -47,14 +49,16 @@ var Preloader = module.exports = function() {
         });
     }
 
-    this.loadSounds = function(filename) {
+    this.loadSounds = function(filename, callback) {
         var request = new XMLHttpRequest();
 
         request.open('GET', filename, true);
         request.responseType = 'arraybuffer';
 
         request.onload = function() {
-            processConcatenatedFile(request.response);
+            processConcatenatedFile(request.response, function() {
+                callback(sounds);
+            });
         };
         request.onprogress = function(e) {
             console.log(e.loaded * 100 / e.total);
@@ -62,6 +66,6 @@ var Preloader = module.exports = function() {
 
         request.send();
 
-        return sounds;
+        //return sounds;
     };
 };

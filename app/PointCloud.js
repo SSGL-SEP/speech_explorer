@@ -43,7 +43,10 @@ var createMaterial = function(initialPointSize) {
         "void main() {" +
         "   vColor = customColor;" +
         "   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );" +
-        "   if(enabled > 0.5) {" +
+        "   if (enabled > 1.5) {" +
+        "       gl_PointSize = pointsize * 2.0;" +
+        "       vColor = vec3(255,255,255);" +
+        "   } else if(enabled > 0.5) {" +
         "       gl_PointSize = pointsize;" +
         "   } else {" +
         "       gl_PointSize = pointsize * 0.2;" +

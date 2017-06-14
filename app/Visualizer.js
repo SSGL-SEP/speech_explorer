@@ -24,6 +24,7 @@ var Visualizer = module.exports = function() {
     this.resizeTimer = null;
     this.pointSize = 2;
     this.cloudSize2D = 1.5;
+    this.mode = 0;
     // ---------------------
 
     this.activePoint = null;
@@ -48,10 +49,11 @@ var Visualizer = module.exports = function() {
         this.cloudSize2D = 1.5;
         this.createCloud();
         this.resetZoomAndPan();
-        InfoOverlay.init('active', 'info', 'infoPanels', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
         Filter.init(this.pointCloud.getAttributes().enabled.array);
         updateActiveCountDisplay();
         this.update(true);
+        this.mode = 0;
     };
 
     this.createEnvironment = function() {
@@ -120,6 +122,7 @@ var Visualizer = module.exports = function() {
     };
 
     this.createListeners = function() {
+        var scope = this;
         Events.createInfoBoxListener(InfoOverlay);
 
         window.addEventListener("resize", Events.resize);
@@ -129,13 +132,30 @@ var Visualizer = module.exports = function() {
 
         document.addEventListener('mousemove', this.onDocumentMouseMove);
 
-        var pressedDForDownload = function(e) {
+        var keyPress = function(e) {
+            var cursor = 'auto';
+
             if (e.keyCode === 68) {
                 InfoOverlay.onDownloadHotkey(scope.activePoint);
+            } else if (e.keyCode === 83) {
+                if (scope.mode !== 1) {
+                    scope.mode = 1;
+                    cursor = 'pointer';
+                } else {
+                    scope.mode = 0;
+                }
+            } else if (e.keyCode === 82) {
+                if (scope.mode !== 2) {
+                    scope.mode = 2;
+                    cursor = 'no-drop';
+                } else {
+                    scope.mode = 0;
+                }
             }
+            document.body.style.cursor = cursor;
         };
 
-        window.addEventListener('keyup', pressedDForDownload);
+        window.addEventListener('keyup', keyPress);
     };
 
     this.setFilter = function(params) {
@@ -165,8 +185,8 @@ var Visualizer = module.exports = function() {
         var attributes = this.pointCloud.getAttributes();
         var size = this.pointSize;
         var intersectingPoints = getIntersectingPoints(8);
-
         if (intersectingPoints.length > 0) {
+            this.updateSelections(intersectingPoints);
 
             if (this.activePoint !== intersectingPoints[0].index) {
                 attributes.customSize.array[this.activePoint] = 0;
@@ -189,8 +209,27 @@ var Visualizer = module.exports = function() {
             this.activePoint = null;
             InfoOverlay.hideInfo();//hides infodiv with sound information
         }
-
         this.renderer.render(this.scene, this.camera);
+    };
+
+    this.updateSelections = function(intersectingPoints) {
+        var changed = false;
+        if (this.mode === 1) {
+            changed = Filter.selectPoints(intersectingPoints);
+        }
+        if (this.mode === 2) {
+            changed = Filter.deselectPoints(intersectingPoints);
+        }
+
+        if (changed) {
+            this.update(true);
+            var selectedAmount = Filter.getSelectedCount();
+            if (selectedAmount === 0) {
+                InfoOverlay.resetAndHideSelected();
+            } else {
+                InfoOverlay.updateSelected(Filter.getSelectedCount());
+            }
+        }
     };
 
     var getIntersectingPoints = function(radius) {

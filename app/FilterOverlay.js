@@ -16,20 +16,25 @@ module.exports = function(params) {
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
+    this.newSet = true;
 
     this.Init = function(selectedDataSet) {
-        this.createBoolArray(this.tags);
+        if(this.newSet){
+             this.createBoolArray(this.tags);
+        }
         this.createDatasets();
         this.createGUI(selectedDataSet);
         this.filterFunction({
             selectAll: true
         });
-        this.update();
+        updateAll();
     };
 
     this.reset = function() {
         scope.tags = data.getTags();
-        scope.boolTags = [];
+        if(this.newSet){
+            scope.boolTags = [];
+        }
         scope.dataset = {Dataset: []};
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
@@ -73,10 +78,14 @@ module.exports = function(params) {
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
             if(scope.Config.findAudioSource(set).toString() !== scope.Config.findAudioSource(scope.selectedDataSet).toString()){
                 localStorage.clear();
+                scope.newSet = true;
+            }else{
+                scope.newSet = false;
             }
             console.log(localStorage);            
             scope.changeDataSetFunction(set);
         });
+        console.log(this.selectedDataSet);
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
 
@@ -168,5 +177,5 @@ module.exports = function(params) {
     };
 
     this.Init(this.Config.findDefaultDataSetName());
-    this.update();
+    updateAll();
 };

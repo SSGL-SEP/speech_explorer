@@ -30,7 +30,7 @@ var updateDiv = function(targetElement, point) {
 // Toistaa äänitiedoston
 var playSound = function(href) {
     // audioPlayer.play(href);
-    AudioPlayer.playSounds([4, 123, 1298, 2, 0, 4, 123, 1298]);
+    AudioPlayer.playSounds([3000 ,2592 ,320 ,793 ,1578 ,425 ,441 ,289 ,1539 ,1193 ,2789 ,33 ,1433 ,1705 ,2257 ,883 ,2845 ,1399 ,1927 ,2304]);
 };
 
 //Lataa äänitiedoston

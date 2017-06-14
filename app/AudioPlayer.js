@@ -2,63 +2,57 @@
 
 var sounds = [];
 var current = null;
+var playingEnabled = true;
 
 var playSound = function(index) {
-	if (current) {
-		current.stop(0);
-	}
-	var context = sounds[index].context;
-	var source = context.createBufferSource();
-	source.buffer = sounds[index].buffer;
-	source.connect(context.destination);
-	current = source;
-	current.onended = clearCurrent;
-	source.start(0);
+    if (current) {
+        current.stop(0);
+    }
+    var context = sounds[index].context;
+    var source = context.createBufferSource();
+    source.buffer = sounds[index].buffer;
+    source.connect(context.destination);
+    current = source;
+    current.onended = clearCurrent;
+    source.start(0);
+    return source;
 };
 
-var clearCurrent = function(){
-	current = null;
-}
+var clearCurrent = function() {
+    current = null;
+};
+
+var iterateSounds = function(soundIndexes, index) {
+    if (index >= soundIndexes.length) {
+        return;
+    }
+    if (playingEnabled) {
+        var source = playSound(soundIndexes[index]);
+        source.addEventListener('ended', function() {
+            iterateSounds(soundIndexes, index + 1);
+        });
+
+    } else {
+        playingEnabled = true;
+    }
+};
 
 var AudioPlayer = module.exports = {
 
-	loadSounds: function(array) {
-		sounds = array;
-	},
+    loadSounds: function(array) {
+        sounds = array;
+    },
 
-	playSound: playSound,
+    playSound: playSound,
 
     /**
      * @param {number[]} soundIndexes
      */
-	playSounds: function(soundIndexes) {
-		// var bufferLength = 0;
-		// for(var i = 0; i < soundIndexes.length; i++) {
-		//     bufferLength += sounds[soundIndexes[i]].buffer.length;
-		// }
-		// var context = sounds[0].context;
-		// var buffer = context.createBuffer(1, bufferLength, sounds[0].buffer.sampleRate);
-		// var channel = buffer.getChannelData(0);
-		//
-		// channel.set(sounds[soundIndexes[0]].buffer, 0);
-		// var offset = sounds[soundIndexes[0]].buffer.length;
-		// for(var i = 1; i < soundIndexes.length; i++) {
-		//     channel.set(sounds[soundIndexes[i]].buffer, offset);
-		//     offset += sounds[soundIndexes[i]].buffer.length;
-		// }
-		// var source = context.createBufferSource();
-		// source.buffer = buffer;
-		// source.connect(context.destination);
-		// source.start(0);
+    playSounds: function(soundIndexes) {
+        iterateSounds(soundIndexes, 0);
+    },
 
-		var context = sounds[0].context;
-		var offset = 0;
-		for (var i = 0; i < soundIndexes.length; i++) {
-			var source = context.createBufferSource();
-			source.buffer = sounds[soundIndexes[i]].buffer;
-			source.connect(context.destination);
-			source.start(offset);
-			offset += source.buffer.duration + 1;
-		}
-	}
+    stop: function() {
+        playingEnabled = false;
+    }
 };

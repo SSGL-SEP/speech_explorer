@@ -75,7 +75,8 @@ bundle.js
 screenshots/
 
 # Local audio data
-public/audio/
+public/audio/**/*
+!public/audio/**/concatenated_sounds.blob
 
 
 # Local data sets

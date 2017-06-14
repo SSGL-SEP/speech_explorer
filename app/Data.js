@@ -58,6 +58,7 @@ module.exports = {
                 setMetaFieldForPoints(tag[tagValue].points, tagName, tagValue);
             }
         }
+        console.log(parsedTags);
     },
 
     getTotalPoints: function() {
@@ -69,7 +70,7 @@ module.exports = {
         if (process.env.DATA_SRC) {
             return process.env.DATA_SRC + folder + parsedPoints[index].filename;
         }
-        return 'audio/' + folder + parsedPoints[index].filename;
+        return 'audio/' + folder + '/' + parsedPoints[index].filename;
     },
 
     getPoint: function(index) {

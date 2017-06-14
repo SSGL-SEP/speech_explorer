@@ -1,16 +1,21 @@
 {
   "dataSets": [
     {
+      "displayName": "testdata 168",
       "dataSet": "testdata 168",
       "processingMethod": "T-SNE",
       "totalPoints": 168,
-      "src": "data/testdata168.json"
-    },{	
+      "src": "data/testdata168.json",
+      "audioSrc": "phonemes"
+    },{
+      "displayName": "testdata 13",	
       "dataSet": "testdata 13",
       "processingMethod": "T-SNE",
       "totalPoints": 13,
-      "src": "data/testdata.json"
+      "src": "data/testdata.json",
+      "audioSrc": "phonemes"
     }
   ],
   "defaultSet": 0
 }
+

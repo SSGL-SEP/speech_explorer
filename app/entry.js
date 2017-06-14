@@ -37,7 +37,7 @@ function changeDataSet(dataset) {
         Data.loadData(json);
         FilterOverlay.reset();
         Visualizer.reset();
-        FilterOverlay.Init();
+        FilterOverlay.Init(dataset);
     });
 }
 

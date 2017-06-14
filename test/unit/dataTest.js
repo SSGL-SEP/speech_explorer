@@ -9,7 +9,7 @@ describe('Data', function() {
         Data = require(appDir + "/app/Data");
         var json = require(appDir + "/test/testdata.json");
         var Config = require(appDir + "/app/ConfigDAO");
-        var config = new Config({dataSets:[{dataSet:"phoneme", audioSrc: "phoneme/"}]});
+        var config = new Config({dataSets:[{dataSet:"phoneme", audioSrc: "phonemes"}]});
         Data.setConfig(config);
         Data.loadData(json);
     });
@@ -34,8 +34,9 @@ describe('Data', function() {
     });
 
     describe('#getUrl()', function() {
-        it('should be audio/phoneme/mv_0693_001_k_0_0.wav with parameter 1', function() {
-            assert(Data.getUrl(1) === "audio/phoneme/mv_0693_001_k_0_0.wav");
+        it('should be audio/phonemes/mv_0693_001_k_0_0.wav with parameter 1', function() {
+            console.log(Data.getUrl(1));
+            assert(Data.getUrl(1) === "audio/phonemes/mv_0693_001_k_0_0.wav");
         });
     });
 

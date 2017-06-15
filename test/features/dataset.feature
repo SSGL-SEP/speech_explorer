@@ -6,7 +6,7 @@ Feature: Dataset
     Given I navigate to the homepage
     And Page is finished loading
     When I open folder "Dataset"
-    And I change dataset to "testdata 13"
+    When I change dataset to "testdata 13"
     And Page is finished loading
     Then I should see "13/13" active samples
     When I open folder "Filter"

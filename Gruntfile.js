@@ -89,6 +89,14 @@ module.exports = function(grunt) {
             example: {
                 src: 'test/features'
             }
+        },
+
+        uglify: {
+            bundle: {
+                files: {
+                    'public/assets/ssgl-sep.min.js': ['public/assets/bundle.js']
+                }
+            }
         }
 
     });
@@ -101,6 +109,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-webpack');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     //grunt.registerTask('default', ['jshint', 'exec']);
     //grunt.registerTask('chrome', ['env:chrome', 'jshint', 'exec']);
@@ -111,5 +120,6 @@ module.exports = function(grunt) {
     // grunt.registerTask('default', ['env:firefox', 'exec:run_cucumber_tests', 'exec:run_istanbul_mocha_tests']);
 
     grunt.registerTask('serve-and-watch', ['webpack:build', 'concurrent:watchers']);
+    grunt.registerTask('uglify', ['uglify']);
 
 };

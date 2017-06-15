@@ -39,7 +39,7 @@ var Visualizer = module.exports = function() {
         Events.createDraggers();
 
         InfoOverlay.setAction('download', function() {
-            Events.downloadSound();
+            Events.downloadSound(scope.lastClickedPoint);
         });
 
         InfoOverlay.setAction('playAll', function() {
@@ -58,6 +58,11 @@ var Visualizer = module.exports = function() {
             if (pointIndex !== null) {
                 AudioPlayer.playSound(pointIndex);
             }
+        });
+
+        InfoOverlay.setAction('downloadAll', function() {
+            var selected = Array.from(Filter.getSelected());
+            Events.downloadSounds(selected);
         });
 
         this.createListeners();

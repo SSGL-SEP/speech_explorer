@@ -60,6 +60,10 @@ var Visualizer = module.exports = function() {
             }
         });
 
+        InfoOverlay.setAction('stop', function() {
+            AudioPlayer.stop();
+        });
+
         this.createListeners();
         this.reset();
         this.animate();

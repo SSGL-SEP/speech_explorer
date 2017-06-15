@@ -100,6 +100,10 @@ var selectedPanelButtons = createButtonContainer('selectedbuttons', [
         action: 'playAll'
     },
     {
+        title: 'Stop',
+        action: 'stop'
+    },
+    {
         title: 'Deselect all',
         action: 'deselectAll'
     }

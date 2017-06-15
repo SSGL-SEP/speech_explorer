@@ -6,6 +6,8 @@ env:
         - NODE_ENV=development
 addons:
     firefox: "49.0"
+before:
+    - npm run submodule
 cache:
   directories:
     - "node_modules"

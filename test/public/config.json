@@ -8,7 +8,7 @@
       "src": "data/testdata168.json",
       "audioSrc": "phonemes"
     },{
-      "displayName": "testdata 13",	
+      "displayName": "testdata 13",
       "dataSet": "testdata 13",
       "processingMethod": "T-SNE",
       "totalPoints": 13,
@@ -18,4 +18,3 @@
   ],
   "defaultSet": 0
 }
-

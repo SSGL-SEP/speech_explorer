@@ -4,7 +4,7 @@ const {expect} = require('chai');
 const InfoOverlay = require(appDir + "/app/InfoOverlay");
 const Data = require(appDir + "/app/Data");
 
-const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div></div>';
+const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
 
 describe('InfoOverlay', function() {
 
@@ -13,7 +13,7 @@ describe('InfoOverlay', function() {
         this.jsdom = require('jsdom-global')(html);
 
         Data.loadData(json);
-        InfoOverlay.init('active', 'info', 'infoPanels', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
 
     });
 
@@ -38,6 +38,12 @@ describe('InfoOverlay', function() {
         });
     });
 
+    describe('Selected', function() {
+        it('should hide selected by default', function() {
+            assert(document.getElementById('selected').style.visibility === 'hidden');
+        });
+    });
+
     describe('InfoOverlay', function() {
         it('should hide infoPanel by default', function() {
             InfoOverlay.onClickOnPoint(0);
@@ -54,10 +60,25 @@ describe('InfoOverlay', function() {
         });
     });
 
+    describe('Selected#updateSelected', function() {
+        it('should make Selected visible', function() {
+            InfoOverlay.updateSelected(0);
+            var target = document.getElementById('selected');
+            assert(target.style.visibility === 'visible');
+        });
+    });
+
     describe('InfoOverlay#updateActive', function() {
         it('should update display of number of active sounds correctly', function() {
             InfoOverlay.updateActive(2, 1);
             assert(document.getElementById('active').innerHTML === "1/2 active");
+        });
+    });
+
+    describe('Selected#updateSelected', function() {
+        it('should update display of number of selected sounds correctly', function() {
+            InfoOverlay.updateSelected(1);
+            assert(document.getElementById('selected').getElementsByTagName('div')[0].innerHTML === "1 selected");
         });
     });
 
@@ -94,6 +115,14 @@ describe('InfoOverlay', function() {
         });
     });
 
+    describe('Selected#resetAndHideSelected', function() {
+        it('should reset and hide selected', function() {
+            InfoOverlay.resetAndHideSelected();
+            var target = document.getElementById('selected');
+            assert(target.style.visibility === 'hidden');
+        });
+    });
+
     describe('InfoOverlay#hideInfo', function() {
         it('should hide display of info when requested', function() {
             InfoOverlay.hideInfo();
@@ -102,7 +131,7 @@ describe('InfoOverlay', function() {
         });
     });
 
-     describe('InfoOverlay#onClickOnPoint', function() {
+    describe('InfoOverlay#onClickOnPoint', function() {
         it('should make infoPanel visible', function() {
             InfoOverlay.onClickOnPoint(0);
             var target = document.getElementById('infoPanels');
@@ -119,7 +148,7 @@ describe('InfoOverlay', function() {
         this.jsdom = require('jsdom-global')(html);
 
         Data.loadData(json);
-        InfoOverlay.init('active', 'info', 'infoPanels', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
     });
 
     after(function() {

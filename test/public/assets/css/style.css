@@ -83,7 +83,3 @@ a {
     position: fixed;
     z-index: 1002;
 }
-
-.dg.a.has-save > ul.closed {
-    margin-top: -27px !important;
-}

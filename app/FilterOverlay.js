@@ -1,5 +1,5 @@
 'use strict';
-var dat = require('../lib/dat/build/dat.gui.js');
+var dat = require('../lib/dat/build/dat.gui.min.js');
 
 
 module.exports = function(params) {

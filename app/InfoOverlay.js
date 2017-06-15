@@ -3,7 +3,7 @@
 var Data = require("./Data");
 var audioPlayer = require("./AudioPlayer");
 
-var infoDiv, activeDiv, infopanelDiv, activeHref, tags;
+var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, tags;
 
 var tagNames = [];
 
@@ -57,13 +57,25 @@ var hideInfoPanels = function() {
     document.getElementById('infoPanels').style.visibility = 'hidden';
 };
 
+var onClickOnDownloadLinkAll = function() {
+
+};
+
+var onClickOnPlayLinkAll = function() {
+
+};
+
+var onCLickOnDeselectAll = function() {
+
+};
+
 /**
- * Creates button elements for the info panel
+ * Creates 3 button elements
  * @returns {Element}
  */
-var createInfoPanelButtons = function() {
+var create3Buttons = function (firstName, secondName, thirdName, className, firstFunction, secondFunction, thirdFunction) {
     var buttons = document.createElement('div');
-    buttons.className = 'buttons';
+    buttons.className = className;
 
     var createButton = function(text, onclick) {
         var elem = document.createElement('a');
@@ -75,29 +87,34 @@ var createInfoPanelButtons = function() {
         return elem;
     };
 
-    var download = createButton('Download', onClickOnDownloadLink);
-    var play = createButton('Play', onClickOnPlayLink);
-    var close = createButton('Close', hideInfoPanels);
+    var firstButton = createButton(firstName, firstFunction);
+    var secondButton = createButton(secondName, secondFunction);
+    var thirdButton = createButton(thirdName, thirdFunction);
 
-    download.title = 'Keyboard shortcut: ' + String.fromCharCode(68); // D
-
-    buttons.appendChild(download);
-    buttons.appendChild(play);
-    buttons.appendChild(close);
+    buttons.appendChild(firstButton);
+    buttons.appendChild(secondButton);
+    buttons.appendChild(thirdButton);
 
     return buttons;
 };
 
 var infoPanelMetaContainer = document.createElement('div');
-var infoPanelButtons = createInfoPanelButtons();
-
+var infoPanelButtons = create3Buttons('Download', 'Play', 'Close', 'infobuttons', onClickOnDownloadLink, onClickOnPlayLink, hideInfoPanels);
+var selectedPanelContainer = document.createElement('div');
+var selectedPanelButtons = create3Buttons('Download all', 'Play all', 'Deselect all', 'selectedbuttons', onClickOnDownloadLinkAll, onClickOnPlayLinkAll, onCLickOnDeselectAll);
 
 module.exports = {
 
-    init: function(activePointsElementId, infoElementId, infoPanelElementId, newTags) {
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
+
+        selectedDiv = document.getElementById(selectedElementId);
+        selectedDiv.innerHTML = "";
+        selectedDiv.appendChild(selectedPanelContainer);
+        selectedDiv.appendChild(selectedPanelButtons);
+        selectedDiv.style.visibility = 'hidden';
 
         tags = newTags;
         tagNames = Object.keys(tags);
@@ -125,6 +142,16 @@ module.exports = {
         activeDiv.innerHTML = activePoints + '/' + totalPoints + ' active';
     },
 
+    resetAndHideSelected: function() {
+        infoPanelMetaContainer.innerHTML = "";
+        selectedDiv.style.visibility = 'hidden';
+    },
+
+    updateSelected: function(selectedAmount) {
+        selectedPanelContainer.innerHTML = selectedAmount + ' selected';
+        selectedDiv.style.visibility = 'visible';
+    },
+
     onClickOnPoint: function(activePoint) {
         var point = Data.getPoint(activePoint);
         activeHref = Data.getUrl(activePoint);
@@ -138,5 +165,12 @@ module.exports = {
 
     onClickOnPlayLink: onClickOnPlayLink,
 
-    onClickOnDownloadLink: onClickOnDownloadLink
+    onClickOnDownloadLink: onClickOnDownloadLink,
+
+    onCLickOnDeselectAll: onCLickOnDeselectAll,
+
+    onClickOnPlayLinkAll: onClickOnPlayLinkAll,
+
+    onClickOnDownloadLinkAll: onClickOnDownloadLinkAll
+
 };

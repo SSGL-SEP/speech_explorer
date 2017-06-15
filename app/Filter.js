@@ -24,7 +24,7 @@ var calculateActivePoints = function() {
         }
         pointStates[i] = val;
 
-        if (val === 1 || val === 2) {
+        if (val === 1) {
             count++;
         }
     }
@@ -58,8 +58,8 @@ var setGroupPointValuesTo = function(newValue, tagName, tagValue) {
 };
 
 var clearSelected = function() {
-    selectedPoints = new Set(); // jshint ignore:line
-    InfoOverLay.resetAndHideSelected();
+    selectedPoints = new Set();
+    calculateActivePoints();
 };
 
 module.exports = {
@@ -74,7 +74,6 @@ module.exports = {
         pointStates = activationStatusArray || [];
         clearSelected();
         initializeGroups(1);
-        calculateActivePoints();
     },
 
     getPointStates: function() {
@@ -98,7 +97,6 @@ module.exports = {
     activatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(1, tagName, tagValue);
         clearSelected();
-        calculateActivePoints();
     },
 
     /**
@@ -110,7 +108,6 @@ module.exports = {
     deactivatePoints: function(tagName, tagValue) {
         setGroupPointValuesTo(0, tagName, tagValue);
         clearSelected();
-        calculateActivePoints();
     },
 
     selectPoints: function(indexes) {
@@ -136,6 +133,8 @@ module.exports = {
         calculateActivePoints();
         return changed;
     },
+
+    clearSelected: clearSelected,
 
     clearAll: function() {
         initializeGroups(0);

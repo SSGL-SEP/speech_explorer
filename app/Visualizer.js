@@ -29,6 +29,7 @@ var Visualizer = module.exports = function() {
     // ---------------------
 
     this.activePoint = null;
+    this.lastClickedPoint = null;
     var raycaster;
     var mouse;
 
@@ -36,6 +37,29 @@ var Visualizer = module.exports = function() {
         this.createEnvironment();
         Events = new Events(this);
         Events.createDraggers();
+
+        InfoOverlay.setAction('download', function() {
+            Events.downloadSound();
+        });
+
+        InfoOverlay.setAction('playAll', function() {
+            var selected = Array.from(Filter.getSelected());
+            AudioPlayer.playSounds(selected);
+        });
+
+        InfoOverlay.setAction('deselectAll', function() {
+            Filter.clearSelected();
+            InfoOverlay.resetAndHideSelected();
+            scope.pointCloud.update();
+        });
+
+        InfoOverlay.setAction('play', function() {
+            var pointIndex = scope.lastClickedPoint;
+            if (pointIndex !== null) {
+                AudioPlayer.playSound(pointIndex);
+            }
+        });
+
         this.createListeners();
         this.reset();
         this.animate();
@@ -138,7 +162,7 @@ var Visualizer = module.exports = function() {
             var cursor = 'auto';
 
             if (e.keyCode === 68) {
-                InfoOverlay.onDownloadHotkey(scope.activePoint);
+                Events.downloadSound();
             } else if (e.keyCode === 83) {
                 if (scope.mode !== 1) {
                     scope.mode = 1;
@@ -171,14 +195,17 @@ var Visualizer = module.exports = function() {
             Filter.deactivatePoints(params.tagName, params.tagValue);
         }
         updateActiveCountDisplay();
+
+        // changing filter settings clears manually selected points
+        InfoOverlay.resetAndHideSelected();
         scope.update(true);
     };
 
-    this.enableInteraction = function(){
+    this.enableInteraction = function() {
         scope.enabled = true;
     };
-    
-    this.disableInteraction = function(){
+
+    this.disableInteraction = function() {
         scope.enabled = false;
     };
 
@@ -267,7 +294,6 @@ var Visualizer = module.exports = function() {
     var updateActiveCountDisplay = function() {
         InfoOverlay.updateActive(Data.getTotalPoints(), Filter.getActiveCount());
     };
-
 
 
     this.animate = function() {

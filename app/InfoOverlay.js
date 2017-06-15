@@ -1,11 +1,26 @@
 'use strict';
 
 var Data = require("./Data");
-var AudioPlayer = require("./AudioPlayer");
 
 var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, tags;
-
 var tagNames = [];
+var onClicks = {};
+
+var setAction = function(handle, func) {
+    onClicks[handle] = func;
+};
+
+var runAction = function(handle) {
+    if (typeof handle === 'function') {
+        handle();
+        return;
+    }
+
+    var func = onClicks[handle];
+    if (typeof func === 'function') {
+        func();
+    }
+};
 
 var createMetaHTML = function(point) {
     var html = "", key, i;
@@ -27,85 +42,70 @@ var updateDiv = function(targetElement, point) {
     targetElement.innerHTML = createMetaHTML(point);
 };
 
-// Toistaa äänitiedoston
-var playSound = function(href) {
-    // audioPlayer.play(href);
-    AudioPlayer.playSounds([3000 ,2592 ,320 ,793 ,1578 ,425 ,441 ,289 ,1539 ,1193 ,2789 ,33 ,1433 ,1705 ,2257 ,883 ,2845 ,1399 ,1927 ,2304]);
-};
-
-//Lataa äänitiedoston
-// https://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
-var downloadSound = function(href) {
-    if (href) {
-        var a = document.createElement('A');
-        a.href = href;
-        a.download = href.substr(href.lastIndexOf('/') + 1);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-};
-
-var onClickOnPlayLink = function() {
-    playSound(activeHref);
-};
-
-var onClickOnDownloadLink = function() {
-    downloadSound(activeHref);
-};
-
 var hideInfoPanels = function() {
     document.getElementById('infoPanels').style.visibility = 'hidden';
 };
 
-var onClickOnDownloadLinkAll = function() {
-
-};
-
-var onClickOnPlayLinkAll = function() {
-
-};
-
-var onCLickOnDeselectAll = function() {
-
-};
-
 /**
- * Creates 3 button elements
+ * Creates element with buttons
+ * @param {string} className
+ * @param {object[]} buttons - An array of objects with button parameters (title, action)
  * @returns {Element}
  */
-var create3Buttons = function (firstName, secondName, thirdName, className, firstFunction, secondFunction, thirdFunction) {
-    var buttons = document.createElement('div');
-    buttons.className = className;
+var createButtonContainer = function(className, buttons) {
+    var container = document.createElement('div');
+    container.className = className;
 
     var createButton = function(text, onclick) {
         var elem = document.createElement('a');
         elem.innerHTML = text;
         elem.addEventListener('click', function(event) {
             event.preventDefault();
-            onclick();
+            runAction(onclick);
         });
         return elem;
     };
 
-    var firstButton = createButton(firstName, firstFunction);
-    var secondButton = createButton(secondName, secondFunction);
-    var thirdButton = createButton(thirdName, thirdFunction);
+    for (var i = 0; i < buttons.length; i++) {
+        var button = createButton(buttons[i].title, buttons[i].action);
+        container.appendChild(button);
+    }
 
-    buttons.appendChild(firstButton);
-    buttons.appendChild(secondButton);
-    buttons.appendChild(thirdButton);
-
-    return buttons;
+    return container;
 };
 
 var infoPanelMetaContainer = document.createElement('div');
-var infoPanelButtons = create3Buttons('Download', 'Play', 'Close', 'infobuttons', onClickOnDownloadLink, onClickOnPlayLink, hideInfoPanels);
+var infoPanelButtons = createButtonContainer('infobuttons', [
+    {
+        title: 'Download',
+        action: 'download'
+    },
+    {
+        title: 'Play',
+        action: 'play'
+    },
+    {
+        title: 'Close',
+        action: hideInfoPanels
+    }
+]);
 var selectedPanelContainer = document.createElement('div');
-var selectedPanelButtons = create3Buttons('Download all', 'Play all', 'Deselect all', 'selectedbuttons', onClickOnDownloadLinkAll, onClickOnPlayLinkAll, onCLickOnDeselectAll);
+var selectedPanelButtons = createButtonContainer('selectedbuttons', [
+    {
+        title: 'Download all',
+        action: 'downloadAll'
+    },
+    {
+        title: 'Play all',
+        action: 'playAll'
+    },
+    {
+        title: 'Deselect all',
+        action: 'deselectAll'
+    }
+]);
 
 module.exports = {
-
     init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
@@ -160,18 +160,5 @@ module.exports = {
         infopanelDiv.style.visibility = 'visible';
     },
 
-    onDownloadHotkey: function(activePoint) {
-        downloadSound(activeHref);
-    },
-
-    onClickOnPlayLink: onClickOnPlayLink,
-
-    onClickOnDownloadLink: onClickOnDownloadLink,
-
-    onCLickOnDeselectAll: onCLickOnDeselectAll,
-
-    onClickOnPlayLinkAll: onClickOnPlayLinkAll,
-
-    onClickOnDownloadLinkAll: onClickOnDownloadLinkAll
-
+    setAction: setAction
 };

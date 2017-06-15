@@ -1,0 +1,32 @@
+.dg.a .save-row {
+    top: 0;
+    position: fixed;
+    z-index: 1002;
+}
+
+
+.dg.main.taller-than-window .close-button.close-bottom {
+    /* fix for FireFox */
+    position: fixed;
+}
+
+.dg .save-row select {
+    margin-left: 5px;
+    width: 55px;
+    font-size: 9px;
+    padding: 0;
+    border-radius: 0;
+    border: 0 solid #000;
+}
+
+.dg.a.main {
+    margin-right: 0;
+}
+
+.dg {
+    background-color: #0F0F0F;
+}
+
+.dg.a.has-save > .closed {
+    margin-top: -27px !important;
+}

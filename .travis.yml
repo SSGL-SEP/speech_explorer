@@ -9,4 +9,5 @@ addons:
 before:
     - npm run submodule
 cache:
-  
+  directories:
+    - "node_modules"

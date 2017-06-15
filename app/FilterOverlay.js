@@ -21,7 +21,6 @@ module.exports = function(params) {
         this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI(selectedDataSet);
-        //this.filterFunction({ selectAll: true });
         this.initFilter();
     };
 

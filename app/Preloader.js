@@ -40,7 +40,7 @@ var Preloader = module.exports = function() {
             if (loaded === toLoad) {
                 return callback();
             }
-            if(loaded % 1000 === 0) {
+            if (loaded % 1000 === 0) {
                 console.log(loaded + ' audio samples loaded');
             }
             audioSource.buffer = res;
@@ -59,12 +59,20 @@ var Preloader = module.exports = function() {
         request.responseType = 'arraybuffer';
 
         request.onload = function() {
+            if (request.status === 404) {
+                console.log('no blob found');
+                return callback(null);
+            }
             processConcatenatedFile(request.response, function() {
                 callback(sounds);
             });
         };
         request.onprogress = function(e) {
             console.log(e.loaded * 100 / e.total);
+        };
+
+        request.onloadend = function() {
+            
         };
 
         request.send();

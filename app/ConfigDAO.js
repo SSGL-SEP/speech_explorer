@@ -47,17 +47,21 @@ var ConfigDAO = module.exports = function(config) {
         return allNames;
     };
 
-    this.findDefaultDataSetName = function(){
+    this.findDefaultDataSetName = function() {
         return scope.config.dataSets[scope.config.defaultSet].displayName;
     };
 
-    this.findAudioSource = function(dataSetName){
+    this.findDefaultDataSetAudioSrc = function() {
+        return scope.config.dataSets[scope.config.defaultSet].audioSrc;
+    };
+
+    this.findAudioSource = function(dataSetName) {
         var set = this.findDataSet(dataSetName);
         return set.audioSrc;
     };
 
     this.getAudioSrc = function(dataSetName) {
-        // if(dataSetName.startsWith("syllable")) {
+        // if(dataSetName.startsWith("syllables")) {
         //     return "syllables/";
         // }
 

@@ -5,7 +5,7 @@ Feature: Dataset
   Scenario: Switching between sets works and filtering works
     Given I navigate to the homepage
     And Page is finished loading
-    When I change dataset to "testdata 13"
+    When I change dataset to "testdata 13_T-SNE"
     And Page is finished loading
     Then I should see "13/13" active samples
     When I open folder "Filter"

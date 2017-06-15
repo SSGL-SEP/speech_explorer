@@ -1,3 +1,0 @@
-[submodule "lib/dat"]
-	path = lib/dat
-	url = https://github.com/Sopulius/dat.gui.git

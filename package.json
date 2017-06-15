@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "app-root-path": "^2.0.1",
-    "isomorphic-fetch": "^2.2.1",
     "es6-promise": "^4.1.0",
     "express": "^4.15.2",
     "three": "^0.85.2",

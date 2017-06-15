@@ -60,9 +60,15 @@ var Visualizer = module.exports = function() {
             }
         });
 
+
         InfoOverlay.setAction('downloadAll', function() {
             var selected = Array.from(Filter.getSelected());
             Events.downloadSounds(selected);
+        });
+
+        InfoOverlay.setAction('stop', function() {
+            AudioPlayer.stop();
+
         });
 
         this.createListeners();

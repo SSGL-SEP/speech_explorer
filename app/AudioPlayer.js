@@ -30,6 +30,7 @@ var playSoundFromPath = function(path) {
 	audioFile.play().catch(function() {
 		//whatever
 	});
+	return audioFile;
 };
 
 var clearCurrent = function() {
@@ -41,7 +42,12 @@ var iterateSounds = function(soundIndexes, index) {
 		return;
 	}
 	if (playingEnabled) {
-		var source = playSound(soundIndexes[index]);
+		var source;
+		if(sounds !== null) {
+			source = playSound(soundIndexes[index]);
+        } else {
+			source = playSoundFromPath(Data.getUrl(index));
+		}
 		source.addEventListener('ended', function() {
 			iterateSounds(soundIndexes, index + 1);
 		});

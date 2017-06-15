@@ -24,15 +24,14 @@ var Preloader = module.exports = function() {
             offset += 4;
             var sound = extractBuffer(data, offset, length);
             offset += length;
-            createSoundWithBuffer(sound.buffer, soundIndex, callback);
+            // createSoundWithBuffer(sound.buffer, soundIndex, callback);
+            sounds[soundIndex] = sound.buffer;
             soundIndex++;
         }
         console.log('audio loaded!');
+        callback();
     }
     function createSoundWithBuffer(buffer, soundIndex, callback) {
-        /*
-          This audio context is unprefixed!
-        */
         var audioSource = context.createBufferSource();
 
         context.decodeAudioData(buffer, function(res) {

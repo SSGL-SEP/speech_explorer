@@ -4,9 +4,7 @@
     z-index: 1002;
 }
 
-.dg.a.has-save > ul.closed {
-    margin-top: -27px !important;
-}
+
 .dg.main.taller-than-window .close-button.close-bottom {
     /* fix for FireFox */
     position: fixed;
@@ -27,4 +25,8 @@
 
 .dg {
     background-color: #0F0F0F;
+}
+
+.dg.a.has-save > .closed {
+    margin-top: -27px !important;
 }

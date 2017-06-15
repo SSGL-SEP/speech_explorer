@@ -77,6 +77,9 @@ screenshots/
 # Local audio data
 public/audio/
 
+#test html and css
+test/public/assets/css/style.css
+test/public/index.html
 
 # Local data sets
 local_*.json

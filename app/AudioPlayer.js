@@ -7,7 +7,6 @@ var playingEnabled = true;
 var audioFile = null;
 
 var playSound = function(index) {
-	console.log('playing from blob');
 	if (current) {
 		current.stop(0);
 		current = null;
@@ -23,7 +22,6 @@ var playSound = function(index) {
 };
 
 var playSoundFromPath = function(path) {
-	console.log('playing from path');
 	if (audioFile !== null) {
 		audioFile.pause();
 		audioFile.startTime = 0;

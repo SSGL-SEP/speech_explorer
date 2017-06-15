@@ -1,7 +1,6 @@
 'use strict';
 
 var Data = require("./Data");
-var InfoOverLay = require("./InfoOverlay");
 var pointStates = [];
 var activeCount = 0;
 var pointGroups = {};

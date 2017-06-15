@@ -14,24 +14,6 @@ body {
     left: 0;
 }
 
-.dg.main.taller-than-window .close-button.close-bottom {
-    /* fix for FireFox */
-    position: fixed;
-}
-
-.dg .save-row select {
-    margin-left: 5px;
-    width: 55px;
-    font-size: 9px;
-    padding: 0;
-    border-radius: 0;
-    border: 0 solid #000;
-}
-
-.dg.a.main {
-    margin-right: 0;
-}
-
 #info, #active, #infoPanels, #selected {
     font-family: 'Lucida Grande', sans-serif;
     position: absolute;
@@ -78,12 +60,4 @@ a {
     cursor: pointer;
 }
 
-.dg.a .save-row {
-    top: 0;
-    position: fixed;
-    z-index: 1002;
-}
 
-.dg.a.has-save > ul.closed {
-    margin-top: -27px !important;
-}

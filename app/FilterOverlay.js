@@ -84,9 +84,9 @@ module.exports = function(params) {
         var createItem = function(key) {
             //important: first remember, then add!
             scope.gui.remember(tag.values);
-            var controller = folder.add(tag.values, key);
+            var controller = folder.add(tag.values, key).borderColor("blue").borderWidth(3);
             
-            controller.listen()
+            controller.listen().borderColor("blue")
                 .onChange(
                 (function(tagKey) {
                     return function(boxIsChecked) {

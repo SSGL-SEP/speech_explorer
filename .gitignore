@@ -75,7 +75,8 @@ bundle.js
 screenshots/
 
 # Local audio data
-public/audio/
+public/audio/**/*
+!public/audio/**/concatenated_sounds.blob
 
 #test html and css
 test/public/assets/css/style.css

@@ -25,9 +25,11 @@ var Visualizer = module.exports = function() {
     this.pointSize = 2;
     this.cloudSize2D = 1.5;
     this.mode = 0;
+    this.enabled = false;
     // ---------------------
 
     this.activePoint = null;
+    this.lastClickedPoint = null;
     var raycaster;
     var mouse;
 
@@ -35,6 +37,29 @@ var Visualizer = module.exports = function() {
         this.createEnvironment();
         Events = new Events(this);
         Events.createDraggers();
+
+        InfoOverlay.setAction('download', function() {
+            Events.downloadSound();
+        });
+
+        InfoOverlay.setAction('playAll', function() {
+            var selected = Array.from(Filter.getSelected());
+            AudioPlayer.playSounds(selected);
+        });
+
+        InfoOverlay.setAction('deselectAll', function() {
+            Filter.clearSelected();
+            InfoOverlay.resetAndHideSelected();
+            scope.pointCloud.update();
+        });
+
+        InfoOverlay.setAction('play', function() {
+            var pointIndex = scope.lastClickedPoint;
+            if (pointIndex !== null) {
+                AudioPlayer.playSound(pointIndex);
+            }
+        });
+
         this.createListeners();
         this.reset();
         this.animate();
@@ -54,6 +79,7 @@ var Visualizer = module.exports = function() {
         updateActiveCountDisplay();
         this.update(true);
         this.mode = 0;
+        this.enabled = false;
     };
 
     this.createEnvironment = function() {
@@ -136,7 +162,7 @@ var Visualizer = module.exports = function() {
             var cursor = 'auto';
 
             if (e.keyCode === 68) {
-                InfoOverlay.onDownloadHotkey(scope.activePoint);
+                Events.downloadSound();
             } else if (e.keyCode === 83) {
                 if (scope.mode !== 1) {
                     scope.mode = 1;
@@ -169,7 +195,18 @@ var Visualizer = module.exports = function() {
             Filter.deactivatePoints(params.tagName, params.tagValue);
         }
         updateActiveCountDisplay();
+
+        // changing filter settings clears manually selected points
+        InfoOverlay.resetAndHideSelected();
         scope.update(true);
+    };
+
+    this.enableInteraction = function() {
+        scope.enabled = true;
+    };
+
+    this.disableInteraction = function() {
+        scope.enabled = false;
     };
 
     this.update = function(refreshPointCloud) {
@@ -178,37 +215,39 @@ var Visualizer = module.exports = function() {
             this.pointCloud.setPointSize(this.pointSize);
             this.pointCloud.update();
         }
+        if (this.enabled) {
+            var attributes = this.pointCloud.getAttributes();
+            var size = this.pointSize;
+            var intersectingPoints = getIntersectingPoints(8);
+            if (intersectingPoints.length > 0) {
+                this.updateSelections(intersectingPoints);
+
+                if (this.activePoint !== intersectingPoints[0].index) {
+                    attributes.customSize.array[this.activePoint] = 0;
+                    // Reset z-position back to 0
+                    attributes.position.array[this.activePoint * 3 + 2] = 0;
+                    this.activePoint = intersectingPoints[0].index;
+                    attributes.customSize.array[this.activePoint] = size + 10;
+                    // Move activepoint towards a camera so that overlapping
+                    // points don't clip through.
+                    attributes.position.array[this.activePoint * 3 + 2] = 1;
+                    attributes.position.needsUpdate = true;
+                    attributes.customSize.needsUpdate = true;
+                    InfoOverlay.updateInfo(this.activePoint);
+                    AudioPlayer.playSound(this.activePoint); // TODO: move to a better location
+                }
+            } else if (this.activePoint !== null) {
+                attributes.customSize.array[this.activePoint] = 0;
+                attributes.position.array[this.activePoint * 3 + 2] = 1;
+                attributes.customSize.needsUpdate = true;
+                this.activePoint = null;
+                InfoOverlay.hideInfo();//hides infodiv with sound information
+            }
+        }
         this.draw();
     };
 
     this.draw = function() {
-        var attributes = this.pointCloud.getAttributes();
-        var size = this.pointSize;
-        var intersectingPoints = getIntersectingPoints(8);
-        if (intersectingPoints.length > 0) {
-            this.updateSelections(intersectingPoints);
-
-            if (this.activePoint !== intersectingPoints[0].index) {
-                attributes.customSize.array[this.activePoint] = 0;
-                // Reset z-position back to 0
-                attributes.position.array[this.activePoint * 3 + 2] = 0;
-                this.activePoint = intersectingPoints[0].index;
-                attributes.customSize.array[this.activePoint] = size + 10;
-                // Move activepoint towards a camera so that overlapping
-                // points don't clip through.
-                attributes.position.array[this.activePoint * 3 + 2] = 1;
-                attributes.position.needsUpdate = true;
-                attributes.customSize.needsUpdate = true;
-                InfoOverlay.updateInfo(this.activePoint);
-                playSound(Data.getUrl(this.activePoint)); // TODO: move to a better location
-            }
-        } else if (this.activePoint !== null) {
-            attributes.customSize.array[this.activePoint] = 0;
-            attributes.position.array[this.activePoint * 3 + 2] = 1;
-            attributes.customSize.needsUpdate = true;
-            this.activePoint = null;
-            InfoOverlay.hideInfo();//hides infodiv with sound information
-        }
         this.renderer.render(this.scene, this.camera);
     };
 
@@ -254,10 +293,6 @@ var Visualizer = module.exports = function() {
 
     var updateActiveCountDisplay = function() {
         InfoOverlay.updateActive(Data.getTotalPoints(), Filter.getActiveCount());
-    };
-
-    var playSound = function(path) {
-        AudioPlayer.play(path);
     };
 
 

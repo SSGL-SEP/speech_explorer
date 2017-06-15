@@ -1,6 +1,7 @@
 'use strict';
 
 var THREE = require('three');
+var Data = require('./Data');
 
 module.exports = function(viz) {
     var visualizer = viz;
@@ -159,6 +160,7 @@ module.exports = function(viz) {
         var openInfoBox = function() {
             if (visualizer.activePoint !== null) {
                 InfoOverlay.onClickOnPoint(visualizer.activePoint);
+                visualizer.lastClickedPoint = visualizer.activePoint;
             }
             window.removeEventListener('mouseup', openInfoBox);
         };
@@ -194,5 +196,17 @@ module.exports = function(viz) {
             visualizer.renderer.setSize(window.innerWidth, window.innerHeight);
         }, 250);
 
+    };
+
+    this.downloadSound = function() {
+        var href = Data.getUrl(visualizer.lastClickedPoint);
+        if (href) {
+            var a = document.createElement('A');
+            a.href = href;
+            a.download = href.substr(href.lastIndexOf('/') + 1);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
     };
 };

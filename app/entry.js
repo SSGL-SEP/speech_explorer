@@ -9,27 +9,55 @@ var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
 var ConfigDAO = require("./ConfigDAO");
 var Config = new ConfigDAO();
+var AudioPlayer = require('./AudioPlayer');
+var Preloader = require("./Preloader");
+Preloader = new Preloader();
 
 
 function startApp(pointData) {
+    var audioSrc = Config.findDefaultDataSetAudioSrc();
+    var path;
+    if (process.env.DATA_SRC) {
+        path = process.env.DATA_SRC;
+    } else {
+        path = 'audio/';
+    }
     Data.setConfig(Config);
     Data.loadData(pointData);
-    Visualizer = new Visualizer();
-    Visualizer.init();
-    FilterOverlay = new FilterOverlay({
-        data: Data,
-        filterFunction: Visualizer.setFilter,
-        configDAO: Config,
-        changeDataSetFunction: changeDataSet
+    Preloader.loadSounds(path + audioSrc + '/concatenated_sounds.blob', Data.getTotalPoints(), function(sounds) {
+        AudioPlayer.loadSounds(sounds);
+
+        Visualizer = new Visualizer();
+        Visualizer.init();
+        FilterOverlay = new FilterOverlay({
+            data: Data,
+            filterFunction: Visualizer.setFilter,
+            configDAO: Config,
+            changeDataSetFunction: changeDataSet
+        });
+        Visualizer.enableInteraction();
     });
 }
 
 function changeDataSet(dataset) {
+    Visualizer.disableInteraction();
+    var dataSetInfo = Config.findDataSet(dataset);
+    var path;
+    if (process.env.DATA_SRC) {
+        path = process.env.DATA_SRC;
+    } else {
+        path = 'audio/';
+    }
+
     Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);
-        FilterOverlay.reset();
-        Visualizer.reset();
-        FilterOverlay.Init(dataset);
+        Preloader.loadSounds(path + dataSetInfo.audioSrc + '/concatenated_sounds.blob', Data.getTotalPoints(), function(sounds) {
+            AudioPlayer.loadSounds(sounds);
+            FilterOverlay.reset();
+            Visualizer.reset();
+            FilterOverlay.Init(dataset);
+            Visualizer.enableInteraction();
+        });
     });
 }
 

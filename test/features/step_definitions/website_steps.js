@@ -8,7 +8,7 @@ defineSupportCode(function({Given, When, Then}) {
     });
 
     Given('Page is finished loading', function() {
-        return this.driver.wait(until.elementLocated(By.className('button save-as')), 6000);
+        return this.driver.wait(until.elementLocated(By.className('close-button')), 6000);
     });
 
     Given('I navigate to the homepage', function () {

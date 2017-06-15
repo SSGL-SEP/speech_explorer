@@ -1,11 +1,11 @@
-require('geckodriver');
+require('chromedriver');
 var fs = require('fs');
 var seleniumWebdriver = require('selenium-webdriver');
 var {defineSupportCode} = require('cucumber');
 
 function CustomWorld() {
     this.driver = new seleniumWebdriver.Builder()
-        .forBrowser('firefox')
+        .forBrowser('chrome')
         .build();
 
     var defaultTimeout = 10000;

@@ -58,10 +58,7 @@ module.exports = {
                 setMetaFieldForPoints(tag[tagValue].points, tagName, tagValue);
             }
         }
-<<<<<<< HEAD
-        
-=======
->>>>>>> a9251fc4b1df6f894c4c434d2a7e0c2177c68071
+
     },
 
     getTotalPoints: function() {

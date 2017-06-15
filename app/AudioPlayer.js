@@ -5,7 +5,7 @@ var sounds = [];
 var current = null;
 var playingEnabled = true;
 var audioFile = null;
-var context = new AudioContext();
+var context;
 
 var playSound = function(index, callback) {
     if (current) {
@@ -22,7 +22,7 @@ var playSound = function(index, callback) {
         current = source;
         current.onended = clearCurrent;
         source.start(0);
-        if(typeof callback === 'function') {
+        if (typeof callback === 'function') {
             callback(source);
         }
     });
@@ -73,6 +73,10 @@ var AudioPlayer = module.exports = {
 
     loadSounds: function(array) {
         sounds = array;
+    },
+
+    setContext: function(audioContext) {
+        context = audioContext;
     },
 
     playSound: function(index) {

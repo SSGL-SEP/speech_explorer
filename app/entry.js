@@ -24,6 +24,7 @@ function startApp(pointData) {
     }
     Data.setConfig(Config);
     Data.loadData(pointData);
+    AudioPlayer.setContext(new AudioContext());
     Preloader.loadSounds(path + audioSrc + '/concatenated_sounds.blob', Data.getTotalPoints(), function(sounds) {
         AudioPlayer.loadSounds(sounds);
 

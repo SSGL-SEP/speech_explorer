@@ -112,15 +112,15 @@ module.exports = function(viz) {
             // SEE - visualizer.onBgDown() onMove()
             switch (event.touches.length) {
                 case 1:
-                    visualizer.touchState = visualizer.IS_DRAGGING;
-                    onDragStarted(event);
-                    break;
+                visualizer.touchState = visualizer.IS_DRAGGING;
+                onDragStarted(event);
+                break;
                 case 2:
-                    visualizer.touchState = visualizer.IS_ZOOMING;
-                    visualizer.context.removeEventListener('mousedown', onDragStarted, false);
-                    visualizer.context.removeEventListener('touchstart', onTouchStarted, false);
-                    onPinchStarted(event);
-                    break;
+                visualizer.touchState = visualizer.IS_ZOOMING;
+                visualizer.context.removeEventListener('mousedown', onDragStarted, false);
+                visualizer.context.removeEventListener('touchstart', onTouchStarted, false);
+                onPinchStarted(event);
+                break;
 
                 default:
             }
@@ -156,7 +156,7 @@ module.exports = function(viz) {
      *
      * @param {Object} InfoOverlay - The object containing info overlay logic
      */
-    this.createInfoBoxListener = function(InfoOverlay) {
+     this.createInfoBoxListener = function(InfoOverlay) {
         var openInfoBox = function() {
             if (visualizer.activePoint !== null) {
                 InfoOverlay.onClickOnPoint(visualizer.activePoint);
@@ -198,8 +198,8 @@ module.exports = function(viz) {
 
     };
 
-    this.downloadSound = function() {
-        var href = Data.getUrl(visualizer.lastClickedPoint);
+    this.downloadSound = function(point) {
+        var href = Data.getUrl(point);
         if (href) {
             var a = document.createElement('A');
             a.href = href;
@@ -208,5 +208,36 @@ module.exports = function(viz) {
             a.click();
             document.body.removeChild(a);
         }
+    };
+
+    this.downloadSounds = function(selected) {
+        var max = 100;
+        if (selected.length >= 100) { 
+            var report = 'Maximun amount on files on single download is set at ' + max;
+            alert (report);
+            return;
+        }
+       
+        var urlArray = []
+        for (var i = 0; i < selected.length; i++) {
+            //this.downloadSound(selected[i]);
+            urlArray.push(Data.getUrl(selected[i]));
+        }
+        var http = new XMLHttpRequest();
+        var url = "/download";
+        var params = "urls="+JSON.stringify(urlArray);
+       // params.urls = JSON.stringify(urlArray);
+        http.open("POST", url, true);
+
+        //Send the proper header information along with the request
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        http.onreadystatechange = function() {//Call a function when the state changes.
+        if(http.readyState == 4 && http.status == 200) {
+            alert(http.responseText);
+            }
+        }
+        http.send(params);
+
     };
 };

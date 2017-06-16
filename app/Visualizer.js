@@ -40,7 +40,7 @@ var Visualizer = module.exports = function() {
         Events.createDraggers();
 
         InfoOverlay.setAction('download', function() {
-            Events.downloadSound();
+            Events.downloadSound(scope.lastClickedPoint);
         });
 
         InfoOverlay.setAction('playAll', function() {
@@ -61,8 +61,15 @@ var Visualizer = module.exports = function() {
             }
         });
 
+
+        InfoOverlay.setAction('downloadAll', function() {
+            var selected = Array.from(Filter.getSelected());
+            Events.downloadSounds(selected);
+        });
+
         InfoOverlay.setAction('stop', function() {
             AudioPlayer.stop();
+
         });
 
         this.createListeners();

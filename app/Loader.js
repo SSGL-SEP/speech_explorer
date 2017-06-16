@@ -3,6 +3,7 @@
 var Promise = require('es6-promise').Promise;
 
 var sounds = [];
+var lastUsed = "";
 
 function extractBuffer(src, offset, length) {
     var dstU8 = new Uint8Array(length);
@@ -61,13 +62,20 @@ function load(url, responseType, onProgress) {
 
 module.exports = {
     loadSounds: function(filename) {
-        sounds = [];
-
-        return load(filename, 'arraybuffer', console.log)
-            .then(processConcatenatedFile)
-            .catch(function(err) {
-                console.log(err.message);
+        if (filename === lastUsed) {
+            return new Promise(function(resolve, reject) {
+                resolve(sounds);
             });
+        } else {
+            sounds = [];
+            lastUsed = filename;
+            return load(filename, 'arraybuffer', console.log)
+                .then(processConcatenatedFile)
+                .catch(function(err) {
+                    console.log(err.message);
+                    return sounds;
+                });
+        }
     },
 
     loadJSON: function(url) {

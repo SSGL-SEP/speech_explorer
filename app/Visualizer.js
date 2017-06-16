@@ -32,6 +32,7 @@ var Visualizer = module.exports = function() {
     this.lastClickedPoint = null;
     var raycaster;
     var mouse;
+    var attributes;
 
     this.init = function() {
         this.createEnvironment();
@@ -84,6 +85,7 @@ var Visualizer = module.exports = function() {
         this.update(true);
         this.mode = 0;
         this.enabled = false;
+        attributes = this.pointCloud.getAttributes();
     };
 
     this.createEnvironment = function() {
@@ -213,6 +215,11 @@ var Visualizer = module.exports = function() {
         scope.enabled = false;
     };
 
+    this.onActivePointChanged = function(newActivePoint) {
+        InfoOverlay.updateInfo(newActivePoint);
+        AudioPlayer.playSound(newActivePoint);
+    };
+
     this.update = function(refreshPointCloud) {
         if (refreshPointCloud) {
             this.pointSize = Math.max(DEFAULT_POINTSIZE, this.cloudSize2D);
@@ -220,8 +227,7 @@ var Visualizer = module.exports = function() {
             this.pointCloud.update();
         }
         if (this.enabled) {
-            var attributes = this.pointCloud.getAttributes();
-            var size = this.pointSize;
+            // attributes = this.pointCloud.getAttributes();
             var intersectingPoints = getIntersectingPoints(8);
             if (intersectingPoints.length > 0) {
                 this.updateSelections(intersectingPoints);
@@ -231,14 +237,13 @@ var Visualizer = module.exports = function() {
                     // Reset z-position back to 0
                     attributes.position.array[this.activePoint * 3 + 2] = 0;
                     this.activePoint = intersectingPoints[0].index;
-                    attributes.customSize.array[this.activePoint] = size + 10;
+                    attributes.customSize.array[this.activePoint] = this.pointSize + 10;
+                    attributes.customSize.needsUpdate = true;
                     // Move activepoint towards a camera so that overlapping
                     // points don't clip through.
                     attributes.position.array[this.activePoint * 3 + 2] = 1;
                     attributes.position.needsUpdate = true;
-                    attributes.customSize.needsUpdate = true;
-                    InfoOverlay.updateInfo(this.activePoint);
-                    AudioPlayer.playSound(this.activePoint); // TODO: move to a better location
+                    this.onActivePointChanged(this.activePoint);
                 }
             } else if (this.activePoint !== null) {
                 attributes.customSize.array[this.activePoint] = 0;

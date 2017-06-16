@@ -48,7 +48,7 @@ var iterateSounds = function(soundIndexes, index) {
     }
     if (playingEnabled) {
         var source;
-        if (sounds) {
+        if (sounds.length > 0) {
             playSound(soundIndexes[index], function(source) {
                 source.addEventListener('ended', function() {
                     iterateSounds(soundIndexes, index + 1);
@@ -77,7 +77,7 @@ module.exports = {
     },
 
     playSound: function(index) {
-        if (sounds) {
+        if (sounds.length > 0) {
             playSound(index);
         } else {
             playSoundFromPath(Data.getUrl(index));

@@ -1,19 +1,19 @@
-const jsdom = require('jsdom-global');
+const jsdomify = require('jsdomify').default;
 const appDir = require('app-root-path');
 const assert = require('assert');
-const Visualizer = require(appDir + '/app/Visualizer');
-const vis = new Visualizer();
+let vis;
 
 describe('Visualizer', function() {
 
     before(function() {
-        // runs before all tests in this block
-        jsdom('<!DOCTYPE html><div id="overlay"></div>');
+        jsdomify.create('<!DOCTYPE html><html><body><div id="overlay"></div></body></html>');
+        const Visualizer = require(appDir + '/app/Visualizer');
+        vis = new Visualizer();
     });
 
     after(function() {
         // runs after all tests in this block
-        jsdom();
+        jsdomify.destroy();
     });
 
     beforeEach(function() {

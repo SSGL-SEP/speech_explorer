@@ -1,6 +1,6 @@
 'use strict';
 
-var Promise = require('es6-promise').Promise;
+var Promise = require('es6-promise');
 
 var sounds = [];
 var lastUsed = "";
@@ -45,7 +45,6 @@ function load(url, responseType, onProgress) {
         request.responseType = responseType;
         request.onload = function() {
             if (request.status === 200) {
-                console.log(request);
                 resolve(request.response);
             } else {
                 reject(Error('Load unsuccessful: ' + request.statusText));
@@ -55,7 +54,9 @@ function load(url, responseType, onProgress) {
             reject(Error('There was a network error.'));
         };
         request.onprogress = function(e) {
-            onProgress(e.loaded * 100 / e.total);
+            if(typeof onProgress === 'function') {
+                onProgress(e.loaded * 100 / e.total);
+            }
         };
         request.send();
     });
@@ -74,7 +75,7 @@ module.exports = {
                 .then(processConcatenatedFile)
                 .catch(function(err) {
                     console.log(err.message);
-                    return sounds;
+                    return [];
                 });
         }
     },

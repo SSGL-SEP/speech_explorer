@@ -1,11 +1,10 @@
-const jsdom = require('jsdom-global');
+const jsdomify = require('jsdomify').default;
 const appDir = require('app-root-path');
 const assert = require('assert');
 const {expect} = require('chai');
 const PointCloud = require(appDir + '/app/PointCloud');
-const InfoOverlay = require(appDir + "/app/InfoOverlay");
 const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
-
+var InfoOverlay;
 
 var Data;
 var Filter;
@@ -14,8 +13,9 @@ var Cloud;
 describe('Filter', function() {
 
     before(function() {
-        var json = require(appDir + "/test/testdata.json");
-        jsdom(html);
+        jsdomify.create(html);
+        InfoOverlay = require(appDir + "/app/InfoOverlay");
+        const json = require(appDir + "/test/testdata.json");
         Data = require(appDir + "/app/Data");
         Data.loadData(json);
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
@@ -26,8 +26,7 @@ describe('Filter', function() {
     });
 
     after(function() {
-        jsdom();
-
+        jsdomify.destroy();
     });
 
     beforeEach(function() {

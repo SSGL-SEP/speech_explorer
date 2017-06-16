@@ -1,14 +1,16 @@
-const jsdom = require('jsdom-global');
+const jsdomify = require('jsdomify').default;
 const appDir = require('app-root-path');
 const assert = require('assert');
 const LocalStorage = require('node-localstorage').LocalStorage;
+var FilterOverlay;
 
-var FilterOverlay = require(appDir + "/app/FilterOverlay");
 
 describe('FilterOverlay', function() {
 
     before(function() {
-        // runs before all tests in this block
+        jsdomify.create('<!DOCTYPE html><html><body><div id="overlay"></div></body></html>');
+        FilterOverlay = require(appDir + "/app/FilterOverlay");
+
         var ConfigMock = {
             findAllDataSetDisplayNames: function() {
                 return ["testdata"];
@@ -25,7 +27,6 @@ describe('FilterOverlay', function() {
             return "dataSetChange";
         };
 
-        jsdom('<!DOCTYPE html><div id="overlay"></div>');
         global.localStorage = new LocalStorage('mockstorage');
         global.window = document.defaultView;
         global.window.localStorage = global.localStorage;
@@ -43,8 +44,7 @@ describe('FilterOverlay', function() {
     });
 
     after(function() {
-        // runs after all tests in this block
-        jsdom();
+        jsdomify.destroy();
     });
 
     beforeEach(function() {

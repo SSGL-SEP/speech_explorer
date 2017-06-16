@@ -1,6 +1,7 @@
-var appDir = require('app-root-path');
-var assert = require('assert');
-var LocalStorage = require('node-localstorage').LocalStorage;
+const jsdom = require('jsdom-global');
+const appDir = require('app-root-path');
+const assert = require('assert');
+const LocalStorage = require('node-localstorage').LocalStorage;
 
 var FilterOverlay = require(appDir + "/app/FilterOverlay");
 
@@ -24,7 +25,7 @@ describe('FilterOverlay', function() {
             return "dataSetChange";
         };
 
-        this.jsdom = require('jsdom-global')('<!DOCTYPE html><div id="overlay"></div>');
+        jsdom('<!DOCTYPE html><div id="overlay"></div>');
         global.localStorage = new LocalStorage('mockstorage');
         global.window = document.defaultView;
         global.window.localStorage = global.localStorage;
@@ -43,7 +44,7 @@ describe('FilterOverlay', function() {
 
     after(function() {
         // runs after all tests in this block
-        this.jsdom();
+        jsdom();
     });
 
     beforeEach(function() {

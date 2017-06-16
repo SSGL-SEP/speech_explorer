@@ -5,12 +5,13 @@ const InfoOverlay = require(appDir + "/app/InfoOverlay");
 const Data = require(appDir + "/app/Data");
 
 const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
+const jsdom = require('jsdom-global');
 
 describe('InfoOverlay', function() {
 
     before(function() {
         const json = require(appDir + "/test/testdata.json");
-        this.jsdom = require('jsdom-global')(html);
+        jsdom(html);
 
         Data.loadData(json);
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
@@ -19,7 +20,7 @@ describe('InfoOverlay', function() {
 
     after(function() {
         // runs after all tests in this block
-        this.jsdom();
+        jsdom();
     });
 
     beforeEach(function() {

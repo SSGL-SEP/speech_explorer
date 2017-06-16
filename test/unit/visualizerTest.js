@@ -1,20 +1,19 @@
-
-var appDir = require('app-root-path');
-var assert = require('assert');
-var THREE = require("three");
-var Visualizer = require(appDir + '/app/Visualizer');
-var vis = new Visualizer();
+const jsdom = require('jsdom-global');
+const appDir = require('app-root-path');
+const assert = require('assert');
+const Visualizer = require(appDir + '/app/Visualizer');
+const vis = new Visualizer();
 
 describe('Visualizer', function() {
 
     before(function() {
         // runs before all tests in this block
-        this.jsdom = require('jsdom-global')('<!DOCTYPE html><div id="overlay"></div>');
+        jsdom('<!DOCTYPE html><div id="overlay"></div>');
     });
 
     after(function() {
         // runs after all tests in this block
-        this.jsdom();
+        jsdom();
     });
 
     beforeEach(function() {

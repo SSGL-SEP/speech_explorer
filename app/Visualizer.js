@@ -31,7 +31,6 @@ var Visualizer = module.exports = function() {
 
     this.activePoint = null;
     this.lastClickedPoint = null;
-    this.cursor = null;
     var raycaster;
     var mouse;
 
@@ -112,9 +111,8 @@ var Visualizer = module.exports = function() {
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-        // this.selectionCursor = new SelectionCursor();
-        this.cursor = SelectionCursor.init(3);
-        this.scene.add(this.cursor);
+        SelectionCursor.init(3);
+        this.scene.add(SelectionCursor.getMesh());
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
 
@@ -318,10 +316,9 @@ var Visualizer = module.exports = function() {
     // ------------------------------------------------------------
     this.onDocumentMouseMove = function(event) {
         event.preventDefault();
+        SelectionCursor.update(event);
         mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.offsetY / window.innerHeight) * 2 + 1;
-        this.cursor.update(mouse);
-        console.log("update",this.cursor);
     };
 
 };

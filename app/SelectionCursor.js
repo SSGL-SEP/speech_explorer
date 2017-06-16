@@ -14,19 +14,16 @@ module.exports = {
 
     init: function(size) {
 
-        var mouseGeometry = new THREE.SphereGeometry(1, 0, 0);
+        var mouseGeometry = new THREE.RingGeometry(14, 15, 64);
         var mouseMaterial = new THREE.MeshBasicMaterial({
-            color: 0x0000ff
+            color: 0xFF0000
         });
         mouseMesh = new THREE.Mesh(mouseGeometry, mouseMaterial);
-        mouseMesh.position.z = 1;
-        mouseMesh.position.x = 100;
-        mouseMesh.position.y = 100;
-        return mouseMesh;
+
     },
 
-    update: function(mouse) {
-        mouseMesh.position.copy(mouse.x, mouse.y, 1);
+    update: function(event) {
+        mouseMesh.position.set(event.clientX + window.innerWidth / -2, -event.clientY - window.innerHeight / -2, 6);
     },
 
     changeMode: function(mode) {
@@ -37,6 +34,10 @@ module.exports = {
         } else if (mode === 2) {
             console.log("mode2");
         }
+    },
+
+    getMesh: function() {
+        return mouseMesh;
     }
 };
 

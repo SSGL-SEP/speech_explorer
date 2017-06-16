@@ -1,5 +1,5 @@
 'use strict';
-
+var bodyParser = require('body-parser')
 var rootPath = require('app-root-path');
 var express = require('express');
 var path = require('path');
@@ -15,12 +15,20 @@ var pathToPublic = path.resolve(publicFolder);
 var port = process.env.PORT || 3000;
 var app = express();
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
+
 app.get('/', function(request, response) {
     response.sendFile('index.html', {root: pathToPublic});
 });
 
 app.post('/download', function(request, response){
-	console.log(request);
+	var json = request.body.urls;
+    var urls = JSON.parse(json);
+    console.log(urls);
 });
 
 

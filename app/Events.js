@@ -217,6 +217,7 @@ module.exports = function(viz) {
             alert (report);
             return;
         }
+       
         var urlArray = []
         for (var i = 0; i < selected.length; i++) {
             //this.downloadSound(selected[i]);
@@ -224,7 +225,8 @@ module.exports = function(viz) {
         }
         var http = new XMLHttpRequest();
         var url = "/download";
-        var params = "urls:asdfasdf";
+        var params = "urls="+JSON.stringify(urlArray);
+       // params.urls = JSON.stringify(urlArray);
         http.open("POST", url, true);
 
         //Send the proper header information along with the request

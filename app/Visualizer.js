@@ -166,28 +166,23 @@ var Visualizer = module.exports = function() {
         document.addEventListener('mousemove', this.onDocumentMouseMove);
 
         var keyPress = function(e) {
-            var cursor = 'auto';
-
             if (e.keyCode === 68) {
                 Events.downloadSound();
             } else if (e.keyCode === 83) {
                 if (scope.mode !== 1) {
                     scope.mode = 1;
-                    cursor = 'pointer';
                 } else {
                     scope.mode = 0;
                 }
             } else if (e.keyCode === 82) {
                 if (scope.mode !== 2) {
                     scope.mode = 2;
-                    cursor = 'no-drop';
                 } else {
                     scope.mode = 0;
                 }
             }
-            document.body.style.cursor = cursor;
+            SelectionCursor.changeMode(scope.mode);
         };
-
         window.addEventListener('keyup', keyPress);
     };
 

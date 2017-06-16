@@ -1,9 +1,9 @@
 'use strict';
 
-var Data = require("./Data");
 var THREE = require("three");
 
 var mouseMesh;
+var size;
 
 var iiiii = function() {
 
@@ -12,14 +12,14 @@ var iiiii = function() {
 
 module.exports = {
 
-    init: function(size) {
-
-        var mouseGeometry = new THREE.RingGeometry(14, 15, 64);
+    init: function(initialSize) {
+        size = initialSize;
+        var mouseGeometry = new THREE.RingGeometry(13, 15, 64);
         var mouseMaterial = new THREE.MeshBasicMaterial({
             color: 0xFF0000
         });
         mouseMesh = new THREE.Mesh(mouseGeometry, mouseMaterial);
-
+        mouseMesh.visible = false;
     },
 
     update: function(event) {
@@ -28,12 +28,24 @@ module.exports = {
 
     changeMode: function(mode) {
         if (mode === 0) {
-            console.log("hide");
+            mouseMesh.visible = false;
         } else if (mode === 1) {
-            console.log("mode1");
+            mouseMesh.material.color.setHex(0x00FF00);
         } else if (mode === 2) {
-            console.log("mode2");
+            mouseMesh.material.color.setHex(0xFF0000);
         }
+        if (mode !== 0) {
+            mouseMesh.visible = true;
+        }
+    },
+
+    changeSize: function(newSize) {
+        size = newSize;
+    },
+
+
+    getSize: function() {
+        return size;
     },
 
     getMesh: function() {

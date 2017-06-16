@@ -45,6 +45,7 @@ function load(url, responseType, onProgress) {
         request.responseType = responseType;
         request.onload = function() {
             if (request.status === 200) {
+                console.log(request);
                 resolve(request.response);
             } else {
                 reject(Error('Load unsuccessful: ' + request.statusText));

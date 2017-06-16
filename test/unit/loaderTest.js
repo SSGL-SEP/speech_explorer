@@ -2,6 +2,7 @@ var appDir = require('app-root-path');
 var assert = require('assert');
 var chai = require("chai");
 var sinon = require("sinon");
+var FormData = require("form-data");
 var chaiAsPromised = require("chai-as-promised");
 var expect = chai.expect;
 var Loader;
@@ -9,21 +10,13 @@ var Loader;
 describe('Loader', function() {
 
     before(function() {
-        Loader = require(appDir + "/app/Data");
+        Loader = require(appDir + "/app/Loader");
         // var json = require(appDir + "/test/testdata.json");
         // var Config = require(appDir + "/app/ConfigDAO");
         // var config = new Config({dataSets:[{dataSet:"phoneme", audioSrc: "phonemes"}]});
         // Data.setConfig(config);
         // Data.loadData(json);
 
-
-    });
-
-    after(function() {
-
-    });
-
-    beforeEach(function() {
         this.xhr = sinon.useFakeXMLHttpRequest();
 
         this.requests = [];
@@ -31,23 +24,39 @@ describe('Loader', function() {
             this.requests.push(xhr);
         }.bind(this);
 
+
+    });
+
+    after(function() {
+        this.xhr.restore();
+    });
+
+    beforeEach(function() {
+
+
     });
 
     afterEach(function() {
-        this.xhr.restore();
+
     });
 
 
     describe('#loadJSON()', function() {
         it('should return a json', function() {
             var data = { foo: 'bar' };
-            var dataJson = JSON.stringify(data);
+            // var dataJson = JSON.stringify(data);
+            var dataJson = "{ foo: 'bar' }";
 
-            var result = Loader.loadJSON("foo");
+            var result = Loader.loadJSON("http://localhost:3000/config.json");
+
+            assert(1, this.requests.length);
 
             this.requests[0].respond(200, { 'Content-Type': 'text/json' }, dataJson);
-
-            return expect(result).to.eventually.deep.equal(data);
+            
+            return result.then(function(resp) {
+                expect(resp).to.equal(data);
+            });
+            // return expect(result).to.eventually.deep.equal(data);
         });
     });
 

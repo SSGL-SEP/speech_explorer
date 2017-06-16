@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node node_modules/grunt-cli/bin/grunt",
     "unittest": "node_modules/.bin/_mocha test/unit/**/*.js",
-	"cucumber": "cp public/index.html test/public/ & cp public/assets/css/style.css test/public/assets/css/ & node_modules/webpack/bin/webpack.js --define process.env.NODE_ENV='\"development\"' --config webpack.test.config.js & NODE_ENV=development node_modules/.bin/cucumberjs test/features",
+    "cucumber": "cp public/index.html test/public/ & cp public/assets/css/style.css test/public/assets/css/ & node_modules/webpack/bin/webpack.js --define process.env.NODE_ENV='\"development\"' --config webpack.test.config.js & NODE_ENV=development node_modules/.bin/cucumberjs test/features",
     "cucumber2": "./node_modules/webpack/bin/webpack.js --define process.env.NODE_ENV='\"development\"' --config webpack.test.config.js & NODE_ENV=development node_modules/.bin/cucumberjs test/features",
     "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js",
     "heroku-postbuild": "mkdir lib/dat/build & wget https://raw.githubusercontent.com/SSGL-SEP/dat.gui/master/build/dat.gui.min.js -O lib/dat/build/dat.gui.min.js & webpack -p --config webpack.config.js --progress",
@@ -27,12 +27,14 @@
   "devDependencies": {
     "appium": "^1.5.2",
     "chai": "^3.5.0",
+    "chromedriver": "2.30.1",
     "cucumber": "^2.0.0",
     "geckodriver": "^1.6.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^3.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "^0.4.4",
     "grunt-exec": "^0.4.7",
@@ -43,14 +45,12 @@
     "jsdom": "11.0.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^3.0.0",
+    "node-localstorage": "1.3.0",
     "sanitize-filename": "^1.6.0",
-    "selenium-webdriver": "^3.4.0",
-    "node-localstorage":"1.3.0",
-    "chromedriver":"2.30.1"
+    "selenium-webdriver": "^3.4.0"
   },
   "dependencies": {
     "app-root-path": "^2.0.1",
-    "isomorphic-fetch": "^2.2.1",
     "es6-promise": "^4.1.0",
     "express": "^4.15.2",
     "three": "^0.85.2",

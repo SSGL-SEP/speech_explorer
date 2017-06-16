@@ -12,12 +12,10 @@ var playSound = function(index, callback) {
         current.stop(0);
         current = null;
     }
-    // var context = sounds[index].context;
     var source = context.createBufferSource();
 
-    context.decodeAudioData(sounds[index], function(res) {
-
-        source.buffer = res;
+    context.decodeAudioData(sounds[index], function(audioBuffer) {
+        source.buffer = audioBuffer;
         source.connect(context.destination);
         current = source;
         current.onended = clearCurrent;
@@ -26,7 +24,6 @@ var playSound = function(index, callback) {
             callback(source);
         }
     });
-    // return source;
 };
 
 var playSoundFromPath = function(path) {
@@ -51,7 +48,7 @@ var iterateSounds = function(soundIndexes, index) {
     }
     if (playingEnabled) {
         var source;
-        if (sounds !== null) {
+        if (sounds) {
             playSound(soundIndexes[index], function(source) {
                 source.addEventListener('ended', function() {
                     iterateSounds(soundIndexes, index + 1);
@@ -69,7 +66,7 @@ var iterateSounds = function(soundIndexes, index) {
     }
 };
 
-var AudioPlayer = module.exports = {
+module.exports = {
 
     loadSounds: function(array) {
         sounds = array;

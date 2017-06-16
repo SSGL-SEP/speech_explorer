@@ -2,6 +2,7 @@
 
 var THREE = require('three');
 var Data = require('./Data');
+var SelectionCursor = require("./SelectionCursor");
 
 module.exports = function(viz) {
     var visualizer = viz;
@@ -139,11 +140,13 @@ module.exports = function(viz) {
 
         if (delta > 0) {
             visualizer.cloudSize2D /= 1.05;
+            SelectionCursor.setScale(visualizer.cloudSize2D);
             visualizer.cloudSize2D = (visualizer.cloudSize2D < resetScale) ? resetScale : visualizer.cloudSize2D;
             scalar = visualizer.cloudSize2D;
             visualizer.zoomer.scale.set(scalar, scalar, scalar);
         } else {
             visualizer.cloudSize2D *= 1.05;
+            SelectionCursor.setScale(visualizer.cloudSize2D);
             visualizer.cloudSize2D = (visualizer.cloudSize2D > 20) ? 20 : visualizer.cloudSize2D;
             scalar = visualizer.cloudSize2D;
             visualizer.zoomer.scale.set(scalar, scalar, scalar);

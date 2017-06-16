@@ -111,7 +111,7 @@ var Visualizer = module.exports = function() {
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-        SelectionCursor.init(3);
+        SelectionCursor.init(8);
         this.scene.add(SelectionCursor.getMesh());
         this.base = new THREE.Object3D();
         this.scene.add(this.base);

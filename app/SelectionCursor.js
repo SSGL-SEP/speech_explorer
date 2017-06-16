@@ -4,17 +4,24 @@ var THREE = require("three");
 
 var mouseMesh;
 var size;
+var borderWidth = 2;
 
-var iiiii = function() {
+
+var changeSize = function() {
+    // mouseMesh.geometry.parameters.outerRadius = size;
+    // mouseMesh.geometry.parameters.innerRadius = size - borderWidth;
+
+    // console.log(mouseMesh.geometry);
+
+    mouseMesh.scale.set(size, size, 0);
 
 };
-
 
 module.exports = {
 
     init: function(initialSize) {
         size = initialSize;
-        var mouseGeometry = new THREE.RingGeometry(13, 15, 64);
+        var mouseGeometry = new THREE.RingGeometry(size - borderWidth, initialSize, 64);
         var mouseMaterial = new THREE.MeshBasicMaterial({
             color: 0xFF0000
         });
@@ -23,7 +30,7 @@ module.exports = {
     },
 
     update: function(event) {
-        mouseMesh.position.set(event.clientX + window.innerWidth / -2, -event.clientY - window.innerHeight / -2, 6);
+        mouseMesh.position.set(event.clientX + window.innerWidth / -2, -event.clientY - window.innerHeight / -2, 10);
     },
 
     changeMode: function(mode) {
@@ -39,10 +46,9 @@ module.exports = {
         }
     },
 
-    changeSize: function(newSize) {
-        size = newSize;
+    setScale: function(scale) {
+        mouseMesh.scale.set(scale, scale, 1);
     },
-
 
     getSize: function() {
         return size;

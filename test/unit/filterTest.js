@@ -1,7 +1,8 @@
-var appDir = require('app-root-path');
-var assert = require('assert');
+const jsdom = require('jsdom-global');
+const appDir = require('app-root-path');
+const assert = require('assert');
 const {expect} = require('chai');
-var PointCloud = require(appDir + '/app/PointCloud');
+const PointCloud = require(appDir + '/app/PointCloud');
 const InfoOverlay = require(appDir + "/app/InfoOverlay");
 const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
 
@@ -14,7 +15,7 @@ describe('Filter', function() {
 
     before(function() {
         var json = require(appDir + "/test/testdata.json");
-        this.jsdom = require('jsdom-global')(html);
+        jsdom(html);
         Data = require(appDir + "/app/Data");
         Data.loadData(json);
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
@@ -25,7 +26,7 @@ describe('Filter', function() {
     });
 
     after(function() {
-        this.jsdom();
+        jsdom();
 
     });
 

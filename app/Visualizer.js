@@ -6,6 +6,7 @@ var Filter = require("./Filter");
 var THREE = require("three");
 var InfoOverlay = require("./InfoOverlay");
 var AudioPlayer = require("./AudioPlayer");
+var SelectionCursor = require("./SelectionCursor");
 var DEFAULT_POINTSIZE = 2;
 
 var Visualizer = module.exports = function() {
@@ -30,6 +31,7 @@ var Visualizer = module.exports = function() {
 
     this.activePoint = null;
     this.lastClickedPoint = null;
+    this.cursor = null;
     var raycaster;
     var mouse;
 
@@ -105,18 +107,21 @@ var Visualizer = module.exports = function() {
             window.innerHeight / 2,
             window.innerHeight / -2,
             near, far);
-
         this.scene.add(this.camera);
 
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-
+        // this.selectionCursor = new SelectionCursor();
+        this.cursor = SelectionCursor.init(3);
+        this.scene.add(this.cursor);
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2(999999, 999999);
+
+
     };
 
     this.createCloud = function() {
@@ -315,6 +320,8 @@ var Visualizer = module.exports = function() {
         event.preventDefault();
         mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.offsetY / window.innerHeight) * 2 + 1;
+        this.cursor.update(mouse);
+        console.log("update",this.cursor);
     };
 
 };

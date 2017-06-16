@@ -1,14 +1,14 @@
 engines:
   csslint:
     enabled: false
+  eslint:
+    enabled: true
   duplication:
+    enabled: true
     config:
       languages:
         - javascript
-          #mass_threshold: 50
-    enabled: true
-  eslint:
-    enabled: true
+            mass_threshold: 50
 ratings:
   paths:
     - app/**

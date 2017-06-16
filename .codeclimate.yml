@@ -12,3 +12,6 @@ engines:
 ratings:
   paths:
     - app/**
+exclude_paths:
+  - test/**/*
+  - lib/**/*

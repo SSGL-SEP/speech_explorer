@@ -3,6 +3,10 @@ var bodyParser = require('body-parser')
 var rootPath = require('app-root-path');
 var express = require('express');
 var path = require('path');
+var fs = require('fs');
+var dir = './tmp';
+
+
 
 var publicFolder;
 if (process.env.NODE_ENV === 'development') {
@@ -22,12 +26,15 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
-    response.sendFile('index.html', {root: pathToPublic});
+    response.sendFile('index.html', { root: pathToPublic });
 });
 
-app.post('/download', function(request, response){
-	var json = request.body.urls;
+app.post('/download', function(request, response) {
+    var json = request.body.urls;
     var urls = JSON.parse(json);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
     console.log(urls);
 });
 

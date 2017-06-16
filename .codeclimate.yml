@@ -7,7 +7,6 @@ engines:
         - javascript
           #mass_threshold: 50
     enabled: true
-  enabled: true
   eslint:
     enabled: true
 ratings:

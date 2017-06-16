@@ -211,9 +211,31 @@ module.exports = function(viz) {
     };
 
     this.downloadSounds = function(selected) {
-        for (var i = 0; i < selected.length; i++) {
-            this.downloadSound(selected[i]);
+        var max = 100;
+        if (selected.length >= 100) { 
+            var report = 'Maximun amount on files on single download is set at ' + max;
+            alert (report);
+            return;
         }
+        var urlArray = []
+        for (var i = 0; i < selected.length; i++) {
+            //this.downloadSound(selected[i]);
+            urlArray.push(Data.getUrl(selected[i]));
+        }
+        var http = new XMLHttpRequest();
+        var url = "/download";
+        var params = "urls:asdfasdf";
+        http.open("POST", url, true);
+
+        //Send the proper header information along with the request
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        http.onreadystatechange = function() {//Call a function when the state changes.
+        if(http.readyState == 4 && http.status == 200) {
+            alert(http.responseText);
+            }
+        }
+        http.send(params);
 
     };
 };

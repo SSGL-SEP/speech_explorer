@@ -19,6 +19,12 @@ app.get('/', function(request, response) {
     response.sendFile('index.html', {root: pathToPublic});
 });
 
+app.post('/download', function(request, response){
+	console.log(request);
+});
+
+
+
 app.use(express.static(publicFolder));
 
 var server = app.listen(port, function() {

@@ -7,8 +7,8 @@ engines:
     enabled: true
     config:
       languages:
-        - javascript
-            mass_threshold: 50
+        javascript:
+          mass_threshold: 50
 ratings:
   paths:
     - app/**

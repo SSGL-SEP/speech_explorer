@@ -4,6 +4,8 @@ var rootPath = require('app-root-path');
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+var http = require('http');
+var IO = require('./IO.js');
 var dir = './tmp';
 
 
@@ -35,7 +37,27 @@ app.post('/download', function(request, response) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
+    var files =[];
+    for(var i = 0; i< urls.length; i++){
+    	files.push(fs.createWriteStream(dir+'/'+urls[i].split("/")[1]));
+    }
     console.log(urls);
+    for(var i = 0; i < urls.length; i++){
+    	var file = files[i];
+
+    	var request = http.get('http://s3-eu-west-1.amazonaws.com/ssglsep/'+urls[i], function(response) {
+    		response.pipe(file);
+    	});
+    	//file.end();
+    }
+   	
+	
+	/*
+	var file = IO.loadWav(urls[0]).then(function(file){
+		console.log(file);
+	});
+	*/
+	
 });
 
 

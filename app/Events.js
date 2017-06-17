@@ -221,7 +221,7 @@ module.exports = function(viz) {
         var urlArray = []
         for (var i = 0; i < selected.length; i++) {
             //this.downloadSound(selected[i]);
-            urlArray.push(Data.getUrl(selected[i]));
+            urlArray.push(Data.getUrl(selected[i]).slice(6));
         }
         var http = new XMLHttpRequest();
         var url = "/download";

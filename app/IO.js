@@ -10,5 +10,12 @@ module.exports = {
             .then(function(res) {
                 return res.json();
             });
+    },
+
+    loadWav: function(url){
+    	return fetch(url)
+            .then(function(res) {
+                return res;
+            });
     }
 };

@@ -1,59 +1,53 @@
-const jsdomify = require('jsdomify').default;
+const jsdom = require('jsdom-global');
 const appDir = require('app-root-path');
 const assert = require('assert');
-const LocalStorage = require('node-localstorage').LocalStorage;
-var FilterOverlay;
-
+const expect = require('chai').expect;
+let FilterOverlay = require(appDir + "/app/FilterOverlay");
 
 describe('FilterOverlay', function() {
 
     before(function() {
-        jsdomify.create('<!DOCTYPE html><html><body><div id="overlay"></div></body></html>');
-        FilterOverlay = require(appDir + "/app/FilterOverlay");
-
+        jsdom('<!DOCTYPE html><html><body><div id="overlay"></div></body></html>');
         var ConfigMock = {
             findAllDataSetDisplayNames: function() {
                 return ["testdata"];
             },
-            findDefaultDataSetName: function(){
+            findDefaultDataSetName: function() {
                 return "testdata";
             }
         };
-        var filterFunctionMock = function(filter){
+        var filterFunctionMock = function(filter) {
             return "filter";
         };
 
-        var dataSetChangeFunctionMock = function(dataset){
+        var dataSetChangeFunctionMock = function(dataset) {
             return "dataSetChange";
         };
 
-        global.localStorage = new LocalStorage('mockstorage');
-        global.window = document.defaultView;
-        global.window.localStorage = global.localStorage;
         var Data = require(appDir + "/app/Data");
         var json = require(appDir + '/test/testdata.json');
 
         Data.loadData(json);
-
         FilterOverlay = new FilterOverlay({
             data: Data,
             filterFunction: filterFunctionMock,
             configDAO: ConfigMock,
             changeDataSetFunction: dataSetChangeFunctionMock
         });
+        FilterOverlay.init('testdata');
     });
 
     after(function() {
-        jsdomify.destroy();
+        jsdom();
     });
-
-    beforeEach(function() {
-        // runs before each test in this block
-    });
-
-    afterEach(function() {
-        // runs after each test in this block
-    });
+    //
+    // beforeEach(function() {
+    //     // runs before each test in this block
+    // });
+    //
+    // afterEach(function() {
+    //     // runs after each test in this block
+    // });
 
     var checkAll = function(tf) {
         for (var i = 0; i < FilterOverlay.boolTags.length; i++) {
@@ -82,7 +76,7 @@ describe('FilterOverlay', function() {
 
     describe('FilterOverlay#gui', function() {
         it('should be created after init', function() {
-            assert(FilterOverlay.gui);
+            expect(FilterOverlay.gui).not.to.be.a('null');
         });
     });
 

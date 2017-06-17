@@ -1,6 +1,6 @@
 const appDir = require('app-root-path');
 const assert = require('assert');
-const {expect} = require('chai');
+const expect = require('chai').expect;
 const PointCloud = require(appDir + '/app/PointCloud');
 const Data = require(appDir + "/app/Data");
 
@@ -11,9 +11,9 @@ describe('The PointCloud', function() {
         this.pointCloud = new PointCloud(1);
     });
 
-    after(function() {
-
-    });
+    // after(function() {
+    //
+    // });
 
     it('should have correct number of points after initialization', function() {
         var pts = this.pointCloud.getAttributes().enabled.array;

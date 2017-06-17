@@ -1,7 +1,7 @@
-const jsdomify = require('jsdomify').default;
+const jsdom = require('jsdom-global');
 const appDir = require('app-root-path');
 const assert = require('assert');
-const {expect} = require('chai');
+const expect = require('chai').expect;
 const Data = require(appDir + "/app/Data");
 const InfoOverlay = require(appDir + "/app/InfoOverlay");
 
@@ -10,28 +10,30 @@ const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id
 describe('InfoOverlay', function() {
 
     before(function() {
-        jsdomify.create(html);
+        jsdom(html);
 
         const json = require(appDir + "/test/testdata.json");
         Data.loadData(json);
         Data.setConfig({
-            getAudioSrc: function() { return ''; } // stub method
+            getAudioSrc: function() {
+                return '';
+            } // stub method
         });
 
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
     });
 
     after(function() {
-        jsdomify.destroy();
+        jsdom();
     });
 
-    beforeEach(function() {
-        // runs before each test in this block
-    });
+    // beforeEach(function() {
+    //     // runs before each test in this block
+    // });
 
-    afterEach(function() {
-        // runs after each test in this block
-    });
+    // afterEach(function() {
+    //     // runs after each test in this block
+    // });
 
 
     // test cases
@@ -147,7 +149,7 @@ describe('InfoOverlay', function() {
 describe('InfoOverlay', function() {
 
     before(function() {
-        jsdomify.create(html);
+        jsdom(html);
         const json = require(appDir + "/test/testdata.json");
 
         Data.loadData(json);
@@ -156,7 +158,7 @@ describe('InfoOverlay', function() {
 
     after(function() {
         // runs after all tests in this block
-        jsdomify.destroy();
+        jsdom();
     });
 
     beforeEach(function() {

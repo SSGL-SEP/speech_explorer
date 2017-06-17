@@ -17,13 +17,13 @@ describe('Loader', function() {
         this.server.restore();
     });
 
-    beforeEach(function() {
-
-    });
-
-    afterEach(function() {
-
-    });
+    // beforeEach(function() {
+    //
+    // });
+    //
+    // afterEach(function() {
+    //
+    // });
 
 
     describe('#loadJSON()', function() {

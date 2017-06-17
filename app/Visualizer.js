@@ -43,6 +43,10 @@ var Visualizer = module.exports = function() {
             Events.downloadSound();
         });
 
+        InfoOverlay.setAction('downloadAll', function() {
+            Events.downloadSounds(Array.from(Filter.getSelected()));
+        });
+
         InfoOverlay.setAction('playAll', function() {
             var selected = Array.from(Filter.getSelected());
             AudioPlayer.playSounds(selected);

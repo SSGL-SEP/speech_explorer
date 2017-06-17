@@ -2,6 +2,10 @@
 
 var THREE = require('three');
 var Data = require('./Data');
+var Promise = require('es6-promise').Promise;
+var JSZip = require('jszip');
+var JSZipUtils = require('jszip-utils');
+var saveAs = require('../lib/FileSaver');
 
 module.exports = function(viz) {
     var visualizer = viz;
@@ -208,5 +212,46 @@ module.exports = function(viz) {
             a.click();
             document.body.removeChild(a);
         }
+    };
+
+    this.downloadSounds = function(selectedPointIndexes) {
+        var zip  = new JSZip();
+        var url;
+        var a = document.createElement('a');
+
+        /**
+         * Fetch the content and return the associated promise.
+         * @src http://stuk.github.io/jszip/documentation/examples/downloader.html
+         *
+         * @param {String} url the url of the content to fetch.
+         * @return {Promise} the promise containing the data.
+         */
+        function urlToPromise(url) {
+            return new Promise(function(resolve, reject) {
+                JSZipUtils.getBinaryContent(url, function(err, data) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(data);
+                    }
+                });
+            });
+        }
+
+        for(var i = 0; i < selectedPointIndexes.length; i++) {
+            a.href = Data.getUrl(selectedPointIndexes[i]);
+            zip.file(Data.getFileName(selectedPointIndexes[i]), urlToPromise(a.href), {binary: true});
+        }
+
+        zip.generateAsync({type: "blob"}, function(metadata) {
+            var msg = "progression : " + metadata.percent.toFixed(2) + " %";
+            if (metadata.currentFile) {
+                msg += ", current file = " + metadata.currentFile;
+            }
+            console.log(msg);
+        })
+            .then(function callback(blob) {
+                saveAs(blob, "selected_sounds_" + new Date().getTime() + ".zip");
+            }).catch(console.error);
     };
 };

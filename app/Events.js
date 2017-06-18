@@ -219,35 +219,36 @@ module.exports = function(viz) {
             return;
         }
         // urls of sounds
-        var urlArray = []
+        var urlArray = [];
 
         // metadata of sounds
         var metaDataString = '';
         var tagNames = Object.keys(Data.getTags());
 
-        // column-names of metadata table
+        // column names of metadata -table
         var i;
         for (i = 0; i < tagNames.length - 1; i++) {
             metaDataString += tagNames[i] + ','
         }
         metaDataString += tagNames[i] + "\n";
 
-        // rows of metadata & urls of sounds
-        var point, metaDataRow = '';
+        var j, point, metaDataRow;
 
-        // metadatarow
-        for (var i = 0; i < selected.length; i++) {
+        for (i = 0; i < selected.length; i++) {           
             point = Data.getPoint(selected[i]);
-            for (var j = 0; j < tagNames.length - 1; j++) {
+            metaDataRow = '';
+
+            // metadatarow fo sound
+            for (j = 0; j < tagNames.length - 1; j++) {
                 metaDataRow += point.meta[tagNames[j]] + ',';
             }
             metaDataRow += point.meta[tagNames[j]] + "\n";
-
             metaDataString += metaDataRow;
             
-            // urls of sounds
+            // url of sound
             urlArray.push(Data.getUrl(selected[i]).slice(6));
         }
+        console.log(urlArray);
         console.log(metaDataString);
         var http = new XMLHttpRequest();
         var url = "/download";

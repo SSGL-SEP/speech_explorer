@@ -1,5 +1,5 @@
 'use strict';
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var rootPath = require('app-root-path');
 var express = require('express');
 var path = require('path');
@@ -42,11 +42,11 @@ app.post('/download', function(request, response) {
     	files.push(fs.createWriteStream(dir+'/'+urls[i].split("/")[1]));
     }
     console.log(urls);
-    for(var i = 0; i < urls.length; i++){
+    for(i = 0; i < urls.length; i++){
     	var file = files[i];
 
-    	var request = http.get('http://s3-eu-west-1.amazonaws.com/ssglsep/'+urls[i], function(response) {
-    		response.pipe(file);
+    	request = http.get('http://s3-eu-west-1.amazonaws.com/ssglsep/'+urls[i], function(response) {
+    	response.pipe(file);
     	});
     	//file.end();
     }

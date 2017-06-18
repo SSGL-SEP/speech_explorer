@@ -228,7 +228,7 @@ module.exports = function(viz) {
         // column names of metadata -table
         var i;
         for (i = 0; i < tagNames.length - 1; i++) {
-            metaDataString += tagNames[i] + ','
+            metaDataString += tagNames[i] + ',';
         }
         metaDataString += tagNames[i] + "\n";
 
@@ -263,7 +263,7 @@ module.exports = function(viz) {
         if(http.readyState == 4 && http.status == 200) {
             alert(http.responseText);
             }
-        }
+        };
         http.send(params);
 
     };

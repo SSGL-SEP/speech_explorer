@@ -5,6 +5,7 @@ const expect = chai.expect;
 const sinon = require("sinon");
 const chaiAsPromised = require("chai-as-promised");
 const Loader = require(appDir + "/app/Loader");
+// const testBlob = require(appDir + "/test/testblob.blob");
 chai.use(chaiAsPromised);
 
 describe('Loader', function() {
@@ -38,6 +39,41 @@ describe('Loader', function() {
             this.server.respond();
 
             expect(result).to.eventually.deep.equal(data);
+        });
+    });
+
+    describe('#loadSounds()', function() {
+        it('should return an array when dataset is not same', function() {
+            var data = 'appDir + "/test/testblob.blob';
+            this.server.respondWith("GET", "/testblob.blob",
+                [200, { "Content-Type": "application/octet-stream" }, data]
+            );
+
+            var result = Loader.loadSounds("/testblob.blob");
+
+            this.server.respond();
+
+            expect(result).to.eventually.be.an('array');
+        });
+        it('should return same array when dataset was not changed', function() {
+            var data = 'appDir + "/test/testblob.blob';
+            this.server.respondWith("GET", "/testblob.blob",
+                [200, { "Content-Type": "application/octet-stream" }, data]
+            );
+            
+            var firstResult = Loader.loadSounds("/testblob.blob");
+
+            this.server.respond();
+
+            this.server.respondWith("GET", "/testblob.blob",
+                [200, { "Content-Type": "application/octet-stream" }, data]
+            );
+
+            var secondResult = Loader.loadSounds("/testblob.blob");
+
+            this.server.respond();
+
+            expect(firstResult).to.eventually.deep.equal(secondResult);
         });
     });
 });

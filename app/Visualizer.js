@@ -65,6 +65,12 @@ var Visualizer = module.exports = function() {
             AudioPlayer.stop();
         });
 
+        InfoOverlay.setAction('deselect', function() {
+            Filter.deselectPointByIndex(scope.lastClickedPoint);
+            scope.pointCloud.update();
+            InfoOverlay.updateSelected(Filter.getSelectedCount());
+        });
+
         this.createListeners();
         this.reset();
         this.animate();

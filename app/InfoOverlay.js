@@ -81,6 +81,11 @@ var infoPanelButtons = createButtonContainer('infobuttons', [
         action: 'download'
     },
     {
+        title: 'Deselect',
+        action: 'deselect'
+    },
+
+    {
         title: 'Play',
         action: 'play'
     },

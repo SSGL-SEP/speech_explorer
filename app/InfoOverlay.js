@@ -74,7 +74,6 @@ var createButtonContainer = function(className, buttons) {
     return container;
 };
 
-<<<<<<< HEAD
 var infoPanelMetaContainer = document.createElement('div');
 var infoPanelButtons = createButtonContainer('infobuttons', [
     {

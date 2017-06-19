@@ -96,6 +96,10 @@ module.exports = {
                 action: 'play'
             },
             {
+                title: 'Deselect',
+                action: 'deselect'
+            },
+            {
                 title: 'Close',
                 action: hideInfoPanels
             }

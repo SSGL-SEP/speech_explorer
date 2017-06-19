@@ -6,6 +6,7 @@ var Filter = require("./Filter");
 var THREE = require("three");
 var InfoOverlay = require("./InfoOverlay");
 var AudioPlayer = require("./AudioPlayer");
+var SelectionCursor = require("./SelectionCursor");
 var DEFAULT_POINTSIZE = 2;
 
 var Visualizer = module.exports = function() {
@@ -69,6 +70,14 @@ var Visualizer = module.exports = function() {
             AudioPlayer.stop();
         });
 
+        InfoOverlay.setAction('deselect', function() {
+            Filter.deselectPointByIndex(scope.lastClickedPoint);
+            scope.pointCloud.update();
+            if (Filter.getSelectedCount() !== 0) {
+                InfoOverlay.updateSelected(Filter.getSelectedCount());
+            }
+        });
+
         this.createListeners();
         this.reset();
         this.animate();
@@ -111,18 +120,20 @@ var Visualizer = module.exports = function() {
             window.innerHeight / 2,
             window.innerHeight / -2,
             near, far);
-
         this.scene.add(this.camera);
 
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-
+        SelectionCursor.init(8);
+        this.scene.add(SelectionCursor.getMesh());
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2(999999, 999999);
+
+
     };
 
     this.createCloud = function() {
@@ -166,31 +177,26 @@ var Visualizer = module.exports = function() {
         this.context.addEventListener("mousewheel", Events.onWheel.bind(scope), false);
         this.context.addEventListener("DOMMouseScroll", Events.onWheel.bind(scope), false);
 
-        document.addEventListener('mousemove', this.onDocumentMouseMove);
+        this.renderer.domElement.addEventListener('mousemove', this.onDocumentMouseMove);
 
         var keyPress = function(e) {
-            var cursor = 'auto';
-
             if (e.keyCode === 68) {
                 Events.downloadSound();
             } else if (e.keyCode === 83) {
                 if (scope.mode !== 1) {
                     scope.mode = 1;
-                    cursor = 'pointer';
                 } else {
                     scope.mode = 0;
                 }
             } else if (e.keyCode === 82) {
                 if (scope.mode !== 2) {
                     scope.mode = 2;
-                    cursor = 'no-drop';
                 } else {
                     scope.mode = 0;
                 }
             }
-            document.body.style.cursor = cursor;
+            SelectionCursor.changeMode(scope.mode);
         };
-
         window.addEventListener('keyup', keyPress);
     };
 
@@ -322,6 +328,7 @@ var Visualizer = module.exports = function() {
     // ------------------------------------------------------------
     this.onDocumentMouseMove = function(event) {
         event.preventDefault();
+        SelectionCursor.update(event);
         mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.offsetY / window.innerHeight) * 2 + 1;
     };

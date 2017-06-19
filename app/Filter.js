@@ -133,6 +133,12 @@ module.exports = {
         return changed;
     },
 
+    deselectPointByIndex: function(index) {
+        pointStates[index] = 1;
+        selectedPoints.delete(index);
+        calculateActivePoints();
+    },
+
     clearSelected: clearSelected,
 
     clearAll: function() {

@@ -1,34 +1,39 @@
+const jsdom = require('jsdom-global');
 const appDir = require('app-root-path');
 const assert = require('assert');
-const {expect} = require('chai');
-const InfoOverlay = require(appDir + "/app/InfoOverlay");
+const expect = require('chai').expect;
 const Data = require(appDir + "/app/Data");
+const InfoOverlay = require(appDir + "/app/InfoOverlay");
 
 const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
 
 describe('InfoOverlay', function() {
 
     before(function() {
+        jsdom(html);
+
         const json = require(appDir + "/test/testdata.json");
-        this.jsdom = require('jsdom-global')(html);
-
         Data.loadData(json);
-        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
+        Data.setConfig({
+            getAudioSrc: function() {
+                return '';
+            } // stub method
+        });
 
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
     });
 
     after(function() {
-        // runs after all tests in this block
-        this.jsdom();
+        jsdom();
     });
 
-    beforeEach(function() {
-        // runs before each test in this block
-    });
+    // beforeEach(function() {
+    //     // runs before each test in this block
+    // });
 
-    afterEach(function() {
-        // runs after each test in this block
-    });
+    // afterEach(function() {
+    //     // runs after each test in this block
+    // });
 
 
     // test cases
@@ -144,8 +149,8 @@ describe('InfoOverlay', function() {
 describe('InfoOverlay', function() {
 
     before(function() {
+        jsdom(html);
         const json = require(appDir + "/test/testdata.json");
-        this.jsdom = require('jsdom-global')(html);
 
         Data.loadData(json);
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
@@ -153,7 +158,7 @@ describe('InfoOverlay', function() {
 
     after(function() {
         // runs after all tests in this block
-        this.jsdom();
+        jsdom();
     });
 
     beforeEach(function() {

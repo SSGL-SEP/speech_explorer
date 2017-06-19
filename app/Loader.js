@@ -3,6 +3,7 @@
 var Promise = require('es6-promise').Promise;
 
 var sounds = [];
+var lastUsed = "";
 
 function extractBuffer(src, offset, length) {
     var dstU8 = new Uint8Array(length);
@@ -53,7 +54,9 @@ function load(url, responseType, onProgress) {
             reject(Error('There was a network error.'));
         };
         request.onprogress = function(e) {
-            onProgress(e.loaded * 100 / e.total);
+            if(typeof onProgress === 'function') {
+                onProgress(e.loaded * 100 / e.total);
+            }
         };
         request.send();
     });
@@ -61,13 +64,20 @@ function load(url, responseType, onProgress) {
 
 module.exports = {
     loadSounds: function(filename) {
-        sounds = [];
-
-        return load(filename, 'arraybuffer', console.log)
-            .then(processConcatenatedFile)
-            .catch(function(err) {
-                console.log(err.message);
+        if (filename === lastUsed) {
+            return new Promise(function(resolve, reject) {
+                resolve(sounds);
             });
+        } else {
+            sounds = [];
+            lastUsed = filename;
+            return load(filename, 'arraybuffer', console.log)
+                .then(processConcatenatedFile)
+                .catch(function(err) {
+                    console.log(err.message);
+                    return [];
+                });
+        }
     },
 
     loadJSON: function(url) {

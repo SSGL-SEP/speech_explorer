@@ -42,7 +42,7 @@ function changeDataSet(dataset) {
                 AudioPlayer.loadSounds(sounds);
                 FilterOverlay.reset();
                 Visualizer.reset();
-                FilterOverlay.Init(dataset);
+                FilterOverlay.init(dataset);
                 Visualizer.enableInteraction();
             });
     });

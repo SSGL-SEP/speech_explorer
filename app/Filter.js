@@ -137,7 +137,6 @@ module.exports = {
         pointStates[index] = 1;
         selectedPoints.delete(index);
         calculateActivePoints();
-        console.log("deselected", index);
     },
 
     clearSelected: clearSelected,

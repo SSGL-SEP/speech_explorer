@@ -42,7 +42,6 @@ module.exports = {
     setScale: function(scale) {
         circle.scale.set(scale, scale, 1);
         circle.geometry.parameters.innerRadius = radius * scale;
-        console.log(circle);
     },
 
     getSize: function() {

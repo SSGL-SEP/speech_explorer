@@ -54,7 +54,9 @@ function load(url, responseType, onProgress) {
             reject(Error('There was a network error.'));
         };
         request.onprogress = function(e) {
-            onProgress(e.loaded * 100 / e.total);
+            if(typeof onProgress === 'function') {
+                onProgress(e.loaded * 100 / e.total);
+            }
         };
         request.send();
     });
@@ -73,7 +75,7 @@ module.exports = {
                 .then(processConcatenatedFile)
                 .catch(function(err) {
                     console.log(err.message);
-                    return sounds;
+                    return [];
                 });
         }
     },

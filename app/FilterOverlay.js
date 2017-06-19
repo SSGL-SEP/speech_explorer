@@ -17,11 +17,15 @@ module.exports = function(params) {
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
 
-    this.Init = function(selectedDataSet) {
+    this.init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI(selectedDataSet);
         this.initFilter();
+
+        window.onbeforeunload = function() {
+            localStorage.clear();
+        };
     };
 
     this.reset = function() {
@@ -63,9 +67,9 @@ module.exports = function(params) {
 
     this.createGUI = function(selectedDataSet) {
         //always use localstorage;
-        localStorage.setItem(document.location.href + '.' + 'isLocal', true);
+        localStorage.setItem(document.location.href + '.isLocal', true);
         this.selectedDataSet = selectedDataSet;
-        this.gui = new dat.GUI({ width: 265 });
+        this.gui = new dat.GUI({ width: 265});
         this.datasetFolder = this.gui.addFolder("Dataset");
         this.gui.__folders.Dataset.open();
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
@@ -181,12 +185,6 @@ module.exports = function(params) {
             }
 
         }
-    };
-
-    this.Init(this.Config.findDefaultDataSetName());
-
-    window.onbeforeunload = function() {
-        localStorage.clear();
     };
 
 };

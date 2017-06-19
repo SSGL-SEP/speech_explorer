@@ -2,6 +2,10 @@
 
 var THREE = require('three');
 var Data = require('./Data');
+var Promise = require('es6-promise').Promise;
+var JSZip = require('jszip');
+var JSZipUtils = require('jszip-utils');
+var saveAs = require('../lib/FileSaver');
 
 module.exports = function(viz) {
     var visualizer = viz;
@@ -112,15 +116,15 @@ module.exports = function(viz) {
             // SEE - visualizer.onBgDown() onMove()
             switch (event.touches.length) {
                 case 1:
-                    visualizer.touchState = visualizer.IS_DRAGGING;
-                    onDragStarted(event);
-                    break;
+                visualizer.touchState = visualizer.IS_DRAGGING;
+                onDragStarted(event);
+                break;
                 case 2:
-                    visualizer.touchState = visualizer.IS_ZOOMING;
-                    visualizer.context.removeEventListener('mousedown', onDragStarted, false);
-                    visualizer.context.removeEventListener('touchstart', onTouchStarted, false);
-                    onPinchStarted(event);
-                    break;
+                visualizer.touchState = visualizer.IS_ZOOMING;
+                visualizer.context.removeEventListener('mousedown', onDragStarted, false);
+                visualizer.context.removeEventListener('touchstart', onTouchStarted, false);
+                onPinchStarted(event);
+                break;
 
                 default:
             }
@@ -156,7 +160,7 @@ module.exports = function(viz) {
      *
      * @param {Object} InfoOverlay - The object containing info overlay logic
      */
-    this.createInfoBoxListener = function(InfoOverlay) {
+     this.createInfoBoxListener = function(InfoOverlay) {
         var openInfoBox = function() {
             if (visualizer.activePoint !== null) {
                 InfoOverlay.onClickOnPoint(visualizer.activePoint);
@@ -208,5 +212,85 @@ module.exports = function(viz) {
             a.click();
             document.body.removeChild(a);
         }
+    };
+
+    this.downloadSounds = function(selectedPointIndexes) {
+        var max = 100;
+        if (selectedPointIndexes.length >= max) { 
+            var report = "Warning! You are about to download " + selectedPointIndexes.length + ' files!';
+            if (confirm(report) === true) {// jshint ignore:line
+
+            } else {
+                return;
+            }
+        }
+        
+
+        // metadata of sounds
+        var metaDataString = 'filename,';
+        var tagNames = Object.keys(Data.getTags());
+
+        // column names of metadata -table
+        var i;
+        for (i = 0; i < tagNames.length - 1; i++) {
+            metaDataString += tagNames[i] + ',';
+        }
+        metaDataString += tagNames[i] + "\n";
+
+        var j, point, metaDataRow;
+
+        for (i = 0; i < selectedPointIndexes.length; i++) {           
+            point = Data.getPoint(selectedPointIndexes[i]);
+            metaDataRow = '';
+
+            // metadatarow fo sound
+            metaDataRow += Data.getFileName(selectedPointIndexes[i]) + ',';
+            for (j = 0; j < tagNames.length - 1; j++) {
+                metaDataRow += point.meta[tagNames[j]] + ',';
+            }
+            metaDataRow += point.meta[tagNames[j]] + "\n";
+            metaDataString += metaDataRow;
+        }
+
+
+        var zip  = new JSZip();
+        zip.file('metadata.csv', metaDataString);
+        var url;
+        var a = document.createElement('a');
+
+        /**
+         * Fetch the content and return the associated promise.
+         * @src http://stuk.github.io/jszip/documentation/examples/downloader.html
+         *
+         * @param {String} url the url of the content to fetch.
+         * @return {Promise} the promise containing the data.
+         */
+         function urlToPromise(url) {
+            return new Promise(function(resolve, reject) {
+                JSZipUtils.getBinaryContent(url, function(err, data) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(data);
+                    }
+                });
+            });
+        }
+
+        for(i = 0; i < selectedPointIndexes.length; i++) {
+            a.href = Data.getUrl(selectedPointIndexes[i]);
+            zip.file(Data.getFileName(selectedPointIndexes[i]), urlToPromise(a.href), {binary: true});
+        }
+
+        zip.generateAsync({type: "blob"}, function(metadata) {
+            var msg = "progression : " + metadata.percent.toFixed(2) + " %";
+            if (metadata.currentFile) {
+                msg += ", current file = " + metadata.currentFile;
+            }
+            console.log(msg);
+        })
+        .then(function callback(blob) {
+            saveAs(blob, "selected_sounds_" + new Date().getTime() + ".zip");
+        }).catch(console.error);
     };
 };

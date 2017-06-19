@@ -74,46 +74,51 @@ var createButtonContainer = function(className, buttons) {
     return container;
 };
 
-var infoPanelMetaContainer = document.createElement('div');
-var infoPanelButtons = createButtonContainer('infobuttons', [
-    {
-        title: 'Download',
-        action: 'download'
-    },
-    {
-        title: 'Play',
-        action: 'play'
-    },
-    {
-        title: 'Close',
-        action: hideInfoPanels
-    }
-]);
-var selectedPanelContainer = document.createElement('div');
-var selectedPanelButtons = createButtonContainer('selectedbuttons', [
-    {
-        title: 'Download all',
-        action: 'downloadAll'
-    },
-    {
-        title: 'Play all',
-        action: 'playAll'
-    },
-    {
-        title: 'Stop',
-        action: 'stop'
-    },
-    {
-        title: 'Deselect all',
-        action: 'deselectAll'
-    }
-]);
+var infoPanelMetaContainer;
+var infoPanelButtons;
+var selectedPanelContainer;
+var selectedPanelButtons;
 
 module.exports = {
     init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
+
+        infoPanelMetaContainer = document.createElement('div');
+        infoPanelButtons = createButtonContainer('infobuttons', [
+            {
+                title: 'Download',
+                action: 'download'
+            },
+            {
+                title: 'Play',
+                action: 'play'
+            },
+            {
+                title: 'Close',
+                action: hideInfoPanels
+            }
+        ]);
+        selectedPanelContainer = document.createElement('div');
+        selectedPanelButtons = createButtonContainer('selectedbuttons', [
+            {
+                title: 'Download all',
+                action: 'downloadAll'
+            },
+            {
+                title: 'Play all',
+                action: 'playAll'
+            },
+            {
+                title: 'Stop',
+                action: 'stop'
+            },
+            {
+                title: 'Deselect all',
+                action: 'deselectAll'
+            }
+        ]);
 
         selectedDiv = document.getElementById(selectedElementId);
         selectedDiv.innerHTML = "";

@@ -7,7 +7,7 @@ var parsedPoints = [];
 var parsedTags = {};
 var parsedHeader = {};
 
-module.exports = {
+var Data = module.exports = {
 
     setConfig: function(config) {
         Config = config;
@@ -65,12 +65,19 @@ module.exports = {
         return parsedHeader.totalPoints;
     },
 
+    getFileName: function(index) {
+        return parsedPoints[index].filename;
+    },
+
     getUrl: function(index) {
         var folder = Config.getAudioSrc(parsedHeader.dataSet);
+        var path = "";
         if (process.env.DATA_SRC) {
-            return process.env.DATA_SRC + folder + '/' + parsedPoints[index].filename;
+            path += process.env.DATA_SRC;
+        } else {
+            path += 'audio/';
         }
-        return 'audio/' + folder + '/' + parsedPoints[index].filename;
+        return path + folder + '/' + Data.getFileName(index);
     },
 
     getPoint: function(index) {

@@ -14,17 +14,17 @@ describe('Data', function() {
         Data.loadData(json);
     });
 
-    after(function() {
-
-    });
-
-    beforeEach(function() {
-
-    });
-
-    afterEach(function() {
-
-    });
+    // after(function() {
+    //
+    // });
+    //
+    // beforeEach(function() {
+    //
+    // });
+    //
+    // afterEach(function() {
+    //
+    // });
 
 
     describe('#getTotalPoints()', function() {
@@ -35,7 +35,6 @@ describe('Data', function() {
 
     describe('#getUrl()', function() {
         it('should be audio/phonemes/mv_0693_001_k_0_0.wav with parameter 1', function() {
-            console.log(Data.getUrl(1));
             assert(Data.getUrl(1) === "audio/phonemes/mv_0693_001_k_0_0.wav");
         });
     });

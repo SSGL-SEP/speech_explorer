@@ -7,7 +7,6 @@ var size;
 var radius;
 
 
-
 module.exports = {
 
     init: function(initialSize) {
@@ -19,7 +18,7 @@ module.exports = {
         mouseGeometry.vertices.shift();
         circle = new THREE.Line(mouseGeometry, mouseMaterial);
         circle.autoClose = true;
-        circle.position.set(10000,10000);
+        circle.position.set(10000, 10000);
         circle.visible = false;
     },
 

@@ -169,7 +169,7 @@ var Visualizer = module.exports = function() {
         this.context.addEventListener("mousewheel", Events.onWheel.bind(scope), false);
         this.context.addEventListener("DOMMouseScroll", Events.onWheel.bind(scope), false);
 
-        document.addEventListener('mousemove', this.onDocumentMouseMove);
+        this.renderer.domElement.addEventListener('mousemove', this.onDocumentMouseMove);
 
         var keyPress = function(e) {
             if (e.keyCode === 68) {

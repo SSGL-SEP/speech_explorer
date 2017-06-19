@@ -206,6 +206,9 @@ module.exports = function(viz) {
     };
 
     this.downloadSound = function() {
+        if (!visualizer.lastClickedPoint) {
+            return;
+        }
         var href = Data.getUrl(visualizer.lastClickedPoint);
         if (href) {
             var a = document.createElement('A');

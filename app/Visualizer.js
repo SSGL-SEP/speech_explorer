@@ -68,7 +68,9 @@ var Visualizer = module.exports = function() {
         InfoOverlay.setAction('deselect', function() {
             Filter.deselectPointByIndex(scope.lastClickedPoint);
             scope.pointCloud.update();
-            InfoOverlay.updateSelected(Filter.getSelectedCount());
+            if (Filter.getSelectedCount() !== 0) {
+                InfoOverlay.updateSelected(Filter.getSelectedCount());
+            }
         });
 
         this.createListeners();

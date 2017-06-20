@@ -34,6 +34,7 @@ var Visualizer = module.exports = function() {
     var raycaster;
     var mouse;
     var attributes;
+    var raycasterRadius = 8;
 
     this.init = function() {
         this.createEnvironment();
@@ -125,7 +126,7 @@ var Visualizer = module.exports = function() {
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-        SelectionCursor.init(8);
+        SelectionCursor.init(raycasterRadius);
         this.scene.add(SelectionCursor.getMesh());
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
@@ -238,7 +239,7 @@ var Visualizer = module.exports = function() {
         }
         if (this.enabled) {
             // attributes = this.pointCloud.getAttributes();
-            var intersectingPoints = getIntersectingPoints(8);
+            var intersectingPoints = getIntersectingPoints(raycasterRadius);
             if (intersectingPoints.length > 0) {
                 this.updateSelections(intersectingPoints);
 

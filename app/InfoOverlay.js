@@ -2,7 +2,7 @@
 
 var Data = require("./Data");
 var Manual = "Hotkeys:\nS: start/stop selecting\nR: start/stop removing\nD: download .wav for active point (clicked on by left mouse button)\nPan around with left mouse button held down. Zoom in and out with mouse wheel.\nSelect datasets in the control panel on the left side menu (open controls -> datasets).\nFilter active points in the control panel.";
-var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, helpButtonDiv, tags;
+var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, helpButtonDiv, manualDiv, tags;
 var tagNames = [];
 var onClicks = {};
 
@@ -56,7 +56,10 @@ var hideInfoPanels = function() {
 };
 
 var showHelp = function() {
-    console.log(Manual);
+    manualDiv.style.visibility = "visible";
+}
+var hideHelp = function() {
+    manualDiv.style.visibility = "hidden";
 }
 
 /**
@@ -152,6 +155,12 @@ module.exports = {
         infopanelDiv.appendChild(infoPanelButtons);
 
         helpButtonDiv.appendChild(createSimpleButton('help', showHelp));
+
+        manualDiv = document.getElementById('manualBox');
+        manualDiv.innerHTML = Manual;
+        manualDiv.appendChild(createSimpleButton('close',hideHelp));
+        manualDiv.style.visibility = "hidden";
+
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

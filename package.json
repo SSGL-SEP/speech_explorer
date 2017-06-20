@@ -53,6 +53,7 @@
     "sinon": "^2.3.4"
   },
   "dependencies": {
+    "audio-context-polyfill": "^1.0.0",
     "app-root-path": "^2.0.1",
     "dat.gui": "^0.6.1",
     "es6-promise": "^4.1.0",

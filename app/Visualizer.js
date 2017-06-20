@@ -100,6 +100,7 @@ var Visualizer = module.exports = function() {
         updateActiveCountDisplay();
         this.update(true);
         this.mode = 0;
+        SelectionCursor.changeMode(this.mode);
         this.enabled = false;
         attributes = this.pointCloud.getAttributes();
     };
@@ -260,7 +261,7 @@ var Visualizer = module.exports = function() {
                 }
             } else if (this.activePoint !== null) {
                 attributes.customSize.array[this.activePoint] = 0;
-                attributes.position.array[this.activePoint * 3 + 2] = 1;
+                attributes.position.array[this.activePoint * 3 + 2] = 0;
                 attributes.customSize.needsUpdate = true;
                 this.activePoint = null;
                 InfoOverlay.hideInfo();//hides infodiv with sound information

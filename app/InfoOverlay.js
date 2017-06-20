@@ -182,7 +182,7 @@ module.exports = {
     },
 
     resetAndHideSelected: function() {
-        infoPanelMetaContainer.innerHTML = "";
+        selectedPanelContainer.innerHTML = "";
         selectedDiv.style.visibility = 'hidden';
     },
 

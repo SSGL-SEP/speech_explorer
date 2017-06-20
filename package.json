@@ -26,6 +26,7 @@
   "homepage": "https://github.com/SSGL-SEP/speech_explorer#readme",
   "devDependencies": {
     "appium": "^1.5.2",
+    "audio-context-polyfill": "^1.0.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^7.0.0",
     "chromedriver": "2.30.1",

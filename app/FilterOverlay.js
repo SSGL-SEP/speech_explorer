@@ -8,7 +8,7 @@ module.exports = function(params) {
     this.boolTags = [];
     this.tags = data.getTags();
 
-    this.dataset = { Dataset: [] };
+    this.dataset = { Dataset: [], ColorBy: "" };
     this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
@@ -17,10 +17,10 @@ module.exports = function(params) {
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
 
-    this.init = function(selectedDataSet) {
+    this.init = function(selectedDataSet, colorBy) {
         this.createBoolArray(this.tags);
         this.createDatasets();
-        this.createGUI(selectedDataSet);
+        this.createGUI(selectedDataSet, colorBy);
         this.initFilter();
 
         window.onbeforeunload = function() {
@@ -170,6 +170,7 @@ module.exports = function(params) {
                 scope.gui.__folders[key].__controllers[j].updateDisplay();
             }
         }
+
     };
 
     this.initFilter = function() {

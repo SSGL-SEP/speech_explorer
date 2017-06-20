@@ -38,7 +38,7 @@ function startApp() {
                     changeDataSetFunction: changeDataSet
                 });
 
-                //¯\_(ツ)_/¯
+                // ¯\_(ツ)_/¯
                 Visualizer.reset();
                 FilterOverlay.init(defaultDataSet, Data.getParsedHeader().colorBy);
             });

@@ -21,15 +21,6 @@ describe('Loader', function() {
         this.server.restore();
     });
 
-    // beforeEach(function() {
-    //
-    // });
-    //
-    // afterEach(function() {
-    //
-    // });
-
-
     describe('#loadJSON()', function() {
         it('should return a json', function() {
             var data = { foo: 'bar' };
@@ -73,12 +64,6 @@ describe('Loader', function() {
         });
         it('should return empty array on code 404', function() {
             this.server.respondWith("GET", "/foo.bar", [404, {}, "Nan"]);
-            var res = Loader.loadSounds("/foo.bar");
-            this.server.respond();
-            expect(res).to.eventually.deep.equal([]);
-        });
-        it('should return empty array on connection error', function() {
-            this.server.respondWith("ERROR", "/foo.bar", [0, { "Status": "Forbidden"}, ""]);
             var res = Loader.loadSounds("/foo.bar");
             this.server.respond();
             expect(res).to.eventually.deep.equal([]);

@@ -56,10 +56,10 @@ var hideInfoPanels = function() {
 };
 
 var showHelp = function() {
-    manualDiv.style.visibility = "visible";
+    manualDiv.style.display = "block";
 }
 var hideHelp = function() {
-    manualDiv.style.visibility = "hidden";
+    manualDiv.style.display = "none";
 }
 
 /**
@@ -154,13 +154,13 @@ module.exports = {
         infopanelDiv.appendChild(infoPanelMetaContainer);
         infopanelDiv.appendChild(infoPanelButtons);
 
-        helpButtonDiv.appendChild(createSimpleButton('help', showHelp));
+        helpButtonDiv.appendChild(createSimpleButton('Help', showHelp));
 
         manualDiv = document.getElementById('manualBox');
-        manualDiv.innerHTML = Manual;
-        manualDiv.appendChild(createSimpleButton('close',hideHelp));
-        manualDiv.style.visibility = "hidden";
-
+        document.getElementById("close-button").addEventListener("click", function(event) {
+            event.preventDefault();
+            hideHelp();
+        });
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

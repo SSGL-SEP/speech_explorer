@@ -7,7 +7,8 @@
     <link type="text/css" rel="stylesheet" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="assets/css/datgui.css">
     <link type="text/css" rel="stylesheet" href="assets/css/pace.css">
-    <script data-pace-options='{ "ghostTime": 500, "restartOnRequestAfter": true }' type="text/javascript" src="assets/pace.min.js" charset="utf-8"></script>
+    <script data-pace-options='{ "ghostTime": 500, "restartOnRequestAfter": true }' type="text/javascript" src="assets/pace.min.js"
+        charset="utf-8"></script>
 </head>
 
 <body>
@@ -19,9 +20,44 @@
         <div id="overlay"></div>
         <div id="selected"></div>
         <div id="helpButton"></div>
-        <div id="manualBox"></div>
-    </div>
+        <div id="manualBox">
+            <p dir="ltr">
+                Hotkeys:
+            </p>
+            <ul>
+                <li dir="ltr">
+                    <p dir="ltr">
+                        S: start/stop selecting
+                    </p>
+                </li>
+                <li dir="ltr">
+                    <p dir="ltr">
+                        R: start/stop removing
+                    </p>
+                </li>
+                <li dir="ltr">
+                    <p dir="ltr">
+                        D: download .wav for active point (clicked on by left mouse button)
+                    </p>
+                </li>
+            </ul>
+            <p dir="ltr">
+                Pan around with left mouse button held down. Zoom in and out with mouse wheel.
+            </p>
+            <p dir="ltr">
+                Select datasets in the control panel on the left side menu (‘open controls’ -&gt; ‘datasets’).
+            </p>
+            <p dir="ltr">
+                Filter active points in the control panel.
+            </p>
+            <div class="align-right">
+                <a href="#" id="close-button">
+                close
+            </a>
+            </div>
+        </div>
 
+    </div>
     <script type="text/javascript" src="assets/bundle.js" charset="utf-8"></script>
 </body>
 

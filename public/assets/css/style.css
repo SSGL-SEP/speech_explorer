@@ -30,10 +30,12 @@ body {
 
 #active {
     top: 0;
+    float:right;
 }
 
 #info {
     top: 13px;
+    float:right;
 }
 
 #infoPanels {
@@ -53,19 +55,27 @@ body {
 
 #helpButton {
     position: absolute;
-    top: 10px;
-    left: 266px;
+    top: 0px;
+    width: 30px;
+    left: 270px;
+    z-index: 12;
 }
 #manualBox {
-    position: absolute;
-    width: 65%;
-    height: 50%;
-    top: 100px;
-    left: 100px;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
 }
 
 .infoInstance {
     display: inline;
+}
+.align-right {
+    text-align: right;
 }
 
 a {

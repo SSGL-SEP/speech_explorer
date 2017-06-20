@@ -6,9 +6,10 @@ var current = null;
 var playingEnabled = true;
 var audioFile = null;
 var context;
+var playingSounds = false;
 
 var playSound = function(index, callback) {
-    if (current) {
+    if (current !== null) {
         current.stop(0);
         current = null;
     }
@@ -46,10 +47,11 @@ var clearCurrent = function() {
 
 var iterateSounds = function(soundIndexes, index) {
     if (index >= soundIndexes.length) {
+        playingSounds = false;
         return;
     }
     if (playingEnabled) {
-        var source;
+        var sound;
         if (sounds.length > 0) {
             playSound(soundIndexes[index], function(source) {
                 source.addEventListener('ended', function() {
@@ -57,13 +59,14 @@ var iterateSounds = function(soundIndexes, index) {
                 });
             });
         } else {
-            source = playSoundFromPath(Data.getUrl(index));
-            source.addEventListener('ended', function() {
+            sound = playSoundFromPath(Data.getUrl(index));
+            sound.addEventListener('ended', function() {
                 iterateSounds(soundIndexes, index + 1);
             });
         }
 
     } else {
+        // end recursion and reset flag
         playingEnabled = true;
     }
 };
@@ -90,10 +93,14 @@ module.exports = {
      * @param {number[]} soundIndexes
      */
     playSounds: function(soundIndexes) {
-        iterateSounds(soundIndexes, 0);
+        if(!playingSounds) {
+            playingSounds = true;
+            iterateSounds(soundIndexes, 0);
+        }
     },
 
     stop: function() {
         playingEnabled = false;
+        playingSounds = false;
     }
 };

@@ -6,7 +6,11 @@ var circle;
 
 
 module.exports = {
-
+     /**
+     * Creates selection cursor and makes it invisible
+     *
+     * @param {number} initialSize - should match visualizer's raycaster radius
+     */
     init: function(initialSize) {
         var radius = initialSize;
         circle = new THREE.Line(new THREE.Geometry(), new THREE.LineBasicMaterial({color: 0xFF0000}));
@@ -26,6 +30,10 @@ module.exports = {
         circle.position.set(event.clientX + window.innerWidth / -2, -event.clientY - window.innerHeight / -2, 10);
     },
 
+    /**
+     * Changes cursor based on mode
+     * @param {number} mode - visualizer's selection mode
+     */
     changeMode: function(mode) {
         if (mode === 0) {
             circle.visible = false;

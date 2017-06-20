@@ -1,5 +1,6 @@
 'use strict';
 
+require('audio-context-polyfill');
 var Data = require('./Data');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");

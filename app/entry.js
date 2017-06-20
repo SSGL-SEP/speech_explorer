@@ -30,7 +30,7 @@ function startApp() {
 
 
                 Visualizer.init();
-                
+
                 FilterOverlay = new FilterOverlay({
                     data: Data,
                     filterFunction: Visualizer.setFilter,
@@ -39,7 +39,7 @@ function startApp() {
                 });
 
                 // ¯\_(ツ)_/¯
-                Visualizer.reset();
+                Visualizer.reset(Data.getParsedHeader().colorBy);
                 FilterOverlay.init(defaultDataSet, Data.getParsedHeader().colorBy);
             });
     });
@@ -49,18 +49,25 @@ function startApp() {
 function changeDataSet(dataset, colorBy) {
     Visualizer.disableInteraction();
     var dataSetInfo = Config.findDataSet(dataset);
-
     Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);
         Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
             .then(function(sounds) {
                 AudioPlayer.loadSounds(sounds);
                 FilterOverlay.reset();
-                Visualizer.reset();
-                FilterOverlay.init(dataset, colorBy);
+
+                if (colorBy) {
+                    Visualizer.reset(colorBy);
+                    FilterOverlay.init(dataset, colorBy);
+                } else {
+                    Visualizer.reset(Data.getParsedHeader().colorBy);
+                    FilterOverlay.init(dataset, Data.getParsedHeader().colorBy);
+                }
+
                 Visualizer.enableInteraction();
             });
     });
+
 }
 
 function printError() {

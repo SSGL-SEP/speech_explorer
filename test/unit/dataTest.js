@@ -142,11 +142,11 @@ describe('Data', function() {
 
     describe('#getTagColor()', function() {
         it('should return hex with value #00ff3f when called with parameter \'h\' ', function() {
-            var color = Data.getTagColor('h');
+            var color = Data.getTagColor('h','phoneme');
             assert(color === '#00ff3f');
         });
         it('should return undefined when called with parameter \'xxx\' ', function() {
-            var color = Data.getTagColor('xxx');
+            var color = Data.getTagColor('xxx','phoneme');
             assert(typeof color === 'undefined');
         });
     });

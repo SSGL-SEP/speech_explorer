@@ -86,14 +86,14 @@ var Visualizer = module.exports = function() {
         this.animate();
     };
 
-    this.reset = function() {
+    this.reset = function(colorBy) {
         this.IS_DRAGGING = 1;
         this.IS_ZOOMING = 2;
         this.touchState = this.IS_DRAGGING;
         this.resizeTimer = null;
         this.pointSize = DEFAULT_POINTSIZE;
         this.cloudSize2D = 1.5;
-        this.createCloud();
+        this.createCloud(colorBy);
         this.resetZoomAndPan();
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
         Filter.init(this.pointCloud.getAttributes().enabled.array);
@@ -139,7 +139,7 @@ var Visualizer = module.exports = function() {
 
     };
 
-    this.createCloud = function() {
+    this.createCloud = function(colorBy) {
         if (!this.zoomer) {
             this.zoomer = new THREE.Object3D();
             this.base.add(this.zoomer);
@@ -153,7 +153,7 @@ var Visualizer = module.exports = function() {
             this.pointCloud = null;
         }
 
-        this.pointCloud = new PointCloud(this.pointSize);
+        this.pointCloud = new PointCloud(this.pointSize,colorBy);
         this.panner.add(this.pointCloud);
     };
 

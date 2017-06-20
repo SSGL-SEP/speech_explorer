@@ -85,15 +85,19 @@ module.exports = function(params) {
             } else {
                 scope.newSet = false;
             }
-            scope.changeDataSetFunction(set);
+            scope.changeDataSetFunction(set,null);
         });
-        var colorController = this.datasetFolder.add(this.dataset, 'ColorBy', this.dataset.ColorBy);
+
+        var colorController = this.datasetFolder.add(this.dataset, 'ColorBy', this.dataset.ColorBy).onChange(function(colorBy){
+            scope.changeDataSetFunction(scope.selectedDataSet, colorBy);
+        });
 
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
 
         opts = colorController.domElement.getElementsByTagName('select')[0];
         opts.value = colorBy;
+        this.colorBy = colorBy;
 
         var createItem = function(key) {
             //important: first remember, then add!
@@ -112,8 +116,8 @@ module.exports = function(params) {
                     };
                 })(tag.key)
                 );
-            if (data.getTagColor(key)) {
-                controller.borderColor(data.getTagColor(key))
+            if (data.getTagColor(key,scope.colorBy)) {
+                controller.borderColor(data.getTagColor(key,scope.colorBy))
                     .borderWidth(10);
             }
 
@@ -129,7 +133,7 @@ module.exports = function(params) {
             }
 
         }
-
+        this.gui.__folders.Filter.open();
         var select = this.selectButton;
         var clear = this.clearAllButton;
         this.filterFolder.add(clear, 'ClearAll');

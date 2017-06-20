@@ -84,9 +84,9 @@ var Data = module.exports = {
         return parsedPoints[index];
     },
 
-    getColor: function(index) {
-        var pointTagValue = parsedPoints[index].meta[parsedHeader.colorBy];
-        return new THREE.Color(parsedTags[parsedHeader.colorBy][pointTagValue].color);
+    getColor: function(index,colorBy) {
+        var pointTagValue = parsedPoints[index].meta[colorBy];
+        return new THREE.Color(parsedTags[colorBy][pointTagValue].color);
     },
 
     getTags: function() {
@@ -97,9 +97,9 @@ var Data = module.exports = {
         return parsedTags[tagName];
     },
 
-    getTagColor: function(tag) {
-        if (parsedTags[parsedHeader.colorBy][tag]) {
-            return parsedTags[parsedHeader.colorBy][tag].color;
+    getTagColor: function(tag,colorBy) {
+        if (parsedTags[colorBy][tag]) {
+            return parsedTags[colorBy][tag].color;
         }
     },
 

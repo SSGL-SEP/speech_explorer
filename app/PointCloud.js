@@ -3,7 +3,7 @@
 var THREE = require("three");
 var Data = require("./Data");
 
-var createGeometry = function() {
+var createGeometry = function(colorBy) {
     var total = Data.getTotalPoints();
 
     var positions = new Float32Array(total * 3);
@@ -18,8 +18,7 @@ var createGeometry = function() {
         position = Data.getPoint(i);
         vertex = new THREE.Vector3(position.x, position.y, 0);
         vertex.toArray(positions, i * 3);
-
-        color = Data.getColor(i);
+        color = Data.getColor(i,colorBy);
         color.toArray(colors, i * 3);
         sizes[i] = -1;
         enabled[i] = 1; // shader does not take in booleans -> using 0 & 1 as truthiness
@@ -75,12 +74,12 @@ var createMaterial = function(initialPointSize) {
     });
 };
 
-var PointCloud = module.exports = function(initialPointSize) {
+var PointCloud = module.exports = function(initialPointSize,colorBy) {
     THREE.Object3D.call(this);
 
     this.cloud = null;
 
-    var geometry = createGeometry();
+    var geometry = createGeometry(colorBy);
     var material = createMaterial(initialPointSize);
 
     this.cloud = new THREE.Points(geometry, material);

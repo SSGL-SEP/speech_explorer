@@ -79,7 +79,7 @@ var Visualizer = module.exports = function() {
         });
 
         this.createListeners();
-        this.reset();
+        // this.reset();
         this.animate();
     };
 

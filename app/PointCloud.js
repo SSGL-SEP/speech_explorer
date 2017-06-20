@@ -5,11 +5,11 @@ var Data = require("./Data");
 
 var createGeometry = function() {
     var total = Data.getTotalPoints();
+
     var positions = new Float32Array(total * 3);
     var colors = new Float32Array(total * 3);
     var sizes = new Float32Array(total);
     var enabled = new Float32Array(total);
-
     var vertex;
     var color = new THREE.Color();
     var position;

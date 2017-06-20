@@ -14,7 +14,9 @@ var playSound = function(index, callback) {
     }
     var source = context.createBufferSource();
 
-    context.decodeAudioData(sounds[index], function(audioBuffer) {
+    var clonedArrayBuffer = sounds[index].slice(0);
+
+    context.decodeAudioData(clonedArrayBuffer, function(audioBuffer) {
         source.buffer = audioBuffer;
         source.connect(context.destination);
         current = source;

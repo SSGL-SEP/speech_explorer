@@ -20,13 +20,13 @@ function startApp() {
     var defaultDataSet = Config.findDefaultDataSetName();
     Data.setConfig(Config);
     Visualizer = new Visualizer();
-    Visualizer.init();
     FilterOverlay = new FilterOverlay({
         data: Data,
         filterFunction: Visualizer.setFilter,
         configDAO: Config,
         changeDataSetFunction: changeDataSet
     });
+    Visualizer.init();
 
     changeDataSet(defaultDataSet);
 }

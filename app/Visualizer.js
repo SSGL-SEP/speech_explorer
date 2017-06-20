@@ -100,6 +100,7 @@ var Visualizer = module.exports = function() {
         updateActiveCountDisplay();
         this.update(true);
         this.mode = 0;
+        SelectionCursor.changeMode(this.mode);
         this.enabled = false;
         attributes = this.pointCloud.getAttributes();
     };

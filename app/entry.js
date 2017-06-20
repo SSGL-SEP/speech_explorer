@@ -19,32 +19,45 @@ AudioPlayer.setContext(audioContext);
 
 function startApp() {
     var defaultDataSet = Config.findDefaultDataSetName();
+    var dataSetInfo = Config.findDataSet(defaultDataSet);
     Data.setConfig(Config);
-    Visualizer = new Visualizer();
-    FilterOverlay = new FilterOverlay({
-        data: Data,
-        filterFunction: Visualizer.setFilter,
-        configDAO: Config,
-        changeDataSetFunction: changeDataSet
-    });
-    Visualizer.init();
+    Config.loadDataSetJSON(defaultDataSet).then(function(json) {
+        Data.loadData(json);
+        Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
+            .then(function(sounds) {
+                AudioPlayer.loadSounds(sounds);
+                Visualizer = new Visualizer();
 
-    changeDataSet(defaultDataSet, "asdf");
+
+                Visualizer.init();
+                
+                FilterOverlay = new FilterOverlay({
+                    data: Data,
+                    filterFunction: Visualizer.setFilter,
+                    configDAO: Config,
+                    changeDataSetFunction: changeDataSet
+                });
+
+                //¯\_(ツ)_/¯
+                Visualizer.reset();
+                FilterOverlay.init(defaultDataSet, Data.getParsedHeader().colorBy);
+            });
+    });
+
 }
 
-function changeDataSet(dataset,colorBy) {
+function changeDataSet(dataset, colorBy) {
     Visualizer.disableInteraction();
     var dataSetInfo = Config.findDataSet(dataset);
 
     Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);
-        console.log(Data.getParsedHeader());
         Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
             .then(function(sounds) {
                 AudioPlayer.loadSounds(sounds);
                 FilterOverlay.reset();
                 Visualizer.reset();
-                FilterOverlay.init(dataset, Data.getParsedHeader().colorBy);
+                FilterOverlay.init(dataset, colorBy);
                 Visualizer.enableInteraction();
             });
     });

@@ -55,6 +55,8 @@ var Visualizer = module.exports = function() {
         });
 
         InfoOverlay.setAction('deselectAll', function() {
+            scope.mode = 0;
+            SelectionCursor.changeMode(scope.mode);
             Filter.clearSelected();
             InfoOverlay.resetAndHideSelected();
             scope.pointCloud.update();

@@ -22,7 +22,8 @@ module.exports = function(grunt) {
                 globals: {
                     "Map": false,
                     "Set": false,
-                    "AudioContext": false
+                    "AudioContext": false,
+                    "confirm": false
                 }
             },
             app: ['app/**/*.js'],

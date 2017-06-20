@@ -24,7 +24,7 @@ var playSound = function(index, callback) {
         current.onended = clearCurrent;
         source.start(0);
         if (typeof callback === 'function') {
-            callback(source);
+            return callback(source);
         }
     });
 };

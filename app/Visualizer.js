@@ -95,7 +95,7 @@ var Visualizer = module.exports = function() {
         this.cloudSize2D = 1.5;
         this.createCloud();
         this.resetZoomAndPan();
-        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', 'helpButton', Data.getTags());
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
         Filter.init(this.pointCloud.getAttributes().enabled.array);
         updateActiveCountDisplay();
         this.update(true);

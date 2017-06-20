@@ -57,10 +57,10 @@ var hideInfoPanels = function() {
 
 var showHelp = function() {
     manualDiv.style.display = "block";
-}
+};
 var hideHelp = function() {
     manualDiv.style.display = "none";
-}
+};
 
 /**
  * Creates element with buttons
@@ -96,11 +96,11 @@ var selectedPanelContainer;
 var selectedPanelButtons;
 
 module.exports = {
-    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, helpButtonElementId, newTags) {
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
-        helpButtonDiv = document.getElementById(helpButtonElementId);
+        helpButtonDiv = document.getElementById('help-button');
 
         infoPanelMetaContainer = document.createElement('div');
         infoPanelButtons = createButtonContainer('infobuttons', [

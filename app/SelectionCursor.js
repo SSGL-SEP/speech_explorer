@@ -43,10 +43,6 @@ module.exports = {
         circle.scale.set(scale, scale, 1);
     },
 
-    getSize: function() {
-        return size;
-    },
-
     getMesh: function() {
         return circle;
     }

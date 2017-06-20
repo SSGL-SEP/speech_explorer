@@ -109,6 +109,11 @@ module.exports = {
         clearSelected();
     },
 
+    /**
+     * Selects points based in indexes.
+     * @param {object} indexes
+     * @returns {boolean} changed - If state of at least one point was changed
+     */
     selectPoints: function(indexes) {
         var changed = false;
         for (var i = 0; i < indexes.length; i++) {
@@ -121,6 +126,11 @@ module.exports = {
         return changed;
     },
 
+    /**
+     * Deselects points based in indexes.
+     * @param {object} indexes
+     * @returns {boolean} changed - If state of at least one point was changed
+     */
     deselectPoints: function(indexes) {
         var changed = false;
         for (var i = 0; i < indexes.length; i++) {
@@ -133,6 +143,11 @@ module.exports = {
         return changed;
     },
 
+    /**
+     * Deactivates a point based on index value
+     *
+     * @param {number} index
+     */
     deselectPointByIndex: function(index) {
         pointStates[index] = 1;
         selectedPoints.delete(index);
@@ -141,6 +156,10 @@ module.exports = {
 
     clearSelected: clearSelected,
 
+    /**
+     * Clears all filters, selections and calculates active point count.
+     *
+     */
     clearAll: function() {
         initializeGroups(0);
         clearSelected();

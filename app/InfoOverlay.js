@@ -1,8 +1,8 @@
 'use strict';
 
 var Data = require("./Data");
-
-var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, tags;
+var Manual = "Hotkeys:\nS: start/stop selecting\nR: start/stop removing\nD: download .wav for active point (clicked on by left mouse button)\nPan around with left mouse button held down. Zoom in and out with mouse wheel.\nSelect datasets in the control panel on the left side menu (open controls -> datasets).\nFilter active points in the control panel.";
+var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, helpButtonDiv, tags;
 var tagNames = [];
 var onClicks = {};
 
@@ -32,6 +32,15 @@ var createMetaHTML = function(point) {
     return html;
 };
 
+var createSimpleButton = function(text, onclick) {
+    var elem = document.createElement('a');
+    elem.innerHTML = text;
+    elem.addEventListener('click', function(event) {
+        onclick();
+    });
+    return elem;
+};
+
 /**
  * Replaces html element contents with the meta info of a point
  *
@@ -45,6 +54,10 @@ var updateDiv = function(targetElement, point) {
 var hideInfoPanels = function() {
     document.getElementById('infoPanels').style.visibility = 'hidden';
 };
+
+var showHelp = function() {
+    console.log(Manual);
+}
 
 /**
  * Creates element with buttons
@@ -80,10 +93,11 @@ var selectedPanelContainer;
 var selectedPanelButtons;
 
 module.exports = {
-    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, helpButtonElementId, newTags) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
+        helpButtonDiv = document.getElementById(helpButtonElementId);
 
         infoPanelMetaContainer = document.createElement('div');
         infoPanelButtons = createButtonContainer('infobuttons', [
@@ -136,6 +150,8 @@ module.exports = {
         infopanelDiv.innerHTML = ""; // empty element if resetting
         infopanelDiv.appendChild(infoPanelMetaContainer);
         infopanelDiv.appendChild(infoPanelButtons);
+
+        helpButtonDiv.appendChild(createSimpleButton('help', showHelp));
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

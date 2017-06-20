@@ -51,6 +51,12 @@ body {
     width: 260px;
 }
 
+#helpButton {
+    position: absolute;
+    top: 400px;
+    left: 400px;
+}
+
 .infoInstance {
     display: inline;
 }

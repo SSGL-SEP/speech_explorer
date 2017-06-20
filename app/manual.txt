@@ -1,0 +1,10 @@
+"Hotkeys:
+S: start/stop selecting
+R: start/stop removing
+D: download .wav for active point (clicked on by left mouse button)
+ 
+Pan around with left mouse button held down. Zoom in and out with mouse wheel.
+ 
+Select datasets in the control panel on the left side menu (open controls -> datasets).
+ 
+Filter active points in the control panel."

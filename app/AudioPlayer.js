@@ -100,7 +100,9 @@ module.exports = {
     },
 
     stop: function() {
-        playingEnabled = false;
+        if(playingEnabled && playingSounds) {
+            playingEnabled = false;
+        }
         playingSounds = false;
     }
 };

@@ -34,6 +34,7 @@ function startApp() {
 
 function changeDataSet(dataset) {
     Visualizer.disableInteraction();
+    AudioPlayer.stop();
     var dataSetInfo = Config.findDataSet(dataset);
 
     Config.loadDataSetJSON(dataset).then(function(json) {

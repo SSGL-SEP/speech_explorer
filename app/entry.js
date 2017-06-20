@@ -14,35 +14,37 @@ if (process.env.DATA_SRC) {
 } else {
     audioPath = 'audio/';
 }
-AudioPlayer.setContext(new AudioContext());
+var audioContext = new AudioContext();
+AudioPlayer.setContext(audioContext);
 
 function startApp() {
     var defaultDataSet = Config.findDefaultDataSetName();
     Data.setConfig(Config);
     Visualizer = new Visualizer();
-    Visualizer.init();
     FilterOverlay = new FilterOverlay({
         data: Data,
         filterFunction: Visualizer.setFilter,
         configDAO: Config,
         changeDataSetFunction: changeDataSet
     });
-    console.log(Data.getParsedHeader());
-    changeDataSet(defaultDataSet, Data.getParsedHeader().colorBy);
+    Visualizer.init();
+
+    changeDataSet(defaultDataSet, "asdf");
 }
 
-function changeDataSet(dataset, colorBy) {
+function changeDataSet(dataset,colorBy) {
     Visualizer.disableInteraction();
     var dataSetInfo = Config.findDataSet(dataset);
 
     Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);
+        console.log(Data.getParsedHeader());
         Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
             .then(function(sounds) {
                 AudioPlayer.loadSounds(sounds);
                 FilterOverlay.reset();
                 Visualizer.reset();
-                FilterOverlay.init(dataset, colorBy);
+                FilterOverlay.init(dataset, Data.getParsedHeader().colorBy);
                 Visualizer.enableInteraction();
             });
     });

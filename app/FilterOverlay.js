@@ -22,6 +22,7 @@ module.exports = function(params) {
         this.createDatasets();
         this.createGUI(selectedDataSet, colorBy);
         this.initFilter();
+        //this.update();
 
         window.onbeforeunload = function() {
             localStorage.clear();
@@ -63,7 +64,11 @@ module.exports = function(params) {
 
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
-        this.dataset.ColorBy = this.tags;
+        var arr = [];
+        for(var name in this.tags){
+            arr.push(name);
+        }
+        this.dataset.ColorBy = arr;
     };
 
     this.createGUI = function(selectedDataSet, colorBy) {
@@ -86,9 +91,9 @@ module.exports = function(params) {
 
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
-        debugger;
-        var opts = colorController.domElement.getElementsByTagName('select')[0];
-        opts.value = this.colorBy;
+
+        opts = colorController.domElement.getElementsByTagName('select')[0];
+        opts.value = colorBy;
 
         var createItem = function(key) {
             //important: first remember, then add!

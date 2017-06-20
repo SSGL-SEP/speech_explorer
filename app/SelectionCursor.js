@@ -3,21 +3,21 @@
 var THREE = require("three");
 
 var circle;
-var size;
-var radius;
 
 
 module.exports = {
 
     init: function(initialSize) {
-        size = initialSize;
-        var mouseGeometry = new THREE.CircleGeometry(size, 128);
-        var mouseMaterial = new THREE.LineBasicMaterial({
-            color: 0xFF0000
-        });
-        mouseGeometry.vertices.shift();
-        circle = new THREE.Line(mouseGeometry, mouseMaterial);
-        circle.autoClose = true;
+        var radius = initialSize;
+        circle = new THREE.Line(new THREE.Geometry(), new THREE.LineBasicMaterial({color: 0xFF0000}));
+
+        for (var i = 0; i <= 360; i++) {
+            var angle = Math.PI / 180 * i;
+            var x = (radius) * Math.cos(angle);
+            var y = (radius) * Math.sin(angle);
+            var z = 0;
+            circle.geometry.vertices.push(new THREE.Vector3(x, y, z));
+        }
         circle.position.set(10000, 10000);
         circle.visible = false;
     },
@@ -41,7 +41,6 @@ module.exports = {
 
     setScale: function(scale) {
         circle.scale.set(scale, scale, 1);
-        circle.geometry.parameters.innerRadius = radius * scale;
     },
 
     getSize: function() {

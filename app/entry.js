@@ -14,7 +14,8 @@ if (process.env.DATA_SRC) {
 } else {
     audioPath = 'audio/';
 }
-AudioPlayer.setContext(new AudioContext());
+var audioContext = new AudioContext();
+AudioPlayer.setContext(audioContext);
 
 function startApp() {
     var defaultDataSet = Config.findDefaultDataSetName();

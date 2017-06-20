@@ -8,7 +8,7 @@ module.exports = function(params) {
     this.boolTags = [];
     this.tags = data.getTags();
 
-    this.dataset = { Dataset: [], ColorBy: "" };
+    this.dataset = { Dataset: [], ColorBy: [] };
     this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
@@ -63,9 +63,10 @@ module.exports = function(params) {
 
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
+        this.dataset.ColorBy = this.tags;
     };
 
-    this.createGUI = function(selectedDataSet) {
+    this.createGUI = function(selectedDataSet, colorBy) {
         //always use localstorage;
         localStorage.setItem(document.location.href + '.isLocal', true);
         this.selectedDataSet = selectedDataSet;
@@ -81,9 +82,13 @@ module.exports = function(params) {
             }
             scope.changeDataSetFunction(set);
         });
+        var colorController = this.datasetFolder.add(this.dataset, 'ColorBy', this.dataset.ColorBy);
 
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
+        debugger;
+        var opts = colorController.domElement.getElementsByTagName('select')[0];
+        opts.value = this.colorBy;
 
         var createItem = function(key) {
             //important: first remember, then add!

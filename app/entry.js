@@ -27,11 +27,11 @@ function startApp() {
         configDAO: Config,
         changeDataSetFunction: changeDataSet
     });
-
-    changeDataSet(defaultDataSet);
+    console.log(Data.getParsedHeader());
+    changeDataSet(defaultDataSet, Data.getParsedHeader().colorBy);
 }
 
-function changeDataSet(dataset) {
+function changeDataSet(dataset, colorBy) {
     Visualizer.disableInteraction();
     var dataSetInfo = Config.findDataSet(dataset);
 
@@ -42,7 +42,7 @@ function changeDataSet(dataset) {
                 AudioPlayer.loadSounds(sounds);
                 FilterOverlay.reset();
                 Visualizer.reset();
-                FilterOverlay.init(dataset);
+                FilterOverlay.init(dataset, colorBy);
                 Visualizer.enableInteraction();
             });
     });

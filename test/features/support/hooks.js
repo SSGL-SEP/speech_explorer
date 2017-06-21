@@ -24,7 +24,7 @@ defineSupportCode(function({After, registerHandler}) {
                 });
             });
         }
-        //return this.driver.quit();
+        return this.driver.quit();
     });
 
     registerHandler('AfterFeatures', function () {

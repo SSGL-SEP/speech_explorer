@@ -8,7 +8,7 @@ module.exports = function(params) {
     this.boolTags = [];
     this.tags = data.getTags();
 
-    this.dataset = { Dataset: [] };
+    this.dataset = {Dataset: []};
     this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
@@ -31,7 +31,7 @@ module.exports = function(params) {
     this.reset = function() {
         scope.tags = data.getTags();
         scope.boolTags = [];
-        scope.dataset = { Dataset: [] };
+        scope.dataset = {Dataset: []};
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
         overlay.innerHTML = '';
@@ -69,7 +69,7 @@ module.exports = function(params) {
         //always use localstorage;
         localStorage.setItem(document.location.href + '.isLocal', true);
         this.selectedDataSet = selectedDataSet;
-        this.gui = new dat.GUI({ width: 265});
+        this.gui = new dat.GUI({width: 265});
         this.datasetFolder = this.gui.addFolder("Dataset");
         this.gui.__folders.Dataset.open();
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
@@ -89,18 +89,18 @@ module.exports = function(params) {
             //important: first remember, then add!
             scope.gui.remember(tag.values);
             var controller = folder.add(tag.values, key).borderColor("blue").borderWidth(3);
-            
+
             controller.listen().borderColor("blue")
                 .onChange(
-                (function(tagKey) {
-                    return function(boxIsChecked) {
-                        scope.filterFunction({
-                            tagName: tagKey,
-                            tagValue: this.property,
-                            addPoints: boxIsChecked
-                        });
-                    };
-                })(tag.key)
+                    (function(tagKey) {
+                        return function(boxIsChecked) {
+                            scope.filterFunction({
+                                tagName: tagKey,
+                                tagValue: this.property,
+                                addPoints: boxIsChecked
+                            });
+                        };
+                    })(tag.key)
                 );
             if (data.getTagColor(key)) {
                 controller.borderColor(data.getTagColor(key))
@@ -109,15 +109,45 @@ module.exports = function(params) {
 
         };
 
+        var folders = [];
+
         this.filterFolder = this.gui.addFolder("Filter");
-        for (var i = 0; i < this.boolTags.length; i++) {
+        var i;
+        for (i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
+            folders.push(folder);
             var keys = Object.keys(tag.values);
             for (var j = 0; j < keys.length; j++) {
                 createItem(keys[j]);
             }
+        }
 
+        // Create buttons for selecting and deselecting all checkboxes is a folder
+        for (i = 0; i < folders.length; i++) {
+            (function(folder) {
+
+                var title = folder.domElement.firstChild.firstChild;
+                var checkbox_on = document.createElement('span');
+                var checkbox_off = document.createElement('span');
+                checkbox_on.className = "check-icon select-folder";
+                checkbox_off.className = "check-icon deselect-folder";
+
+                function setValueToChildren(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    var childCheckboxes = folder.__controllers;
+                    for (var i = 0; i < childCheckboxes.length; i++) {
+                        childCheckboxes[i].setValue(event.target === checkbox_on);
+                    }
+                }
+
+                checkbox_off.addEventListener('click', setValueToChildren);
+                checkbox_on.addEventListener('click', setValueToChildren);
+                title.appendChild(checkbox_on);
+                title.appendChild(checkbox_off);
+
+            }(folders[i]));
         }
 
         var select = this.selectButton;

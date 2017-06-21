@@ -14,7 +14,7 @@ body {
     left: 0;
 }
 
-#info, #active, #infoPanels, #selected, #manualBox, #helpButton {
+#info, #active, #infoPanels, #selected, #manualBox, #help-button {
     font-family: 'Lucida Grande', sans-serif;
     position: absolute;
     right: 0;
@@ -53,9 +53,9 @@ body {
     width: 260px;
 }
 
-#helpButton {
+#help-button {
     position: absolute;
-    top: 0px;
+    top: 0;
     width: 30px;
     left: 270px;
     z-index: 12;

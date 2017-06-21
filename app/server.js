@@ -3,6 +3,7 @@
 var rootPath = require('app-root-path');
 var express = require('express');
 var path = require('path');
+var opn = require('opn');
 
 var publicFolder;
 if (process.env.NODE_ENV === 'development') {

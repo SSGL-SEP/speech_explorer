@@ -1,5 +1,5 @@
 'use strict';
-var dat = require('../lib/dat/build/dat.gui.min.js');
+var dat = require('../lib/dat/build/dat.gui.js');
 
 
 module.exports = function(params) {
@@ -16,6 +16,8 @@ module.exports = function(params) {
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
+    this.datasetController = null;
+    this.colorController = null;
 
     this.init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
@@ -36,6 +38,8 @@ module.exports = function(params) {
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
         overlay.innerHTML = '';
+        this.datasetController = null;
+        this.colorController = null;
         this.filterFolder = null;
         this.datasetFolder = null;
         this.gui = null;
@@ -65,7 +69,7 @@ module.exports = function(params) {
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
         var arr = [];
-        for(var name in this.tags){
+        for (var name in this.tags) {
             arr.push(name);
         }
         this.dataset.ColorBy = arr;
@@ -75,7 +79,7 @@ module.exports = function(params) {
         //always use localstorage;
         localStorage.setItem(document.location.href + '.isLocal', true);
         this.selectedDataSet = selectedDataSet;
-        this.gui = new dat.GUI({ width: 265});
+        this.gui = new dat.GUI({ width: 265 });
         this.datasetFolder = this.gui.addFolder("Dataset");
         this.gui.__folders.Dataset.open();
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
@@ -85,10 +89,10 @@ module.exports = function(params) {
             } else {
                 scope.newSet = false;
             }
-            scope.changeDataSetFunction(set,null);
+            scope.changeDataSetFunction(set, null);
         });
 
-        var colorController = this.datasetFolder.add(this.dataset, 'ColorBy', this.dataset.ColorBy).onChange(function(colorBy){
+        var colorController = this.datasetFolder.add(this.dataset, 'ColorBy', this.dataset.ColorBy).onChange(function(colorBy) {
             scope.changeDataSetFunction(scope.selectedDataSet, colorBy);
         });
 
@@ -98,11 +102,14 @@ module.exports = function(params) {
         opts = colorController.domElement.getElementsByTagName('select')[0];
         opts.value = data.getColorBy();
 
+        this.datasetController = controller;
+        this.colorController = colorController;
+
         var createItem = function(key) {
             //important: first remember, then add!
             scope.gui.remember(tag.values);
             var controller = folder.add(tag.values, key).borderColor("blue").borderWidth(3);
-            
+
             controller.listen().borderColor("blue")
                 .onChange(
                 (function(tagKey) {
@@ -161,6 +168,7 @@ module.exports = function(params) {
                 clearAll: true
             });
         }
+
     };
 
     this.selectButton = {
@@ -177,10 +185,10 @@ module.exports = function(params) {
     };
 
     this.update = function() {
-        for (var i = 0; i < Object.keys(scope.gui.__folders).length; i++) {
-            var key = Object.keys(scope.gui.__folders)[i];
-            for (var j = 0; j < scope.gui.__folders[key].__controllers.length; j++) {
-                scope.gui.__folders[key].__controllers[j].updateDisplay();
+        for (var i = 0; i < Object.keys(scope.filterFolder.__folders).length; i++) {
+            var key = Object.keys(scope.filterFolder.__folders)[i];
+            for (var j = 0; j < scope.filterFolder.__folders[key].__controllers.length; j++) {
+                scope.filterFolder.__folders[key].__controllers[j].updateDisplay();
             }
         }
 

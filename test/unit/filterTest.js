@@ -19,7 +19,7 @@ describe('Filter', function() {
         Data.loadData(json);
         InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
 
-        Cloud = new PointCloud(2);
+        Cloud = new PointCloud(2,'phoneme');
         Filter = require(appDir + "/app/Filter");
         Filter.init(Cloud.getAttributes().enabled.array);
     });

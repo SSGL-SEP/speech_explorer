@@ -75,17 +75,17 @@ describe('Data', function() {
 
     describe('#getColor(0))', function() {
         it('should return THREE.Color object', function() {
-            assert(Data.getColor(0).isColor);
+            assert(Data.getColor(0,'phoneme').isColor);
         });
         it('should return object that has HEX === \"00ff3f\"  ', function() {
-            assert(Data.getColor(0).getHexString() === "00ff3f");
+            assert(Data.getColor(0,'phoneme').getHexString() === "00ff3f");
         });
     });
 
     describe('Color data is created', function() {
         it('color data is not undefined', function() {
             for (var i = 0; i < Data.getTotalPoints(); i++) {
-                assert(Data.getColor(i).isColor);
+                assert(Data.getColor(i,'phoneme').isColor);
             }
         });
     });

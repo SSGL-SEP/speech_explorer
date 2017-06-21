@@ -29,8 +29,7 @@ Feature: Filter
   Scenario: Folder toggle works
     Given I navigate to the homepage
     And Page is finished loading
-    When I open folder "Filter"
-    And I click folder checkbox off for "stress"
+    When I click folder checkbox off for "stress"
     Then I should see "0/168" active samples
     When I open folder "stress"
     And I click on checkbox of "unstressed"

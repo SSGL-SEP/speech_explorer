@@ -75,17 +75,17 @@ describe('Data', function() {
 
     describe('#getColor(0))', function() {
         it('should return THREE.Color object', function() {
-            assert(Data.getColor(0,'phoneme').isColor);
+            assert(Data.getColor(0).isColor);
         });
         it('should return object that has HEX === \"00ff3f\"  ', function() {
-            assert(Data.getColor(0,'phoneme').getHexString() === "00ff3f");
+            assert(Data.getColor(0).getHexString() === "00ff3f");
         });
     });
 
     describe('Color data is created', function() {
         it('color data is not undefined', function() {
             for (var i = 0; i < Data.getTotalPoints(); i++) {
-                assert(Data.getColor(i,'phoneme').isColor);
+                assert(Data.getColor(i).isColor);
             }
         });
     });
@@ -142,11 +142,11 @@ describe('Data', function() {
 
     describe('#getTagColor()', function() {
         it('should return hex with value #00ff3f when called with parameter \'h\' ', function() {
-            var color = Data.getTagColor('h','phoneme');
+            var color = Data.getTagColor('h');
             assert(color === '#00ff3f');
         });
         it('should return undefined when called with parameter \'xxx\' ', function() {
-            var color = Data.getTagColor('xxx','phoneme');
+            var color = Data.getTagColor('xxx');
             assert(typeof color === 'undefined');
         });
     });

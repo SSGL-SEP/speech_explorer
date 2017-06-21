@@ -34,7 +34,7 @@ describe('FilterOverlay', function() {
             configDAO: ConfigMock,
             changeDataSetFunction: dataSetChangeFunctionMock
         });
-        FilterOverlay.init('testdata','phoneme');
+        FilterOverlay.init('testdata');
     });
 
     after(function() {

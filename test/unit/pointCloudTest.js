@@ -8,7 +8,7 @@ describe('The PointCloud', function() {
     before(function() {
         const json = require(appDir + "/test/testdata.json");
         Data.loadData(json);
-        this.pointCloud = new PointCloud(1,'phoneme');
+        this.pointCloud = new PointCloud(1);
     });
 
     // after(function() {

@@ -154,7 +154,7 @@ var Visualizer = module.exports = function() {
             this.pointCloud = null;
         }
 
-        this.pointCloud = new PointCloud(this.pointSize,colorBy);
+        this.pointCloud = new PointCloud(this.pointSize, colorBy);
         this.panner.add(this.pointCloud);
     };
 

@@ -70,8 +70,9 @@ module.exports = function(params) {
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
         var arr = [];
-        for (var name in this.tags) {
-            arr.push(name);
+        var keys = Object.keys(this.tags).sort();
+        for (var i = 0; i<keys.length; i++) {
+            arr.push(keys[i]);
         }
         this.dataset.ColorBy = arr;
     };

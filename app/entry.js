@@ -16,6 +16,37 @@ if (process.env.DATA_SRC) {
     audioPath = 'audio/';
 }
 AudioPlayer.setContext(new AudioContext());
+var lastUsedDataset = "";
+
+function changeDataSet(dataset, colorBy) {
+    Visualizer.disableInteraction();
+    AudioPlayer.stop();
+    var dataSetInfo = Config.findDataSet(dataset);
+
+    var resetComponents = function() {
+        if (colorBy) {
+            Data.setColorBy(colorBy);
+        }
+        Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
+            .then(function(sounds) {
+                AudioPlayer.loadSounds(sounds);
+                FilterOverlay.reset();
+                Visualizer.reset();
+                FilterOverlay.init(dataset);
+                Visualizer.enableInteraction();
+            });
+    };
+    if (dataset === lastUsedDataset) {
+        resetComponents();
+    } else {
+        lastUsedDataset = dataset;
+        Config.loadDataSetJSON(dataset).then(function(json) {
+            Data.loadData(json);
+            resetComponents();
+        });
+    }
+
+}
 
 function startApp() {
     var defaultDataSet = Config.findDefaultDataSetName();
@@ -28,7 +59,6 @@ function startApp() {
                 AudioPlayer.loadSounds(sounds);
                 Visualizer = new Visualizer();
 
-
                 Visualizer.init();
 
                 FilterOverlay = new FilterOverlay({
@@ -38,35 +68,12 @@ function startApp() {
                     changeDataSetFunction: changeDataSet
                 });
 
-                // ¯\_(ツ)_/¯
-                Visualizer.reset();
-                FilterOverlay.init(defaultDataSet);
-                Visualizer.enableInteraction();
+                changeDataSet(defaultDataSet);
             });
     });
 
 }
 
-function changeDataSet(dataset, colorBy) {
-    Visualizer.disableInteraction();
-    AudioPlayer.stop();
-    var dataSetInfo = Config.findDataSet(dataset);
-    Config.loadDataSetJSON(dataset).then(function(json) {
-        Data.loadData(json);
-        if (colorBy) {
-            Data.setColorBy(colorBy);
-        }
-        Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
-            .then(function(sounds) {
-                AudioPlayer.loadSounds(sounds);
-                FilterOverlay.reset();
-                Visualizer.reset();
-                FilterOverlay.init(dataset);
-                Visualizer.enableInteraction();
-            });
-    });
-
-}
 
 function printError() {
     console.error("Loading data failed");

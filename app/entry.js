@@ -41,6 +41,7 @@ function startApp() {
                 // ¯\_(ツ)_/¯
                 Visualizer.reset();
                 FilterOverlay.init(defaultDataSet);
+                Visualizer.enableInteraction();
             });
     });
 

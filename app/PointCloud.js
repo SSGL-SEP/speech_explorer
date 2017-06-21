@@ -18,7 +18,6 @@ var createGeometry = function() {
         position = Data.getPoint(i);
         vertex = new THREE.Vector3(position.x, position.y, 0);
         vertex.toArray(positions, i * 3);
-
         color = Data.getColor(i);
         color.toArray(colors, i * 3);
         sizes[i] = -1;

@@ -6,6 +6,7 @@ var Config;
 var parsedPoints = [];
 var parsedTags = {};
 var parsedHeader = {};
+var colorBy = "";
 
 var Data = module.exports = {
 
@@ -22,6 +23,7 @@ var Data = module.exports = {
         parsedHeader.dataSet = inputData.dataSet;
         parsedHeader.processingMethod = inputData.processingMethod;
         parsedHeader.colorBy = inputData.colorBy;
+        colorBy = inputData.colorBy;
         parsedHeader.totalPoints = inputData.totalPoints;
 
         for (var i = 0; i < inputData.totalPoints; i++) {
@@ -85,8 +87,8 @@ var Data = module.exports = {
     },
 
     getColor: function(index) {
-        var pointTagValue = parsedPoints[index].meta[parsedHeader.colorBy];
-        return new THREE.Color(parsedTags[parsedHeader.colorBy][pointTagValue].color);
+        var pointTagValue = parsedPoints[index].meta[colorBy];
+        return new THREE.Color(parsedTags[colorBy][pointTagValue].color);
     },
 
     getTags: function() {
@@ -98,12 +100,18 @@ var Data = module.exports = {
     },
 
     getTagColor: function(tag) {
-        if (parsedTags[parsedHeader.colorBy][tag]) {
-            return parsedTags[parsedHeader.colorBy][tag].color;
+        if (parsedTags[colorBy][tag]) {
+            return parsedTags[colorBy][tag].color;
         }
     },
 
     getParsedHeader: function() {
         return parsedHeader;
+    },
+    setColorBy: function(tag) {
+        colorBy = tag;
+    },
+    getColorBy: function(){
+        return colorBy;
     }
 };

@@ -153,7 +153,7 @@ module.exports = {
         infopanelDiv.innerHTML = ""; // empty element if resetting
         infopanelDiv.appendChild(infoPanelMetaContainer);
         infopanelDiv.appendChild(infoPanelButtons);
-
+        helpButtonDiv.innerHTML = "";
         helpButtonDiv.appendChild(createSimpleButton('Help', showHelp));
 
         manualDiv = document.getElementById('manualBox');

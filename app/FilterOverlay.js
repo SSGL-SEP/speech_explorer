@@ -112,7 +112,8 @@ module.exports = function(params) {
         var folders = [];
 
         this.filterFolder = this.gui.addFolder("Filter");
-        for (var i = 0; i < this.boolTags.length; i++) {
+        var i;
+        for (i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
             folders.push(folder);
@@ -122,11 +123,11 @@ module.exports = function(params) {
             }
         }
 
-        for (var i = 0; i < folders.length; i++) {
+        // Create buttons for selecting and deselecting all checkboxes is a folder
+        for (i = 0; i < folders.length; i++) {
             (function(folder) {
 
                 var title = folder.domElement.firstChild.firstChild;
-                console.log(title)
                 var checkbox_on = document.createElement('span');
                 var checkbox_off = document.createElement('span');
                 checkbox_on.className = "check-icon select-folder";
@@ -135,7 +136,6 @@ module.exports = function(params) {
                 function setValueToChildren(event) {
                     event.preventDefault();
                     event.stopPropagation();
-                    console.log(event.target)
                     var childCheckboxes = folder.__controllers;
                     for (var i = 0; i < childCheckboxes.length; i++) {
                         childCheckboxes[i].setValue(event.target === checkbox_on);

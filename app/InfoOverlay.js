@@ -1,8 +1,8 @@
 'use strict';
 
 var Data = require("./Data");
-
-var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, tags;
+var Manual = "Hotkeys:\nS: start/stop selecting\nR: start/stop removing\nD: download .wav for active point (clicked on by left mouse button)\nPan around with left mouse button held down. Zoom in and out with mouse wheel.\nSelect datasets in the control panel on the left side menu (open controls -> datasets).\nFilter active points in the control panel.";
+var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, helpButtonDiv, manualDiv, tags;
 var tagNames = [];
 var onClicks = {};
 
@@ -32,6 +32,15 @@ var createMetaHTML = function(point) {
     return html;
 };
 
+var createSimpleButton = function(text, onclick) {
+    var elem = document.createElement('a');
+    elem.innerHTML = text;
+    elem.addEventListener('click', function(event) {
+        onclick();
+    });
+    return elem;
+};
+
 /**
  * Replaces html element contents with the meta info of a point
  *
@@ -44,6 +53,13 @@ var updateDiv = function(targetElement, point) {
 
 var hideInfoPanels = function() {
     document.getElementById('infoPanels').style.visibility = 'hidden';
+};
+
+var showHelp = function() {
+    manualDiv.style.display = "block";
+};
+var hideHelp = function() {
+    manualDiv.style.display = "none";
 };
 
 /**
@@ -84,6 +100,7 @@ module.exports = {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
+        helpButtonDiv = document.getElementById('help-button');
 
         infoPanelMetaContainer = document.createElement('div');
         infoPanelButtons = createButtonContainer('infobuttons', [
@@ -137,6 +154,14 @@ module.exports = {
         infopanelDiv.appendChild(infoPanelMetaContainer);
         infopanelDiv.appendChild(infoPanelButtons);
 
+        helpButtonDiv.appendChild(createSimpleButton('Help', showHelp));
+
+        manualDiv = document.getElementById('manualBox');
+        document.getElementById("close-button").addEventListener("click", function(event) {
+            event.preventDefault();
+            hideHelp();
+        });
+
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';
         infopanelDiv.style.visibility = 'hidden';
@@ -157,7 +182,7 @@ module.exports = {
     },
 
     resetAndHideSelected: function() {
-        infoPanelMetaContainer.innerHTML = "";
+        selectedPanelContainer.innerHTML = "";
         selectedDiv.style.visibility = 'hidden';
     },
 

@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const Data = require(appDir + "/app/Data");
 const InfoOverlay = require(appDir + "/app/InfoOverlay");
 
-const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div></div>';
+const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div><div id="help-button"></div><div id="manualBox"><div class="align-right"><a href="#" id="close-button">close</a></div></div></div>';
 
 describe('InfoOverlay', function() {
 

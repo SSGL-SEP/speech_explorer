@@ -1,5 +1,6 @@
 'use strict';
 
+require('audio-context-polyfill');
 var Data = require('./Data');
 var Visualizer = require("./Visualizer");
 var FilterOverlay = require("./FilterOverlay");
@@ -14,8 +15,7 @@ if (process.env.DATA_SRC) {
 } else {
     audioPath = 'audio/';
 }
-var audioContext = new AudioContext();
-AudioPlayer.setContext(audioContext);
+AudioPlayer.setContext(new AudioContext());
 
 function startApp() {
     var defaultDataSet = Config.findDefaultDataSetName();
@@ -48,6 +48,7 @@ function startApp() {
 
 function changeDataSet(dataset, colorBy) {
     Visualizer.disableInteraction();
+    AudioPlayer.stop();
     var dataSetInfo = Config.findDataSet(dataset);
     Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);

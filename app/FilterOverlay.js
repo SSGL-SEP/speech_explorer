@@ -147,7 +147,7 @@ module.exports = function(params) {
                 title.appendChild(checkbox_on);
                 title.appendChild(checkbox_off);
 
-            })(folders[i]);
+            }(folders[i]));
         }
 
         var select = this.selectButton;

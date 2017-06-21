@@ -17,10 +17,10 @@ module.exports = function(params) {
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
 
-    this.init = function(selectedDataSet, colorBy) {
+    this.init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
         this.createDatasets();
-        this.createGUI(selectedDataSet, colorBy);
+        this.createGUI(selectedDataSet);
         this.initFilter();
         //this.update();
 
@@ -71,7 +71,7 @@ module.exports = function(params) {
         this.dataset.ColorBy = arr;
     };
 
-    this.createGUI = function(selectedDataSet, colorBy) {
+    this.createGUI = function(selectedDataSet) {
         //always use localstorage;
         localStorage.setItem(document.location.href + '.isLocal', true);
         this.selectedDataSet = selectedDataSet;
@@ -96,8 +96,7 @@ module.exports = function(params) {
         opts.value = this.selectedDataSet;
 
         opts = colorController.domElement.getElementsByTagName('select')[0];
-        opts.value = colorBy;
-        this.colorBy = colorBy;
+        opts.value = data.getColorBy();
 
         var createItem = function(key) {
             //important: first remember, then add!
@@ -116,8 +115,8 @@ module.exports = function(params) {
                     };
                 })(tag.key)
                 );
-            if (data.getTagColor(key,scope.colorBy)) {
-                controller.borderColor(data.getTagColor(key,scope.colorBy))
+            if (data.getTagColor(key)) {
+                controller.borderColor(data.getTagColor(key))
                     .borderWidth(10);
             }
 

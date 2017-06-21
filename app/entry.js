@@ -39,8 +39,8 @@ function startApp() {
                 });
 
                 // ¯\_(ツ)_/¯
-                Visualizer.reset(Data.getParsedHeader().colorBy);
-                FilterOverlay.init(defaultDataSet, Data.getParsedHeader().colorBy);
+                Visualizer.reset();
+                FilterOverlay.init(defaultDataSet);
             });
     });
 
@@ -52,19 +52,15 @@ function changeDataSet(dataset, colorBy) {
     var dataSetInfo = Config.findDataSet(dataset);
     Config.loadDataSetJSON(dataset).then(function(json) {
         Data.loadData(json);
+        if (colorBy) {
+            Data.setColorBy(colorBy);
+        }
         Loader.loadSounds(audioPath + dataSetInfo.audioSrc + '/concatenated_sounds.blob')
             .then(function(sounds) {
                 AudioPlayer.loadSounds(sounds);
                 FilterOverlay.reset();
-
-                if (colorBy) {
-                    Visualizer.reset(colorBy);
-                    FilterOverlay.init(dataset, colorBy);
-                } else {
-                    Visualizer.reset(Data.getParsedHeader().colorBy);
-                    FilterOverlay.init(dataset, Data.getParsedHeader().colorBy);
-                }
-
+                Visualizer.reset();
+                FilterOverlay.init(dataset);
                 Visualizer.enableInteraction();
             });
     });

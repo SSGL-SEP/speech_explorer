@@ -31,5 +31,26 @@ defineSupportCode(function({Given, When, Then}) {
             return element.click();
         });
     });
+
+    When('I click folder checkbox off for {stringInDoubleQuotes}', function(folder) {
+        return this.driver.findElement(By.id("overlay")).then(function(element) {
+            return element.findElement(By.xpath('//*[text()="' + folder + '" and contains(@class,"title")]')).then(function(element) {
+                return element.findElement(By.className("check-icon deselect-folder")).then(function(element) {
+                    return element.click();
+                });
+            });
+        });
+    });
+
+    When('I click folder checkbox on for {stringInDoubleQuotes}', function(folder) {
+        return this.driver.findElement(By.id("overlay")).then(function(element) {
+            return element.findElement(By.xpath('//*[text()="' + folder + '" and contains(@class,"title")]')).then(function(element) {
+                return element.findElement(By.className("check-icon select-folder")).then(function(element) {
+                    return element.click();
+                });
+            });
+        });
+    });
+
 });
 

@@ -25,7 +25,7 @@ describe('FilterOverlay', function() {
         };
 
         var Data = require(appDir + "/app/Data");
-        var json = require(appDir + '/test/testdata.json');
+        var json = require(appDir + '/test/public/data/testdata.json');
 
         Data.loadData(json);
         FilterOverlay = new FilterOverlay({

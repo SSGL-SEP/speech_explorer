@@ -8,7 +8,8 @@ module.exports = function(params) {
     this.boolTags = [];
     this.tags = data.getTags();
 
-    this.dataset = {Dataset: []};
+
+    this.dataset = { Dataset: [], ColorBy: [] };
     this.selectedDataSet = null;
     this.filterFolder = null;
     this.datasetFolder = null;
@@ -16,12 +17,15 @@ module.exports = function(params) {
     this.filterFunction = params.filterFunction;
     this.changeDataSetFunction = params.changeDataSetFunction;
     this.gui = null;
+    this.datasetController = null;
+    this.colorController = null;
 
     this.init = function(selectedDataSet) {
         this.createBoolArray(this.tags);
         this.createDatasets();
         this.createGUI(selectedDataSet);
         this.initFilter();
+        //this.update();
 
         window.onbeforeunload = function() {
             localStorage.clear();
@@ -35,6 +39,8 @@ module.exports = function(params) {
         var overlay = document.getElementById('overlay');
         this.selectedDataSet = null;
         overlay.innerHTML = '';
+        this.datasetController = null;
+        this.colorController = null;
         this.filterFolder = null;
         this.datasetFolder = null;
         this.gui = null;
@@ -63,13 +69,20 @@ module.exports = function(params) {
 
     this.createDatasets = function() {
         this.dataset.Dataset = this.Config.findAllDataSetDisplayNames();
+        var arr = [];
+        var keys = Object.keys(this.tags).sort();
+        for (var i = 0; i<keys.length; i++) {
+            arr.push(keys[i]);
+        }
+        this.dataset.ColorBy = arr;
     };
 
     this.createGUI = function(selectedDataSet) {
         //always use localstorage;
         localStorage.setItem(document.location.href + '.isLocal', true);
         this.selectedDataSet = selectedDataSet;
-        this.gui = new dat.GUI({width: 265});
+        this.gui = new dat.GUI({ width: 265 });
+
         this.datasetFolder = this.gui.addFolder("Dataset");
         this.gui.__folders.Dataset.open();
         var controller = this.datasetFolder.add(this.dataset, 'Dataset', this.dataset.Dataset).onChange(function(set) {
@@ -79,11 +92,21 @@ module.exports = function(params) {
             } else {
                 scope.newSet = false;
             }
-            scope.changeDataSetFunction(set);
+            scope.changeDataSetFunction(set, null);
+        });
+
+        var colorController = this.datasetFolder.add(this.dataset, 'ColorBy', this.dataset.ColorBy).onChange(function(colorBy) {
+            scope.changeDataSetFunction(scope.selectedDataSet, colorBy);
         });
 
         var opts = controller.domElement.getElementsByTagName('select')[0];
         opts.value = this.selectedDataSet;
+
+        opts = colorController.domElement.getElementsByTagName('select')[0];
+        opts.value = data.getColorBy();
+
+        this.datasetController = controller;
+        this.colorController = colorController;
 
         var createItem = function(key) {
             //important: first remember, then add!
@@ -149,7 +172,7 @@ module.exports = function(params) {
 
             }(folders[i]));
         }
-
+        this.gui.__folders.Filter.open();
         var select = this.selectButton;
         var clear = this.clearAllButton;
         this.filterFolder.add(clear, 'ClearAll');
@@ -178,6 +201,7 @@ module.exports = function(params) {
                 clearAll: true
             });
         }
+
     };
 
     this.selectButton = {
@@ -194,12 +218,13 @@ module.exports = function(params) {
     };
 
     this.update = function() {
-        for (var i = 0; i < Object.keys(scope.gui.__folders).length; i++) {
-            var key = Object.keys(scope.gui.__folders)[i];
-            for (var j = 0; j < scope.gui.__folders[key].__controllers.length; j++) {
-                scope.gui.__folders[key].__controllers[j].updateDisplay();
+        for (var i = 0; i < Object.keys(scope.filterFolder.__folders).length; i++) {
+            var key = Object.keys(scope.filterFolder.__folders)[i];
+            for (var j = 0; j < scope.filterFolder.__folders[key].__controllers.length; j++) {
+                scope.filterFolder.__folders[key].__controllers[j].updateDisplay();
             }
         }
+
     };
 
     this.initFilter = function() {

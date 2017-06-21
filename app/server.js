@@ -23,6 +23,11 @@ app.use(express.static(publicFolder));
 
 var server = app.listen(port, function() {
     console.log("Server listening in port " + port);
+    if (process.env.NODE_ENV === 'local') {
+        console.log("Opening app with default browser..");
+        console.log("Keep this terminal window open while using the app");
+        opn('http://localhost:3000');
+    }
 });
 
 exports.close = function() {

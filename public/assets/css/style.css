@@ -14,7 +14,7 @@ body {
     left: 0;
 }
 
-#info, #active, #infoPanels, #selected {
+#info, #active, #infoPanels, #selected, #manualBox, #help-button {
     font-family: 'Lucida Grande', sans-serif;
     position: absolute;
     right: 0;
@@ -30,10 +30,12 @@ body {
 
 #active {
     top: 0;
+    float:right;
 }
 
 #info {
     top: 13px;
+    float:right;
 }
 
 #infoPanels {
@@ -51,8 +53,29 @@ body {
     width: 260px;
 }
 
+#help-button {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    left: 270px;
+    z-index: 12;
+}
+#manualBox {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
 .infoInstance {
     display: inline;
+}
+.align-right {
+    text-align: right;
 }
 
 a {

@@ -30,12 +30,12 @@ body {
 
 #active {
     top: 0;
-    float:right;
+    float: right;
 }
 
 #info {
     top: 13px;
-    float:right;
+    float: right;
 }
 
 #infoPanels {
@@ -60,22 +60,54 @@ body {
     left: 270px;
     z-index: 12;
 }
-#manualBox {
+
+.btn {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#help-button .btn {
+    width: 30px;
+    height: 30px;
+}
+
+#help-button .btn:before {
+    font-family: 'foundation-icons';
+    content: "\f15e";
+    display: block;
+    color:#5791ff;
+    font-size:30px;
+}
+
+#help-box {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     width: auto;
     height: auto;
+    padding: 30px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #000;
+    opacity: 0.8;
+    color: #fff;
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
+}
+
+#help-box.open {
+    display: block;
 }
 
 .infoInstance {
     display: inline;
 }
+
 .align-right {
     text-align: right;
+    float: right;
 }
 
 a {
@@ -201,18 +233,37 @@ a {
 }
 
 @-webkit-keyframes pace-theme-center-atom-spin {
-    0%   { -webkit-transform: rotate(0deg) }
-    100% { -webkit-transform: rotate(359deg) }
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    100% {
+        -webkit-transform: rotate(359deg)
+    }
 }
+
 @-moz-keyframes pace-theme-center-atom-spin {
-    0%   { -moz-transform: rotate(0deg) }
-    100% { -moz-transform: rotate(359deg) }
+    0% {
+        -moz-transform: rotate(0deg)
+    }
+    100% {
+        -moz-transform: rotate(359deg)
+    }
 }
+
 @-o-keyframes pace-theme-center-atom-spin {
-    0%   { -o-transform: rotate(0deg) }
-    100% { -o-transform: rotate(359deg) }
+    0% {
+        -o-transform: rotate(0deg)
+    }
+    100% {
+        -o-transform: rotate(359deg)
+    }
 }
+
 @keyframes pace-theme-center-atom-spin {
-    0%   { transform: rotate(0deg) }
-    100% { transform: rotate(359deg) }
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(359deg)
+    }
 }

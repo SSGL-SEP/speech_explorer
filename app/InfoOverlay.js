@@ -33,9 +33,11 @@ var createMetaHTML = function(point) {
 };
 
 var createSimpleButton = function(text, onclick) {
-    var elem = document.createElement('a');
+    var elem = document.createElement('span');
     elem.innerHTML = text;
+    elem.className = 'btn';
     elem.addEventListener('click', function(event) {
+        event.preventDefault();
         onclick();
     });
     return elem;
@@ -56,10 +58,10 @@ var hideInfoPanels = function() {
 };
 
 var showHelp = function() {
-    manualDiv.style.display = "block";
+    manualDiv.classList.add('open');
 };
 var hideHelp = function() {
-    manualDiv.style.display = "none";
+    manualDiv.classList.remove('open');
 };
 
 /**
@@ -156,11 +158,10 @@ module.exports = {
 
         helpButtonDiv.appendChild(createSimpleButton('Help', showHelp));
 
-        manualDiv = document.getElementById('manualBox');
-        document.getElementById("close-button").addEventListener("click", function(event) {
-            event.preventDefault();
-            hideHelp();
-        });
+        manualDiv = document.getElementById('help-box');
+        var closeButton = createSimpleButton('Close', hideHelp);
+        closeButton.classList.add('close-button');
+        document.getElementById('close-help').appendChild(closeButton);
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

@@ -41,6 +41,8 @@ var Visualizer = module.exports = function() {
         Events = new Events(this);
         Events.createDraggers();
 
+        InfoOverlay.init('active', 'info', 'infoPanels', 'selected');
+
         InfoOverlay.setAction('download', function() {
             Events.downloadSound();
         });
@@ -82,7 +84,6 @@ var Visualizer = module.exports = function() {
         });
 
         this.createListeners();
-        // this.reset();
         this.animate();
     };
 
@@ -95,7 +96,6 @@ var Visualizer = module.exports = function() {
         this.cloudSize2D = 1.5;
         this.createCloud();
         this.resetZoomAndPan();
-        InfoOverlay.init('active', 'info', 'infoPanels', 'selected', Data.getTags());
         Filter.init(this.pointCloud.getAttributes().enabled.array);
         updateActiveCountDisplay();
         this.update(true);

@@ -1,0 +1,8 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Linux App
+Comment=Linux App
+Exec=./start.sh
+Icon=
+Terminal=true
+Type=Application

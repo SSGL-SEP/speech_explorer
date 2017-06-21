@@ -4,7 +4,6 @@
     z-index: 1002;
 }
 
-
 .dg.main.taller-than-window .close-button.close-bottom {
     /* fix for FireFox */
     position: fixed;
@@ -29,4 +28,44 @@
 
 .dg.a.has-save > .closed {
     margin-top: -27px !important;
+}
+
+.dg .title > input[type=checkbox] {
+    float: right;
+    position: relative;
+    top: 4px;
+}
+
+.dg .boolean .property-name {
+    width: 80%;
+}
+
+.dg .boolean .c {
+    width: 20%;
+    text-align: center
+}
+
+.check-icon {
+    display: inline-block;
+    margin: 0 2px;
+    padding: 0 6px;
+    font-family: "foundation-icons";
+    float: right;
+    color: #fff;
+}
+
+.select-folder:before {
+    content: "\f126";
+}
+
+.select-folder:hover {
+    color: #85ff64;
+}
+
+.deselect-folder:before {
+    content: "\f217";
+}
+
+.deselect-folder:hover {
+    color: #ff4d48;
 }

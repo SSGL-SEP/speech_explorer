@@ -27,3 +27,15 @@ Feature: Filter
     And I open folder "voice"
     And I click on checkbox of "voiced"
     Then I should see "40/168" active samples
+
+  Scenario: Folder toggle works
+    Given I navigate to the homepage
+    And Page is finished loading
+    When I open folder "Filter"
+    And I click folder checkbox off for "stress"
+    Then I should see "0/168" active samples
+    When I open folder "stress"
+    And I click on checkbox of "unstressed"
+    Then I should see "100/168" active samples
+    When I click folder checkbox on for "stress"
+    Then I should see "168/168" active samples

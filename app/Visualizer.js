@@ -24,7 +24,7 @@ var Visualizer = module.exports = function() {
     this.touchState = this.IS_DRAGGING;
     this.resizeTimer = null;
     this.pointSize = 2;
-    this.cloudSize2D = 1.5;
+    this.scale = 1.5;
     this.mode = 0;
     this.enabled = false;
     // ---------------------
@@ -34,7 +34,8 @@ var Visualizer = module.exports = function() {
     var raycaster;
     var mouse;
     var attributes;
-    var raycasterRadius = 8;
+    this.DEFAULT_RADIUS = 20;
+    this.raycasterRadius = this.DEFAULT_RADIUS / this.scale;
 
     this.init = function() {
         this.createEnvironment();
@@ -93,7 +94,7 @@ var Visualizer = module.exports = function() {
         this.touchState = this.IS_DRAGGING;
         this.resizeTimer = null;
         this.pointSize = DEFAULT_POINTSIZE;
-        this.cloudSize2D = 1.5;
+        this.scale = 1.5;
         this.createCloud();
         this.resetZoomAndPan();
         Filter.init(this.pointCloud.getAttributes().enabled.array);
@@ -129,7 +130,7 @@ var Visualizer = module.exports = function() {
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 100;
-        SelectionCursor.init(raycasterRadius);
+        SelectionCursor.init(this.DEFAULT_RADIUS);
         this.scene.add(SelectionCursor.getMesh());
         this.base = new THREE.Object3D();
         this.scene.add(this.base);
@@ -164,7 +165,7 @@ var Visualizer = module.exports = function() {
         var resetScale = (scalarWidth < scalarHeight) ? scalarWidth : scalarHeight;
         resetScale *= 1.65;
 
-        this.cloudSize2D = resetScale;
+        this.scale = resetScale;
         scope.zoomer.scale.set(resetScale, resetScale, resetScale);
 
         // Set panner position to match data between coordinates 0 - 800
@@ -236,13 +237,14 @@ var Visualizer = module.exports = function() {
 
     this.update = function(refreshPointCloud) {
         if (refreshPointCloud) {
-            this.pointSize = Math.max(DEFAULT_POINTSIZE, this.cloudSize2D);
+            this.pointSize = Math.max(DEFAULT_POINTSIZE, this.scale);
             this.pointCloud.setPointSize(this.pointSize);
             this.pointCloud.update();
+            this.raycasterRadius = this.DEFAULT_RADIUS / this.scale;
         }
         if (this.enabled) {
             // attributes = this.pointCloud.getAttributes();
-            var intersectingPoints = getIntersectingPoints(raycasterRadius);
+            var intersectingPoints = getIntersectingPoints(this.raycasterRadius);
             if (intersectingPoints.length > 0) {
                 this.updateSelections(intersectingPoints);
 

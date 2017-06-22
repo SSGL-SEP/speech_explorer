@@ -143,16 +143,14 @@ module.exports = function(viz) {
         var scalar = null;
 
         if (delta > 0) {
-            visualizer.cloudSize2D /= 1.05;
-            SelectionCursor.setScale(visualizer.cloudSize2D);
-            visualizer.cloudSize2D = (visualizer.cloudSize2D < resetScale) ? resetScale : visualizer.cloudSize2D;
-            scalar = visualizer.cloudSize2D;
+            visualizer.scale /= 1.05;
+            visualizer.scale = (visualizer.scale < resetScale) ? resetScale : visualizer.scale;
+            scalar = visualizer.scale;
             visualizer.zoomer.scale.set(scalar, scalar, scalar);
         } else {
-            visualizer.cloudSize2D *= 1.05;
-            SelectionCursor.setScale(visualizer.cloudSize2D);
-            visualizer.cloudSize2D = (visualizer.cloudSize2D > 20) ? 20 : visualizer.cloudSize2D;
-            scalar = visualizer.cloudSize2D;
+            visualizer.scale *= 1.05;
+            visualizer.scale = (visualizer.scale > 20) ? 20 : visualizer.scale;
+            scalar = visualizer.scale;
             visualizer.zoomer.scale.set(scalar, scalar, scalar);
         }
         visualizer.update(true);

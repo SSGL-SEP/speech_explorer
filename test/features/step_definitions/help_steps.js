@@ -10,29 +10,29 @@ defineSupportCode(function({Given, When, Then}) {
     });
 
     When('I click show help button', function() {
-        return this.driver.findElement(By.id("help-button")).then(function(element) {
+        return this.driver.findElement(By.css("#help-button .button")).then(function(element) {
             return element.click();
         });
     });
 
     When('I click close help button', function() {
-        return this.driver.findElement(By.id("close-button")).then(function(element) {
+        return this.driver.findElement(By.css(".button.close-help-button")).then(function(element) {
             return element.click();
         });
     });
 
     Then('I should see help', function() {
-        return this.driver.findElement(By.id('manualBox')).then(function(element) {
-            return element.getAttribute('style').then(function(style) {
-                return expect(style).to.equal('display: block;');
+        return this.driver.findElement(By.id('help-box')).then(function(element) {
+            return element.getAttribute('class').then(function(classAttr) {
+                return expect(classAttr).to.contain('open');
             });
         });
     });
 
     Then('I should not see help', function() {
-        return this.driver.findElement(By.id('manualBox')).then(function(element) {
-            return element.getAttribute('style').then(function(style) {
-                return expect(style).to.equal('display: none;');
+        return this.driver.findElement(By.id('help-box')).then(function(element) {
+            return element.getAttribute('class').then(function(classAttr) {
+                return expect(classAttr).to.not.contain('open');
             });
         });
     });

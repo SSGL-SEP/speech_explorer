@@ -108,7 +108,7 @@ module.exports = function(params) {
         this.datasetController = controller;
         this.colorController = colorController;
 
-        var createItem = function(key) {
+        var createItem = function(key, parent) {
             //important: first remember, then add!
             scope.gui.remember(tag.values);
             var controller = folder.add(tag.values, key).borderColor("blue").borderWidth(3);
@@ -125,7 +125,7 @@ module.exports = function(params) {
                         };
                     })(tag.key)
                 );
-            if (data.getTagColor(key)) {
+            if (parent === opts.value && data.getTagColor(key)) {
                 controller.borderColor(data.getTagColor(key))
                     .borderWidth(10);
             }
@@ -139,10 +139,13 @@ module.exports = function(params) {
         for (i = 0; i < this.boolTags.length; i++) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
+            if(tag.key === opts.value) {
+                folder.open();
+            }
             folders.push(folder);
             var keys = Object.keys(tag.values);
             for (var j = 0; j < keys.length; j++) {
-                createItem(keys[j]);
+                createItem(keys[j], tag.key);
             }
         }
 

@@ -4,6 +4,13 @@ var Promise = require('es6-promise').Promise;
 
 var sounds = [];
 var lastUsed = "";
+var DEBUG = false;
+
+function log(msg) {
+    if(DEBUG === true) {
+        console.log(msg);
+    }
+}
 
 function extractBuffer(src, offset, length) {
     var dstU8 = new Uint8Array(length);
@@ -71,7 +78,7 @@ module.exports = {
         } else {
             sounds = [];
             lastUsed = filename;
-            return load(filename, 'arraybuffer', console.log)
+            return load(filename, 'arraybuffer', log)
                 .then(processConcatenatedFile)
                 .catch(function(err) {
                     console.log(err.message);
@@ -81,6 +88,6 @@ module.exports = {
     },
 
     loadJSON: function(url) {
-        return load(url, 'json', console.log);
+        return load(url, 'json', log);
     }
 };

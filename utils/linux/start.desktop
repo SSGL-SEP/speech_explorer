@@ -1,8 +1,0 @@
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Name=Linux App
-Comment=Linux App
-Exec=speech_explorer/utils/linux/start.sh
-Icon=
-Terminal=true
-Type=Application

@@ -23,7 +23,8 @@ module.exports = function(grunt) {
                     "Map": false,
                     "Set": false,
                     "AudioContext": false,
-                    "confirm": false
+                    "confirm": false,
+                    "Pace": false
                 }
             },
             app: ['app/**/*.js'],

@@ -80,7 +80,7 @@ body {
 #help-box {
     padding: 15px 30px;
     z-index: 1003;
-    font-family: sans-serif;
+    font-family: 'Lucida Grande', sans-serif;
     font-size: 14px;
     display: none;
     position: fixed;

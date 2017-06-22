@@ -34,7 +34,7 @@ var createMetaHTML = function(point) {
 var createSimpleButton = function(text, onclick) {
     var elem = document.createElement('span');
     elem.innerHTML = text;
-    elem.className = 'icon-btn';
+    elem.className = 'icon-btn button';
     elem.addEventListener('click', function(event) {
         event.preventDefault();
         onclick();

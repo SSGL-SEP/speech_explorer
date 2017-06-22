@@ -1,9 +1,7 @@
 'use strict';
 
 var Data = require("./Data");
-var Manual = "Hotkeys:\nS: start/stop selecting\nR: start/stop removing\nD: download .wav for active point (clicked on by left mouse button)\nPan around with left mouse button held down. Zoom in and out with mouse wheel.\nSelect datasets in the control panel on the left side menu (open controls -> datasets).\nFilter active points in the control panel.";
-var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, helpButtonDiv, manualDiv, tags;
-var tagNames = [];
+var infoDiv, activeDiv, infopanelDiv, selectedDiv, activeHref, helpButtonDiv, manualDiv, backgroundDiv;
 var onClicks = {};
 
 var setAction = function(handle, func) {
@@ -23,19 +21,22 @@ var runAction = function(handle) {
 };
 
 var createMetaHTML = function(point) {
-    var html = "", key, i;
+    var html = "", i;
+    var tags = Object.keys(point.meta);
 
-    for (i = 0; i < tagNames.length; i++) {
-        key = tagNames[i];
-        html += '<div>' + key + ': <span class="infoInstance ' + key + '">' + point.meta[key] + '</span></div>';
+    for (i = 0; i < tags.length; i++) {
+        html += '<div>' + tags[i] + ': <span class="infoInstance ' + tags[i] + '">';
+        html += point.meta[tags[i]] + '</span></div>';
     }
     return html;
 };
 
 var createSimpleButton = function(text, onclick) {
-    var elem = document.createElement('a');
+    var elem = document.createElement('span');
     elem.innerHTML = text;
+    elem.className = 'icon-btn button';
     elem.addEventListener('click', function(event) {
+        event.preventDefault();
         onclick();
     });
     return elem;
@@ -56,10 +57,12 @@ var hideInfoPanels = function() {
 };
 
 var showHelp = function() {
-    manualDiv.style.display = "block";
+    manualDiv.classList.add('open');
+    backgroundDiv.classList.add('open');
 };
 var hideHelp = function() {
-    manualDiv.style.display = "none";
+    manualDiv.classList.remove('open');
+    backgroundDiv.classList.remove('open');
 };
 
 /**
@@ -96,7 +99,7 @@ var selectedPanelContainer;
 var selectedPanelButtons;
 
 module.exports = {
-    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId, newTags) {
+    init: function(activePointsElementId, infoElementId, infoPanelElementId, selectedElementId) {
         activeDiv = document.getElementById(activePointsElementId);
         infoDiv = document.getElementById(infoElementId);
         infopanelDiv = document.getElementById(infoPanelElementId);
@@ -147,20 +150,18 @@ module.exports = {
         selectedDiv.appendChild(selectedPanelButtons);
         selectedDiv.style.visibility = 'hidden';
 
-        tags = newTags;
-        tagNames = Object.keys(tags);
-
         infopanelDiv.innerHTML = ""; // empty element if resetting
         infopanelDiv.appendChild(infoPanelMetaContainer);
         infopanelDiv.appendChild(infoPanelButtons);
         helpButtonDiv.innerHTML = "";
         helpButtonDiv.appendChild(createSimpleButton('Help', showHelp));
 
-        manualDiv = document.getElementById('manualBox');
-        document.getElementById("close-button").addEventListener("click", function(event) {
-            event.preventDefault();
-            hideHelp();
-        });
+        manualDiv = document.getElementById('help-box');
+        var closeButton = createSimpleButton('Close', hideHelp);
+        closeButton.classList.add('close-help-button');
+        manualDiv.insertBefore(closeButton, manualDiv.firstChild);
+        backgroundDiv = document.getElementById('background');
+        backgroundDiv.addEventListener('click', hideHelp);
 
         infoDiv.style.visibility = 'hidden';
         activeDiv.style.visibility = 'visible';

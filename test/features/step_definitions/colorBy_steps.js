@@ -1,8 +1,8 @@
-const { expect } = require('chai');
-const { By, until } = require('selenium-webdriver');
-const { defineSupportCode } = require('cucumber');
+const {expect} = require('chai');
+const {By, until} = require('selenium-webdriver');
+const {defineSupportCode} = require('cucumber');
 
-defineSupportCode(function({ Given, When, Then }) {
+defineSupportCode(function({Given, When, Then}) {
     When('I change colorBy to {stringInDoubleQuotes}', function(colorby) {
         var driver = this.driver;
         return driver.findElement(By.xpath('//span[text()="ColorBy" and contains(@class,"property-name")]/following-sibling::div[1]//select')).then(function(element) {
@@ -14,12 +14,11 @@ defineSupportCode(function({ Given, When, Then }) {
         });
     });
 
-    Then('borders of {stringInDoubleQuotes} should be colored', function(tag) {
-        return this.driver.findElement(By.xpath('//*[@id="overlay"]/div/ul/li[3]/div/ul/li[2]/div/ul/li[4]')).then(function(element) {
+    Then('border of {stringInDoubleQuotes} should be colored with RGB {stringInDoubleQuotes}', function(tag, rgb) {
+        return this.driver.findElement(By.xpath('//span[text()="' + tag + '"]/ancestor::li[@class="cr boolean"]')).then(function(element) {
             return element.getAttribute('style').then(function(style) {
-                return expect(style).to.equal('border-left-color: rgb(255, 229, 0); border-left-width: 10px;');
+                return expect(style).to.equal('border-left-color: rgb(' + rgb + '); border-left-width: 10px;');
             });
         });
     });
-
 });

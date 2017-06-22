@@ -14,7 +14,7 @@ body {
     left: 0;
 }
 
-#info, #active, #infoPanels, #selected, #manualBox, #help-button {
+#info, #active, #infoPanels, #selected {
     font-family: 'Lucida Grande', sans-serif;
     position: absolute;
     right: 0;
@@ -30,12 +30,12 @@ body {
 
 #active {
     top: 0;
-    float:right;
+    float: right;
 }
 
 #info {
     top: 13px;
-    float:right;
+    float: right;
 }
 
 #infoPanels {
@@ -53,6 +53,15 @@ body {
     width: 260px;
 }
 
+.icon-btn {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    font-family: 'foundation-icons';
+    font-size: 0;
+    color: transparent;
+}
+
 #help-button {
     position: absolute;
     top: 0;
@@ -60,22 +69,76 @@ body {
     left: 270px;
     z-index: 12;
 }
-#manualBox {
+
+#help-button .icon-btn:before {
+    content: "\f15e";
+    display: block;
+    color: #5791ff;
+    font-size: 30px;
+}
+
+#help-box {
+    padding: 15px 30px;
+    z-index: 1003;
+    font-family: sans-serif;
+    font-size: 14px;
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     width: auto;
     height: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #000;
+    opacity: 0.8;
+    color: #fff;
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
 }
 
+#help-box.open {
+    display: block;
+    animation: fadein-help 200ms;
+}
+
+.close-help-button {
+    margin-right: -10px;
+    float: right;
+}
+
+.close-help-button:before {
+    content: "\f217";
+    display: block;
+    text-indent: 0;
+    font-size: 20px;
+    color: #fff;
+    padding: 5px;
+}
+
+#background {
+    display: none;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+#background.open {
+    display: block;
+    animation: fadein-background 200ms;
+}
+
+
 .infoInstance {
     display: inline;
-}
-.align-right {
-    text-align: right;
 }
 
 a {
@@ -201,18 +264,46 @@ a {
 }
 
 @-webkit-keyframes pace-theme-center-atom-spin {
-    0%   { -webkit-transform: rotate(0deg) }
-    100% { -webkit-transform: rotate(359deg) }
+    0% {
+        -webkit-transform: rotate(0deg)
+    }
+    100% {
+        -webkit-transform: rotate(359deg)
+    }
 }
+
 @-moz-keyframes pace-theme-center-atom-spin {
-    0%   { -moz-transform: rotate(0deg) }
-    100% { -moz-transform: rotate(359deg) }
+    0% {
+        -moz-transform: rotate(0deg)
+    }
+    100% {
+        -moz-transform: rotate(359deg)
+    }
 }
+
 @-o-keyframes pace-theme-center-atom-spin {
-    0%   { -o-transform: rotate(0deg) }
-    100% { -o-transform: rotate(359deg) }
+    0% {
+        -o-transform: rotate(0deg)
+    }
+    100% {
+        -o-transform: rotate(359deg)
+    }
 }
+
 @keyframes pace-theme-center-atom-spin {
-    0%   { transform: rotate(0deg) }
-    100% { transform: rotate(359deg) }
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(359deg)
+    }
+}
+
+@keyframes fadein-background {
+    from { opacity: 0; }
+    to   { opacity: 0.3; }
+}
+@keyframes fadein-help {
+    from { opacity: 0; }
+    to   { opacity: 0.8; }
 }

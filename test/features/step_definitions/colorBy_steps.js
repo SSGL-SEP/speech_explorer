@@ -14,10 +14,21 @@ defineSupportCode(function({Given, When, Then}) {
         });
     });
 
-    Then('border of {stringInDoubleQuotes} should be colored with RGB {stringInDoubleQuotes}', function(tag, rgb) {
+    Then('border of {stringInDoubleQuotes} should be colored with {stringInDoubleQuotes} and border width {stringInDoubleQuotes}', function(tag, color, borderWidth) {
         return this.driver.findElement(By.xpath('//span[text()="' + tag + '"]/ancestor::li[@class="cr boolean"]')).then(function(element) {
             return element.getAttribute('style').then(function(style) {
-                return expect(style).to.equal('border-left-color: rgb(' + rgb + '); border-left-width: 10px;');
+                return expect(style).to.equal('border-left-color: ' + color + '; border-left-width: ' + borderWidth + 'px;');
+            });
+        });
+    });
+
+    When('I change ColorBy to {stringInDoubleQuotes}', function(colorBy) {
+        var driver = this.driver;
+        return driver.findElement(By.xpath('//span[text()="ColorBy" and contains(@class,"property-name")]/following-sibling::div[1]//select')).then(function(element) {
+            return element.click().then(function() {
+                return driver.findElement(By.xpath('//option[text()="' + colorBy + '"]')).then(function(element) {
+                    return element.click();
+                });
             });
         });
     });

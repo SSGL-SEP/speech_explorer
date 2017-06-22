@@ -4,7 +4,7 @@ const assert = require('assert');
 const expect = require('chai').expect;
 const PointCloud = require(appDir + '/app/PointCloud');
 const InfoOverlay = require(appDir + "/app/InfoOverlay");
-const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div><div id="help-button"></div><div id="manualBox"><div class="align-right"><a href="#" id="close-button">close</a></div></div></div>';
+const html = '<!DOCTYPE html><div id="info"></div><div id="active"></div><div id="infoPanels"></div><div id="selected"></div><div id="help-button"></div><div id="help-box"></div><div id="background"></div></div>';
 
 var Data;
 var Filter;

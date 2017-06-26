@@ -133,6 +133,7 @@ module.exports = function(params) {
         };
 
         var folders = [];
+        var colorByFolder = null;
 
         this.filterFolder = this.gui.addFolder("Filter");
         var i;
@@ -140,7 +141,7 @@ module.exports = function(params) {
             var tag = this.boolTags[i];
             var folder = this.filterFolder.addFolder(tag.key);
             if(tag.key === opts.value) {
-                folder.open();
+                colorByFolder = folder;
             }
             folders.push(folder);
             var keys = Object.keys(tag.values);
@@ -182,6 +183,9 @@ module.exports = function(params) {
         this.filterFolder.add(select, 'SelectAll');
         var element = document.getElementById('overlay');
         element.appendChild(this.gui.domElement);
+        if(colorByFolder !== null) {
+            colorByFolder.open();
+        }
     };
 
     var updateAll = function(isActive) {

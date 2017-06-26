@@ -34,6 +34,11 @@ function changeDataSet(dataset, colorBy) {
                 Visualizer.reset();
                 FilterOverlay.init(dataset);
                 Visualizer.enableInteraction();
+                if(typeof window,Pace !== 'undefined') {
+                    // fix for Pace running in Firefox after app loaded
+                    window.Pace.bar.update(100);
+                    window.Pace.stop();
+                }
             });
     };
     if (dataset === lastUsedDataset) {

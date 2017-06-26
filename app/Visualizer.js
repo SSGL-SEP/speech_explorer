@@ -102,6 +102,7 @@ var Visualizer = module.exports = function() {
         this.update(true);
         this.mode = 0;
         SelectionCursor.changeMode(this.mode);
+        InfoOverlay.hideInfoPanel();
         this.enabled = false;
         attributes = this.pointCloud.getAttributes();
     };

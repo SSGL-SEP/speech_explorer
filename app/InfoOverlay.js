@@ -21,7 +21,7 @@ var runAction = function(handle) {
 };
 
 var createMetaHTML = function(point) {
-    var html = "", i;
+    var html = '<div>' + point.filename + '</div>', i;
     var tags = Object.keys(point.meta);
 
     for (i = 0; i < tags.length; i++) {

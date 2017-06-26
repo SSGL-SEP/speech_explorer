@@ -9,19 +9,21 @@ var context;
 var playingSounds = false;
 
 var playSound = function(index, callback) {
-    if (current !== null) {
-        current.stop(0);
-        current = null;
-    }
+    // if (current !== null) {
+    //     current.stop(0);
+    // }
     var source = context.createBufferSource();
 
     var clonedArrayBuffer = sounds[index].slice(0);
 
     context.decodeAudioData(clonedArrayBuffer, function(audioBuffer) {
+        if (current !== null) {
+            current.stop(0);
+        }
         source.buffer = audioBuffer;
         source.connect(context.destination);
         current = source;
-        current.onended = clearCurrent;
+        // current.onended = clearCurrent;
         source.start(0);
         if (typeof callback === 'function') {
             return callback(source);
@@ -104,5 +106,8 @@ module.exports = {
             playingEnabled = false;
         }
         playingSounds = false;
+        if (current !== null) {
+            current.stop(0);
+        }
     }
 };

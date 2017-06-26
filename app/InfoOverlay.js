@@ -178,6 +178,10 @@ module.exports = {
         infoDiv.style.visibility = 'hidden';
     },
 
+    hideInfoPanel: function() {
+        infopanelDiv.style.visibility = 'hidden';
+    },
+
     updateActive: function(totalPoints, activePoints) {
         activeDiv.innerHTML = activePoints + '/' + totalPoints + ' active';
     },

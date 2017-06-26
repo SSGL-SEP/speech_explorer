@@ -1,19 +1,19 @@
 {
   "dataSets": [
     {
-      "displayName": "phonemes_chroma - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "chroma - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_chroma_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-    {
       "displayName": "phonemes_chroma - tsne, 50",
       "dataSet": "phonemes",
       "processingMethod": "chroma - tsne, 50",
       "totalPoints": 3208,
       "dataSrc": "data/scaled_chroma_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes_chroma - tsne, 200",
+      "dataSet": "phonemes",
+      "processingMethod": "chroma - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_chroma_phonemes_200.json",
       "audioSrc": "phonemes"
     },
     {
@@ -30,6 +30,38 @@
       "processingMethod": "fft - tsne, 50",
       "totalPoints": 3208,
       "dataSrc": "data/scaled_fft_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes_ms - tsne, 200",
+      "dataSet": "phonemes",
+      "processingMethod": "ms - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mel_phonemes_200.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes_ms - tsne, 50",
+      "dataSet": "phonemes",
+      "processingMethod": "ms - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mel_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes_mfcc - tsne, 200",
+      "dataSet": "phonemes",
+      "processingMethod": "mfcc - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes_mfcc - tsne, 50",
+      "dataSet": "phonemes",
+      "processingMethod": "mfcc - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
       "audioSrc": "phonemes"
     },
     {
@@ -63,46 +95,6 @@
       "totalPoints": 18741,
       "dataSrc": "data/scaled_fft_syllable_700.json",
       "audioSrc": "syllables"
-    },
-    {
-      "displayName": "nsynth_mfcc - tsne, 30",
-      "dataSet": "nsynth",
-      "processingMethod": "mfcc - tsne, 30",
-      "totalPoints": 20000,
-      "dataSrc": "data/scaled_fmfcc_nsynth_30.json",
-      "audioSrc": "nsynth"
-    },
-    {
-      "displayName": "phonemes_ms - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "ms - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mel_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_ms - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "ms - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mel_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_mfcc - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "mfcc - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_mfcc - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "mfcc - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
-      "audioSrc": "phonemes"
     },
     {
       "displayName": "syllables_mfcc - tsne, 200",
@@ -143,6 +135,22 @@
       "totalPoints": 18741,
       "dataSrc": "data/syllables_30m.json",
       "audioSrc": "syllable"
+    },
+    {
+      "displayName": "nsynth_mfcc - tsne, 30",
+      "dataSet": "nsynth",
+      "processingMethod": "mfcc - tsne, 30",
+      "totalPoints": 20000,
+      "dataSrc": "data/scaled_fmfcc_nsynth_30.json",
+      "audioSrc": "nsynth"
+    },
+    {
+      "displayName": "nsynth_mfcc - tsne, 70",
+      "dataSet": "nsynth",
+      "processingMethod": "mfcc - tsne, 70",
+      "totalPoints": 20000,
+      "dataSrc": "data/scaled_fmfcc_nsynth_70.json",
+      "audioSrc": "nsynth"
     }
   ],
   "defaultSet": 0

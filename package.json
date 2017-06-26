@@ -12,30 +12,33 @@
     "heroku-postbuild": "mkdir lib/dat/build & wget https://raw.githubusercontent.com/SSGL-SEP/dat.gui/master/build/dat.gui.min.js -O lib/dat/build/dat.gui.min.js & webpack -p --config webpack.config.js --progress",
     "start": "node app/server.js",
     "dev": "grunt serve-and-watch",
-    "submodule": "git submodule update --remote",
+    "submodule": "git submodule update --init && git submodule update --remote",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "rm -rf dist && electron-builder"
   },
   "build": {
     "appId": "SEP",
-    "asarUnpack": "public",
+    "asar": "true",
     "mac": {
       "target": [
+        "dmg",
         "pkg"
       ]
     },
     "linux": {
       "target": [
-        "tar.gz",
-        "deb"
+        "AppImage",
+        "tar.gz"
       ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false
     },
     "win": {
       "target": [
         "zip",
-        "nsis",
-        "nsis-web",
-        "portable"
+        "nsis"
       ]
     }
   },

@@ -6,9 +6,7 @@ dist: trusty
 language: node_js
 node_js:
     - '6'
-env:
-    global:
-        - NODE_ENV=development
+"global_env": "NODE_ENV=development"
 jobs:
     include:
         - stage: GitHub Release

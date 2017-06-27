@@ -1,4 +1,4 @@
-var targetJSON = "../config.json";
+var targetJSON = "public/config.json"; 
 var dataFolder = 'public/data';
 var dataSources = new Set();
 var datasets = [];

@@ -1,24 +1,27 @@
-var targetJSON = "public/config.json"; 
+var targetJSON = "../config.json"; 
 var dataFolder = 'public/data';
 var dataSources = new Set();
 var datasets = [];
 var fs = require('fs');
 var temp, obj;
 var newJSONs = false;
-var oldDataOK = true;
+var oldConfigOK = true;
+var oldConfigLength = 0;
+var filesInFolder = 0;
 
 
 function createConfig() {
     if (fs.existsSync(targetJSON)) {
         try {
             var oldData = JSON.parse(fs.readFileSync(targetJSON, 'utf8'));
-            console.log('createConfig: ' + oldData.dataSets.length + ' files in ' + dataFolder + '.');
+            oldConfigLength = oldData.dataSets.length;
+            console.log('createConfig: ' + oldConfigLength + ' datasets in old config file.');
         } catch(e) {
             console.log('createConfig: ' + e.message);
-            oldDataOK = false;
+            oldConfigOK = false;
 
         }
-        if (oldDataOK) {
+        if (oldConfigOK) {
             for (var i = 0; i < oldData.dataSets.length; i++) {
                 obj = oldData.dataSets[i];
                 dataSources.add(obj.dataSrc);
@@ -47,6 +50,7 @@ function createConfig() {
     }
 
     fs.readdirSync(dataFolder).forEach(function(file) {
+        filesInFolder++;
         obj = JSON.parse(fs.readFileSync(dataFolder + '/' + file, 'utf8'));
         var dnCandidate = obj.dataSet + ' (' + obj.processingMethod + ')';
         var dsr = 'data/' + file;
@@ -56,6 +60,12 @@ function createConfig() {
             newJSONs = true;
         }
     });
+
+    console.log("createConfig: " + filesInFolder + ' files in data folder.');
+
+    if (oldConfigLength > filesInFolder) {
+        console.log("createConfig: You will have to remove old entries from config file." );
+    }
 
     if (newJSONs) {
         var newconfig = JSON.stringify(createConfigObject(datasets, 0), null, 2);

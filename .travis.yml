@@ -14,8 +14,12 @@ jobs:
           os: linux
           dist: trusty
           script: npm run dist
-        - stage: GiHub Release Osx
+            on:
+              tags: true
+        - stage: GitHub Release Osx
           test: skip
           os: osx
           osx_image: xcode8.3
           script: npm run dist
+            on:
+              tags: true

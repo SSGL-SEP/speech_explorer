@@ -1,6 +1,9 @@
 cache:
   directories:
   - node_modules
+os:
+    - osx
+    - linux
 jobs:
     include:
       - stage: GitHub Release

@@ -10,15 +10,15 @@ env:
     global:
         - NODE_ENV=development
 jobs:
+    osx_image: xcode8.3
+    dist: trusty
+    os:
+        - osx
+        - linux
     include:
       - stage: GitHub Release
         test: skip
         script: travis_wait 30 npm run dist
-        osx_image: xcode8.3
-        dist: trusty
-        os:
-            - osx
-            - linux
         cache:
             directories:
                 - node_modules

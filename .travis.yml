@@ -4,6 +4,9 @@ node_js:
 env: 
     global:
         - "NODE_ENV=development"
+cache:
+  directories:
+    - node_modules
 
 jobs:
     include:

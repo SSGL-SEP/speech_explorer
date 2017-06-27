@@ -9,23 +9,10 @@ describe('Data', function() {
         Data = require(appDir + "/app/Data");
         var json = require(appDir + "/test/testdata.json");
         var Config = require(appDir + "/app/ConfigDAO");
-        var config = new Config({dataSets:[{dataSet:"phoneme", audioSrc: "phonemes"}]});
+        var config = new Config({ dataSets: [{ dataSet: "phoneme", audioSrc: "phonemes" }] });
         Data.setConfig(config);
         Data.loadData(json);
     });
-
-    // after(function() {
-    //
-    // });
-    //
-    // beforeEach(function() {
-    //
-    // });
-    //
-    // afterEach(function() {
-    //
-    // });
-
 
     describe('#getTotalPoints()', function() {
         it('should return 13', function() {
@@ -171,6 +158,13 @@ describe('Data', function() {
         it('should return object with attribute \'totalPoints\' with correct value ', function() {
             var headerObject = Data.getParsedHeader().totalPoints;
             assert(headerObject === 13);
+        });
+    });
+
+    describe('#setColorBy()', function() {
+        it('set colorBy porperty', function() {
+            Data.setColorBy("foo");
+            assert(Data.getColorBy() === "foo");
         });
     });
 

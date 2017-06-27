@@ -1,5 +1,8 @@
 osx_image: xcode8.3
 dist: trusty
+os:
+    - osx
+    - linux
 env:
   - ELECTRON_CACHE=$HOME/.electron
 
@@ -10,11 +13,10 @@ node_js:
 env:
   global:
   - NODE_ENV=development
-
 cache:
   directories:
   - node_modules
-
+ 
 jobs:
     include:
       - stage: GitHub Release

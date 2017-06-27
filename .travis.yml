@@ -7,11 +7,11 @@ env:
 
 jobs:
     include:
-        - os: linux
-          dist: trusty
-        - os: osx
-          osx_image: xcode8.3
-          
-    - stage: GitHub Release 
-      test: skip
-      script: npm run dist
+        - stage: GitHub Release 
+          test: skip
+          include:
+            - os: linux
+              dist: trusty
+            - os: osx
+              osx_image: xcode8.3
+          script: npm run dist

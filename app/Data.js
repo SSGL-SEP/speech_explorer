@@ -34,6 +34,11 @@ var Data = module.exports = {
         parsedHeader.colorBy = inputData.colorBy;
         parsedHeader.totalPoints = inputData.totalPoints;
 
+        if (Object.keys(parsedTags).length === 0) {
+            window.alert("No tag information found in the input json!\nReplace json for current dataset with valid one.");
+            throw new Error("No tag information found!");
+        }
+
         for (var i = 0; i < inputData.totalPoints; i++) {
             var dataPoint = new THREE.Vector3(inputData.points[i][0], inputData.points[i][1], inputData.points[i][2]);
             dataPoint.filename = inputData.points[i][3];

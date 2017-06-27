@@ -7,8 +7,11 @@ env:
 
 jobs:
     include:
-        - os: linux
+        - os: linux #This will run unit tests on linux
           dist: trusty
+        # Uncomment this if you want to run tests on osx, it's very slow at the moment
+        # - os: osx
+        #   osx_image: xcode8.3
         - stage: GitHub Release 
           test: skip
           install: skip

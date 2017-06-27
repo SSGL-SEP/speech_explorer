@@ -25,6 +25,8 @@ jobs:
         os:
             - osx
             - linux
+        osx_image: xcode8.3
+        dist: trusty
         deploy:
             provider: releases
             api_key:

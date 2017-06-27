@@ -8,8 +8,12 @@ env:
 jobs:
     include:
         - stage: GitHub Release
-          os: linux
-          dist: trusty
+          matrix:
+            include:
+                - os: linux
+                  dist: trusty
+                - os: osx
+                  osx_image: xcode8.3
           test: skip
           script: travis_wait 30 npm run dist
           deploy:

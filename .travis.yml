@@ -1,27 +1,24 @@
-osx_image: xcode8.3
-dist: trusty
-os:
-    - osx
-    - linux
+matrix:
+    include:
+      - os: linux
+        dist: trusty
+        sudo: required
+      - os: osx
+        osx_image: xcode8.3
 language: node_js
 node_js:
     - '6'
 env:
     global:
         - NODE_ENV=development
+cache:
+    directories:
+        - node_modules
 jobs:
-    osx_image: xcode8.3
-    dist: trusty
-    os:
-        - osx
-        - linux
     include:
       - stage: GitHub Release
         test: skip
         script: travis_wait 30 npm run dist
-        cache:
-            directories:
-                - node_modules
         deploy:
             provider: releases
             api_key:

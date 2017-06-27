@@ -4,7 +4,7 @@ node_js:
 env: 
     global:
         - "NODE_ENV=development"
-        - "GH_TOKEN=c06c2f6cd3e010a95cdf763c558760fcdfe9416e"
+        - "GH_TOKEN=e4ef3680b926ab40f5043bf49416f64f399f1b93"
 
 jobs:
     include:

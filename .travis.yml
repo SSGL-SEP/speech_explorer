@@ -11,6 +11,7 @@ jobs:
           dist: trusty
         - os: osx
           osx_image: xcode8.3
-        - stage: GitHub Release 
-          test: skip
-          script: npm run dist
+          
+    - stage: GitHub Release 
+      test: skip
+      script: npm run dist

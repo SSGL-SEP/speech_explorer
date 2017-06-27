@@ -1,19 +1,27 @@
 {
   "dataSets": [
-    {
-      "displayName": "phonemes_chroma - tsne, 50",
+	{
+      "displayName": "phonemes_mfcc - tsne, 50",
       "dataSet": "phonemes",
-      "processingMethod": "chroma - tsne, 50",
+      "processingMethod": "mfcc - tsne, 50",
       "totalPoints": 3208,
-      "dataSrc": "data/scaled_chroma_phonemes_50.json",
+      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
       "audioSrc": "phonemes"
     },
-    {
-      "displayName": "phonemes_chroma - tsne, 200",
+	{
+      "displayName": "phonemes_mfcc - tsne, 200",
       "dataSet": "phonemes",
-      "processingMethod": "chroma - tsne, 200",
+      "processingMethod": "mfcc - tsne, 200",
       "totalPoints": 3208,
-      "dataSrc": "data/scaled_chroma_phonemes_200.json",
+      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
+      "audioSrc": "phonemes"
+    },
+	{
+      "displayName": "phonemes_fft - tsne, 50",
+      "dataSet": "phonemes",
+      "processingMethod": "fft - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_fft_phonemes_50.json",
       "audioSrc": "phonemes"
     },
     {
@@ -24,12 +32,12 @@
       "dataSrc": "data/scaled_fft_phonemes_200.json",
       "audioSrc": "phonemes"
     },
-    {
-      "displayName": "phonemes_fft - tsne, 50",
+	{
+      "displayName": "phonemes_ms - tsne, 50",
       "dataSet": "phonemes",
-      "processingMethod": "fft - tsne, 50",
+      "processingMethod": "ms - tsne, 50",
       "totalPoints": 3208,
-      "dataSrc": "data/scaled_fft_phonemes_50.json",
+      "dataSrc": "data/scaled_mel_phonemes_50.json",
       "audioSrc": "phonemes"
     },
     {
@@ -40,36 +48,37 @@
       "dataSrc": "data/scaled_mel_phonemes_200.json",
       "audioSrc": "phonemes"
     },
+
     {
-      "displayName": "phonemes_ms - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "ms - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mel_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_mfcc - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "mfcc - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_mfcc - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "mfcc - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "syllables_fft - tsne, 200",
+      "displayName": "syllables_mfcc - tsne, 30",
       "dataSet": "syllables",
-      "processingMethod": "fft - tsne, 200",
+      "processingMethod": "mfcc - tsne, 30",
       "totalPoints": 18741,
-      "dataSrc": "data/scaled_fft_syllable_200.json",
+      "dataSrc": "data/scaled_mfcc_syllable_30.json",
+      "audioSrc": "syllables"
+    },
+	{
+      "displayName": "syllables_mfcc - tsne, 70",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 70",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_70.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables_mfcc - tsne, 200",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 200",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_200.json",
+      "audioSrc": "syllables"
+    },
+	{
+      "displayName": "syllables_mfcc - tsne, 700",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 700",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_700.json",
       "audioSrc": "syllables"
     },
     {
@@ -89,43 +98,19 @@
       "audioSrc": "syllables"
     },
     {
+      "displayName": "syllables_fft - tsne, 200",
+      "dataSet": "syllables",
+      "processingMethod": "fft - tsne, 200",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_fft_syllable_200.json",
+      "audioSrc": "syllables"
+    },
+    {
       "displayName": "syllables_fft - tsne, 700",
       "dataSet": "syllables",
       "processingMethod": "fft - tsne, 700",
       "totalPoints": 18741,
       "dataSrc": "data/scaled_fft_syllable_700.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_mfcc - tsne, 200",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 200",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_200.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_mfcc - tsne, 30",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 30",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_30.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_mfcc - tsne, 70",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 70",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_70.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_mfcc - tsne, 700",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 700",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_700.json",
       "audioSrc": "syllables"
     },
     {
@@ -135,6 +120,22 @@
       "totalPoints": 18741,
       "dataSrc": "data/syllables_30m.json",
       "audioSrc": "syllable"
+    },
+	{
+      "displayName": "phonemes_chroma - tsne, 50",
+      "dataSet": "phonemes",
+      "processingMethod": "chroma - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_chroma_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes_chroma - tsne, 200",
+      "dataSet": "phonemes",
+      "processingMethod": "chroma - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_chroma_phonemes_200.json",
+      "audioSrc": "phonemes"
     },
     {
       "displayName": "nsynth_mfcc - tsne, 30",
@@ -153,5 +154,5 @@
       "audioSrc": "nsynth"
     }
   ],
-  "defaultSet": 6
+  "defaultSet": 0
 }

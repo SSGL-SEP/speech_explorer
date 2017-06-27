@@ -1,14 +1,32 @@
-var targetJSON = "public/config.json";
+var targetJSON = "../config.json";
+var dataFolder = 'public/data';
+var dataSources = new Set();
+var datasets = [];
 var fs = require('fs');
+var temp, obj;
+var newJSONs = false;
+var oldDataOK = true;
+
 
 function createConfig() {
     if (fs.existsSync(targetJSON)) {
-        console.log("createConfig: Old config.json exists, exiting.");
-        return;
-    }
+        try {
+            var oldData = JSON.parse(fs.readFileSync(targetJSON, 'utf8'));
+            console.log('createConfig: ' + oldData.dataSets.length + ' files in ' + dataFolder + '.');
+        } catch(e) {
+            console.log('createConfig: ' + e.message);
+            oldDataOK = false;
 
-    var dataFolder = 'public/data';
-    var datasets = [];
+        }
+        if (oldDataOK) {
+            for (var i = 0; i < oldData.dataSets.length; i++) {
+                obj = oldData.dataSets[i];
+                dataSources.add(obj.dataSrc);
+                temp = createDataSet(obj.displayName, obj.dataSet, obj.processingMethod, obj.totalPoints, obj.dataSrc, obj.audioSrc);
+                datasets.push(temp);
+            }
+        }
+    }
 
     function createDataSet(dn, ds, pm, tp, dsr, asr) {
         var newObj = new Object();
@@ -29,21 +47,25 @@ function createConfig() {
     }
 
     fs.readdirSync(dataFolder).forEach(function(file) {
-        var obj = JSON.parse(fs.readFileSync(dataFolder + '/' + file, 'utf8'));
-        var dnCandidate = obj.dataSet + '_' + obj.processingMethod; //TODO: check for doubles
-        var temp = createDataSet(dnCandidate, obj.dataSet, obj.processingMethod, obj.totalPoints, 'data/' + file, obj.dataSet);
-        datasets.push(temp);
-    });
-
-    var newconfig = JSON.stringify(createConfigObject(datasets, 0), null, 2);
-
-
-    fs.writeFile(targetJSON, newconfig, function(err) {
-        if (err) {
-            return console.log(err);
+        obj = JSON.parse(fs.readFileSync(dataFolder + '/' + file, 'utf8'));
+        var dnCandidate = obj.dataSet + ' (' + obj.processingMethod + ')';
+        var dsr = 'data/' + file;
+        if (!dataSources.has(dsr)) {
+            var temp = createDataSet(dnCandidate, obj.dataSet, obj.processingMethod, obj.totalPoints, dsr, obj.dataSet);
+            datasets.push(temp);
+            newJSONs = true;
         }
-        console.log("createConfig: Created new config.json!");
     });
+
+    if (newJSONs) {
+        var newconfig = JSON.stringify(createConfigObject(datasets, 0), null, 2);
+        fs.writeFile(targetJSON, newconfig, function(err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log("createConfig: Created new config.json with " + datasets.length + ' datasets in it.');
+        });
+    } else { console.log("createConfig: Using old config.json.") }
 }
 
 createConfig();

@@ -11,7 +11,7 @@ jobs:
           os: linux
           dist: trusty
           test: skip
-          script: travis_wait 30 npm run dist
+          script: travis_wait 30 npm run dist && rm -rf dist/linux-unpacked
           deploy:
             provider: releases
             api_key:
@@ -24,7 +24,7 @@ jobs:
           os: osx
           osx_image: xcode8.3
           test: skip
-          script: travis_wait 30 npm run dist
+          script: travis_wait 30 npm run dist && rm -rf dist/mac
           deploy:
             provider: releases
             api_key:

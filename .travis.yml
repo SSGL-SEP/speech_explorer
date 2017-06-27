@@ -4,16 +4,14 @@ node_js:
 env: 
     global:
         - "NODE_ENV=development"
-        
+
 jobs:
     include:
-        - stage: GitHub Release linux
-          os: linux
+        - stage: GitHub Release 
+          os: 
+            - linux
+            - osx
           dist: trusty
-          test: skip
-          script: npm run dist
-        - stage: GitHub Release Osx
-          os: osx
           osx_image: xcode8.3
           test: skip
           script: npm run dist

@@ -9,17 +9,23 @@ jobs:
     include:
         - os: linux
           dist: trusty
+        - os: osx
+          osx_image: xcode8.3
         - stage: GitHub Release Linux
           test: skip
           os: linux
           dist: trusty
-          script: npm run dist
+          deploy:
+            provider: script
+            script: npm run dist
             on:
               tags: true
         - stage: GitHub Release Osx
           test: skip
           os: osx
           osx_image: xcode8.3
-          script: npm run dist
+          deploy:
+            provider: script
+            script: npm run dist
             on:
               tags: true

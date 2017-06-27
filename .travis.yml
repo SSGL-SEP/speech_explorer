@@ -12,9 +12,8 @@ jobs:
         # Uncomment this if you want to run tests on osx, it's very slow at the moment
         # - os: osx
         #   osx_image: xcode8.3
-        - stage: GitHub Release 
+        - stage: GitHub Release #Create a release on github if tagged
           test: skip
-          install: skip
           os: linux
           dist: trusty
           deploy:
@@ -25,7 +24,6 @@ jobs:
               tags: true
         - stage: GitHub Release 
           test: skip
-          install: skip
           os: osx
           osx_image: xcode8.3
           deploy:

@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             options: {
                 node: true,
                 browser: true,
-                strict: true,
+                strict: false,
                 loopfunc: true,
                 globals: {
                     "Map": false,

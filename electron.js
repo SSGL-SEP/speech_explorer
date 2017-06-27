@@ -28,6 +28,10 @@ app.on('ready', function () {
     nodeIntegration: false
   });
 
+  //mainWindow.webContents.openDevTools();
+
+  mainWindow.maximize();
+
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'public/index.html'),
@@ -35,10 +39,10 @@ app.on('ready', function () {
     slashes: true
   }));
 
-  mainWindow.maximize();
+  
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

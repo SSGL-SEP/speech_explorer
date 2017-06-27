@@ -1,13 +1,40 @@
+osx_image: xcode8.3
+
+dist: trusty
+
+env:
+  - ELECTRON_CACHE=$HOME/.electron
+
+matrix:
+  include:
+    - os: osx
+    - os: linux
+
 language: node_js
 node_js:
-  - "6"
+- '6'
 env:
-    global:
-        - NODE_ENV=development
-addons:
-    firefox: "49.0"
+  global:
+  - NODE_ENV=development
 before:
-    - npm run submodule
+- npm install
+- npm run submodule
+- npm run build
 cache:
   directories:
-    - "node_modules"
+  - node_modules
+
+jobs:
+    include:
+      - stage: Tests
+      - script: npm test
+      - stage: GitHub Release
+      - script: npm run releaseML
+        deploy:
+            provider: releases
+            api_key:
+                 secure: kF/TFB2hVJX62BewpAyeHH2BUFtRqakXViw77AKB6hyn8Q6AmU/Wd8REDbwWVtSbg9sSTpRZo2odoJkCEghj6HP1F0GUNEJZT9BPczAC8Cng71iijpB6AjX25bR5GyrbGCfInlJ8TG8W7AV/4ZHIPL7uKGkTQc43iyAeszxihvCyet2GXE/jUHpOr0adbxufAJW6Q4cNwsTyY2F6JzmbAetekwMYXCwVqjJ1HMU8VE77mE80pGoXsk1IKp42qcqdbQJXmzEWvKj9wbQ/fdY5trTX5insm26pK7LUCR9mRQyqv1o3w6vQ6riUo0LOpgebDNMC4OL7oMysJqO8kkj793iGgqel6vhvxDFyKiRlsoBpgf/8PUNOCcyfm+kxVsfGUMfza8lVVBFw2kTTcESfHNOQdFO/1wJ0i2VCfRqgJ3D3HiDJ4Z4e7J1h52itikHm1JWZqfYu2teP47cQcwZUFKVYh/KruOFqfPSjFu9/PxeqkRglYTtavpAJsu0q13b4T77FERdddZegTy39c3L//rwgEUrRzyyRqKa1VCAbX2Nn/Dnbq3LuKDg4y8PZZNfV3M2u+cZOM/0J3LCv+EA3blRR/njzM4DWj+51Ui7WLYOp1HGXhXVAOiiPkZtIzVXCTV8QAlLp13OTMREiJ5R2OSXAFpwL3bZjD03xH9ThXdg=
+            file: dist/*
+            skip_cleanup: true
+            on:
+                tags: true

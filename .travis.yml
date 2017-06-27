@@ -1,9 +1,19 @@
-matrix:
+os:
+    - osx
+    - linux
+osx_image: xcode8.3
+dist: trusty       
+language: node_js
+node_js:
+    - '6'
+env:
+    global:
+        - NODE_ENV=development
+jobs:
     include:
-      - os: linux
-        dist: trusty
-        sudo: required
         - stage: GitHub Release
+            os: linux
+            dist: trusty
             test: skip
             script: travis_wait 30 npm run dist
             deploy:
@@ -13,28 +23,17 @@ matrix:
                 file: dist/*
                 skip_cleanup: true
                 on:
-                    tags: true
-      - os: osx
-        osx_image: xcode8.3
-language: node_js
-node_js:
-    - '6'
-env:
-    global:
-        - NODE_ENV=development
-cache:
-    directories:
-        - node_modules
-jobs:
-    include:
-      - stage: GitHub Release
-        test: skip
-        script: travis_wait 30 npm run dist
-        deploy:
-            provider: releases
-            api_key:
-                 secure: kF/TFB2hVJX62BewpAyeHH2BUFtRqakXViw77AKB6hyn8Q6AmU/Wd8REDbwWVtSbg9sSTpRZo2odoJkCEghj6HP1F0GUNEJZT9BPczAC8Cng71iijpB6AjX25bR5GyrbGCfInlJ8TG8W7AV/4ZHIPL7uKGkTQc43iyAeszxihvCyet2GXE/jUHpOr0adbxufAJW6Q4cNwsTyY2F6JzmbAetekwMYXCwVqjJ1HMU8VE77mE80pGoXsk1IKp42qcqdbQJXmzEWvKj9wbQ/fdY5trTX5insm26pK7LUCR9mRQyqv1o3w6vQ6riUo0LOpgebDNMC4OL7oMysJqO8kkj793iGgqel6vhvxDFyKiRlsoBpgf/8PUNOCcyfm+kxVsfGUMfza8lVVBFw2kTTcESfHNOQdFO/1wJ0i2VCfRqgJ3D3HiDJ4Z4e7J1h52itikHm1JWZqfYu2teP47cQcwZUFKVYh/KruOFqfPSjFu9/PxeqkRglYTtavpAJsu0q13b4T77FERdddZegTy39c3L//rwgEUrRzyyRqKa1VCAbX2Nn/Dnbq3LuKDg4y8PZZNfV3M2u+cZOM/0J3LCv+EA3blRR/njzM4DWj+51Ui7WLYOp1HGXhXVAOiiPkZtIzVXCTV8QAlLp13OTMREiJ5R2OSXAFpwL3bZjD03xH9ThXdg=
-            file: dist/*
-            skip_cleanup: true
-            on:
                 tags: true
+        - stage: GitHub Release
+            os: osx
+            osx_image: xcode8.3
+            test: skip
+            script: travis_wait 30 npm run dist
+            deploy:
+                provider: releases
+                api_key:
+                     secure: kF/TFB2hVJX62BewpAyeHH2BUFtRqakXViw77AKB6hyn8Q6AmU/Wd8REDbwWVtSbg9sSTpRZo2odoJkCEghj6HP1F0GUNEJZT9BPczAC8Cng71iijpB6AjX25bR5GyrbGCfInlJ8TG8W7AV/4ZHIPL7uKGkTQc43iyAeszxihvCyet2GXE/jUHpOr0adbxufAJW6Q4cNwsTyY2F6JzmbAetekwMYXCwVqjJ1HMU8VE77mE80pGoXsk1IKp42qcqdbQJXmzEWvKj9wbQ/fdY5trTX5insm26pK7LUCR9mRQyqv1o3w6vQ6riUo0LOpgebDNMC4OL7oMysJqO8kkj793iGgqel6vhvxDFyKiRlsoBpgf/8PUNOCcyfm+kxVsfGUMfza8lVVBFw2kTTcESfHNOQdFO/1wJ0i2VCfRqgJ3D3HiDJ4Z4e7J1h52itikHm1JWZqfYu2teP47cQcwZUFKVYh/KruOFqfPSjFu9/PxeqkRglYTtavpAJsu0q13b4T77FERdddZegTy39c3L//rwgEUrRzyyRqKa1VCAbX2Nn/Dnbq3LuKDg4y8PZZNfV3M2u+cZOM/0J3LCv+EA3blRR/njzM4DWj+51Ui7WLYOp1HGXhXVAOiiPkZtIzVXCTV8QAlLp13OTMREiJ5R2OSXAFpwL3bZjD03xH9ThXdg=
+                file: dist/*
+             skip_cleanup: true
+                on:
+                    tags: true

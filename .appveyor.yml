@@ -1,6 +1,8 @@
 # Test against the latest version of this Node.js version
 environment:
   nodejs_version: "6"
+  GH_TOKEN:
+    secure: yS57sCwpyaNhOVnV+QjK0FmrYCeKXAERvbaaO32yBVQCTSufkGoggJAtXM8ekweD
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -17,4 +19,12 @@ test_script:
   - npm --version
   # run tests
   - npm test
+  
+deploy:
+  - provider: Script
+    deploy_script: npm run dist
+    name: production
+    on:
+      appveyor_repo_tag: true
+   
 build: off

@@ -20,7 +20,6 @@
     "appId": "SEP",
     "asar": "false",
     "mac": {
-      "artifactName":  "${productName}-${version}-${arch}.${ext}",
       "target": [
         "dmg",
         "pkg",
@@ -28,7 +27,6 @@
       ]
     },
     "linux": {
-      "artifactName":  "${productName}-${version}-${arch}.${ext}",
       "target": [
         "AppImage",
         "tar.gz"
@@ -39,7 +37,6 @@
       "perMachine": false
     },
     "win": {
-      "artifactName":  "${productName}-${version}-${arch}.${ext}",
       "target": [
         "zip",
         "portable",

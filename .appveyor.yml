@@ -16,3 +16,4 @@ test_script:
   - npm --version
   # run tests
   - npm test
+build: off

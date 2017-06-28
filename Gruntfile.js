@@ -31,8 +31,9 @@ module.exports = function(grunt) {
             tests: {
                 options: {
                     esversion: 6,
-                    strict: false,
-                    mocha: true
+                    strict: "implied",
+                    mocha: true,
+                    expr: true
                 },
                 files: {
                     src: ['test/features/**/*.js', 'test/unit/**/*.js']

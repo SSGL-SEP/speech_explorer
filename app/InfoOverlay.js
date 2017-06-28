@@ -21,7 +21,7 @@ var runAction = function(handle) {
 };
 
 var createMetaHTML = function(point) {
-    var html = "", i;
+    var html = '<div>' + point.filename + '</div>', i;
     var tags = Object.keys(point.meta);
 
     for (i = 0; i < tags.length; i++) {
@@ -176,6 +176,10 @@ module.exports = {
 
     hideInfo: function() {
         infoDiv.style.visibility = 'hidden';
+    },
+
+    hideInfoPanel: function() {
+        infopanelDiv.style.visibility = 'hidden';
     },
 
     updateActive: function(totalPoints, activePoints) {

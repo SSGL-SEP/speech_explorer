@@ -58,6 +58,7 @@ var Visualizer = module.exports = function() {
         });
 
         InfoOverlay.setAction('deselectAll', function() {
+            AudioPlayer.stop();
             scope.mode = 0;
             SelectionCursor.changeMode(scope.mode);
             Filter.clearSelected();
@@ -102,6 +103,7 @@ var Visualizer = module.exports = function() {
         this.update(true);
         this.mode = 0;
         SelectionCursor.changeMode(this.mode);
+        InfoOverlay.hideInfoPanel();
         this.enabled = false;
         attributes = this.pointCloud.getAttributes();
     };
@@ -219,6 +221,8 @@ var Visualizer = module.exports = function() {
 
         // changing filter settings clears manually selected points
         InfoOverlay.resetAndHideSelected();
+        // stop playing sounds if any
+        AudioPlayer.stop();
         scope.update(true);
     };
 

@@ -171,8 +171,8 @@ module.exports = function(params) {
 
                 checkbox_off.addEventListener('click', setValueToChildren);
                 checkbox_on.addEventListener('click', setValueToChildren);
-                title.appendChild(checkbox_on);
                 title.appendChild(checkbox_off);
+                title.appendChild(checkbox_on);
 
             }(folders[i]));
         }

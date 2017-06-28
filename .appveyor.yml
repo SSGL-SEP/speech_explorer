@@ -23,7 +23,6 @@ test_script:
   # run tests
   - npm test
 
-deploy_script:
+build_script:
   - npm run dist-win
    
-build: off

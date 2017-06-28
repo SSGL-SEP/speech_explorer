@@ -16,7 +16,7 @@
     "pack": "electron-builder --dir",
     "dist": "npm install && npm run build && rm -rf dist && electron-builder",
     "build-win": "./node_modules/.bin/webpack --config webpack.config.js",
-    "dist-win":  "npm install && npm run build-win && electron-builder -p onTag"
+    "dist-win":  "npm install && npm run build-win && electron-builder"
   },
   "build": {
     "appId": "SEP",

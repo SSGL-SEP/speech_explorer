@@ -150,7 +150,7 @@
       "processingMethod": "mfcc - t-SNE 30",
       "totalPoints": 18741,
       "dataSrc": "data/syllables_30m.json",
-      "audioSrc": "syllable"
+      "audioSrc": "syllables"
     },
     {
       "displayName": "syllables (ms - tsne, 30)",

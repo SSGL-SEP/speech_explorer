@@ -4,7 +4,7 @@
 This is the visualization part of the Speech Explorer Project (SEP). The goal of this application is to provide an easy to use tool for visualization and exploration of sound data. The data can be generated using the data crunching part of the SEP which is found [here](https://github.com/SSGL-SEP/t-sne_cruncher).
 
 ## Implementation
-The app itself is made using JavaScript and Node.js. Visualization is implemented using WebGL by utilizing 3D library called three.js. Part of the UI is created using modified [dat.gui](https://github.com/SSGL-SEP/dat.gui).
+Speech Explorer is a JavaScript application utilizing Node.js and built with WebPack. Visualization is implemented with the [three.js](https://threejs.org/) WebGL library. Part of the UI is created using modified [dat.gui](https://github.com/SSGL-SEP/dat.gui).
 
 ## More information
 TODO

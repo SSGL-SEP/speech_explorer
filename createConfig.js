@@ -1,5 +1,6 @@
-var targetJSON = process.argv[2]; 
+var targetJSON = 'public/config.json'; 
 var dataFolder = 'public/data';
+
 var oldDataSources = new Set();
 var newDataSources = new Set();
 var datasets = new Map();

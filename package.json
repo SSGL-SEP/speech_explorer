@@ -13,7 +13,7 @@
     "start": "node app/server.js",
     "dev": "./node_modules/.bin/grunt serve-and-watch",
     "submodule": "git submodule update --remote",
-    "updateConfig": "node createConfig.js public/config.json"
+    "updateConfig": "node createConfig.js"
   },
   "repository": {
     "type": "git",

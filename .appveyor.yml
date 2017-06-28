@@ -24,7 +24,7 @@ test_script:
   - npm test
 
 deploy_script:
-  - ps: "If ($env:APPVEYOR_REPO_TAG=='true') {npm run dist-win}"
+  - ps: "If ($env:APPVEYOR_REPO_TAG -eq 'true'){npm run dist-win}"
    
    
 build: off

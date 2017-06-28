@@ -23,6 +23,10 @@ test_script:
   # run tests
   - npm test
 
-build_script:
-  - npm run dist-win
+deploy_script:
+  - ps: >- 
+    If (APPVEYOR_REPO_TAG) { 
+          npm run dist-win
+    }
    
+build: off

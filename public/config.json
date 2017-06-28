@@ -145,7 +145,7 @@
       "audioSrc": "syllables"
     },
     {
-      "displayName": "syllable (mfcc - t-SNE 30)",
+      "displayName": "syllable (unscaled mfcc - t-SNE 30)",
       "dataSet": "syllable",
       "processingMethod": "mfcc - t-SNE 30",
       "totalPoints": 18741,

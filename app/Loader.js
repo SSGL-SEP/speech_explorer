@@ -1,16 +1,10 @@
 'use strict';
 
 var Promise = require('es6-promise').Promise;
+var log = require('./Log');
 
 var sounds = [];
 var lastUsed = "";
-var DEBUG = false;
-
-function log(msg) {
-    if(DEBUG === true) {
-        console.log(msg);
-    }
-}
 
 function extractBuffer(src, offset, length) {
     var dstU8 = new Uint8Array(length);
@@ -33,7 +27,7 @@ function processConcatenatedFile(data) {
         sounds[soundIndex] = sound.buffer;
         soundIndex++;
     }
-    console.log('audio loaded!');
+    log('audio loaded!');
     return sounds;
 }
 
@@ -81,7 +75,7 @@ module.exports = {
             return load(filename, 'arraybuffer', log)
                 .then(processConcatenatedFile)
                 .catch(function(err) {
-                    console.log(err.message);
+                    log(err.message);
                     return [];
                 });
         }

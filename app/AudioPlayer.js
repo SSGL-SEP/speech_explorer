@@ -1,33 +1,27 @@
 'use strict';
 
+var Promise = require('es6-promise').Promise;
 var Data = require('./Data');
+var log = require('./Log');
 var sounds = [];
 var current = null;
 var playingEnabled = true;
 var audioFile = null;
 var context;
-var playingSounds = false;
+var playingAllSounds = false;
 
-var playSound = function(index, callback) {
-    // if (current !== null) {
-    //     current.stop(0);
-    // }
-    var source = context.createBufferSource();
 
-    var clonedArrayBuffer = sounds[index].slice(0);
-
-    context.decodeAudioData(clonedArrayBuffer, function(audioBuffer) {
+var playSoundFromBuffer = function(arrayBuffer) {
+    var sound = context.createBufferSource();
+    return context.decodeAudioData(arrayBuffer).then(function(audioBuffer) {
         if (current !== null) {
             current.stop(0);
         }
-        source.buffer = audioBuffer;
-        source.connect(context.destination);
-        current = source;
-        // current.onended = clearCurrent;
-        source.start(0);
-        if (typeof callback === 'function') {
-            return callback(source);
-        }
+        sound.buffer = audioBuffer;
+        sound.connect(context.destination);
+        current = sound;
+        sound.start(0);
+        return sound;
     });
 };
 
@@ -37,35 +31,45 @@ var playSoundFromPath = function(path) {
         audioFile.startTime = 0;
     }
     audioFile = new Audio(path);
-    audioFile.play().catch(function() {
-        //whatever
+    audioFile.play().catch(log);
+    // return a promise to be interchangeable with playSoundFromBuffer()
+    return new Promise(function(resolve) {
+        resolve(audioFile);
     });
-    return audioFile;
 };
 
-var clearCurrent = function() {
-    current = null;
+/**
+ * Plays a single audio sample.
+ *
+ * @param index - index of the point
+ */
+var playSound = function(index) {
+    var promisedSound;
+    if (sounds.length > 0) {
+        // using concatenated sound file
+        // use a clone of the stored array buffer to avoid a detached buffer exception
+        var clonedArrayBuffer = sounds[index].slice(0);
+        promisedSound = playSoundFromBuffer(clonedArrayBuffer);
+    } else {
+        // using original wav files
+        promisedSound = playSoundFromPath(Data.getUrl(index));
+    }
+    return promisedSound.catch(function(err) {
+        log('playSound: ' + err);
+    });
 };
 
 var iterateSounds = function(soundIndexes, index) {
     if (index >= soundIndexes.length) {
-        playingSounds = false;
+        playingAllSounds = false;
         return;
     }
     if (playingEnabled) {
-        var sound;
-        if (sounds.length > 0) {
-            playSound(soundIndexes[index], function(source) {
-                source.addEventListener('ended', function() {
-                    iterateSounds(soundIndexes, index + 1);
-                });
-            });
-        } else {
-            sound = playSoundFromPath(Data.getUrl(index));
-            sound.addEventListener('ended', function() {
+        playSound(soundIndexes[index]).then(function(sound) {
+            sound.onended = function() {
                 iterateSounds(soundIndexes, index + 1);
-            });
-        }
+            };
+        });
 
     } else {
         // end recursion and reset flag
@@ -84,10 +88,8 @@ module.exports = {
     },
 
     playSound: function(index) {
-        if (sounds.length > 0) {
-            playSound(index);
-        } else {
-            playSoundFromPath(Data.getUrl(index));
+        if (!playingAllSounds) {
+            playSound(index).catch(log);
         }
     },
 
@@ -95,17 +97,17 @@ module.exports = {
      * @param {number[]} soundIndexes
      */
     playSounds: function(soundIndexes) {
-        if(!playingSounds) {
-            playingSounds = true;
+        if (!playingAllSounds) {
+            playingAllSounds = true;
             iterateSounds(soundIndexes, 0);
         }
     },
 
     stop: function() {
-        if(playingEnabled && playingSounds) {
+        if (playingEnabled && playingAllSounds) {
             playingEnabled = false;
         }
-        playingSounds = false;
+        playingAllSounds = false;
         if (current !== null) {
             current.stop(0);
         }

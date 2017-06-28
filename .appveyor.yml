@@ -23,11 +23,7 @@ test_script:
   # run tests
   - npm test
 
-deploy:
-  - provider: Environment
-    deploy_script: npm run dist
-    name: production
-    on:
-      appveyor_repo_tag: true
+deploy_script:
+  - npm run dist
    
 build: off

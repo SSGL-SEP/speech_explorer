@@ -24,8 +24,7 @@ test_script:
   - npm test
 
 deploy:
-  - provider: Script
-    deploy_script: npm run dist
+  - deploy_script: npm run dist
     name: production
     on:
       appveyor_repo_tag: true

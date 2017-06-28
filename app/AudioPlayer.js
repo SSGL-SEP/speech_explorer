@@ -11,31 +11,31 @@ var context;
 var playingAllSounds = false;
 
 
-var playSoundFromBuffer = function(arrayBuffer) {
+var playSoundFromBuffer = function(arrayBuffer, callback) {
     var sound = context.createBufferSource();
-    return context.decodeAudioData(arrayBuffer).then(function(audioBuffer) {
+    return context.decodeAudioData(arrayBuffer, function(audioBuffer) {
         if (current !== null) {
-            current.stop(0);
+            current.stop();
         }
         sound.buffer = audioBuffer;
         sound.connect(context.destination);
         current = sound;
-        sound.start(0);
-        return sound;
+        sound.start();
+        callback(sound);
+        return;
     });
 };
 
-var playSoundFromPath = function(path) {
+var playSoundFromPath = function(path, callback) {
     if (audioFile !== null) {
         audioFile.pause();
         audioFile.startTime = 0;
     }
     audioFile = new Audio(path);
     audioFile.play().catch(log);
-    // return a promise to be interchangeable with playSoundFromBuffer()
-    return new Promise(function(resolve) {
-        resolve(audioFile);
-    });
+
+    callback(audioFile);
+    return;
 };
 
 /**
@@ -43,20 +43,16 @@ var playSoundFromPath = function(path) {
  *
  * @param index - index of the point
  */
-var playSound = function(index) {
-    var promisedSound;
+var playSound = function(index, callback) {
     if (sounds.length > 0) {
         // using concatenated sound file
         // use a clone of the stored array buffer to avoid a detached buffer exception
         var clonedArrayBuffer = sounds[index].slice(0);
-        promisedSound = playSoundFromBuffer(clonedArrayBuffer);
+        playSoundFromBuffer(clonedArrayBuffer, callback);
     } else {
         // using original wav files
-        promisedSound = playSoundFromPath(Data.getUrl(index));
+        playSoundFromPath(Data.getUrl(index), callback);
     }
-    return promisedSound.catch(function(err) {
-        log('playSound: ' + err);
-    });
 };
 
 var iterateSounds = function(soundIndexes, index) {
@@ -65,7 +61,7 @@ var iterateSounds = function(soundIndexes, index) {
         return;
     }
     if (playingEnabled) {
-        playSound(soundIndexes[index]).then(function(sound) {
+        playSound(soundIndexes[index], function(sound) {
             sound.onended = function() {
                 iterateSounds(soundIndexes, index + 1);
             };
@@ -75,6 +71,9 @@ var iterateSounds = function(soundIndexes, index) {
         // end recursion and reset flag
         playingEnabled = true;
     }
+};
+
+var doNothing = function() {
 };
 
 module.exports = {
@@ -89,7 +88,7 @@ module.exports = {
 
     playSound: function(index) {
         if (!playingAllSounds) {
-            playSound(index).catch(log);
+            playSound(index, doNothing);
         }
     },
 

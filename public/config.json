@@ -159,14 +159,6 @@
       "totalPoints": 18741,
       "dataSrc": "data/syllables_mel_30.json",
       "audioSrc": "syllables"
-    },
-    {
-      "displayName": "phoneme (mfcc - t-SNE)",
-      "dataSet": "phoneme",
-      "processingMethod": "mfcc - t-SNE",
-      "totalPoints": 13,
-      "dataSrc": "data/testdata.json",
-      "audioSrc": "phoneme"
     }
   ],
   "defaultSet": 0

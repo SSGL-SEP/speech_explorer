@@ -57,11 +57,14 @@ function createConfig() {
         obj = JSON.parse(fs.readFileSync(dataFolder + '/' + file, 'utf8'));
         var dnCandidate = obj.dataSet + ' (' + obj.processingMethod + ')';
         var dsr = 'data/' + file;
-        newDataSources.add(dsr);
-        if (!oldDataSources.has(dsr)) {
-            var temp = createDataSet(dnCandidate, obj.dataSet, obj.processingMethod, obj.totalPoints, dsr, obj.dataSet);
-            datasets.set(dsr ,temp);
-            newJSONs = true;
+        if (!(dsr === 'data/testdata.json')) {
+
+            newDataSources.add(dsr);
+            if (!oldDataSources.has(dsr)) {
+                var temp = createDataSet(dnCandidate, obj.dataSet, obj.processingMethod, obj.totalPoints, dsr, obj.dataSet);
+                datasets.set(dsr ,temp);
+                newJSONs = true;
+            }
         }
     });
 
@@ -71,7 +74,6 @@ function createConfig() {
                 datasets.delete(index);
             }
         });
-
 
         var newconfig = JSON.stringify(createConfigObject(datasets, 0), null, 2);
         fs.writeFile(targetJSON, newconfig, function(err) {

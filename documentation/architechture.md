@@ -24,3 +24,4 @@ AudioPlayer.js plays sounds and interrupts already playing sound if new one is s
 
 Loader.js loads and processes the concatenated .mp3 file.
 
+![alt text](./architecture.png "Class diagram")

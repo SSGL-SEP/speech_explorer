@@ -112,8 +112,6 @@ module.exports = {
     },
 
     stop: function() {
-        if(current !== null)
-            console.log(current.isPlaying);
         try {
             if (playingEnabled && playingAllSounds) {
                 playingEnabled = false;

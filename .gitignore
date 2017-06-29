@@ -88,4 +88,5 @@ local_*.json
 # JetBrains config files
 .idea/
 
+# Locally created distributions
 dist

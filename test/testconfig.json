@@ -1,0 +1,21 @@
+{
+  "dataSets": [
+	{
+      "displayName": "phonemes_mfcc - tsne, 50",
+      "dataSet": "phonemes",
+      "processingMethod": "mfcc - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+	{
+      "displayName": "phonemes_mfcc - tsne, 200",
+      "dataSet": "phonemes",
+      "processingMethod": "mfcc - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
+      "audioSrc": "phonemes"
+    }
+  ],
+  "defaultSet": 0
+}

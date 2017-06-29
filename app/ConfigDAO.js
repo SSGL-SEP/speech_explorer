@@ -48,8 +48,8 @@ module.exports = function(config) {
         return scope.config.dataSets[scope.config.defaultSet].displayName;
     };
 
-    this.findAudioSource = function(dataSetName) {
-        var set = this.findDataSet(dataSetName);
+    this.findAudioSource = function(dataSetDisplayName) {
+        var set = this.findDataSet(dataSetDisplayName);
         return set.audioSrc;
     };
 

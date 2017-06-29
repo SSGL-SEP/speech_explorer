@@ -31,7 +31,7 @@ module.exports = function(grunt) {
             tests: {
                 options: {
                     esversion: 6,
-                    strict: "implied",
+                    strict: false,
                     mocha: true,
                     expr: true
                 },

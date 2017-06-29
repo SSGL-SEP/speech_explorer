@@ -30,7 +30,7 @@ app.on('ready', function() {
 
     //mainWindow.webContents.openDevTools();
 
-    mainWindow.maximize();
+    //mainWindow.maximize();
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({

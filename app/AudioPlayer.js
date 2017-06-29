@@ -14,13 +14,18 @@ var playingAllSounds = false;
 var playSoundFromBuffer = function(arrayBuffer, callback) {
     var sound = context.createBufferSource();
     return context.decodeAudioData(arrayBuffer, function(audioBuffer) {
-        if (current !== null) {
-            current.stop();
+        if (current !== null && current.isPlaying) {
+            // set audio to stop 100 ms in the future
+            current.stop(context.currentTime + 0.1);
         }
         sound.buffer = audioBuffer;
         sound.connect(context.destination);
         current = sound;
         sound.start();
+        current.isPlaying = true;
+        current.onended = function() {
+            this.isPlaying = false;
+        };
         callback(sound);
         return;
     });
@@ -33,6 +38,10 @@ var playSoundFromPath = function(path, callback) {
     }
     audioFile = new Audio(path);
     audioFile.play().catch(log);
+    audioFile.isPlaying = true;
+    audioFile.onended = function() {
+        this.isPlaying = false;
+    };
 
     callback(audioFile);
     return;
@@ -103,12 +112,21 @@ module.exports = {
     },
 
     stop: function() {
-        if (playingEnabled && playingAllSounds) {
-            playingEnabled = false;
-        }
-        playingAllSounds = false;
-        if (current !== null) {
-            current.stop(0);
+        try {
+            if (playingEnabled && playingAllSounds) {
+                playingEnabled = false;
+            }
+            playingAllSounds = false;
+            if (current !== null && current.isPlaying) {
+                current.stop();
+                current.isPlaying = false;
+            }
+            if (current !== null && audioFile.isPlaying) {
+                audioFile.pause();
+                audioFile.isPlaying = false;
+            }
+        } catch (err) {
+            log(err);
         }
     }
 };

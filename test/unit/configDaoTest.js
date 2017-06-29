@@ -31,7 +31,25 @@ describe('The ConfigDAO', function() {
     describe('#findDefaultDataSetName()', function() {
         it('should return default dataset name', function() {
             var res = config.findDefaultDataSetName();
-            expect(res).to.deep.equal("phonemes_mfcc - tsne, 50");
+            expect(res).to.equal("phonemes_mfcc - tsne, 50");
+        });
+    });
+
+    describe('#findAudioSource()', function() {
+        it('should return audio source of dataset', function() {
+            var res = config.findAudioSource("phonemes_mfcc - tsne, 50");
+            expect(res).to.equal("phonemes");
+        });
+    });
+    
+    describe('#getAudioSrc()', function() {
+        it('should return audio source of dataset with valid argument', function() {
+            var res = config.getAudioSrc("phonemes");
+            expect(res).to.equal("phonemes");
+        });
+        it('should return empty stringwith invalid argument', function() {
+            var res = config.getAudioSrc("asdf");
+            expect(res).to.equal("");
         });
     });
 });

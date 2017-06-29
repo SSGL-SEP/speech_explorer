@@ -62,17 +62,20 @@ Audio files must be in `public/audio/{dataset name}/`.
 
 Electron application is built using [electron-builder](https://github.com/electron-userland/electron-builder). Electron-builder uses settings defined in package.json. To customize build refer to [electron-builder wiki](https://github.com/electron-userland/electron-builder/wiki). Electron-builder will only create distributions for current platform. To create distributions for multiple platforms it is recommended to use build servers.
 
-  - Type: npm run dist to locally create distributions on Linux or Mac.
-  - Type: npm run dist-win to locally create distribution on Windows.
+  - Type: `npm run dist` to locally create distributions on Linux or Mac.
+  - Type: `npm run dist-win` to locally create distribution on Windows.
 
-Created files are determined by "target" under "build" in package.json. Files are placed in .dist -folder.
+Created files are determined by `target` under `build` in `package.json`. Files are placed in `.dist` .
   
 # Building and releasing a local version using build servers
 
-Github releases can be generated automatically using Travis and AppVeyor:
-  - First change version in package.json to wanted version.
-  - Then tag current commit: git tag "version" , for example git tag v1.0.0
-  - Then push created tag to github: git push origin "tag"
+Github releases can be generated automatically on tags using Travis and AppVeyor:
+  - First change version in `package.json` to wanted version.
+  - Then tag current commit: `git tag "version"` , for example `git tag v1.0.0`
+  - Then push created tag to github: `git push origin "tag"`
+
+This will create a draft in the project releases. Once everything is in the draft, release can be created manually.
+Electron-builder requires `GH_TOKEN` environment variable in Travis and AppVeyor to push the files to Github. Personal access tokens can be created [here](https://github.com/settings/tokens). Access token should have at least public_repo checked.
 
 
 # Running the app locally with Node.js

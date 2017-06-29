@@ -14,6 +14,7 @@ Method for adding audio files differs based on deployment method. See deployment
 You can also manually edit config.json if you for example want to change the ordering of the datasets or which one is shown by default.
 
 ###Automatic method
+
 This method will add all the datasets (.json files in public/data/) automatically to config.json. The method will remove any missing datasets from config.json and add any new ones. Ordering of datasets is preserved.
 
 - Install node.js from https://nodejs.org/en/

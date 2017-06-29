@@ -3,6 +3,7 @@ New analyzed .json files needs to be put to public/data/ directory. Information 
 Audio files are added to public/audio/{dataset}/ or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
 
 #Setting up Heroku
+
 Heroku Free is enough to run the app. Only bad thing with the free tier is that Heroku will put the app to sleep if it is not used in 30 minutes. After that it will take 20-30 seconds for the app to start again when the next user tries to load the app.
 
 Audio files must be hosted on Amazon S3 if you want to use Heroku to host the app. Instructions for this are below.
@@ -23,6 +24,7 @@ Audio files must be hosted on Amazon S3 if you want to use Heroku to host the ap
 - Heroku will now pull the repository, build and launch the app at {Name given in step 4}.herokuapp.com
 
 ##Setting up Amazon S3 (needed for Heroku)
+
 - Browse to https://aws.amazon.com/s3/
 - Click Get started with Amazon S3
 - Create new Amazon account or use an existing one to login (needs credit card)
@@ -37,6 +39,7 @@ Audio files must be hosted on Amazon S3 if you want to use Heroku to host the ap
 - Click next and Create bucket
 
 ## Uploading audio files to S3 with web interface 
+
 Note that the web browser interface for uploading files is very slow and only suitable for small (less than a few thousand) files.
 
 - Click the bucket’s name in https://console.aws.amazon.com/s3/
@@ -54,11 +57,13 @@ For uploading thousands of audio files you will want to use Amazon’s command l
 - Type: aws s3 cp {local folder} s3://{bucket name}/{folder name} to upload audio files
 
 #Building a local version with Electron
+
 Audio files must be in public/audio/{dataset name}/.
 
 - Aleksi
 
 #Running the app locally with Node.js
+
 Audio files must be in public/audio/{dataset name}/.
 
 This deployment method is good for rapidly checking out different datasets without much setup work. You can for example just replace an existing json data file in the public/data folder and reload the app’s web page to see what a dataset looks like. Note that if you add a completely new dataset you must also add its information to public/config.json.

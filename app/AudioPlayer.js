@@ -14,13 +14,17 @@ var playingAllSounds = false;
 var playSoundFromBuffer = function(arrayBuffer, callback) {
     var sound = context.createBufferSource();
     return context.decodeAudioData(arrayBuffer, function(audioBuffer) {
-        if (current !== null) {
+        if (current !== null && current.isPaying) {
             current.stop();
         }
         sound.buffer = audioBuffer;
         sound.connect(context.destination);
         current = sound;
         sound.start();
+        current.isPaying = true;
+        current.onended = function() {
+            this.isPaying = false;
+        };
         callback(sound);
         return;
     });
@@ -107,7 +111,7 @@ module.exports = {
             playingEnabled = false;
         }
         playingAllSounds = false;
-        if (current !== null) {
+        if (current !== null && current.isPaying) {
             current.stop(0);
         }
     }

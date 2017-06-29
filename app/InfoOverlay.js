@@ -78,6 +78,7 @@ var createButtonContainer = function(className, buttons) {
     var createButton = function(text, onclick) {
         var elem = document.createElement('a');
         elem.innerHTML = text;
+        elem.className = "button " + text.toLowerCase().replace(/\s/g, '-');
         elem.addEventListener('click', function(event) {
             event.preventDefault();
             runAction(onclick);

@@ -1,6 +1,6 @@
-New analyzed .json files needs to be put to public/data/ directory. Information about the .json also needs to be added to public/config.json. Instructions for this are in adding datasets part. Remember to push new .json files to Github if you want to see them deployed to Heroku. 
+New analyzed .json files needs to be put to `public/data/` directory. Information about the .json also needs to be added to `public/config.json`. Instructions for this are in adding datasets part. Remember to push new .json files to Github if you want to see them deployed to Heroku. 
 
-Audio files are added to public/audio/{dataset}/ or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
+Audio files are added to `public/audio/{dataset}/` or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
 
 # Setting up Heroku
 
@@ -73,7 +73,6 @@ Github releases can be generated automatically using Travis and AppVeyor:
   - First change version in package.json to wanted version.
   - Then tag current commit: git tag "version" , for example git tag v1.0.0
   - Then push created tag to github: git push origin "tag"
-
 
 
 # Running the app locally with Node.js

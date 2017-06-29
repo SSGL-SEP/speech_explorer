@@ -1,136 +1,7 @@
 {
   "dataSets": [
-	{
-      "displayName": "phonemes_mfcc - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "mfcc - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
-	{
-      "displayName": "phonemes_mfcc - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "mfcc - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-	{
-      "displayName": "phonemes_fft - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "fft - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_fft_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
     {
-      "displayName": "phonemes_fft - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "fft - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_fft_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-	{
-      "displayName": "phonemes_ms - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "ms - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mel_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_ms - tsne, 200",
-      "dataSet": "phonemes",
-      "processingMethod": "ms - tsne, 200",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_mel_phonemes_200.json",
-      "audioSrc": "phonemes"
-    },
-
-    {
-      "displayName": "syllables_mfcc - tsne, 30",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 30",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_30.json",
-      "audioSrc": "syllables"
-    },
-	{
-      "displayName": "syllables_mfcc - tsne, 70",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 70",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_70.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_mfcc - tsne, 200",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 200",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_200.json",
-      "audioSrc": "syllables"
-    },
-	{
-      "displayName": "syllables_mfcc - tsne, 700",
-      "dataSet": "syllables",
-      "processingMethod": "mfcc - tsne, 700",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_mfcc_syllable_700.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_fft - tsne, 30",
-      "dataSet": "syllables",
-      "processingMethod": "fft - tsne, 30",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_fft_syllable_30.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_fft - tsne, 70",
-      "dataSet": "syllables",
-      "processingMethod": "fft - tsne, 70",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_fft_syllable_70.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_fft - tsne, 200",
-      "dataSet": "syllables",
-      "processingMethod": "fft - tsne, 200",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_fft_syllable_200.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllables_fft - tsne, 700",
-      "dataSet": "syllables",
-      "processingMethod": "fft - tsne, 700",
-      "totalPoints": 18741,
-      "dataSrc": "data/scaled_fft_syllable_700.json",
-      "audioSrc": "syllables"
-    },
-    {
-      "displayName": "syllable_mfcc - t-SNE 30 (unscaled)",
-      "dataSet": "syllable",
-      "processingMethod": "mfcc - t-SNE 30",
-      "totalPoints": 18741,
-      "dataSrc": "data/syllables_30m.json",
-      "audioSrc": "syllable"
-    },
-	{
-      "displayName": "phonemes_chroma - tsne, 50",
-      "dataSet": "phonemes",
-      "processingMethod": "chroma - tsne, 50",
-      "totalPoints": 3208,
-      "dataSrc": "data/scaled_chroma_phonemes_50.json",
-      "audioSrc": "phonemes"
-    },
-    {
-      "displayName": "phonemes_chroma - tsne, 200",
+      "displayName": "phonemes (chroma - tsne, 200)",
       "dataSet": "phonemes",
       "processingMethod": "chroma - tsne, 200",
       "totalPoints": 3208,
@@ -138,7 +9,63 @@
       "audioSrc": "phonemes"
     },
     {
-      "displayName": "nsynth_mfcc - tsne, 30",
+      "displayName": "phonemes (chroma - tsne, 50)",
+      "dataSet": "phonemes",
+      "processingMethod": "chroma - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_chroma_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes (fft - tsne, 200)",
+      "dataSet": "phonemes",
+      "processingMethod": "fft - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_fft_phonemes_200.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes (fft - tsne, 50)",
+      "dataSet": "phonemes",
+      "processingMethod": "fft - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_fft_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "syllables (fft - tsne, 200)",
+      "dataSet": "syllables",
+      "processingMethod": "fft - tsne, 200",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_fft_syllable_200.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (fft - tsne, 30)",
+      "dataSet": "syllables",
+      "processingMethod": "fft - tsne, 30",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_fft_syllable_30.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (fft - tsne, 70)",
+      "dataSet": "syllables",
+      "processingMethod": "fft - tsne, 70",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_fft_syllable_70.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (fft - tsne, 700)",
+      "dataSet": "syllables",
+      "processingMethod": "fft - tsne, 700",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_fft_syllable_700.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "nsynth (mfcc - tsne, 30)",
       "dataSet": "nsynth",
       "processingMethod": "mfcc - tsne, 30",
       "totalPoints": 20000,
@@ -146,12 +73,92 @@
       "audioSrc": "nsynth"
     },
     {
-      "displayName": "nsynth_mfcc - tsne, 70",
+      "displayName": "nsynth (mfcc - tsne, 70)",
       "dataSet": "nsynth",
       "processingMethod": "mfcc - tsne, 70",
       "totalPoints": 20000,
       "dataSrc": "data/scaled_fmfcc_nsynth_70.json",
       "audioSrc": "nsynth"
+    },
+    {
+      "displayName": "phonemes (ms - tsne, 200)",
+      "dataSet": "phonemes",
+      "processingMethod": "ms - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mel_phonemes_200.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes (ms - tsne, 50)",
+      "dataSet": "phonemes",
+      "processingMethod": "ms - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mel_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes (mfcc - tsne, 200)",
+      "dataSet": "phonemes",
+      "processingMethod": "mfcc - tsne, 200",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mfcc_phonemes_200.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "phonemes (mfcc - tsne, 50)",
+      "dataSet": "phonemes",
+      "processingMethod": "mfcc - tsne, 50",
+      "totalPoints": 3208,
+      "dataSrc": "data/scaled_mfcc_phonemes_50.json",
+      "audioSrc": "phonemes"
+    },
+    {
+      "displayName": "syllables (mfcc - tsne, 200)",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 200",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_200.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (mfcc - tsne, 30)",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 30",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_30.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (mfcc - tsne, 70)",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 70",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_70.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (mfcc - tsne, 700)",
+      "dataSet": "syllables",
+      "processingMethod": "mfcc - tsne, 700",
+      "totalPoints": 18741,
+      "dataSrc": "data/scaled_mfcc_syllable_700.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllable (unscaled mfcc - t-SNE 30)",
+      "dataSet": "syllable",
+      "processingMethod": "mfcc - t-SNE 30",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_30m.json",
+      "audioSrc": "syllables"
+    },
+    {
+      "displayName": "syllables (ms - tsne, 30)",
+      "dataSet": "syllables",
+      "processingMethod": "ms - tsne, 30",
+      "totalPoints": 18741,
+      "dataSrc": "data/syllables_mel_30.json",
+      "audioSrc": "syllables"
     }
   ],
   "defaultSet": 0

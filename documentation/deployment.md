@@ -56,11 +56,18 @@ For uploading thousands of audio files you will want to use Amazon’s command l
 - Follow the instructions for installing AWS CLI at https://aws.amazon.com/cli/
 - Type: `aws s3 cp {local folder} s3://{bucket name}/{folder name}` to upload audio files
 
-# Building a local version with Electron
+# Building a local version with Electron-builder
 
 Audio files must be in `public/audio/{dataset name}/`.
 
-- Aleksi
+Electron application is built using [electron-builder](https://github.com/electron-userland/electron-builder). Electron-builder uses settings defined in package.json. To customize build refer to [electron-builder wiki](https://github.com/electron-userland/electron-builder/wiki). Electron-builder will only create distributions for current platform. To create distributions for multiple platforms it is recommended to use build servers.
+
+  - Type: npm run dist to locally create distributions on Linux or Mac.
+  - Type: npm run dist-win to locally create distribution on Windows.
+  
+# Building and releasing a local version using build servers
+
+- Todo
 
 # Running the app locally with Node.js
 

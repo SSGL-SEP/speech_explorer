@@ -1,6 +1,6 @@
-New analyzed .json files needs to be put to public/data/ directory. Information about the .json also needs to be added to public/config.json. Instructions for this are in adding datasets part. Remember to push new .json files to Github if you want to see them deployed to Heroku. 
+New analyzed .json files needs to be put to `public/data/` directory. Information about the .json also needs to be added to `public/config.json`. Instructions for this are in adding datasets part. Remember to push new .json files to Github if you want to see them deployed to Heroku. 
 
-Audio files are added to public/audio/{dataset}/ or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
+Audio files are added to `public/audio/{dataset}/` or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
 
 # Setting up Heroku
 

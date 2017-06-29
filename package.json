@@ -12,7 +12,8 @@
     "heroku-postbuild": "mkdir lib/dat/build & wget https://raw.githubusercontent.com/SSGL-SEP/dat.gui/master/build/dat.gui.min.js -O lib/dat/build/dat.gui.min.js & webpack -p --config webpack.config.js --progress",
     "start": "node app/server.js",
     "dev": "./node_modules/.bin/grunt serve-and-watch",
-    "submodule": "git submodule update --remote"
+    "submodule": "git submodule update --remote",
+    "createconfig": "node createConfig.js"
   },
   "repository": {
     "type": "git",

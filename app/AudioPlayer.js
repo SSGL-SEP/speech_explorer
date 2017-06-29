@@ -112,6 +112,8 @@ module.exports = {
     },
 
     stop: function() {
+        if(current !== null)
+            console.log(current.isPlaying);
         try {
             if (playingEnabled && playingAllSounds) {
                 playingEnabled = false;
@@ -119,9 +121,11 @@ module.exports = {
             playingAllSounds = false;
             if (current !== null && current.isPlaying) {
                 current.stop();
+                current.isPlaying = false;
             }
             if (current !== null && audioFile.isPlaying) {
                 audioFile.pause();
+                audioFile.isPlaying = false;
             }
         } catch (err) {
             log(err);

@@ -1,6 +1,7 @@
 const appDir = require('app-root-path');
 const assert = require('assert');
 const expect = require('chai').expect;
+const sinon = require('sinon');
 const ConfigDAO = require(appDir + '/app/ConfigDAO');
 const configJson = require(appDir + "/test/testconfig.json");
 var config;
@@ -50,6 +51,27 @@ describe('The ConfigDAO', function() {
         it('should return empty stringwith invalid argument', function() {
             var res = config.getAudioSrc("asdf");
             expect(res).to.equal("");
+        });
+    });
+
+    describe('#loadDefaultDataSetJSON', function() {
+        before(function() {
+            this.server = sinon.fakeServer.create();
+        });
+
+        after(function() {
+            this.server.restore();
+        });
+
+        it('should return a promise that returns a parsed json object ', function(done) {
+            this.server.respondWith([200, { "Content-Type": "application/json" },
+                    '[{ "id": 12, "comment": "Hey there" }]']);
+
+            config.loadDefaultDataSetJSON().then(function(json) {
+                expect(json).to.deep.equal([{ "id": 12, "comment": "Hey there" }]);
+                done();
+            });
+            this.server.respond();
         });
     });
 });

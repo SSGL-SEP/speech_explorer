@@ -18,6 +18,12 @@ if (process.env.DATA_SRC) {
 AudioPlayer.setContext(new AudioContext());
 var lastUsedDataset = "";
 
+/**
+ * Changes the data set and loads new audio when needed. Called almost exclusively from FilterOverlay.
+ *
+ * @param dataset - the display name of the data set
+ * @param colorBy - the tag name which is used for coloring
+ */
 function changeDataSet(dataset, colorBy) {
     Visualizer.disableInteraction();
     AudioPlayer.stop();
@@ -34,7 +40,7 @@ function changeDataSet(dataset, colorBy) {
                 Visualizer.reset();
                 FilterOverlay.init(dataset);
                 Visualizer.enableInteraction();
-                if(typeof window,Pace !== 'undefined') {
+                if (typeof window, Pace !== 'undefined') {
                     // fix for Pace running in Firefox after app loaded
                     window.Pace.bar.update(100);
                     window.Pace.stop();

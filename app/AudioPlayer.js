@@ -11,6 +11,14 @@ var context;
 var playingAllSounds = false;
 
 
+/**
+ * Plays a sound using the array of arrayBuffers that contain the undecoded audio file data.
+ * This function is used when playing from the concatenated_audio.blob.
+ *
+ * @param arrayBuffer
+ * @param callback
+ * @returns nothing
+ */
 var playSoundFromBuffer = function(arrayBuffer, callback) {
     var sound = context.createBufferSource();
     return context.decodeAudioData(arrayBuffer, function(audioBuffer) {
@@ -22,6 +30,7 @@ var playSoundFromBuffer = function(arrayBuffer, callback) {
         sound.connect(context.destination);
         current = sound;
         sound.start();
+        // set flags to determine if a sound is playing
         current.isPlaying = true;
         current.onended = function() {
             this.isPlaying = false;
@@ -31,6 +40,12 @@ var playSoundFromBuffer = function(arrayBuffer, callback) {
     });
 };
 
+/**
+ * Plays a sound by loading a file from the given path. Used when no concatenated_audio.blob is found.
+ *
+ * @param path
+ * @param callback
+ */
 var playSoundFromPath = function(path, callback) {
     if (audioFile !== null) {
         audioFile.pause();
@@ -64,6 +79,12 @@ var playSound = function(index, callback) {
     }
 };
 
+/**
+ * Plays a sequence of sounds.
+ *
+ * @param soundIndexes
+ * @param index
+ */
 var iterateSounds = function(soundIndexes, index) {
     if (index >= soundIndexes.length) {
         playingAllSounds = false;
@@ -71,6 +92,7 @@ var iterateSounds = function(soundIndexes, index) {
     }
     if (playingEnabled) {
         playSound(soundIndexes[index], function(sound) {
+            // play the next one, when this one stops
             sound.onended = function() {
                 iterateSounds(soundIndexes, index + 1);
             };
@@ -111,22 +133,22 @@ module.exports = {
         }
     },
 
+    /**
+     * Stop everything.
+     */
     stop: function() {
-        try {
-            if (playingEnabled && playingAllSounds) {
-                playingEnabled = false;
-            }
-            playingAllSounds = false;
-            if (current !== null && current.isPlaying) {
-                current.stop();
-                current.isPlaying = false;
-            }
-            if (current !== null && audioFile.isPlaying) {
-                audioFile.pause();
-                audioFile.isPlaying = false;
-            }
-        } catch (err) {
-            log(err);
+        if (playingEnabled && playingAllSounds) {
+            playingEnabled = false;
+        }
+        playingAllSounds = false;
+        // Safari does not like it if a buffers stop() is called, when it is not actually playing
+        if (current !== null && current.isPlaying) {
+            current.stop();
+            current.isPlaying = false;
+        }
+        if (audioFile !== null && audioFile.isPlaying) {
+            audioFile.pause();
+            audioFile.isPlaying = false;
         }
     }
 };

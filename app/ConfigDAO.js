@@ -13,7 +13,7 @@ module.exports = function(config) {
     };
 
     this.loadDefaultDataSetJSON = function() {
-        return Loader.loadJSON(scope.config.dataSets[scope.config.defaultSet].dataSrc);
+        return scope.loadDataSetJSON(scope.config.dataSets[scope.config.defaultSet].displayName);
     };
 
     /**

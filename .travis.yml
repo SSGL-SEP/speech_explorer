@@ -1,13 +1,37 @@
 language: node_js
 node_js:
-  - "6"
-env:
+    - '6'
+env: 
     global:
-        - NODE_ENV=development
-addons:
-    firefox: "49.0"
-before:
-    - npm run submodule
+        - "NODE_ENV=development"
 cache:
   directories:
-    - "node_modules"
+    - node_modules
+
+jobs:
+    include:
+        - os: linux #This will run unit tests on linux
+          dist: trusty
+        # Uncomment this if you want to run tests on osx, it's very slow at the moment
+        # - os: osx
+        #   osx_image: xcode8.3
+        - stage: GitHub Release #Create a release on github if tagged
+          test: skip
+          os: linux
+          dist: trusty
+          deploy:
+            test: skip
+            provider: script
+            script: npm run dist
+            on:
+              tags: true
+        - stage: GitHub Release 
+          test: skip
+          os: osx
+          osx_image: xcode8.3
+          deploy:
+            test: skip
+            provider: script
+            script: npm run dist
+            on:
+              tags: true

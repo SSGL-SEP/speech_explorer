@@ -70,11 +70,11 @@ This deployment method is good for rapidly checking out different datasets witho
 
 - Install node.js from https://nodejs.org/en/
 - Install git, clone the repository to your computer and open command line in that directory
-- Type: git submodule init. This command is only needed to be run once.
-- Type: git submodule update. This will use git to install the required secondary repository
-- Type: npm install to install node dependencies
-- Type: npm build to build the app
-- Type: npm start to start the app on a local webserver. The app will be running at http://localhost:3000/
+- Type: `git submodule init`. This command is only needed to be run once.
+- Type: `git submodule update`. This will use git to install the required secondary repository
+- Type: `npm install` to install node dependencies
+- Type: `npm build` to build the app
+- Type: `npm start` to start the app on a local webserver. The app will be running at http://localhost:3000/
 
 You can also run the command ‘npm run dev’ instead of steps 5 and 6. This will build and launch the app. It will also monitor changes to the code and automatically rebuild if needed so you only need to refresh your browser to use new changes. This is a good choice if you are actively developing the app.
 
@@ -86,10 +86,10 @@ This type of deployment is not supported and might only work with Firefox but if
 
 - Install node.js from https://nodejs.org/en/
 - Install git, clone the repository to your computer and open command line in that directory
-- Type: git submodule init. This command is only needed to be ran once.
-- Type: git submodule update. This will use git to install the required secondary repository
-- Type: npm install to install node dependencies
-- Type: npm build to build the app
+- Type: `git submodule init`. This command is only needed to be ran once.
+- Type: `git submodule update`. This will use git to install the required secondary repository
+- Type: `npm install` to install node dependencies
+- Type: `npm build` to build the app
 - Copy the public folder anywhere (including websites that can serve html files)
 - Open the url where the index.html is hosted or double click index.html to launch it from your own computer.
 

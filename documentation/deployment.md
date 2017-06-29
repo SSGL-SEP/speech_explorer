@@ -64,10 +64,17 @@ Electron application is built using [electron-builder](https://github.com/electr
 
   - Type: npm run dist to locally create distributions on Linux or Mac.
   - Type: npm run dist-win to locally create distribution on Windows.
+
+Created files are determined by "target" under "build" in package.json. Files are placed in .dist -folder.
   
 # Building and releasing a local version using build servers
 
-- Todo
+Github releases can be generated automatically using Travis and AppVeyor:
+  - First change version in package.json to wanted version.
+  - Then tag current commit: git tag "version" , for example git tag v1.0.0
+  - Then push created tag to github: git push origin "tag"
+
+
 
 # Running the app locally with Node.js
 

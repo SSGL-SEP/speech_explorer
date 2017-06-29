@@ -47,7 +47,7 @@ Note that the web browser interface for uploading files is very slow and only su
 -Click the newly created folder’s name to open it
 - Click upload and select audio files to upload them
 
-##Uploading audio files to S3 with command line interface
+## Uploading audio files to S3 with command line interface
 
 For uploading thousands of audio files you will want to use Amazon’s command line interface which will upload files much faster.
 
@@ -56,7 +56,7 @@ For uploading thousands of audio files you will want to use Amazon’s command l
 - Follow the instructions for installing AWS CLI at https://aws.amazon.com/cli/
 - Type: aws s3 cp {local folder} s3://{bucket name}/{folder name} to upload audio files
 
-#Building a local version with Electron
+# Building a local version with Electron
 
 Audio files must be in public/audio/{dataset name}/.
 

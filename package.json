@@ -17,7 +17,8 @@
     "dist": "npm install && npm run build && rm -rf dist && electron-builder",
     "build-win": "./node_modules/.bin/webpack --config webpack.config.js",
     "dist-win":  "npm install --no-optional && npm run build-win && electron-builder --win --ia32",
-    "createconfig": "node createConfig.js"
+    "createconfig": "node createConfig.js",
+    "electron": "./node_modules/.bin/electron ."
   },
   "build": {
     "appId": "SEP",

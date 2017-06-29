@@ -25,3 +25,6 @@ The filtering UI is generated using dat.gui (https://github.com/dataarts/dat.gui
 
 - Bug: loading icon (pace) sometimes stays visible even after the resources are done loading. This behavior has been noted when using Firefox. Reloading the page using Ctrl+F5 usually corrects the situation.
 
+- Electron app bug: Raycaster breaks occasionally on startup. Starting app over can fix the issue.
+
+- Electron app bug: Presets don't work. Electron doesn't and won't support prompts (or any blocking popup boxes). This issue can be fixed by replacing popup box calls in dat.gui with non-blocking popup boxes using a npm package that implements these.

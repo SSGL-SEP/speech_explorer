@@ -2,7 +2,7 @@ New analyzed .json files needs to be put to public/data/ directory. Information 
 
 Audio files are added to public/audio/{dataset}/ or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
 
-#Setting up Heroku
+# Setting up Heroku
 
 Heroku Free is enough to run the app. Only bad thing with the free tier is that Heroku will put the app to sleep if it is not used in 30 minutes. After that it will take 20-30 seconds for the app to start again when the next user tries to load the app.
 
@@ -23,7 +23,7 @@ Audio files must be hosted on Amazon S3 if you want to use Heroku to host the ap
 - Make sure master branch is selected. Click deploy branch on the preferred method
 - Heroku will now pull the repository, build and launch the app at {Name given in step 4}.herokuapp.com
 
-##Setting up Amazon S3 (needed for Heroku)
+## Setting up Amazon S3 (needed for Heroku)
 
 - Browse to https://aws.amazon.com/s3/
 - Click Get started with Amazon S3
@@ -62,7 +62,7 @@ Audio files must be in public/audio/{dataset name}/.
 
 - Aleksi
 
-#Running the app locally with Node.js
+# Running the app locally with Node.js
 
 Audio files must be in public/audio/{dataset name}/.
 
@@ -78,7 +78,7 @@ This deployment method is good for rapidly checking out different datasets witho
 
 You can also run the command ‘npm run dev’ instead of steps 5 and 6. This will build and launch the app. It will also monitor changes to the code and automatically rebuild if needed so you only need to refresh your browser to use new changes. This is a good choice if you are actively developing the app.
 
-#Building and running a static local version
+# Building and running a static local version
 
 Audio files must be in public/audio/{dataset name}/.
 

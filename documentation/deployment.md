@@ -44,7 +44,7 @@ Note that the web browser interface for uploading files is very slow and only su
 
 - Click the bucket’s name in https://console.aws.amazon.com/s3/
 - Click create folder. The folder’s name must be the same as the audio dataset’s name (ie. phonemes, syllables)
--Click the newly created folder’s name to open it
+- Click the newly created folder’s name to open it
 - Click upload and select audio files to upload them
 
 ## Uploading audio files to S3 with command line interface
@@ -54,17 +54,17 @@ For uploading thousands of audio files you will want to use Amazon’s command l
 - Click the bucket’s name in https://console.aws.amazon.com/s3/
 - Click create folder. The folder’s name must be the same as the audio dataset’s name (ie. phonemes, syllables)
 - Follow the instructions for installing AWS CLI at https://aws.amazon.com/cli/
-- Type: aws s3 cp {local folder} s3://{bucket name}/{folder name} to upload audio files
+- Type: `aws s3 cp {local folder} s3://{bucket name}/{folder name}` to upload audio files
 
 # Building a local version with Electron
 
-Audio files must be in public/audio/{dataset name}/.
+Audio files must be in `public/audio/{dataset name}/`.
 
 - Aleksi
 
 # Running the app locally with Node.js
 
-Audio files must be in public/audio/{dataset name}/.
+Audio files must be in `public/audio/{dataset name}/`.
 
 This deployment method is good for rapidly checking out different datasets without much setup work. You can for example just replace an existing json data file in the public/data folder and reload the app’s web page to see what a dataset looks like. Note that if you add a completely new dataset you must also add its information to public/config.json.
 
@@ -76,11 +76,11 @@ This deployment method is good for rapidly checking out different datasets witho
 - Type: `npm build` to build the app
 - Type: `npm start` to start the app on a local webserver. The app will be running at http://localhost:3000/
 
-You can also run the command ‘npm run dev’ instead of steps 5 and 6. This will build and launch the app. It will also monitor changes to the code and automatically rebuild if needed so you only need to refresh your browser to use new changes. This is a good choice if you are actively developing the app.
+You can also run the command `npm run dev` instead of steps 5 and 6. This will build and launch the app. It will also monitor changes to the code and automatically rebuild if needed so you only need to refresh your browser to use new changes. This is a good choice if you are actively developing the app.
 
 # Building and running a static local version
 
-Audio files must be in public/audio/{dataset name}/.
+Audio files must be in `public/audio/{dataset name}/`.
 
 This type of deployment is not supported and might only work with Firefox but if you only have access to a webhost without the ability to run a Node.js server this might be a decent choice to get some functionality. Some features, for example download selected set, might not work. Basic features should all work though, albeit slowly.
 

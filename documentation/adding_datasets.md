@@ -2,9 +2,9 @@ Datasets jsons are located in public/data/ directory. Information about the data
 
 Method for adding audio files differs based on deployment method. See deployment instructions for more information.
 
-##Adding datasets
+# Adding datasets
 
-###Manual method
+### Manual method
 
 - Clone the repository to your own computer
 - Clone and run the t-SNE cruncher on your audio files (see cruncher’s instructions)
@@ -13,7 +13,7 @@ Method for adding audio files differs based on deployment method. See deployment
 
 You can also manually edit config.json if you for example want to change the ordering of the datasets or which one is shown by default.
 
-###Automatic method
+### Automatic method
 
 This method will add all the datasets (.json files in public/data/) automatically to config.json. The method will remove any missing datasets from config.json and add any new ones. Ordering of datasets is preserved.
 

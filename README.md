@@ -8,7 +8,17 @@ This is the visualization part of the Speech Explorer Project (SEP). The goal of
 Speech Explorer is a JavaScript application utilizing Node.js and built with WebPack. Visualization is implemented with the [three.js](https://threejs.org/) WebGL library. Part of the UI is created using modified [dat.gui](https://github.com/SSGL-SEP/dat.gui).
 
 ## More information
-[Documentation](./documentation)
+[Adding datasets](./documentation/adding_datasets.md)
+
+[Architecture](./documentation/architecture.md)
+
+[Deployment](./documentation/deployment.md)
+
+[Further development and known issues](./documentation/further_development_and_issues.md)
+
+[Manual](./documentation/manual.md)
+
+[Testing](./documentation/testing.md)
 
 ## Useful links
 

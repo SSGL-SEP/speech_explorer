@@ -18,7 +18,7 @@ FilterOverlay.js creates the controls on the left side of the screen that contai
 
 InfoOverlay.js creates all other overlays: mouse over, clicked on point info and selection information. These are all html div elements drawn on top of the webGL scene.
 
-SelectionCursor.js handles the selection and removing mode indicators.
+SelectionCursor.js creates and handles circles that appear around the cursor when point selection or remove mode is enabled.
 
 AudioPlayer.js contains controls to start and stop playing of sound files.
 

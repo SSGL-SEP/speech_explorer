@@ -1,4 +1,4 @@
-## Changing visualization to 3d
+## Changing visualization to 3D
 Visualizer is currently a webgl scene with an orthographic camera pointing towards negative z-axis from 0x,0y,100z position. Points in visualization are three.js point objects which normally stay the same size no matter how close they are to the camera. However as the scene is zoomed in point sizes are changed slightly larger to simulate going closer and making the points easier to hit.
 
 (Visualization.js : createEnvironment) Camera need to be changed to perspective camera for the scene to render properly in a 3d environment.

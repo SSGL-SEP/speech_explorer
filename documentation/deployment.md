@@ -1,8 +1,10 @@
+# Deployment
+
 New analyzed .json files needs to be put to `public/data/` directory. Information about the .json also needs to be added to `public/config.json`. Instructions for this are in adding datasets part. Remember to push new .json files to Github if you want to see them deployed to Heroku. 
 
 Audio files are added to `public/audio/{dataset}/` or to Amazon S3 depending on deployment method used (see instructions below). Audio blob file is also added into the same directory.
 
-# Setting up Heroku
+## Setting up Heroku
 
 Heroku Free is enough to run the app. Only bad thing with the free tier is that Heroku will put the app to sleep if it is not used in 30 minutes. After that it will take 20-30 seconds for the app to start again when the next user tries to load the app.
 
@@ -19,11 +21,11 @@ Audio files must be hosted on Amazon S3 if you want to use Heroku to host the ap
 - Connect to Github button. This opens up a new browser window where you need to login to Github. - After logging in press confirm to give Heroku access to your Github repositories
 - On Connect to GitHub select Github user/organization and type in the name of the repository
 - Click search and the repository should appear. - Click connect.
-- Below this you can see two choices: manual deployment or automatic deployment. Choose which one you prefer. Automatic deployment will deploy every new Github push so if you are actively developing the app this might be a good choice (this includes adding new .json dataset files). -
+- Below this you can see two choices: manual deployment or automatic deployment. Choose which one you prefer. Automatic deployment will deploy every new Github push so if you are actively developing the app this might be a good choice (this includes adding new .json dataset files)
 - Make sure master branch is selected. Click deploy branch on the preferred method
 - Heroku will now pull the repository, build and launch the app at {Name given in step 4}.herokuapp.com
 
-## Setting up Amazon S3 (needed for Heroku)
+### Setting up Amazon S3 (needed for Heroku)
 
 - Browse to https://aws.amazon.com/s3/
 - Click Get started with Amazon S3
@@ -38,7 +40,7 @@ Audio files must be hosted on Amazon S3 if you want to use Heroku to host the ap
 - Set Read access to objects to Everyone
 - Click next and Create bucket
 
-## Uploading audio files to S3 with web interface 
+### Uploading audio files to S3 with web interface 
 
 Note that the web browser interface for uploading files is very slow and only suitable for small (less than a few thousand) files.
 
@@ -47,7 +49,7 @@ Note that the web browser interface for uploading files is very slow and only su
 - Click the newly created folder’s name to open it
 - Click upload and select audio files to upload them
 
-## Uploading audio files to S3 with command line interface
+### Uploading audio files to S3 with command line interface
 
 For uploading thousands of audio files you will want to use Amazon’s command line interface which will upload files much faster.
 
@@ -56,7 +58,7 @@ For uploading thousands of audio files you will want to use Amazon’s command l
 - Follow the instructions for installing AWS CLI at https://aws.amazon.com/cli/
 - Type: `aws s3 cp {local folder} s3://{bucket name}/{folder name}` to upload audio files
 
-# Building a local version with Electron-builder
+## Building a local version with Electron-builder
 
 Audio files must be in `public/audio/{dataset name}/`.
 
@@ -67,7 +69,7 @@ Electron application is built using [electron-builder](https://github.com/electr
 
 Created files are determined by `target` under `build` in `package.json`. Files are placed in `.dist` .
   
-# Building and releasing a local version using build servers
+## Building and releasing a local version using build servers
 
 Github releases can be generated automatically on tags using Travis and AppVeyor:
   - First change version in `package.json` to wanted version.
@@ -78,7 +80,7 @@ This will create a draft in the project releases. Once everything is in the draf
 Electron-builder requires `GH_TOKEN` environment variable in Travis and AppVeyor to push the files to Github. Personal access tokens can be created [here](https://github.com/settings/tokens). Access token should have at least public_repo checked.
 
 
-# Running the app locally with Node.js
+## Running the app locally with Node.js
 
 Audio files must be in `public/audio/{dataset name}/`.
 
@@ -94,7 +96,7 @@ This deployment method is good for rapidly checking out different datasets witho
 
 You can also run the command `npm run dev` instead of steps 5 and 6. This will build and launch the app. It will also monitor changes to the code and automatically rebuild if needed so you only need to refresh your browser to use new changes. This is a good choice if you are actively developing the app.
 
-# Building and running a static local version
+## Building and running a static local version
 
 Audio files must be in `public/audio/{dataset name}/`.
 

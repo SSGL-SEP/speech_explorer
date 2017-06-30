@@ -1,14 +1,14 @@
 ## Changing visualization to 3D
-Visualizer is currently a webgl scene with an orthographic camera pointing towards negative z-axis from 0x,0y,100z position. Points in visualization are three.js point objects which normally stay the same size no matter how close they are to the camera. However as the scene is zoomed in point sizes are changed slightly larger to simulate going closer and making the points easier to hit.
+Visualizer is currently a WebGL scene with an orthographic camera pointing towards negative z-axis from 0x,0y,100z position. Points in visualization are three.js point objects which normally stay the same size no matter how close they are to the camera. However, as the scene is zoomed in, point sizes are changed slightly larger to simulate going closer and making the points easier to hit.
 
-(Visualization.js : createEnvironment) Camera need to be changed to perspective camera for the scene to render properly in a 3d environment.
+(Visualization.js : createEnvironment) Camera needs to be changed to perspective camera for the scene to render properly in a 3D environment.
 Current point size changing probably needs to be removed.
 
-Control scheme for 3d movement needs to be implemented. Either the camera is fixed and the scene is moved or camera moves and scene stays still.
+Control scheme for 3D movement needs to be implemented. Either the camera is fixed and the scene is moved or camera moves and scene stays still.
 
-Navigation in 3d is problematic especially without a mouse. Maybe ‘wasd’ could be used for left, right, forward, back movement and mouse/touchpad for panning/tilting when left mouse button is held down. 
+Navigation in 3D is problematic especially without a mouse. Maybe ‘wasd’ could be used for left, right, forward, back movement and mouse/touchpad for panning/tilting when left mouse button is held down. 
 
-(Visualization.js : draw) Currently a point which is mouse overed has its z position moved slightly towards the camera to prevent other points from showing through the enlarged point. This needs to be removed as it’s useless in 3d. 
+(Visualization.js : draw) Currently a point which is mouse overed has its z position moved slightly towards the camera to prevent other points from showing through the enlarged point. This needs to be removed as it’s useless in 3D. 
 
 (Visualization.js : getIntersectingPoints) Raycasting from mouse cursor is used to check which points are currently being mouse overed. Raycasting returns a list which is sorted by distance to the ray from a perpendicular angle. This code needs to be removed and default sorting method can be used (distance to the camera).
 
@@ -25,6 +25,6 @@ The filtering UI is generated using dat.gui (https://github.com/dataarts/dat.gui
 
 - Bug: loading icon (pace) sometimes stays visible even after the resources are done loading. This behavior has been noted when using Firefox. Reloading the page using Ctrl+F5 usually corrects the situation.
 
-- Electron app bug: Raycaster breaks occasionally on startup. Starting app over can fix the issue.
+- Electron app bug: Interaction with the pointcloud breaks occasionally on startup. Starting app again can fix the issue.
 
 - Electron app bug: Presets don't work. Electron doesn't and won't support prompts (or any blocking popup boxes). This issue can be fixed by replacing popup box calls in dat.gui with non-blocking popup boxes using a npm package that implements these.
